@@ -1,14 +1,10 @@
-import styles from './index.module.css';
+import LandingPage from './landing';
+
 
 export function Index() {
-    /*
-     * Replace the elements below with your own.
-     *
-     * Note: The corresponding styles are in the ./index.css file.
-     */
     return (
-        <div className={styles.page}>
-            <h1>Welcome to frontend!</h1>
+        <div>
+            <LandingPage />
         </div>
     );
 }
