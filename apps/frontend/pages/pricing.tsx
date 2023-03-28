@@ -76,7 +76,12 @@ export function PricingPage () {
                     </div>
 
                 </div>
+                <h2 className="text-lg mb-4 mt-24 text-center font-semibold">Because of the nature of our product (creative content), all sales are final.</h2>
+
             </div>
+
+
+
         </div>
     );
 }
