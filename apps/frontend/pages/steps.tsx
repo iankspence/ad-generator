@@ -24,7 +24,7 @@ export function StepsPage () {
                     <p className="mt-2">The basics.</p>
                     <ul className="list-disc list-inside mt-2 mx-12">
                         <li>Verify email / complete payment</li>
-                        <li>Enter links to import reviews</li>
+                        <li>Enter links to Facebook/Google/RateMDs</li>
                         <li>Connect ad account</li>
                     </ul>
                 </div>
@@ -33,7 +33,7 @@ export function StepsPage () {
 
                 <div className="flex flex-col items-left w-full mb-4">
                     <h3 className="text-2xl font-bold">2. Select/Edit Content</h3>
-                    <p className="mt-2">Reviews are imported and classified into 10 audiences. Just select the creative you like, and edit if you wish!</p>
+                    <p className="mt-2">Reviews are routinely scraped and classified into 10 audiences. Just select the review-generated creative you like, and edit if you wish!</p>
                     <ul className="list-disc list-inside mt-2 mx-12">
                         <li>View # of reviews per audience</li>
                         <li>Select audience to target</li>
