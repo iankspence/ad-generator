@@ -5,7 +5,8 @@ import { useRef } from 'react';
 
 export function SubscribePage() {
     const [subscription, setSubscription] = useState('Practitioner Monthly');
-    const passwordRef = useRef(null);
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
     return (
         <div>
@@ -29,25 +30,19 @@ export function SubscribePage() {
                         <div className="mb-4 relative">
                             <label className="block text-sm font-bold mb-2">Admin Password</label>
                             <input
-                                ref={passwordRef}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pr-10"
-                                type="password"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                type={showPassword ? 'text' : 'password'}
                                 minLength={8}
                                 required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
-                            <div className="absolute inset-y-0 right-0 pr-3">
-                                <button
-                                    type="button"
-                                    className="text-gray-500 hover:text-gray-700 focus:text-gray-700 focus:outline-none w-full"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        const input = passwordRef.current;
-                                        input.type = input.type === 'password' ? 'text' : 'password';
-                                    }}
-                                >
-                                Show/Hide
-                                </button>
-                            </div>
+                            <span
+                                className="absolute right-3 transform translate-y-1/3 text-gray-500 cursor-pointer"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? '◯' : '●'}
+                            </span>
                         </div>
 
                         <div className="mb-4">
