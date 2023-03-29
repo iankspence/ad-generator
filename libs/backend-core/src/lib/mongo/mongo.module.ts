@@ -12,33 +12,44 @@ import { ClinicController } from './clinic/clinic.controller';
 import { Clinic, ClinicSchema } from './clinic/clinic.schema';
 import { PositiveDescriptorModelService } from './positive-descriptor/positive-descriptor-model.service';
 import { PositiveDescriptorController } from './positive-descriptor/positive-descriptor.controller';
-import { PositiveDescriptor, PositiveDescriptorSchema } from './positive-descriptor/positive-descriptor.schema';
+import {
+    PositiveDescriptor,
+    PositiveDescriptorSchema,
+} from './positive-descriptor/positive-descriptor.schema';
 import { ReviewModelService } from './review/review-model.service';
 import { ReviewController } from './review/review.controller';
 import { Review, ReviewSchema } from './review/review.schema';
+import { UserModule } from './user/user.module';
 
 @Module({
     imports: [
         OpenAiModule,
-        MongooseModule.forFeature([{ name: Clinic.name, schema: ClinicSchema }]),
+        MongooseModule.forFeature([
+            { name: Clinic.name, schema: ClinicSchema },
+        ]),
         MongooseModule.forFeature([{ name: AdSet.name, schema: AdSetSchema }]),
-        MongooseModule.forFeature([{ name: Review.name, schema: ReviewSchema }]),
-        MongooseModule.forFeature([{ name: PositiveDescriptor.name, schema: PositiveDescriptorSchema }]),
+        MongooseModule.forFeature([
+            { name: Review.name, schema: ReviewSchema },
+        ]),
+        MongooseModule.forFeature([
+            { name: PositiveDescriptor.name, schema: PositiveDescriptorSchema },
+        ]),
         MongooseModule.forFeature([{ name: Claim.name, schema: ClaimSchema }]),
+        UserModule,
     ],
     controllers: [
         ClinicController,
         AdSetController,
         ReviewController,
         PositiveDescriptorController,
-        ClaimController
+        ClaimController,
     ],
     providers: [
         ClinicModelService,
         AdSetModelService,
         ReviewModelService,
         PositiveDescriptorModelService,
-        ClaimModelService],
+        ClaimModelService,
+    ],
 })
-
-export class MongoModule { }
+export class MongoModule {}
