@@ -14,7 +14,10 @@
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
-        "paths": {}
+        "paths": {
+            "@monorepo/backend-core": ["libs/backend-core/src/index.ts"],
+            "@monorepo/type": ["libs/type/src/index.ts"]
+        }
     },
     "exclude": ["node_modules", "tmp"]
 }
