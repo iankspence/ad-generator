@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { BackendCoreModule } from '@monorepo/backend-core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+
 @Module({
     imports: [
         BackendCoreModule,
