@@ -17,6 +17,12 @@ export function SignInPage() {
             <TopNav />
             <div className="bg-black min-h-screen text-white px-8 py-4">
                 <h1 className="text-3xl mb-4 mt-4 text-center font-semibold">Sign In</h1>
+                <div className="mb-4 text-center">
+                    <span>No account? </span>
+                    <Link href="/register" className="text-blue-500 hover:text-blue-700">
+                        Register
+                    </Link>
+                </div>
                 <div className="w-full max-w-md mx-auto">
                     <form className="bg-gray-800 p-6 rounded shadow-md" onSubmit={handleSubmit}>
                         <div className="mb-4">
@@ -53,6 +59,7 @@ export function SignInPage() {
                             </button>
                         </div>
                     </form>
+
                     <div className="mt-4 text-center">
                         <Link href="/forgot-password" className="text-blue-500 hover:text-blue-700">
                             Forgot your password?

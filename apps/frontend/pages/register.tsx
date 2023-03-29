@@ -1,10 +1,8 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import TopNav from "../components/TopNav";
-import { useRef } from 'react';
 
 export function RegisterPage() {
-    const [subscription, setSubscription] = useState('Practitioner Monthly');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
@@ -20,15 +18,19 @@ export function RegisterPage() {
                             <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" required />
                         </div>
                         <div className="mb-4">
-                            <label className="block text-sm font-bold mb-2">Admin Name</label>
+                            <label className="block text-sm font-bold mb-2">Name (Admin)</label>
                             <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" required />
                         </div>
                         <div className="mb-4">
-                            <label className="block text-sm font-bold mb-2">Admin Email</label>
+                            <label className="block text-sm font-bold mb-2">Phone (Admin)</label>
+                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" required />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-sm font-bold mb-2">Email (Admin)</label>
                             <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="email" required />
                         </div>
                         <div className="mb-4 relative">
-                            <label className="block text-sm font-bold mb-2">Admin Password</label>
+                            <label className="block text-sm font-bold mb-2">Password (Admin)</label>
                             <input
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 type={showPassword ? 'text' : 'password'}
