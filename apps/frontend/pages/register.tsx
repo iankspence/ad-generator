@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import TopNav from "../components/TopNav";
 import { useRef } from 'react';
 
-export function SubscribePage() {
+export function RegisterPage() {
     const [subscription, setSubscription] = useState('Practitioner Monthly');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -12,7 +12,7 @@ export function SubscribePage() {
         <div>
             <TopNav />
             <div className="bg-black min-h-screen text-white px-8 py-4">
-                <h1 className="text-3xl mb-4 mt-4 text-center font-semibold">Subscribe</h1>
+                <h1 className="text-3xl mb-4 mt-4 text-center font-semibold">Register</h1>
                 <div className="w-full max-w-md mx-auto">
                     <form className="bg-gray-800 p-6 rounded shadow-md">
                         <div className="mb-4">
@@ -44,26 +44,7 @@ export function SubscribePage() {
                                 {showPassword ? '◯' : '●'}
                             </span>
                         </div>
-
-                        <div className="mb-4">
-                            <label className="block text-sm font-bold mb-2" htmlFor="subscription">
-                                Subscription
-                            </label>
-                            <select
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="subscription"
-                                value={subscription}
-                                onChange={(e) => setSubscription(e.target.value)}
-                            >
-                                <option>Practitioner Monthly</option>
-                                <option>Practitioner Annual</option>
-                                <option>Team Monthly</option>
-                                <option>Team Annual</option>
-                                <option>Business Monthly</option>
-                                <option>Business Annual</option>
-                            </select>
-                        </div>
-                            <Link href="/" className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600">Subscribe</Link>
+                        <Link href="/sign-in" className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600">Register</Link>
                     </form>
                 </div>
             </div>
@@ -71,4 +52,4 @@ export function SubscribePage() {
     );
 }
 
-export default SubscribePage;
+export default RegisterPage;

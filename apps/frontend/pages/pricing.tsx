@@ -37,7 +37,7 @@ export function PricingPage () {
                         <h3 className="text-2xl font-bold">Practitioner</h3>
                         <h3 className="text-2xl font-bold">{isAnnual ? '$890/yr' : '$89/mo'}</h3>
                         <div className="mt-4">
-                            <Link href="/subscribe" className="bg-gray-200 py-2 px-4 rounded hover:bg-gray-100 text-black">Subscribe</Link>
+                            <Link href="/register" className="bg-gray-200 py-2 px-4 rounded hover:bg-gray-100 text-black">Register</Link>
                         </div>
                         <ul className="list-disc list-inside mt-4">
                             <li>Review Web-Scraper</li>
@@ -53,7 +53,7 @@ export function PricingPage () {
                         <h3 className="text-2xl font-bold">Team</h3>
                         <h3 className="text-2xl font-bold">{isAnnual ? '$1490/yr' : '$149/mo'}</h3>
                         <div className="mt-4">
-                            <Link href="/subscribe" className="bg-gray-200 py-2 px-4 rounded hover:bg-gray-100 text-black">Subscribe</Link>
+                            <Link href="/register" className="bg-gray-200 py-2 px-4 rounded hover:bg-gray-100 text-black">Register</Link>
                         </div>
                         <p className="pt-4 text-xl">Everything in Practitioner plus:</p>
                         <ul className="list-disc list-inside ">
@@ -66,7 +66,7 @@ export function PricingPage () {
                         <h3 className="text-2xl font-bold">Business</h3>
                         <h3 className="text-2xl font-bold">{isAnnual ? '$2990/yr' : '$299/mo'}</h3>
                         <div className="mt-4">
-                            <Link href="/subscribe" className="bg-gray-200 py-2 px-4 rounded hover:bg-gray-100 text-black">Subscribe</Link>
+                            <Link href="/register" className="bg-gray-200 py-2 px-4 rounded hover:bg-gray-100 text-black">Register</Link>
                         </div>
                         <p  className="pt-4 text-xl">Everything in Team plus:</p>
                         <ul className="list-disc list-inside">

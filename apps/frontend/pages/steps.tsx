@@ -47,9 +47,9 @@ export function StepsPage () {
                     <h3 className="text-2xl font-bold">3. Launch Campaign</h3>
                     <p className="mt-2">Launch your targeted ad campaign.</p>
                     <ul className="list-disc list-inside mt-2 mx-12">
-                        <li>Interests are based on audience</li>
-                        <li>Location is set based on clinic</li>
-                        <li>Review options, then launch ad campaign</li>
+                        <li>Interests are set by audience</li>
+                        <li>Review campaign</li>
+                        <li>Launch ad campaign</li>
                     </ul>
                 </div>
 
