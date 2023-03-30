@@ -1,15 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Link from 'next/link';
 import TopNav from '../components/TopNav';
+import UserContext from '../contexts/UserContext';
+import Router from "next/router";
 
 export function SignInPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const { setUser } = useContext(UserContext);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle your sign-in logic here
+
+        console.log('handling submit...')
+
+        // Replace with your actual API URL
+        const apiEndpoint = 'http://localhost:3333/api/sign-in'
+
+        try {
+            const response = await fetch(apiEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('userToken', data.token);
+                setUser(data.user);
+                await Router.push('/dashboard');
+            } else {
+                console.error('Failed to sign in');
+            }
+        } catch (error) {
+            console.error('Error during sign-in:', error);
+        }
     };
 
     return (

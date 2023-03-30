@@ -4,4 +4,5 @@ export class UserRegisterDto {
     readonly phone!: string;
     readonly email!: string;
     readonly password!: string;
+    readonly roles!: string[];
 }
