@@ -2,7 +2,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
-// export type UserDocument = User & Document;
 export interface UserDocument extends User, Document<Types.ObjectId> {}
 
 export interface UserMethods {

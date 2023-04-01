@@ -1,14 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as SibApiV3Sdk from 'sib-api-v3-sdk';
-import {UserService} from "./user.service";
-import {User, UserDocument} from "@monorepo/type";
 
 @Injectable()
 export class MailerService {
     private readonly transactionalEmailsApi: SibApiV3Sdk.TransactionalEmailsApi;
-    private readonly userService: UserService;
-
     constructor(private readonly configService: ConfigService) {
         const defaultClient = SibApiV3Sdk.ApiClient.instance;
         const apiKey = defaultClient.authentications['api-key'];

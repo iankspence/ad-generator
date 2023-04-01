@@ -15,7 +15,7 @@ export class UserService {
                 private readonly mailerService: MailerService,
     ) {}
 
-    async register(createUserDto: UserRegisterDto): Promise<User> {
+    async register(createUserDto: UserRegisterDto): Promise<UserDocument> {
         const userWithDefaultRoles = {
             ...createUserDto,
             roles: createUserDto.roles || ['user'],
@@ -27,7 +27,7 @@ export class UserService {
         return user;
     }
 
-    async create(userRegisterDto: UserRegisterDto): Promise<User> {
+    async create(userRegisterDto: UserRegisterDto): Promise<UserDocument> {
         const { password } = userRegisterDto;
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -48,8 +48,7 @@ export class UserService {
         return null;
     }
 
-    async findByVerificationToken(token: string): Promise<User | null> {
-        console.log('findByVerificationToken:', token);
+    async findByVerificationToken(token: string): Promise<UserDocument | null> {
         return await this.userModel.findOne({ emailVerificationToken: token }).exec();
     }
 
@@ -59,20 +58,23 @@ export class UserService {
         return user.save();
     }
 
-    async verifyEmail(token: string): Promise<{ message: string }> {
-        console.log('verifyEmail:', token);
-        const user: User | null = await this.findByVerificationToken(token);
+    async verifyEmail(verifyToken: string): Promise<{ message: string, token: string }> {
+        const user = await this.findByVerificationToken(verifyToken);
 
         if (user) {
             await this.updateEmailVerificationStatus(user as UserDocument);
-            return { message: 'Email successfully verified' };
+
+            // Generate JWT for the user after email verification
+            const payload = { email: user.email, sub: user._id };
+            const token = this.jwtService.sign(payload);
+
+            return { message: 'Email successfully verified', token };
         } else {
             throw new Error('Invalid verification token');
         }
     }
 
     async signIn(email: string, password: string) {
-
         const user = await this.validateUser(email, password);
         if (!user) {
             throw new UnauthorizedException('Invalid email or password.');
@@ -82,11 +84,11 @@ export class UserService {
         return this.jwtService.sign(payload);
     }
 
-    async findOne(username: string): Promise<User | undefined> {
+    async findOne(username: string): Promise<UserDocument | undefined> {
         return this.userModel.findOne({ username });
     }
 
-    async findOneByEmail(email: string): Promise<User | null> {
+    async findOneByEmail(email: string): Promise<UserDocument | null> {
         return await this.userModel.findOne({ email }).exec();
     }
 }

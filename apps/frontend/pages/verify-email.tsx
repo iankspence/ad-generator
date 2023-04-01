@@ -13,7 +13,8 @@ export default function VerifyEmail() {
 
         (async () => {
             try {
-                await verifyEmail(emailVerificationToken);
+                const data = await verifyEmail(emailVerificationToken);
+                localStorage.setItem('userToken', data.token);
                 setVerificationStatus('success');
             } catch (error) {
                 console.error('Error:', error);
@@ -24,7 +25,6 @@ export default function VerifyEmail() {
 
     useEffect(() => {
         if (verificationStatus === 'success') {
-            // Replace this path with the path of your dashboard
             router.push('/dashboard').then(r => console.log('Redirected to dashboard'));
         }
     }, [verificationStatus, router]);
