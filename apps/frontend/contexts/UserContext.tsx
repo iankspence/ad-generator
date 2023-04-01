@@ -1,13 +1,24 @@
 import { createContext, useState, useEffect } from 'react';
+import {userAccount} from "../utils/api";
 
 const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
-    // Add any logic here for fetching user data and updating the state
-    // For example, you could use useEffect to fetch user data when the component mounts
+    useEffect(() => {
+        const token = localStorage.getItem('userToken');
+        if (token) {
+            userAccount(token).then((data) => {
+                console.log('Context data: ', data);
 
+                setUser(data);
+            }, (error) => {
+                console.log('Context error: ', error);
+            });
+        }
+    }
+    , []);
     return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };
 

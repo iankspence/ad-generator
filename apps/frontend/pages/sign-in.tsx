@@ -3,6 +3,7 @@ import Link from 'next/link';
 import TopNav from '../components/TopNav';
 import UserContext from '../contexts/UserContext';
 import Router from "next/router";
+import {signIn} from "../utils/api";
 
 export function SignInPage() {
     const [email, setEmail] = useState('');
@@ -12,27 +13,13 @@ export function SignInPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const apiEndpoint = 'http://localhost:3333/api/sign-in'
         try {
-            const response = await fetch(apiEndpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem('userToken', data.token);
-                setUser(data.user);
-                await Router.push('/dashboard');
-            } else {
-                console.error('Failed to sign in');
-            }
+            const data = await signIn(email, password);
+            localStorage.setItem('userToken', data.token);
+            setUser(data.user);
+            await Router.push('/dashboard');
         } catch (error) {
-            console.error('Error during sign-in:', error);
+            console.error('Failed to sign in:', error);
         }
     };
 

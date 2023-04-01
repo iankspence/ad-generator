@@ -21,7 +21,7 @@ export class UserController {
         return this.userService.signIn(req.user);
     }
 
-    @Post('account')
+    @Post('user-account')
     @UseGuards(JwtAuthGuard)
     getAccount(@Request() req) {
         return req.user;
