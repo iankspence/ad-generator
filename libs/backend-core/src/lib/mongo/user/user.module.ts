@@ -5,7 +5,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import {APP_GUARD} from "@nestjs/core";
 import {RolesGuard} from "../../auth/roles.guard";
-import { JwtModule } from '@nestjs/jwt';
+import {JwtModule, JwtService} from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import {AuthModule} from "../../auth/auth.module";
 import {MailerService} from "./mailer.service";
@@ -17,7 +17,7 @@ import { ConfigModule} from "@nestjs/config";
         forwardRef(() => AuthModule),
         PassportModule,
         JwtModule.register({
-            secret: process.env.JWT_SECRET || 'your-secret-key',
+            secret: process.env.JWT_SECRET,
             signOptions: { expiresIn: '24h' },
         }),
         ConfigModule,
@@ -30,6 +30,7 @@ import { ConfigModule} from "@nestjs/config";
             provide: APP_GUARD,
             useClass: RolesGuard
         },
+
     ],
     exports: [UserService],
 })

@@ -13,11 +13,7 @@ export function SignInPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log('handling submit...')
-
-        // Replace with your actual API URL
         const apiEndpoint = 'http://localhost:3333/api/sign-in'
-
         try {
             const response = await fetch(apiEndpoint, {
                 method: 'POST',

@@ -1,9 +1,9 @@
-import {Injectable, UnauthorizedException} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import {User, UserDocument, UserRegisterDto} from '@monorepo/type';
+import { User, UserDocument, UserRegisterDto } from '@monorepo/type';
 import * as bcrypt from 'bcrypt';
-import {JwtService} from "@nestjs/jwt";
+import { JwtService } from "@nestjs/jwt";
 import { MailerService } from './mailer.service';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -58,30 +58,42 @@ export class UserService {
         return user.save();
     }
 
+    async generateToken(user: any) {
+        const payload = {
+            sub: user._doc._id,
+            email: user._doc.email,
+            clinicName: user._doc.clinicName,
+            name: user._doc.name,
+            phone: user._doc.phone,
+            emailVerified: user._doc.emailVerified,
+            roles: user._doc.roles
+             };
+        return this.jwtService.sign(payload);
+    }
+
+    async signIn(user: any): Promise<{ user: any, token: string }> {
+        return {
+            user: {
+                _id: user._doc._id,
+                clinicName: user._doc.clinicName,
+                name: user._doc.name,
+                phone: user._doc.phone,
+                emailVerified: user._doc.emailVerified,
+                email: user._doc.email,
+                roles: user._doc.roles
+            },
+            token: await this.generateToken(user)};
+    }
+
     async verifyEmail(verifyToken: string): Promise<{ message: string, token: string }> {
         const user = await this.findByVerificationToken(verifyToken);
-
         if (user) {
             await this.updateEmailVerificationStatus(user as UserDocument);
-
-            // Generate JWT for the user after email verification
-            const payload = { email: user.email, sub: user._id };
-            const token = this.jwtService.sign(payload);
-
+            const token = await this.generateToken(user);
             return { message: 'Email successfully verified', token };
         } else {
             throw new Error('Invalid verification token');
         }
-    }
-
-    async signIn(email: string, password: string) {
-        const user = await this.validateUser(email, password);
-        if (!user) {
-            throw new UnauthorizedException('Invalid email or password.');
-        }
-
-        const payload = { email: user.email, sub: user.id };
-        return this.jwtService.sign(payload);
     }
 
     async findOne(username: string): Promise<UserDocument | undefined> {
@@ -91,4 +103,8 @@ export class UserService {
     async findOneByEmail(email: string): Promise<UserDocument | null> {
         return await this.userModel.findOne({ email }).exec();
     }
+
+    // async verifyJwt(token: string): Promise<any> {
+    //     return this.jwtService.verifyAsync(token, { secret: process.env.JWT_SECRET })
+    // }
 }
