@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
 import TopNav from '../components/TopNav';
+import { forgotPassword } from '../utils/api';
+import Link from 'next/link';
+import React, { useState } from 'react';
 
 export function ForgotPasswordPage() {
     const [email, setEmail] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle your password reset logic here
+        try {
+            await forgotPassword(email);
+            alert('Reset password email sent');
+        } catch (error) {
+            alert('Error sending reset password email');
+        }
     };
 
     return (

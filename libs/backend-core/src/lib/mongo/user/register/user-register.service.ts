@@ -1,4 +1,4 @@
-import { MailerService } from './mailer.service';
+import { UserMailerService } from '../user-mailer.service';
 import { User, UserDocument, UserRegisterDto } from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class UserRegisterService {
     constructor(
         @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
-        private readonly mailerService: MailerService,
+        private readonly userMailerService: UserMailerService,
     ) {}
 
     async register(createUserDto: UserRegisterDto): Promise<UserDocument> {
@@ -21,7 +21,7 @@ export class UserRegisterService {
         };
 
         const user = await this.create(userWithDefaultRoles);
-        await this.mailerService.sendVerificationEmail(user.email, user.emailVerificationToken);
+        await this.userMailerService.sendVerificationEmail(user.email, user.emailVerificationToken);
         return user;
     }
 

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { Document, Types } from 'mongoose';
 
 export interface UserDocument extends User, Document<Types.ObjectId> {}
 
@@ -33,6 +33,12 @@ export class User implements UserMethods {
 
     @Prop({ required: true, default: false })
     emailVerified!: boolean;
+
+    @Prop({ required: false, default: null })
+    resetPasswordToken!: string | null;
+
+    @Prop({ required: false, default: null })
+    resetPasswordExpires!: Date | null;
 
     comparePassword!: (candidatePassword: string) => Promise<boolean>;
 }

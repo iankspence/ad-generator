@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import UserContext from '../contexts/UserContext';
-import TopNav from "../components/TopNav";
+import TopNav from '../components/TopNav';
 
 export function AccountPage() {
     const { user } = useContext(UserContext);
@@ -26,7 +26,8 @@ export function AccountPage() {
                             <p>{user.name}</p>
                             <p>{user.email}</p>
                             <p>{user.phone}</p>
-                            <ul>googleLinks
+                            <ul>
+                                googleLinks
                                 {/*{user.googleLinks.map((link, index) => (*/}
                                 {/*    <li key={index}>*/}
                                 {/*        <a href={link} target="_blank" rel="noopener noreferrer">*/}
@@ -35,7 +36,8 @@ export function AccountPage() {
                                 {/*    </li>*/}
                                 {/*))}*/}
                             </ul>
-                            <ul>facebookLinks
+                            <ul>
+                                facebookLinks
                                 {/*{user.facebookLinks.map((link, index) => (*/}
                                 {/*    <li key={index}>*/}
                                 {/*        <a href={link} target="_blank" rel="noopener noreferrer">*/}

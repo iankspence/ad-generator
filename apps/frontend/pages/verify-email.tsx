@@ -1,6 +1,6 @@
+import { verifyEmail } from '../utils/api';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { verifyEmail } from '../utils/api';
 
 export default function VerifyEmail() {
     const router = useRouter();
@@ -25,7 +25,7 @@ export default function VerifyEmail() {
 
     useEffect(() => {
         if (verificationStatus === 'success') {
-            router.push('/dashboard').then(r => console.log('Redirected to dashboard'));
+            router.push('/dashboard').then((r) => console.log('Redirected to dashboard'));
         }
     }, [verificationStatus, router]);
 

@@ -7,3 +7,4 @@ export * from './lib/claim';
 export * from './lib/user';
 export * from './lib/user-register.dto';
 export * from './lib/user-sign-in.dto';
+export * from './lib/user-reset-password-dto';

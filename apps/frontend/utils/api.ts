@@ -15,8 +15,8 @@ export const register = async (data) => {
 export const verifyEmail = async (token) => {
     console.log('verifyEmail (api - frontend):', token);
     try {
-        const response = await axios.post(`${API_URL}/verify-email`, {token});
-        console.log('Response from verifyEmail:', response)
+        const response = await axios.post(`${API_URL}/verify-email`, { token });
+        console.log('Response from verifyEmail:', response);
         return response.data;
     } catch (error) {
         console.error('Error verifying email:', error);
@@ -34,22 +34,37 @@ export const signIn = async (email, password) => {
     }
 };
 
-
 export const userAccount = async (jwtToken) => {
-    console.log('getAccount (api - frontend):', jwtToken);
-
     const headers = {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${jwtToken}`
-    }
-
+        Authorization: `Bearer ${jwtToken}`,
+    };
     try {
         const response = await axios.post(`${API_URL}/user-account`, {}, { headers });
-        console.log('Response from getAccount:', response.data)
+        console.log('Response from getAccount:', response.data);
         return response.data;
     } catch (error) {
         console.error('Error signing in:', error);
         throw error;
     }
+};
 
+export const forgotPassword = async (email) => {
+    try {
+        const response = await axios.post(`${API_URL}/forgot-password`, { email });
+        return response.data;
+    } catch (error) {
+        console.error('Error in forgot password:', error);
+        throw error;
+    }
+};
+
+export const resetPassword = async (data) => {
+    try {
+        const response = await axios.post(`${API_URL}/reset-password`, data);
+        return response.data;
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        throw error;
+    }
 };
