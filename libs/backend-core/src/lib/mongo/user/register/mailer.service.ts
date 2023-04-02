@@ -20,9 +20,11 @@ export class MailerService {
         sendSmtpEmail.to = [{ email }];
         sendSmtpEmail.subject = 'Email Verification';
         sendSmtpEmail.htmlContent = `<p>Please click the link below to verify your email address:</p><p><a href="${verificationLink}">${verificationLink}</a></p>`;
-        sendSmtpEmail.sender = { email: 'ian@chirocreative.ca', name: 'Chiro Creative' };
+        sendSmtpEmail.sender = {
+            email: 'ian@chirocreative.ca',
+            name: 'Chiro Creative',
+        };
 
         await this.transactionalEmailsApi.sendTransacEmail(sendSmtpEmail);
     }
-
 }
