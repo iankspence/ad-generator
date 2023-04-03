@@ -34,21 +34,6 @@ export const signIn = async (email, password) => {
     }
 };
 
-export const userAccount = async (jwtToken) => {
-    const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${jwtToken}`,
-    };
-    try {
-        const response = await axios.post(`${API_URL}/user-account`, {}, { headers });
-        console.log('Response from getAccount:', response.data);
-        return response.data;
-    } catch (error) {
-        console.error('Error signing in:', error);
-        throw error;
-    }
-};
-
 export const forgotPassword = async (email) => {
     try {
         const response = await axios.post(`${API_URL}/forgot-password`, { email });
@@ -65,6 +50,20 @@ export const resetPassword = async (data) => {
         return response.data;
     } catch (error) {
         console.error('Error resetting password:', error);
+        throw error;
+    }
+};
+
+export const userAccount = async (jwtToken) => {
+    const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwtToken}`,
+    };
+    try {
+        const response = await axios.post(`${API_URL}/user-account`, {}, { headers });
+        return response.data;
+    } catch (error) {
+        console.error('Error signing in:', error);
         throw error;
     }
 };
