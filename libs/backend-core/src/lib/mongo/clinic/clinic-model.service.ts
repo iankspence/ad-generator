@@ -1,13 +1,11 @@
+import { Clinic, ClinicDocument } from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Clinic, ClinicDocument } from './clinic.schema';
 
 @Injectable()
 export class ClinicModelService {
-    constructor(
-        @InjectModel(Clinic.name) private clinicModel: Model<ClinicDocument>,
-    ) { }
+    constructor(@InjectModel(Clinic.name) private clinicModel: Model<ClinicDocument>) {}
 
     // Create a new clinic
     async create(clinic: Partial<Clinic>): Promise<Clinic> {

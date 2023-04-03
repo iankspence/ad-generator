@@ -1,46 +1,30 @@
-import {
-    Controller,
-    Get,
-    Post,
-    Put,
-    Delete,
-    Body,
-    Param,
-    HttpStatus,
-    HttpCode,
-} from '@nestjs/common';
 import { ClinicModelService } from './clinic-model.service';
-import { Clinic } from './clinic.schema';
-import uniqid from 'uniqid';
+import { Clinic } from '@monorepo/type';
+import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode } from '@nestjs/common';
 
 @Controller('clinic')
 export class ClinicController {
-    constructor(private readonly clinicModelService: ClinicModelService) { }
+    constructor(private readonly clinicModelService: ClinicModelService) {}
 
     @Post()
     @HttpCode(HttpStatus.CREATED)
     async create(@Body() clinic: Partial<Clinic>): Promise<Clinic> {
-        clinic.id = uniqid('clinic_')
         return this.clinicModelService.create(clinic);
     }
-
-    @Get(':id')
-    async findOne(@Param('id') id: string): Promise<Clinic> {
-        return await this.clinicModelService.findOneById(id);
+    @Get(':_id')
+    async findOne(@Param('_id') _id: string): Promise<Clinic> {
+        return await this.clinicModelService.findOneById(_id);
     }
 
-    @Put(':id')
-    async updateOneById(
-        @Param('id') id: string,
-        @Body() update: Partial<Clinic>,
-    ): Promise<Clinic> {
-        return this.clinicModelService.updateOneById(id, update);
+    @Put(':_id')
+    async updateOneById(@Param('_id') _id: string, @Body() update: Partial<Clinic>): Promise<Clinic> {
+        return this.clinicModelService.updateOneById(_id, update);
     }
 
-    @Delete(':id')
+    @Delete(':_id')
     @HttpCode(HttpStatus.NO_CONTENT)
-    async deleteOneById(@Param('id') id: string): Promise<void> {
-        await this.clinicModelService.deleteOneById(id);
+    async deleteOneById(@Param('_id') _id: string): Promise<void> {
+        await this.clinicModelService.deleteOneById(_id);
     }
 
     @Get()

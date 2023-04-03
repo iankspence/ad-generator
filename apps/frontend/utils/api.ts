@@ -67,3 +67,21 @@ export const userAccount = async (jwtToken) => {
         throw error;
     }
 };
+
+export const createClinic = async (clinicData) => {
+    try {
+        const response = await axios.post(`${API_URL}/clinic`, clinicData);
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response.data.message || 'An error occurred while creating the clinic.');
+    }
+};
+
+export const addClinicToUser = async (userId, clinicId) => {
+    try {
+        const response = await axios.put(`${API_URL}/add-clinic/${userId}/clinic/${clinicId}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response.data.message || 'An error occurred while adding the clinic to the user.');
+    }
+};

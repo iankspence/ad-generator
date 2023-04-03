@@ -14,6 +14,7 @@ export class UserSignInService {
             emailVerified: user._doc.emailVerified,
             email: user._doc.email,
             roles: user._doc.roles,
+            clinicIds: user._doc.clinicIds,
         };
         return this.jwtService.sign(payload);
     }
@@ -28,6 +29,7 @@ export class UserSignInService {
                 emailVerified: user._doc.emailVerified,
                 email: user._doc.email,
                 roles: user._doc.roles,
+                clinicIds: user._doc.clinicIds,
             },
             token: await this.generateToken(user),
         };

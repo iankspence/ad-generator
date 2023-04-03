@@ -11,13 +11,7 @@ export interface UserMethods {
 @Schema({ timestamps: true })
 export class User implements UserMethods {
     @Prop({ required: true })
-    clinicName!: string;
-
-    @Prop({ required: true })
     name!: string;
-
-    @Prop({ required: true })
-    phone!: string;
 
     @Prop({ required: true, unique: true })
     email!: string;
@@ -39,6 +33,9 @@ export class User implements UserMethods {
 
     @Prop({ required: false, default: null })
     resetPasswordExpires!: Date | null;
+
+    @Prop({ type: [{ type: Types.ObjectId, ref: 'Clinic' }], default: [] })
+    clinicIds!: Types.ObjectId[];
 
     comparePassword!: (candidatePassword: string) => Promise<boolean>;
 }
