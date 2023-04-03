@@ -14,10 +14,10 @@ export function CreateClinicPage() {
         city: '',
         provinceState: '',
         country: '',
-        googleLink: null,
-        facebookLink: null,
+        googleLink: '',
+        facebookLink: '',
         rateMDLinks: [],
-        facebookAdAccount: null,
+        facebookAdAccount: '',
     });
 
     const handleChange = (e) => {

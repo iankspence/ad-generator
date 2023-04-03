@@ -1,22 +1,27 @@
 import TopNav from '../components/TopNav';
+import ClinicContext from '../contexts/ClinicContext';
 import UserContext from '../contexts/UserContext';
 import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
 
 export function ClinicPage() {
     const { user } = useContext(UserContext);
-    const [selectedClinic, setSelectedClinic] = useState(user?.clinicIds?.[0] || null);
+    const { clinics } = useContext(ClinicContext);
+    const [selectedClinic, setSelectedClinic] = useState(clinics?.[0] || null);
     const router = useRouter();
 
     const handleCreateNewClinic = () => {
         router.push('/create-clinic');
     };
 
-    console.log(user);
+    console.log('Clinics: ', clinics);
+
+    console.log('user', user);
 
     const handleSelectedClinicChange = (e) => {
         const selectedClinicId = e.target.value;
-        const selectedClinic = user.clinicIds.find((clinic) => clinic._id.toString() === selectedClinicId);
+        const selectedClinic = clinics.find((clinic) => clinic._id === selectedClinicId);
+
         setSelectedClinic(selectedClinic);
     };
 
@@ -32,9 +37,9 @@ export function ClinicPage() {
                                 onChange={handleSelectedClinicChange}
                             >
                                 {user.clinicIds &&
-                                    user.clinicIds.map((clinicId, index) => (
-                                        <option key={index} value={clinicId.toString()}>
-                                            {clinicId.toString()}
+                                    clinics.map((clinic) => (
+                                        <option key={clinic._id} value={clinic._id}>
+                                            {clinic.country}/{clinic.provinceState}/{clinic.city}/{clinic.clinicName}
                                         </option>
                                     ))}
                             </select>
@@ -48,12 +53,24 @@ export function ClinicPage() {
                         {selectedClinic && (
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
+                                    <p className="py-4">RateMDs Link(s):</p>
                                     <p className="py-4">Google Link:</p>
                                     <p className="py-4">Facebook Link:</p>
-                                    <p className="py-4">RateMDs Link(s):</p>
                                     <p className="py-4">Facebook Ad Account:</p>
                                 </div>
                                 <div>
+                                    {selectedClinic.rateMDLinks && selectedClinic && (
+                                        <ul className="py-2">
+                                            {selectedClinic.rateMDLinks.map((link, index) => (
+                                                <li key={index}>{link}</li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                    <ul className="py-2">
+                                        <button className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600">
+                                            Add RateMDs Link
+                                        </button>
+                                    </ul>
                                     {selectedClinic.googleLink && selectedClinic ? (
                                         <ul>{selectedClinic.googleLink}</ul>
                                     ) : (
@@ -72,21 +89,9 @@ export function ClinicPage() {
                                             </button>
                                         </ul>
                                     )}
-                                    {selectedClinic.rateMDLinks && selectedClinic && (
-                                        <ul className="py-2">
-                                            {selectedClinic.rateMDLinks.map((link, index) => (
-                                                <li key={index}>{link}</li>
-                                            ))}
-                                        </ul>
-                                    )}
-                                    <ul className="py-2">
-                                        <button className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600">
-                                            Add RateMDs Link
-                                        </button>
-                                    </ul>
 
                                     {selectedClinic.facebookAdAccount && selectedClinic ? (
-                                        <p>{selectedClinic.facebookAdAccount}</p>
+                                        <ul>{selectedClinic.facebookAdAccount}</ul>
                                     ) : (
                                         <ul className="py-2">
                                             <button className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600">

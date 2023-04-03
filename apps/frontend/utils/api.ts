@@ -79,9 +79,24 @@ export const createClinic = async (clinicData) => {
 
 export const addClinicToUser = async (userId, clinicId) => {
     try {
-        const response = await axios.put(`${API_URL}/add-clinic/${userId}/clinic/${clinicId}`);
+        const response = await axios.put(`${API_URL}/clinic/${userId}/clinic/${clinicId}`);
         return response.data;
     } catch (error) {
         throw new Error(error.response.data.message || 'An error occurred while adding the clinic to the user.');
+    }
+};
+
+export const getClinics = async (jwtToken, userId) => {
+    const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwtToken}`,
+    };
+    try {
+        const response = await axios.get(`${API_URL}/clinic/${userId}/clinics`, { headers });
+        console.log('Response from getClinicIds:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error signing in:', error);
+        throw error;
     }
 };

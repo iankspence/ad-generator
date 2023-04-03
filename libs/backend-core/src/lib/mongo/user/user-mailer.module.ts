@@ -1,10 +1,10 @@
-import { UserAddClinicModule } from './add-clinic/user-add-clinic.module';
+import { UserClinicModule } from './clinic/user-clinic.module';
 import { UserMailerService } from './user-mailer.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-    imports: [ConfigModule, UserAddClinicModule],
+    imports: [ConfigModule, UserClinicModule],
     providers: [UserMailerService],
     exports: [UserMailerService],
 })
