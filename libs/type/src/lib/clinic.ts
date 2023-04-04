@@ -33,7 +33,7 @@ export class Clinic {
     facebookLink!: string | null;
 
     @Prop({ type: [String], required: false, default: [] })
-    rateMDLinks!: string[];
+    rateMdsLinks!: string[];
 
     @Prop({ required: false, default: null })
     facebookAdAccount!: string | null;

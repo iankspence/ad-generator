@@ -31,4 +31,23 @@ export class ClinicModelService {
     async findManyByUserId(userId: string): Promise<Clinic[]> {
         return this.clinicModel.find({ userId }).exec();
     }
+
+    async addGoogleLink(clinicId: string, googleLink: string) {
+        return this.clinicModel.findOneAndUpdate({ _id: clinicId }, { googleLink }, { new: true }).exec();
+    }
+
+    async addFacebookLink(clinicId: string, facebookLink: string) {
+        return this.clinicModel.findOneAndUpdate({ _id: clinicId }, { facebookLink }, { new: true }).exec();
+    }
+
+    async addRateMdsLink(clinicId: string, rateMdsLink: string) {
+        const clinic = await this.clinicModel.findOne({ _id: clinicId }).exec();
+        return this.clinicModel
+            .findOneAndUpdate(
+                { _id: clinicId },
+                { rateMdsLinks: clinic.rateMdsLinks.concat(rateMdsLink) },
+                { new: true },
+            )
+            .exec();
+    }
 }

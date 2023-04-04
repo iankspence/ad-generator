@@ -1,7 +1,13 @@
 import TopNav from '../components/TopNav';
 import SelectedClinicContext from '../contexts/SelectedClinicContext';
 import UserContext from '../contexts/UserContext';
-import { deleteClinic, getClinics } from '../utils/api';
+import {
+    deleteClinic,
+    getClinics,
+    updateClinicFacebookLink,
+    updateClinicGoogleLink,
+    updateClinicRateMdsLinks,
+} from '../utils/api';
 import { useRouter } from 'next/router';
 import React, { useContext, useState, useEffect } from 'react';
 
@@ -11,7 +17,13 @@ export function ClinicPage() {
     const { selectedClinic, setSelectedClinic } = useContext(SelectedClinicContext);
     const [clinics, setClinics] = useState([]);
     const [showRateMDsForm, setShowRateMDsForm] = useState(false);
-    const [rateMDsLink, setRateMDsLink] = useState('');
+    const [rateMdsLink, setRateMdsLink] = useState('');
+
+    const [showGoogleLinkForm, setShowGoogleLinkForm] = useState(false);
+    const [googleLink, setGoogleLink] = useState('');
+
+    const [showFacebookLinkForm, setShowFacebookLinkForm] = useState(false);
+    const [facebookLink, setFacebookLink] = useState('');
 
     useEffect(() => {
         if (user) {
@@ -31,17 +43,78 @@ export function ClinicPage() {
         }
     }, [user]);
 
+    const toggleGoogleLinkForm = () => {
+        setShowGoogleLinkForm(!showGoogleLinkForm);
+    };
+
+    const handleGoogleLinkSubmit = async () => {
+        if (!selectedClinic || !googleLink) return;
+
+        const confirmationMessage =
+            'Submitting this link will run a web scraper to collect all of the reviews on this platform. Do you still want to proceed?';
+        const userConfirmed = window.confirm(confirmationMessage);
+
+        if (userConfirmed) {
+            try {
+                const updatedClinic = await updateClinicGoogleLink(selectedClinic._id, googleLink);
+                setSelectedClinic(updatedClinic);
+
+                // Hide the form after submission
+                setShowGoogleLinkForm(false);
+            } catch (error) {
+                console.error('Error updating Google Link:', error);
+            }
+        }
+    };
+
+    const handleFacebookLinkSubmit = async () => {
+        if (!selectedClinic || !facebookLink) return;
+
+        const confirmationMessage =
+            'Submitting this link will run a web scraper to collect all of the reviews on this platform. Do you still want to proceed?';
+        const userConfirmed = window.confirm(confirmationMessage);
+
+        if (userConfirmed) {
+            try {
+                const updatedClinic = await updateClinicFacebookLink(selectedClinic._id, facebookLink);
+                setSelectedClinic(updatedClinic);
+
+                // Hide the form after submission
+                setShowFacebookLinkForm(false);
+            } catch (error) {
+                console.error('Error updating Facebook Link:', error);
+            }
+        }
+    };
+
+    const toggleFacebookLinkForm = () => {
+        setShowFacebookLinkForm(!showFacebookLinkForm);
+    };
+
     const toggleRateMDsForm = () => {
         setShowRateMDsForm(!showRateMDsForm);
     };
 
-    const handleRateMDsSubmit = async () => {
-        // Add API call here to update the Clinic document with the new RateMDs link
-        // Then update the selectedClinic state with the updated clinic data
+    const handleRateMdsSubmit = async () => {
+        if (!selectedClinic || !rateMdsLink) return;
 
-        // Hide the form after submission
-        setShowRateMDsForm(false);
+        const confirmationMessage =
+            'Submitting this link will run a web scraper to collect all of the reviews on this platform. Do you still want to proceed?';
+        const userConfirmed = window.confirm(confirmationMessage);
+
+        if (userConfirmed) {
+            try {
+                const updatedClinic = await updateClinicRateMdsLinks(selectedClinic._id, rateMdsLink);
+                setSelectedClinic(updatedClinic);
+
+                // Hide the form after submission
+                setShowRateMDsForm(false);
+            } catch (error) {
+                console.error('Error updating RateMDs Link:', error);
+            }
+        }
     };
+
     const handleCreateNewClinic = () => {
         router.push('/create-clinic');
     };
@@ -108,36 +181,107 @@ export function ClinicPage() {
                         {selectedClinic && (
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <p className="py-4">RateMDs Link(s):</p>
                                     <p className="py-4">Google Link:</p>
                                     <p className="py-4">Facebook Link:</p>
-                                    <p className="py-4">Facebook Ad Account:</p>
+                                    <p className="py-4">RateMDs Link(s):</p>
                                 </div>
                                 <div>
-                                    {selectedClinic.rateMDLinks && selectedClinic && (
+                                    {selectedClinic.googleLink && selectedClinic ? (
+                                        <ul className="py-4">{selectedClinic.googleLink}</ul>
+                                    ) : (
                                         <ul className="py-2">
-                                            {selectedClinic.rateMDLinks.map((link, index) => (
-                                                <li key={index}>{link}</li>
-                                            ))}
+                                            {showGoogleLinkForm && (
+                                                <div className="flex justify-between py-2">
+                                                    <input
+                                                        type="text"
+                                                        value={googleLink}
+                                                        onChange={(e) => setGoogleLink(e.target.value)}
+                                                        className="bg-gray-800 text-white py-2 px-4 rounded"
+                                                    />
+                                                    <button
+                                                        className="bg-red-500 py-2 px-4 rounded hover:bg-red-600"
+                                                        onClick={toggleGoogleLinkForm}
+                                                    >
+                                                        Hide
+                                                    </button>
+                                                    <button
+                                                        className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 ml-2"
+                                                        onClick={handleGoogleLinkSubmit}
+                                                    >
+                                                        Submit
+                                                    </button>
+                                                </div>
+                                            )}
+                                            {!showGoogleLinkForm && (
+                                                <button
+                                                    className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600"
+                                                    onClick={toggleGoogleLinkForm}
+                                                >
+                                                    Add Google Link
+                                                </button>
+                                            )}
+                                        </ul>
+                                    )}
+                                    {selectedClinic.facebookLink && selectedClinic ? (
+                                        <ul className="py-4">{selectedClinic.facebookLink}</ul>
+                                    ) : (
+                                        <ul className="py-2">
+                                            {showFacebookLinkForm && (
+                                                <div className="flex justify-between py-2">
+                                                    <input
+                                                        type="text"
+                                                        value={facebookLink}
+                                                        onChange={(e) => setFacebookLink(e.target.value)}
+                                                        className="bg-gray-800 text-white py-2 px-4 rounded"
+                                                    />
+                                                    <button
+                                                        className="bg-red-500 py-2 px-4 rounded hover:bg-red-600"
+                                                        onClick={toggleFacebookLinkForm}
+                                                    >
+                                                        Hide
+                                                    </button>
+                                                    <button
+                                                        className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 ml-2"
+                                                        onClick={handleFacebookLinkSubmit}
+                                                    >
+                                                        Submit
+                                                    </button>
+                                                </div>
+                                            )}
+                                            {!showFacebookLinkForm && (
+                                                <button
+                                                    className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600"
+                                                    onClick={toggleFacebookLinkForm}
+                                                >
+                                                    Add Facebook Link
+                                                </button>
+                                            )}
                                         </ul>
                                     )}
                                     <ul className="py-2">
-                                        {showRateMDsForm ? (
-                                            <>
+                                        {showRateMDsForm && (
+                                            <div className="flex justify-between py-2">
                                                 <input
                                                     type="text"
-                                                    value={rateMDsLink}
-                                                    onChange={(e) => setRateMDsLink(e.target.value)}
+                                                    value={rateMdsLink}
+                                                    onChange={(e) => setRateMdsLink(e.target.value)}
                                                     className="bg-gray-800 text-white py-2 px-4 rounded"
                                                 />
                                                 <button
+                                                    className="bg-red-500 py-2 px-4 rounded hover:bg-red-600"
+                                                    onClick={toggleRateMDsForm}
+                                                >
+                                                    Hide
+                                                </button>
+                                                <button
                                                     className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 ml-2"
-                                                    onClick={handleRateMDsSubmit}
+                                                    onClick={handleRateMdsSubmit}
                                                 >
                                                     Submit
                                                 </button>
-                                            </>
-                                        ) : (
+                                            </div>
+                                        )}
+                                        {!showRateMDsForm && (
                                             <button
                                                 className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600"
                                                 onClick={toggleRateMDsForm}
@@ -146,32 +290,11 @@ export function ClinicPage() {
                                             </button>
                                         )}
                                     </ul>
-                                    {selectedClinic.googleLink && selectedClinic ? (
-                                        <ul className="py-4">{selectedClinic.googleLink}</ul>
-                                    ) : (
+                                    {selectedClinic.rateMdsLinks?.[0] && selectedClinic && (
                                         <ul className="py-2">
-                                            <button className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600">
-                                                Add Google Link
-                                            </button>
-                                        </ul>
-                                    )}
-                                    {selectedClinic.facebookLink && selectedClinic ? (
-                                        <ul className="py-4">{selectedClinic.facebookLink}</ul>
-                                    ) : (
-                                        <ul className="py-2">
-                                            <button className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600">
-                                                Add Facebook Link
-                                            </button>
-                                        </ul>
-                                    )}
-
-                                    {selectedClinic.facebookAdAccount && selectedClinic ? (
-                                        <ul>{selectedClinic.facebookAdAccount}</ul>
-                                    ) : (
-                                        <ul className="py-2">
-                                            <button className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600">
-                                                Connect Facebook Ad Account
-                                            </button>
+                                            {selectedClinic.rateMdsLinks.map((link, index) => (
+                                                <li key={index}>{link}</li>
+                                            ))}
                                         </ul>
                                     )}
                                 </div>

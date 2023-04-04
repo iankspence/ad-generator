@@ -111,3 +111,42 @@ export const addRateMDsLink = async (clinicId: string, rateMDsLink: string) => {
     const response = await axios.post(`${API_URL}/clinic/${clinicId}/rateMDsLink`, { rateMDsLink });
     return response.data;
 };
+
+export const updateClinicGoogleLink = async (clinicId, googleLink) => {
+    try {
+        const response = await axios.patch(`${API_URL}/clinic/google-link`, {
+            clinicId,
+            googleLink,
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating Google Link:', error);
+        throw error;
+    }
+};
+
+export const updateClinicFacebookLink = async (clinicId, facebookLink) => {
+    try {
+        const response = await axios.patch(`${API_URL}/clinic/facebook-link`, {
+            clinicId,
+            facebookLink,
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating Google Link:', error);
+        throw error;
+    }
+};
+
+export const updateClinicRateMdsLinks = async (clinicId, rateMdsLink) => {
+    try {
+        const response = await axios.patch(`${API_URL}/clinic/rate-mds-links`, {
+            clinicId,
+            rateMdsLink,
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating Rate MDs Link:', error);
+        throw error;
+    }
+};
