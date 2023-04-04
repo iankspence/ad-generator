@@ -77,26 +77,37 @@ export const createClinic = async (clinicData) => {
     }
 };
 
-export const addClinicToUser = async (userId, clinicId) => {
-    try {
-        const response = await axios.put(`${API_URL}/clinic/${userId}/clinic/${clinicId}`);
-        return response.data;
-    } catch (error) {
-        throw new Error(error.response.data.message || 'An error occurred while adding the clinic to the user.');
-    }
-};
-
-export const getClinics = async (jwtToken, userId) => {
+export const getClinics = async (userId) => {
+    const token = localStorage.getItem('userToken');
     const headers = {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${jwtToken}`,
+        Authorization: `Bearer ${token}`,
     };
     try {
-        const response = await axios.get(`${API_URL}/clinic/${userId}/clinics`, { headers });
-        console.log('Response from getClinicIds:', response.data);
+        const response = await axios.get(`${API_URL}/clinic/user/${userId}`, { headers });
         return response.data;
     } catch (error) {
         console.error('Error signing in:', error);
         throw error;
     }
+};
+
+export const deleteClinic = async (clinicId) => {
+    const token = localStorage.getItem('userToken');
+    const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+    };
+    try {
+        const response = await axios.delete(`${API_URL}/clinic/${clinicId}`, { headers });
+        return response.data;
+    } catch (error) {
+        console.error('Error signing in:', error);
+        throw error;
+    }
+};
+
+export const addRateMDsLink = async (clinicId: string, rateMDsLink: string) => {
+    const response = await axios.post(`${API_URL}/clinic/${clinicId}/rateMDsLink`, { rateMDsLink });
+    return response.data;
 };

@@ -23,12 +23,12 @@ export class ClinicModelService {
     }
 
     // Delete a clinic by its ID
-    async deleteOneById(id: string): Promise<Clinic | null> {
-        return this.clinicModel.findOneAndDelete({ id: id }).exec();
+    async deleteOneById(_id: string): Promise<Clinic | null> {
+        return this.clinicModel.findOneAndDelete({ _id }).exec();
     }
 
     // Read all clinics (optional: you might want to paginate this depending on your use case)
-    async findAll(): Promise<Clinic[]> {
-        return this.clinicModel.find().exec();
+    async findManyByUserId(userId: string): Promise<Clinic[]> {
+        return this.clinicModel.find({ userId }).exec();
     }
 }

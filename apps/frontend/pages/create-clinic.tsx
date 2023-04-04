@@ -1,6 +1,6 @@
 import TopNav from '../components/TopNav';
 import userContext from '../contexts/UserContext';
-import { createClinic, addClinicToUser } from '../utils/api';
+import { createClinic } from '../utils/api';
 import React, { useState, useContext } from 'react';
 
 export function CreateClinicPage() {
@@ -27,8 +27,7 @@ export function CreateClinicPage() {
         e.preventDefault();
 
         try {
-            const newClinic = await createClinic(formData);
-            await addClinicToUser(user._id, newClinic._id);
+            await createClinic({ ...formData, userId: user._id });
             alert('Clinic created successfully');
             window.location.href = '/clinic';
         } catch (error) {
@@ -129,38 +128,38 @@ export function CreateClinicPage() {
                             />
                         </div>
 
-                        <div className="mb-4">
-                            <label className="block text-sm font-bold mb-2">Google Link</label>
-                            <input
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                type="text"
-                                name="googleLink"
-                                value={formData.googleLink}
-                                onChange={handleChange}
-                            />
-                        </div>
+                        {/*<div className="mb-4">*/}
+                        {/*    <label className="block text-sm font-bold mb-2">Google Link</label>*/}
+                        {/*    <input*/}
+                        {/*        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"*/}
+                        {/*        type="text"*/}
+                        {/*        name="googleLink"*/}
+                        {/*        value={formData.googleLink}*/}
+                        {/*        onChange={handleChange}*/}
+                        {/*    />*/}
+                        {/*</div>*/}
 
-                        <div className="mb-4">
-                            <label className="block text-sm font-bold mb-2">Facebook Link</label>
-                            <input
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                type="text"
-                                name="facebookLink"
-                                value={formData.facebookLink}
-                                onChange={handleChange}
-                            />
-                        </div>
+                        {/*<div className="mb-4">*/}
+                        {/*    <label className="block text-sm font-bold mb-2">Facebook Link</label>*/}
+                        {/*    <input*/}
+                        {/*        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"*/}
+                        {/*        type="text"*/}
+                        {/*        name="facebookLink"*/}
+                        {/*        value={formData.facebookLink}*/}
+                        {/*        onChange={handleChange}*/}
+                        {/*    />*/}
+                        {/*</div>*/}
 
-                        <div className="mb-4">
-                            <label className="block text-sm font-bold mb-2">RateMD Links</label>
-                            <input
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                type="text"
-                                name="rateMDLinks"
-                                value={formData.rateMDLinks}
-                                onChange={handleChange}
-                            />
-                        </div>
+                        {/*<div className="mb-4">*/}
+                        {/*    <label className="block text-sm font-bold mb-2">RateMD Links</label>*/}
+                        {/*    <input*/}
+                        {/*        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"*/}
+                        {/*        type="text"*/}
+                        {/*        name="rateMDLinks"*/}
+                        {/*        value={formData.rateMDLinks}*/}
+                        {/*        onChange={handleChange}*/}
+                        {/*    />*/}
+                        {/*</div>*/}
 
                         <button type="submit" className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600">
                             Create New Clinic

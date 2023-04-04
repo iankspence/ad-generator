@@ -27,8 +27,13 @@ export class ClinicController {
         await this.clinicModelService.deleteOneById(_id);
     }
 
-    @Get()
-    async findAll(): Promise<Clinic[]> {
-        return this.clinicModelService.findAll();
+    @Get('user/:userId')
+    async findManyByUserId(@Param('userId') userId: string): Promise<Clinic[]> {
+        return await this.clinicModelService.findManyByUserId(userId);
     }
+
+    // @Post(':clinicId/rateMDsLink')
+    // async addRateMDsLink(@Param('clinicId') clinicId: string, @Body('rateMDsLink') rateMDsLink: string) {
+    //     return await this.clinicService.addRateMDsLink(clinicId, rateMDsLink);
+    // }
 }

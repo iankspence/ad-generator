@@ -37,6 +37,9 @@ export class Clinic {
 
     @Prop({ required: false, default: null })
     facebookAdAccount!: string | null;
+
+    @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+    userId!: Types.ObjectId;
 }
 
 export const ClinicSchema = SchemaFactory.createForClass(Clinic);

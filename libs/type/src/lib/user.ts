@@ -34,9 +34,6 @@ export class User implements UserMethods {
     @Prop({ required: false, default: null })
     resetPasswordExpires!: Date | null;
 
-    @Prop({ type: [{ type: Types.ObjectId, ref: 'Clinic' }], default: [] })
-    clinicIds!: Types.ObjectId[];
-
     comparePassword!: (candidatePassword: string) => Promise<boolean>;
 }
 
