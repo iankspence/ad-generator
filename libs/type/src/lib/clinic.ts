@@ -1,3 +1,4 @@
+import { RateMdsHeaderCapturedText } from './browse-ai-job';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
@@ -34,6 +35,9 @@ export class Clinic {
 
     @Prop({ type: [String], required: false, default: [] })
     rateMdsLinks!: string[];
+
+    @Prop({ type: Object, required: false, default: {} })
+    rateMdsHeaders?: object | null;
 
     @Prop({ required: false, default: null })
     facebookAdAccount!: string | null;

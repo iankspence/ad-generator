@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
-import Link from 'next/link';
+import { signIn } from '../utils/api';
+import Router from 'next/router';
 import TopNav from '../components/TopNav';
 import UserContext from '../contexts/UserContext';
-import Router from "next/router";
-import {signIn} from "../utils/api";
+import Link from 'next/link';
+import React, { useState, useContext } from 'react';
 
 export function SignInPage() {
     const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ export function SignInPage() {
             const data = await signIn(email, password);
             localStorage.setItem('userToken', data.token);
             setUser(data.user);
-            await Router.push('/dashboard');
+            await Router.push('/clinic');
         } catch (error) {
             console.error('Failed to sign in:', error);
         }

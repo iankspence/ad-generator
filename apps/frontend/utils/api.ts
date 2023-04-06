@@ -150,3 +150,20 @@ export const updateClinicRateMdsLinks = async (clinicId, rateMdsLink) => {
         throw error;
     }
 };
+
+export const startRobotJob = async (userId: string, clinicId: string, robotUrl: string, originUrl: string) => {
+    try {
+        const response = await axios.post(`${API_URL}/browse-ai/start-robot-job`, {
+            userId,
+            clinicId,
+            robotUrl,
+            inputParameters: {
+                originUrl,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error starting robot job:', error);
+        throw error;
+    }
+};

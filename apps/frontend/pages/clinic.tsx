@@ -4,6 +4,7 @@ import UserContext from '../contexts/UserContext';
 import {
     deleteClinic,
     getClinics,
+    startRobotJob,
     updateClinicFacebookLink,
     updateClinicGoogleLink,
     updateClinicRateMdsLinks,
@@ -107,6 +108,12 @@ export function ClinicPage() {
                 const updatedClinic = await updateClinicRateMdsLinks(selectedClinic._id, rateMdsLink);
                 setSelectedClinic(updatedClinic);
 
+                await startRobotJob(
+                    user._id.toString(),
+                    selectedClinic._id.toString(),
+                    process.env.NEXT_PUBLIC_BROWSE_AI_RATE_MDS_HEADER_ROBOT,
+                    rateMdsLink,
+                );
                 // Hide the form after submission
                 setShowRateMDsForm(false);
             } catch (error) {

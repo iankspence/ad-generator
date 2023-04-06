@@ -1,18 +1,16 @@
-import { Controller, Post, Body } from '@nestjs/common';
 import { OpenAiService } from './open-ai.service';
+import { Controller, Post, Body } from '@nestjs/common';
 
 @Controller('open-ai')
 export class OpenAiController {
-    constructor(private readonly openAiService: OpenAiService) { }
+    constructor(private readonly openAiService: OpenAiService) {}
 
     /**
      * @param prompt - The review string to return values for.
      * @returns - [positiveDescriptor, claims]
      */
     @Post('create-completion')
-    async createCompletion(
-        @Body('prompt') prompt: string
-    ): Promise<[string, string[]]> {
+    async createCompletion(@Body('prompt') prompt: string): Promise<[string, string[]]> {
         return await this.openAiService.createCompletion(prompt);
     }
 
@@ -21,9 +19,7 @@ export class OpenAiController {
      * @returns - response string
      */
     @Post('create-completion-gpt4')
-    async createCompletionGPT4(
-        @Body('prompt') prompt: string
-    ): Promise<string> {
+    async createCompletionGPT4(@Body('prompt') prompt: string): Promise<[number, number[]]> {
         return await this.openAiService.createCompletionGPT4(prompt);
     }
 }

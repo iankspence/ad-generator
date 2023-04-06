@@ -19,8 +19,7 @@ export class OpenAiService {
      * @param prompt - The review string to return values for.
      */
     async createCompletion(prompt: string): Promise<[string, string[]]> {
-
-        console.log('creating completion for ', prompt)
+        console.log('creating completion for ', prompt);
 
         const openai = new OpenAIApi(configuration);
         const response = await openai.createCompletion({
@@ -41,24 +40,30 @@ export class OpenAiService {
         return [responsePositiveDescriptor, responseClaimArray];
     }
 
-
     /**
-    * General API for GPT 4
-    *
-    * @param prompt - The prompt to return a string for
-    */
-    async createCompletionGPT4(prompt: string): Promise<string> {
-
-        console.log('creating gpt-4 completion for ', prompt)
+     * General API for GPT 4
+     *
+     * @param prompt - The review to classify personas for.
+     */
+    async createCompletionGPT4(prompt: string): Promise<[number, number[]]> {
+        console.log('creating gpt-4 completion for ', prompt);
 
         const openai = new OpenAIApi(configuration);
         const response = await openai.createChatCompletion({
             model: 'gpt-4',
             messages: [
-                { "role": "system", "content": "You are a review persona classifier who determines which personas fit with a given online review" },
-                { "role": "user", "content": `Can you come up with the top 10 personas that would be seen by a chiropractic office?` },
                 {
-                    "role": "assistant", "content": `
+                    role: 'system',
+                    content:
+                        'You are a review persona classifier who determines which personas fit with a given online review',
+                },
+                {
+                    role: 'user',
+                    content: `Can you come up with the top 10 personas that would be seen by a chiropractic office?`,
+                },
+                {
+                    role: 'assistant',
+                    content: `
                     Here are the personas
         1. The Stressed Professional:
                 Age Range: 25 - 60 years
@@ -89,24 +94,30 @@ export class OpenAiService {
         Interests: Migraine relief, headache relief, natural remedies, chronic pain, alternative medicine, chiropractic care.
 10. The Holistic Health Seeker:
             Age Range: 25 - 70 years
-        Interests: Holistic health, alternative medicine, wellness, nutrition, natural remedies, meditation, mindfulness, chiropractic care.`},
+        Interests: Holistic health, alternative medicine, wellness, nutrition, natural remedies, meditation, mindfulness, chiropractic care.`,
+                },
 
                 {
-                    "role": "user", "content": `
-                    Can you tell me which of the personas best  matches the review?  And can you tell me all of the personas that could have made the review? 
-                    
-                    I want the answer to be like this [4, [1,2,4,7,9]] - no other text please.
-                    where persona 4 is the best fit but personas 1,2,4,7,9 could all be matched with it.
+                    role: 'user',
+                    content: `
+                    Can you tell me which of the personas best  matches the review?  And can you tell me all of the personas that could have made the review?
 
-                    Here is the review ${prompt}`
+                    I want the answer to be like this "4,1,2,4,7,9" - no other text please.
+                    where persona 4 is the best fit but personas 1,2,4,7,9 could all be matched with it.
+                    With every response, there should be at least one best fit persona and at least one other matching persona.
+
+                    Here is the review ${prompt}`,
                 },
             ],
             top_p: 0.05,
             max_tokens: 40,
         });
 
-        console.log('response: ', response)
-        console.log('response.data.choices: ', response.data.choices[0].message.content)
-        return response.data.choices[0].message.content;
+        const responseContent = response.data.choices[0].message.content;
+        const parsedResponse = responseContent.split(',').map((x) => parseInt(x, 10));
+        console.log('parsedResponse: ', parsedResponse);
+        const bestFitPersona = parsedResponse[0];
+        const otherMatchingPersonas = parsedResponse.slice(1);
+        return [bestFitPersona, otherMatchingPersonas];
     }
 }
