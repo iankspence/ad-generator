@@ -14,20 +14,20 @@ export class Review {
     @Prop({ required: true })
     clinicId!: string;
 
-    @Prop({ required: true })
-    position!: string;
+    @Prop({ required: false })
+    position?: string;
 
-    @Prop({ required: true })
-    staffRating!: string;
+    @Prop({ required: false })
+    staffRating?: string;
 
-    @Prop({ required: true })
-    punctualityRating!: string;
+    @Prop({ required: false })
+    punctualityRating?: string;
 
-    @Prop({ required: true })
-    helpfulnessRating!: string;
+    @Prop({ required: false })
+    helpfulnessRating?: string;
 
-    @Prop({ required: true })
-    knowledgeRating!: string;
+    @Prop({ required: false })
+    knowledgeRating?: string;
 
     @Prop({ required: true })
     reviewText!: string;

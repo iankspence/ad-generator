@@ -167,3 +167,13 @@ export const startRobotJob = async (userId: string, clinicId: string, robotUrl: 
         throw error;
     }
 };
+
+export const getGoogleMapsReviews = async (userId: string, clinicId: string, query: string) => {
+    try {
+        const response = await axios.post(`${API_URL}/outscraper/reviews`, { userId, clinicId, query });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching Google Maps Reviews:', error);
+        throw error;
+    }
+};

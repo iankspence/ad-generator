@@ -44,4 +44,23 @@ export class ReviewModelService {
 
         return review.save();
     }
+
+    async createGoogleReview(userId: string, clinicId: string, review: Partial<Review>): Promise<Review> {
+        const convertedReview = {
+            userId,
+            clinicId,
+            source: 'Google',
+            authorTitle: review['author_title'],
+            reviewText: review['review_text'],
+            reviewDate: new Date(review['review_datetime_utc']),
+            responseDate: new Date(review['owner_answer_timestamp_datetime_utc']),
+            responseText: review['owner_answer'],
+            reviewRating: review['review_rating'],
+        };
+        console.log('convertedReview', convertedReview);
+
+        const reviewDocument = await this.reviewModel.create(convertedReview);
+
+        return this.updateReviewWithClassification(reviewDocument);
+    }
 }
