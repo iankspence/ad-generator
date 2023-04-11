@@ -37,7 +37,7 @@ export class BrowseAiJob {
     userId!: string;
 
     @Prop({ required: true })
-    clinicId!: string;
+    accountId!: string;
 
     @Prop({ required: true })
     statusCode!: number;

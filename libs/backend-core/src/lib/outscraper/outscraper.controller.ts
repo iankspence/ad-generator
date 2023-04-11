@@ -8,27 +8,30 @@ export class OutscraperController {
     @Post('reviews')
     async getGoogleMapsReviews(
         @Body('userId') userId: string,
-        @Body('clinicId') clinicId: string,
+        @Body('accountId') accountId: string,
         @Body('query') query: string,
     ) {
         console.log(`handling getGoogleMapsReviews data (controller)`);
+
+        console.log(`userId: ${userId}`);
+        console.log(`accountId: ${accountId}`);
+        console.log(`query: ${query}`);
 
         const reviewsLimit = 1;
         const limit = 1;
         const language = 'en';
         const region = 'CA';
         try {
-            const response = await this.outscraperService.getGoogleMapsReviews(
+            await this.outscraperService.getGoogleMapsReviews(
                 userId,
-                clinicId,
+                accountId,
                 query,
                 reviewsLimit,
                 limit,
                 language,
                 region,
             );
-            console.log(`response from the controller: ${response}`);
-            return response;
+            return { message: 'Task initialized' };
         } catch (error) {
             return { message: `Error fetching reviews: ${error.message}` };
         }

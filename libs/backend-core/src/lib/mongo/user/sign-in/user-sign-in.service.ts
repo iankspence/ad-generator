@@ -8,9 +8,6 @@ export class UserSignInService {
     async generateToken(user: any) {
         const payload = {
             _id: user._doc._id,
-            clinicName: user._doc.clinicName,
-            name: user._doc.name,
-            phone: user._doc.phone,
             emailVerified: user._doc.emailVerified,
             email: user._doc.email,
             roles: user._doc.roles,
@@ -22,9 +19,6 @@ export class UserSignInService {
         return {
             user: {
                 _id: user._doc._id,
-                clinicName: user._doc.clinicName,
-                name: user._doc.name,
-                phone: user._doc.phone,
                 emailVerified: user._doc.emailVerified,
                 email: user._doc.email,
                 roles: user._doc.roles,

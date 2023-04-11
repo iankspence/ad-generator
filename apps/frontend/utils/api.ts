@@ -68,23 +68,23 @@ export const userAccount = async (jwtToken) => {
     }
 };
 
-export const createClinic = async (clinicData) => {
+export const createAccount = async (accountData) => {
     try {
-        const response = await axios.post(`${API_URL}/clinic`, clinicData);
+        const response = await axios.post(`${API_URL}/account`, accountData);
         return response.data;
     } catch (error) {
-        throw new Error(error.response.data.message || 'An error occurred while creating the clinic.');
+        throw new Error(error.response.data.message || 'An error occurred while creating the account.');
     }
 };
 
-export const getClinics = async (userId) => {
+export const getAccounts = async (userId) => {
     const token = localStorage.getItem('userToken');
     const headers = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
     };
     try {
-        const response = await axios.get(`${API_URL}/clinic/user/${userId}`, { headers });
+        const response = await axios.get(`${API_URL}/account/user/${userId}`, { headers });
         return response.data;
     } catch (error) {
         console.error('Error signing in:', error);
@@ -92,70 +92,25 @@ export const getClinics = async (userId) => {
     }
 };
 
-export const deleteClinic = async (clinicId) => {
-    const token = localStorage.getItem('userToken');
-    const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-    };
-    try {
-        const response = await axios.delete(`${API_URL}/clinic/${clinicId}`, { headers });
-        return response.data;
-    } catch (error) {
-        console.error('Error signing in:', error);
-        throw error;
-    }
-};
-
-export const addRateMDsLink = async (clinicId: string, rateMDsLink: string) => {
-    const response = await axios.post(`${API_URL}/clinic/${clinicId}/rateMDsLink`, { rateMDsLink });
+export const addRateMdsLink = async (dto: { accountId: string; rateMdsLink: string }) => {
+    console.log('addRateMdsLink DTO (api - frontend):', dto);
+    const response = await axios.patch(`${API_URL}/account/rate-mds-link`, dto);
     return response.data;
 };
 
-export const updateClinicGoogleLink = async (clinicId, googleLink) => {
-    try {
-        const response = await axios.patch(`${API_URL}/clinic/google-link`, {
-            clinicId,
-            googleLink,
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Error updating Google Link:', error);
-        throw error;
-    }
+export const addGoogleQuery = async (accountId: string, googleQuery: string) => {
+    console.log('addGoogleQuery DTO (api - frontend):', accountId, googleQuery);
+
+    const response = await axios.patch(`${API_URL}/account/google-query`, { accountId, googleQuery });
+    return response.data;
 };
 
-export const updateClinicFacebookLink = async (clinicId, facebookLink) => {
-    try {
-        const response = await axios.patch(`${API_URL}/clinic/facebook-link`, {
-            clinicId,
-            facebookLink,
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Error updating Google Link:', error);
-        throw error;
-    }
-};
-
-export const updateClinicRateMdsLinks = async (clinicId, rateMdsLink) => {
-    try {
-        const response = await axios.patch(`${API_URL}/clinic/rate-mds-links`, {
-            clinicId,
-            rateMdsLink,
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Error updating Rate MDs Link:', error);
-        throw error;
-    }
-};
-
-export const startRobotJob = async (userId: string, clinicId: string, robotUrl: string, originUrl: string) => {
+export const startRobotJob = async (userId: string, accountId: string, robotUrl: string, originUrl: string) => {
+    console.log('startRobotJob (api - frontend):', userId, robotUrl, originUrl);
     try {
         const response = await axios.post(`${API_URL}/browse-ai/start-robot-job`, {
             userId,
-            clinicId,
+            accountId,
             robotUrl,
             inputParameters: {
                 originUrl,
@@ -168,12 +123,24 @@ export const startRobotJob = async (userId: string, clinicId: string, robotUrl: 
     }
 };
 
-export const getGoogleMapsReviews = async (userId: string, clinicId: string, query: string) => {
+export const getGoogleMapsReviews = async (userId: string, accountId: string, query: string) => {
     try {
-        const response = await axios.post(`${API_URL}/outscraper/reviews`, { userId, clinicId, query });
+        const response = await axios.post(`${API_URL}/outscraper/reviews`, { userId, accountId, query });
         return response.data;
     } catch (error) {
         console.error('Error fetching Google Maps Reviews:', error);
+        throw error;
+    }
+};
+
+export const getAccountByUserId = async (userId: string) => {
+    try {
+        console.log('getAccountByUserId userId:', userId);
+        const response = await axios.get(`${API_URL}/account/user/${userId}`);
+        console.log('getAccountByUserId response:', response);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching account:', error);
         throw error;
     }
 };

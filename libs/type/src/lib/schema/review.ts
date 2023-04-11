@@ -12,7 +12,7 @@ export class Review {
     userId!: string;
 
     @Prop({ required: true })
-    clinicId!: string;
+    accountId!: string;
 
     @Prop({ required: false })
     position?: string;
@@ -41,7 +41,6 @@ export class Review {
     @Prop({ required: false })
     responseText?: string;
 
-    // Additional fields for Google and Facebook reviews
     @Prop({ required: false })
     author?: string;
 

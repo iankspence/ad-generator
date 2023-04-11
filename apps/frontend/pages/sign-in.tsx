@@ -1,8 +1,8 @@
-import { signIn } from '../utils/api';
-import Router from 'next/router';
 import TopNav from '../components/TopNav';
 import UserContext from '../contexts/UserContext';
+import { signIn } from '../utils/api';
 import Link from 'next/link';
+import Router from 'next/router';
 import React, { useState, useContext } from 'react';
 
 export function SignInPage() {
@@ -17,7 +17,7 @@ export function SignInPage() {
             const data = await signIn(email, password);
             localStorage.setItem('userToken', data.token);
             setUser(data.user);
-            await Router.push('/clinic');
+            await Router.push('/account');
         } catch (error) {
             console.error('Failed to sign in:', error);
         }

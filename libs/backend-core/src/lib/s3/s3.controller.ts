@@ -1,11 +1,11 @@
 import { S3Service } from './s3.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { Controller, Post, Body, Get, Param, Query, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 
 @Controller('s3')
 export class S3Controller {
-    constructor(private readonly s3Service: S3Service) { }
+    constructor(private readonly s3Service: S3Service) {}
 
     /**
      *
@@ -18,7 +18,7 @@ export class S3Controller {
 
     /**
      *
-     * @returns An array of strings, each of which is the path to a clinic.
+     * @returns An array of strings, each of which is the path to a account.
      */
     @Get('list-clinics')
     async listClinics(): Promise<string[]> {
@@ -27,55 +27,46 @@ export class S3Controller {
 
     /**
      *
-     * @param clinicPath - The path of the clinic.
-     * @returns An array of strings, each of which is the path to an ad set for the clinic.
+     * @param clinicPath - The path of the account.
+     * @returns An array of strings, each of which is the path to an ad set for the account.
      */
-    @Get('list-clinic-ad-sets/:clinicPath')
-    async listClinicAdSets(
-        @Param('clinicPath') clinicPath: string
-    ): Promise<string[]> {
-        return await this.s3Service.listClinicAdSets(
-            decodeURIComponent(clinicPath)
-        );
+    @Get('list-account-ad-sets/:clinicPath')
+    async listClinicAdSets(@Param('clinicPath') clinicPath: string): Promise<string[]> {
+        return await this.s3Service.listClinicAdSets(decodeURIComponent(clinicPath));
     }
 
     /**
      *
-     * @param clinicPath - The path to check for the clinic. The path should be in the format 'Country/Province/City/Clinic'.
-     * @returns Returns true if the clinic exists and false otherwise.
+     * @param clinicPath - The path to check for the account. The path should be in the format 'Country/Province/City/Clinic'.
+     * @returns Returns true if the account exists and false otherwise.
      */
-    @Post('check-clinic-exists')
-    async checkClinicExists(
-        @Body('clinicPath') clinicPath: string
-    ): Promise<boolean> {
+    @Post('check-account-exists')
+    async checkClinicExists(@Body('clinicPath') clinicPath: string): Promise<boolean> {
         return await this.s3Service.checkClinicExists(clinicPath);
     }
 
     /**
-     * Retrieves base colours for a clinic from s3 paths.
+     * Retrieves base colours for a account from s3 paths.
      */
     @Post('retrieve-base-colours')
-    async retrieveBaseColours(
-        @Body('adSetPath') adSetPath: string
-    ): Promise<string[]> {
-        return await this.s3Service.retrieveBaseColours(
-            decodeURIComponent(adSetPath)
-        );
+    async retrieveBaseColours(@Body('adSetPath') adSetPath: string): Promise<string[]> {
+        return await this.s3Service.retrieveBaseColours(decodeURIComponent(adSetPath));
     }
 
     @Post('save-images')
-    async saveImages(@Body()
-    data: {
-        s3Folder: string,
-        s3FileSuffix: string,
-        images: {
-            positiveDescriptorData: string;
-            claimData: string;
-            reviewData: string;
-            brandData: string;
-        }
-    }): Promise<void> {
+    async saveImages(
+        @Body()
+        data: {
+            s3Folder: string;
+            s3FileSuffix: string;
+            images: {
+                positiveDescriptorData: string;
+                claimData: string;
+                reviewData: string;
+                brandData: string;
+            };
+        },
+    ): Promise<void> {
         await this.s3Service.saveImages(data);
     }
-
 }

@@ -46,8 +46,6 @@ export class OpenAiService {
      * @param prompt - The review to classify personas for.
      */
     async createCompletionGPT4(prompt: string): Promise<[number, number[]]> {
-        console.log('creating gpt-4 completion for ', prompt);
-
         const openai = new OpenAIApi(configuration);
         const response = await openai.createChatCompletion({
             model: 'gpt-4',
@@ -115,7 +113,6 @@ export class OpenAiService {
 
         const responseContent = response.data.choices[0].message.content;
         const parsedResponse = responseContent.split(',').map((x) => parseInt(x, 10));
-        console.log('parsedResponse: ', parsedResponse);
         const bestFitPersona = parsedResponse[0];
         const otherMatchingPersonas = parsedResponse.slice(1);
         return [bestFitPersona, otherMatchingPersonas];

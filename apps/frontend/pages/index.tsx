@@ -1,6 +1,5 @@
 import LandingPage from './landing';
 
-
 export function Index() {
     return (
         <div>

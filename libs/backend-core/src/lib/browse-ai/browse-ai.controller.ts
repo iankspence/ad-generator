@@ -9,13 +9,12 @@ export class BrowseAiController {
         console.log(`handling webhook data (controller)`);
         return this.browseAiService.handleWebhookData(data);
     }
-
     @Post('start-robot-job')
     async runRateMdsHeaderRobot(
         @Body()
         startRobotJobDto: {
             userId: string;
-            clinicId: string;
+            accountId: string;
             robotUrl: string;
             inputParameters: { originUrl: string };
         },

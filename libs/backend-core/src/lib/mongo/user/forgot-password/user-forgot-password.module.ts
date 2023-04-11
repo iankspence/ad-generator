@@ -1,5 +1,4 @@
 import { UserMailerModule } from '../user-mailer.module';
-import { UserMailerService } from '../user-mailer.service';
 import { UserForgotPasswordController } from './user-forgot-password.controller';
 import { UserForgotPasswordService } from './user-forgot-password.service';
 import { User, UserSchema } from '@monorepo/type';

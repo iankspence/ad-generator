@@ -11,12 +11,11 @@ export class ReviewModelService {
         private openAiService: OpenAiService,
     ) {}
 
-    async createRateMdsReview(userId: string, clinicId: string, review: Partial<Review>): Promise<Review> {
+    async createRateMdsReview(userId: string, accountId: string, review: Partial<Review>): Promise<Review> {
         const convertedReview = {
             userId,
-            clinicId,
+            accountId,
             source: 'RateMDs',
-            position: review['Position'],
             staffRating: review['Staff Rating'],
             punctualityRating: review['Punctuality Rating'],
             helpfulnessRating: review['Helpfulness Rating'],
@@ -45,10 +44,11 @@ export class ReviewModelService {
         return review.save();
     }
 
-    async createGoogleReview(userId: string, clinicId: string, review: Partial<Review>): Promise<Review> {
+    async createGoogleReview(userId: string, accountId: string, review: Partial<Review>): Promise<Review> {
+        // console.log('createGoogleReview', userId, accountId, review);
         const convertedReview = {
             userId,
-            clinicId,
+            accountId,
             source: 'Google',
             authorTitle: review['author_title'],
             reviewText: review['review_text'],

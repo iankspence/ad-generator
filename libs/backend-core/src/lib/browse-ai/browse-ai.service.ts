@@ -1,4 +1,4 @@
-import { ClinicModelService } from '../mongo/clinic/clinic-model.service';
+import { AccountModelService } from '../mongo/account/account-model.service';
 import { ReviewModelService } from '../mongo/review/review-model.service';
 import { BrowseAiJob, BrowseAiJobDocument } from '@monorepo/type';
 import { HttpService } from '@nestjs/axios';
@@ -12,16 +12,19 @@ export class BrowseAiService {
     constructor(
         @InjectModel(BrowseAiJob.name) private browseAiJobModel: Model<BrowseAiJobDocument>,
         private readonly reviewModelService: ReviewModelService,
-        private readonly clinicModelService: ClinicModelService,
+        private readonly clinicModelService: AccountModelService,
         private readonly httpService: HttpService,
     ) {}
 
     async startRobotJob(startRobotJobDto: {
         userId: string;
-        clinicId: string;
+        accountId: string;
         robotUrl: string;
         inputParameters: object;
     }): Promise<any> {
+        console.log(`starting robot job (service)`);
+        console.log(startRobotJobDto.robotUrl);
+
         const response$ = this.httpService.post(
             startRobotJobDto.robotUrl,
             {
@@ -40,7 +43,7 @@ export class BrowseAiService {
         } else {
             await this.browseAiJobModel.create({
                 userId: startRobotJobDto.userId,
-                clinicId: startRobotJobDto.clinicId,
+                accountId: startRobotJobDto.accountId,
                 statusCode: response.data.statusCode,
                 statusMessage: response.data.messageCode,
                 result: response.data.result,
@@ -64,18 +67,19 @@ export class BrowseAiService {
             } else {
                 if (task.robotId === process.env.BROWSE_AI_RATE_MDS_HEADER_ROBOT_ID) {
                     const numberOfReviews = await this.clinicModelService.addRateMDsHeader(
-                        job.clinicId,
+                        job.accountId,
                         job.result.inputParameters.originUrl,
                         task.capturedTexts,
                     );
 
                     await this.startRobotJob({
                         userId: job.userId,
-                        clinicId: job.clinicId,
+                        accountId: job.accountId,
                         robotUrl: process.env.BROWSE_AI_RATE_MDS_REVIEW_ROBOT,
                         inputParameters: {
                             originUrl: job.result.inputParameters.originUrl,
-                            dr_fix_review_list_ratemds_limit: numberOfReviews,
+                            dr_fix_review_list_ratemds_limit: 2,
+                            // dr_fix_review_list_ratemds_limit: numberOfReviews,
                         },
                     });
                 } else if (task.robotId === process.env.BROWSE_AI_RATE_MDS_REVIEW_ROBOT_ID) {
@@ -88,7 +92,7 @@ export class BrowseAiService {
                             console.log(`review: ${review}`);
                             const createdReview = await this.reviewModelService.createRateMdsReview(
                                 job.userId,
-                                job.clinicId,
+                                job.accountId,
                                 review,
                             );
                             console.log(`createdReview: ${createdReview}`);

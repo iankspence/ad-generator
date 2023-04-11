@@ -1,10 +1,10 @@
-import { MongoModule } from '../mongo/mongo.module';
+import { ReviewModule } from '../mongo/review/review.module';
 import { OutscraperController } from './outscraper.controller';
 import { OutscraperService } from './outscraper.service';
 import { Module } from '@nestjs/common';
 
 @Module({
-    imports: [MongoModule],
+    imports: [ReviewModule],
     controllers: [OutscraperController],
     providers: [OutscraperService],
 })
