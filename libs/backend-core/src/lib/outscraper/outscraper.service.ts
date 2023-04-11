@@ -1,4 +1,4 @@
-import { ReviewModelService } from '../mongo/review/review-model.service';
+import { ReviewService } from '../mongo/review/review.service';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 
@@ -6,7 +6,7 @@ import axios from 'axios';
 export class OutscraperService {
     private apiKey: string;
 
-    constructor(private reviewModelService: ReviewModelService) {
+    constructor(private reviewModelService: ReviewService) {
         this.apiKey = process.env.OUTSCRAPER_API_KEY;
         if (!this.apiKey) {
             throw new Error('Outscraper API key is not set in the environment variables');
@@ -66,7 +66,6 @@ export class OutscraperService {
                 });
             }
         };
-
         checkResults();
     }
 }

@@ -1,17 +1,17 @@
-import { OpenAiService } from '../../open-ai/open-ai.service';
+import { ReviewQueueProducerService } from '../../bull/review-queue-producer.service';
 import { Review, ReviewDocument } from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 @Injectable()
-export class ReviewModelService {
+export class ReviewService {
     constructor(
         @InjectModel(Review.name) private reviewModel: Model<ReviewDocument>,
-        private openAiService: OpenAiService,
+        private reviewQueueProducerService: ReviewQueueProducerService,
     ) {}
 
-    async createRateMdsReview(userId: string, accountId: string, review: Partial<Review>): Promise<Review> {
+    async createRateMdsReview(userId: string, accountId: string, review: Partial<Review>): Promise<void> {
         const convertedReview = {
             userId,
             accountId,
@@ -28,23 +28,10 @@ export class ReviewModelService {
         console.log('convertedReview', convertedReview);
 
         const reviewDocument = await this.reviewModel.create(convertedReview);
-
-        return this.updateReviewWithClassification(reviewDocument);
+        return this.reviewQueueProducerService.addClassifyJob(reviewDocument);
     }
 
-    async updateReviewWithClassification(review: ReviewDocument): Promise<ReviewDocument> {
-        const [bestFitPersona, otherMatchingPersonas] = await this.openAiService.createCompletionGPT4(
-            review.reviewText,
-        );
-        console.log('classificationResponse', [bestFitPersona, otherMatchingPersonas]);
-
-        review.bestFitPersona = bestFitPersona;
-        review.otherMatchingPersonas = otherMatchingPersonas;
-
-        return review.save();
-    }
-
-    async createGoogleReview(userId: string, accountId: string, review: Partial<Review>): Promise<Review> {
+    async createGoogleReview(userId: string, accountId: string, review: Partial<Review>): Promise<void> {
         // console.log('createGoogleReview', userId, accountId, review);
         const convertedReview = {
             userId,
@@ -61,6 +48,6 @@ export class ReviewModelService {
 
         const reviewDocument = await this.reviewModel.create(convertedReview);
 
-        return this.updateReviewWithClassification(reviewDocument);
+        return this.reviewQueueProducerService.addClassifyJob(reviewDocument);
     }
 }

@@ -1,5 +1,7 @@
+import { Review, ReviewDocument } from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
-
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { Configuration, OpenAIApi } from 'openai';
 
 function addPromptSuffix(prompt: string): string {
@@ -13,6 +15,7 @@ const configuration = new Configuration({
 });
 @Injectable()
 export class OpenAiService {
+    constructor(@InjectModel(Review.name) private reviewModel: Model<ReviewDocument>) {}
     /**
      * Extract a positiveDescriptor and an array of business claims for a review.
      *
@@ -115,6 +118,26 @@ export class OpenAiService {
         const parsedResponse = responseContent.split(',').map((x) => parseInt(x, 10));
         const bestFitPersona = parsedResponse[0];
         const otherMatchingPersonas = parsedResponse.slice(1);
+
+        console.log(responseContent, parsedResponse, bestFitPersona, otherMatchingPersonas);
+
         return [bestFitPersona, otherMatchingPersonas];
+    }
+
+    async updateReviewWithClassification(reviewJob: { review: ReviewDocument }): Promise<ReviewDocument> {
+        const review: ReviewDocument = reviewJob.review;
+        console.log('review test before classification', review);
+        console.log('Review Text:', review.reviewText);
+        const [bestFitPersona, otherMatchingPersonas] = await this.createCompletionGPT4(review.reviewText);
+        console.log('classificationResponse', [bestFitPersona, otherMatchingPersonas]);
+
+        return this.reviewModel.findByIdAndUpdate(
+            review._id,
+            {
+                bestFitPersona: bestFitPersona,
+                otherMatchingPersonas: otherMatchingPersonas,
+            },
+            { new: true },
+        );
     }
 }

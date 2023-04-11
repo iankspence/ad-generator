@@ -1,5 +1,5 @@
 import { AccountModelService } from '../mongo/account/account-model.service';
-import { ReviewModelService } from '../mongo/review/review-model.service';
+import { ReviewService } from '../mongo/review/review.service';
 import { BrowseAiJob, BrowseAiJobDocument } from '@monorepo/type';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
@@ -11,7 +11,7 @@ import { firstValueFrom } from 'rxjs';
 export class BrowseAiService {
     constructor(
         @InjectModel(BrowseAiJob.name) private browseAiJobModel: Model<BrowseAiJobDocument>,
-        private readonly reviewModelService: ReviewModelService,
+        private readonly reviewModelService: ReviewService,
         private readonly clinicModelService: AccountModelService,
         private readonly httpService: HttpService,
     ) {}

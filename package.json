@@ -7,6 +7,7 @@
     "dependencies": {
         "@aws-sdk/client-s3": "^3.301.0",
         "@nestjs/axios": "^2.0.0",
+        "@nestjs/bull": "^0.6.3",
         "@nestjs/common": "^9.0.0",
         "@nestjs/config": "^2.3.1",
         "@nestjs/core": "^9.0.0",
@@ -19,6 +20,7 @@
         "autoprefixer": "^10.4.14",
         "axios": "^1.0.0",
         "bcrypt": "^5.1.0",
+        "bull": "^4.10.4",
         "dotenv": "^16.0.3",
         "mongoose": "^7.0.3",
         "next": "13.1.1",
@@ -30,6 +32,7 @@
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-modal": "^3.16.1",
+        "redis": "^4.6.5",
         "reflect-metadata": "^0.1.13",
         "rxjs": "^7.0.0",
         "sharp": "^0.32.0",
