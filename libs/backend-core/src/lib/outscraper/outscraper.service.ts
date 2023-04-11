@@ -32,7 +32,7 @@ export class OutscraperService {
                     // language: language,
                     // region: region,
                     // reviewsLimit: reviewsLimit,
-                    reviewsLimit: 2,
+                    reviewsLimit: 4,
                     async: true,
                 },
                 headers: {

@@ -3,13 +3,79 @@ import { ScrapeRateMdsButton } from '../components/ScrapeRateMdsButton';
 import TopNav from '../components/TopNav';
 import UserContext from '../contexts/UserContext';
 import { getAccountByUserId } from '../utils/api';
-import { useRouter } from 'next/router';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import React, { useContext, useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+import io from 'socket.io-client';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+export const options = {
+    responsive: true,
+    plugins: {
+        legend: {
+            display: false,
+        },
+        title: {
+            display: true,
+            text: 'Review Classification',
+        },
+    },
+};
+
+const labels = [
+    'The Stressed Professional',
+    'The Weekend Warrior',
+    'The Chronic Pain Sufferer',
+    'The Posture Protector',
+    'The Aging Gracefully',
+    'The Accident Recovery',
+    'The Office Worker',
+    'The Parent',
+    'The Migraine Sufferer',
+    'The Holistic Health Seeker',
+];
+
+export const data = {
+    labels,
+    datasets: [
+        {
+            label: 'Number of Reviews',
+            data: new Array(10).fill(0),
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+        },
+    ],
+};
 
 export function AccountPage() {
-    const router = useRouter();
     const { user } = useContext(UserContext);
     const [account, setAccount] = useState(null);
+    const [chartData, setChartData] = useState(data);
+    const [socket, setSocket] = useState(null);
+
+    useEffect(() => {
+        // Connect to the WebSocket server
+        const newSocket = io('ws://localhost:3333');
+        setSocket(newSocket);
+
+        newSocket.on('reviewProcessed', (review) => {
+            console.log('Received new review:', review);
+            if (review && review.bestFitPersona) {
+                setChartData((prevData) => {
+                    const newData = { ...prevData };
+                    const personaIndex = review.bestFitPersona - 1;
+                    newData.datasets[0].data[personaIndex]++;
+                    return newData;
+                });
+            } else {
+                console.error('Received invalid review:', review);
+            }
+        });
+        return () => {
+            newSocket.disconnect();
+        };
+    }, []);
 
     useEffect(() => {
         // set the account for the user
@@ -64,6 +130,10 @@ export function AccountPage() {
                         </div>
                     </>
                 )}
+
+                <div className="mt-8 w-full max-w-4xl">
+                    <Bar key={Math.random()} options={options} data={chartData} />
+                </div>
             </div>
         </>
     );
