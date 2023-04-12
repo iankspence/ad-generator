@@ -6,9 +6,10 @@ interface Props {
     userId: string;
     accountId: string;
     setAccount: (account: AccountDocument) => void;
+    setIsLoading: (isLoading: boolean) => void;
 }
 
-export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, accountId, setAccount }) => {
+export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, accountId, setAccount, setIsLoading }) => {
     const [showGoogleQueryForm, setShowGoogleQueryForm] = useState(false);
     const [googleQuery, setGoogleQuery] = useState('');
 
@@ -32,6 +33,7 @@ export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, accountId, set
                 setAccount(updatedAccount);
                 // Hide the form after submission
                 toggleGoogleQueryForm();
+                setIsLoading(true);
             } catch (error) {
                 console.error('Error fetching Google Maps Reviews:', error);
             }

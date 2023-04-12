@@ -6,9 +6,10 @@ interface Props {
     userId: string;
     accountId: string;
     setAccount: (account: AccountDocument) => void;
+    setIsLoading: (isLoading: boolean) => void;
 }
 
-export const ScrapeRateMdsButton: React.FC<Props> = ({ userId, accountId, setAccount }) => {
+export const ScrapeRateMdsButton: React.FC<Props> = ({ userId, accountId, setAccount, setIsLoading }) => {
     const [showRateMdsForm, setShowRateMdsForm] = useState(false);
     const [rateMdsLink, setRateMdsLink] = useState('');
 
@@ -37,6 +38,7 @@ export const ScrapeRateMdsButton: React.FC<Props> = ({ userId, accountId, setAcc
 
                 // Hide the form after submission
                 toggleRateMdsForm();
+                setIsLoading(true);
             } catch (error) {
                 console.error('Error updating RateMds Link:', error);
             }

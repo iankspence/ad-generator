@@ -5,6 +5,12 @@ import { Bar } from 'react-chartjs-2';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export const options = {
+    indexAxis: 'y' as const,
+    elements: {
+        bar: {
+            borderWidth: 2,
+        },
+    },
     responsive: true,
     plugins: {
         legend: {
@@ -13,6 +19,15 @@ export const options = {
         title: {
             display: true,
             text: 'Review Classification',
+        },
+        animation: false,
+    },
+    scales: {
+        x: {
+            ticks: {
+                beginAtZero: true,
+                stepSize: 1,
+            },
         },
     },
 };
@@ -36,15 +51,25 @@ export const data = {
         {
             label: 'Number of Reviews',
             data: new Array(10).fill(0),
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
             borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
         },
     ],
 };
 
-const ProcessedReviewChart = ({ chartData }) => {
-    return <Bar key={Math.random()} options={options} data={chartData} />;
+const ProcessedReviewChart = ({ chartData, onCloseChart }) => {
+    const handleCloseChart = () => {
+        onCloseChart();
+    };
+
+    return (
+        <>
+            <Bar options={options} data={chartData} />
+            <button className="bg-gray-600 text-black py-1 px-4 rounded mt-4" onClick={handleCloseChart}>
+                Close Chart
+            </button>
+        </>
+    );
 };
 
 export default ProcessedReviewChart;
