@@ -52,6 +52,9 @@ export class Review {
 
     @Prop({ required: false, type: [Number] })
     otherMatchingPersonas?: number[];
+
+    @Prop({ required: false })
+    sourceTextHash?: string;
 }
 
 export const ReviewSchema = SchemaFactory.createForClass(Review);
