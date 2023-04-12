@@ -11,4 +11,14 @@ export class ReviewQueueProducerService {
         console.log('Adding classify job for review', review);
         await this.reviewQueue.add('classify', { review });
     }
+
+    async addCreateRateMdsReviewJob(review: Partial<ReviewDocument>) {
+        console.log('Adding create-rate-mds-review job for review', review);
+        await this.reviewQueue.add('create-rate-mds-review', { review });
+    }
+
+    async addCreateGoogleReviewJob(review: Partial<ReviewDocument>) {
+        console.log('Adding create-google-review job for review', review);
+        await this.reviewQueue.add('create-google-review', { review });
+    }
 }

@@ -6,13 +6,13 @@ export interface ReviewDocument extends Review, Document<Types.ObjectId> {}
 @Schema({ timestamps: true })
 export class Review {
     @Prop({ required: true })
-    source!: 'RateMds' | 'Google' | 'Facebook';
-
-    @Prop({ required: true })
     userId!: string;
 
     @Prop({ required: true })
     accountId!: string;
+
+    @Prop({ required: true })
+    source!: 'RateMDs' | 'Google' | 'Facebook';
 
     @Prop({ required: false })
     position?: string;
@@ -28,6 +28,9 @@ export class Review {
 
     @Prop({ required: false })
     knowledgeRating?: string;
+
+    @Prop({ required: false })
+    overallRating?: string;
 
     @Prop({ required: true })
     reviewText!: string;
@@ -49,8 +52,6 @@ export class Review {
 
     @Prop({ required: false, type: [Number] })
     otherMatchingPersonas?: number[];
-
-    // Add any other fields specific to Google and Facebook reviews here
 }
 
 export const ReviewSchema = SchemaFactory.createForClass(Review);

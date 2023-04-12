@@ -1,11 +1,34 @@
 import { OpenAiService } from '../open-ai/open-ai.service';
 import { ReviewGateway } from '../websocket/review.gateway';
+import { ReviewQueueProducerService } from './review-queue-producer.service';
+import { Review, ReviewDocument } from '@monorepo/type';
 import { OnQueueActive, OnQueueCompleted, Process, Processor } from '@nestjs/bull';
+import { InjectModel } from '@nestjs/mongoose';
 import { Job } from 'bull';
+import { Model } from 'mongoose';
 
 @Processor('review-queue')
 export class ReviewQueueConsumerService {
-    constructor(private readonly openAiService: OpenAiService, private readonly reviewGateway: ReviewGateway) {}
+    constructor(
+        @InjectModel(Review.name) private reviewModel: Model<ReviewDocument>,
+        private readonly openAiService: OpenAiService,
+        private readonly reviewGateway: ReviewGateway,
+        private readonly reviewQueueProducerService: ReviewQueueProducerService,
+    ) {}
+
+    @Process('create-rate-mds-review')
+    async createRateMdsReview(job: Job<any>): Promise<void> {
+        const { review } = job.data;
+        const reviewDocument = await this.reviewModel.create(review);
+        return this.reviewQueueProducerService.addClassifyJob(reviewDocument);
+    }
+
+    @Process('create-google-review')
+    async createGoogleReview(job: Job<any>): Promise<void> {
+        const { review } = job.data;
+        const reviewDocument = await this.reviewModel.create(review);
+        return this.reviewQueueProducerService.addClassifyJob(reviewDocument);
+    }
 
     @Process('classify')
     async processJob(job: Job<any>): Promise<void> {

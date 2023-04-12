@@ -1,4 +1,5 @@
-import { ReviewService } from '../mongo/review/review.service';
+import { ReviewQueueProducerService } from '../bull/review-queue-producer.service';
+import { ReviewDocument } from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 
@@ -6,7 +7,7 @@ import axios from 'axios';
 export class OutscraperService {
     private apiKey: string;
 
-    constructor(private reviewModelService: ReviewService) {
+    constructor(private reviewQueueProducerService: ReviewQueueProducerService) {
         this.apiKey = process.env.OUTSCRAPER_API_KEY;
         if (!this.apiKey) {
             throw new Error('Outscraper API key is not set in the environment variables');
@@ -62,7 +63,18 @@ export class OutscraperService {
             } else {
                 response.data.data[0].reviews_data.forEach((review) => {
                     console.log('review:', review);
-                    this.reviewModelService.createGoogleReview(userId, accountId, review);
+                    const convertedReview: Partial<ReviewDocument> = {
+                        userId,
+                        accountId,
+                        source: 'Google',
+                        author: review['author_title'],
+                        reviewText: review['review_text'],
+                        reviewDate: new Date(review['review_datetime_utc']).toDateString(),
+                        responseDate: new Date(review['owner_answer_timestamp_datetime_utc']).toDateString(),
+                        responseText: review['owner_answer'],
+                        overallRating: review['review_rating'],
+                    };
+                    this.reviewQueueProducerService.addCreateGoogleReviewJob(convertedReview);
                 });
             }
         };

@@ -1,6 +1,6 @@
+import { ReviewQueueProducerService } from '../bull/review-queue-producer.service';
 import { AccountModelService } from '../mongo/account/account-model.service';
-import { ReviewService } from '../mongo/review/review.service';
-import { BrowseAiJob, BrowseAiJobDocument } from '@monorepo/type';
+import { BrowseAiJob, BrowseAiJobDocument, ReviewDocument } from '@monorepo/type';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -11,9 +11,9 @@ import { firstValueFrom } from 'rxjs';
 export class BrowseAiService {
     constructor(
         @InjectModel(BrowseAiJob.name) private browseAiJobModel: Model<BrowseAiJobDocument>,
-        private readonly reviewModelService: ReviewService,
         private readonly clinicModelService: AccountModelService,
         private readonly httpService: HttpService,
+        private readonly reviewQueueProducerService: ReviewQueueProducerService,
     ) {}
 
     async startRobotJob(startRobotJobDto: {
@@ -90,12 +90,21 @@ export class BrowseAiService {
 
                         for (const review of reviewsArray) {
                             console.log(`review: ${review}`);
-                            const createdReview = await this.reviewModelService.createRateMdsReview(
-                                job.userId,
-                                job.accountId,
-                                review,
-                            );
-                            console.log(`createdReview: ${createdReview}`);
+
+                            const convertedReview: Partial<ReviewDocument> = {
+                                userId: job.userId,
+                                accountId: job.accountId,
+                                source: 'RateMDs',
+                                staffRating: review['Staff Rating'],
+                                punctualityRating: review['Punctuality Rating'],
+                                helpfulnessRating: review['Helpfulness Rating'],
+                                knowledgeRating: review['Knowledge Rating'],
+                                reviewText: review['Review Text'],
+                                reviewDate: review['Review Date'],
+                                responseDate: review['Response Date'],
+                                responseText: review['Response Text'],
+                            };
+                            await this.reviewQueueProducerService.addCreateRateMdsReviewJob(convertedReview);
                         }
                     }
                 }
