@@ -25,7 +25,7 @@ export default function VerifyEmail() {
 
     useEffect(() => {
         if (verificationStatus === 'success') {
-            router.push('/dashboard').then((r) => console.log('Redirected to dashboard'));
+            router.push('/reviews').then((r) => console.log('Redirected to reviews'));
         }
     }, [verificationStatus, router]);
 

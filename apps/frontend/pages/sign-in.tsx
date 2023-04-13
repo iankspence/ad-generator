@@ -17,7 +17,7 @@ export function SignInPage() {
             const data = await signIn(email, password);
             localStorage.setItem('userToken', data.token);
             setUser(data.user);
-            await Router.push('/account');
+            await Router.push('/reviews');
         } catch (error) {
             console.error('Failed to sign in:', error);
         }

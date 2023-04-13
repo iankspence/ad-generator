@@ -1,6 +1,4 @@
-import PersonaList from '../components/PersonaList';
 import ProcessedReviewChart, { data } from '../components/ProcessedReviewChart';
-import QualityControlPanel from '../components/QualityControlPanel';
 import { ScrapeGoogleMapsButton } from '../components/ScrapeGoogleMapsButton';
 import { ScrapeRateMdsButton } from '../components/ScrapeRateMdsButton';
 import TopNav from '../components/TopNav';
@@ -59,9 +57,6 @@ export function AccountPage() {
             });
         }
     }, [user]);
-
-    console.log('account', account);
-    console.log('chartData', chartData);
 
     return (
         <>

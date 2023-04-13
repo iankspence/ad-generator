@@ -20,10 +20,10 @@ const TopNav = () => {
                     <>
                         <span
                             className={`block w-full text-center items-center md:my-0 md:inline-block md:mx-2
-                            ${router.asPath === '/dashboard' ? 'text-blue-500' : 'text-white'}`}
+                            ${router.asPath === '/reviews' ? 'text-blue-500' : 'text-white'}`}
                         >
-                            <Link href="/dashboard" id="dashboard">
-                                Dashboard
+                            <Link href="/reviews" id="reviews">
+                                Reviews
                             </Link>
                         </span>
 
