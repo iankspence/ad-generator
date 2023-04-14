@@ -144,3 +144,13 @@ export const getAccountByUserId = async (userId: string) => {
         throw error;
     }
 };
+
+export const getReviewsByAccountId = async (accountId: string) => {
+    try {
+        const response = await axios.get(`${API_URL}/review/account/${accountId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+        throw error;
+    }
+};

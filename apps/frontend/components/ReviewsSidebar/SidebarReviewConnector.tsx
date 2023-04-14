@@ -1,6 +1,17 @@
+import { ScrapeGoogleMapsButton } from '../ScrapeGoogleMapsButton';
+import ScrapeRateMdsButton from '../ScrapeRateMdsButton';
+import { AccountDocument } from '@monorepo/type';
 import React from 'react';
 
-function SidebarReviewConnector() {
+interface Props {
+    userId: string;
+    account: AccountDocument;
+    setAccount: (account: AccountDocument) => void;
+    isLoading: boolean;
+    setIsLoading: (isLoading: boolean) => void;
+}
+
+export const SidebarReviewConnector: React.FC<Props> = ({ userId, account, setAccount, isLoading, setIsLoading }) => {
     const currentRateMdsLink = 'https://www.ratemds.com/doctor-ratings/';
 
     return (
@@ -10,21 +21,25 @@ function SidebarReviewConnector() {
                 <span className="text-reviewDrumMedGray py-2">RateMDs</span>
             </div>
             <div className="flex flex-col items-start">
-                <button className="bg-reviewDrumBlue text-white px-4 py-2 rounded">Connect</button>
+                <ScrapeGoogleMapsButton
+                    userId={userId}
+                    account={account}
+                    setAccount={setAccount}
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
+                />
                 <div className="flex flex-col items-start mt-2">
-                    <button className="bg-reviewDrumBlue text-white px-4 py-2 rounded mb-2">Connect</button>
-                    <a
-                        href={currentRateMdsLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-reviewDrumMedGray underline text-xs w-26 break-all"
-                    >
-                        {currentRateMdsLink}
-                    </a>
+                    <ScrapeRateMdsButton
+                        userId={userId}
+                        account={account}
+                        setAccount={setAccount}
+                        isLoading={isLoading}
+                        setIsLoading={setIsLoading}
+                    />
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default SidebarReviewConnector;

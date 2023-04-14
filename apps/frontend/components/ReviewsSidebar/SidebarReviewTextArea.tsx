@@ -1,10 +1,13 @@
+import { Review } from '@monorepo/type';
 import React from 'react';
 
 interface SidebarReviewContentProps {
-    reviewText: string;
+    reviews: Review[];
+    reviewPosition: number;
 }
 
-const SidebarReviewTextArea: React.FC<SidebarReviewContentProps> = ({ reviewText }) => {
+const SidebarReviewTextArea: React.FC<SidebarReviewContentProps> = ({ reviews, reviewPosition }) => {
+    const reviewText = reviews[reviewPosition - 1]?.reviewText || '';
     return (
         <div className="w-64 px-6 mt-4">
             <textarea
