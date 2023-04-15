@@ -1,11 +1,11 @@
 import ProcessedReviewChart, { data } from '../components/ProcessedReviewChart';
 import ReviewsAudienceTable from '../components/ReviewsAudienceTable';
+import SidebarAudienceLabel from '../components/ReviewsSidebar/SidebarAudienceLabel';
 import SidebarAudienceReasoning from '../components/ReviewsSidebar/SidebarAudienceReasoning';
-import SidebarAudienceTextArea from '../components/ReviewsSidebar/SidebarAudienceTextArea';
 import SidebarChangeAudienceButton from '../components/ReviewsSidebar/SidebarChangeAudienceButton';
 import SidebarReviewConnector from '../components/ReviewsSidebar/SidebarReviewConnector';
-import SidebarReviewTextArea from '../components/ReviewsSidebar/SidebarReviewTextArea';
 import SidebarReviewViewer from '../components/ReviewsSidebar/SidebarReviewViewer';
+import SidebarTextArea from '../components/ReviewsSidebar/SidebarTextArea';
 import SidebarUpdateFrequency from '../components/ReviewsSidebar/SidebarUpdateFrequency';
 import TopNav from '../components/TopNav';
 import UserContext from '../contexts/UserContext';
@@ -14,6 +14,7 @@ import { getReviewsByAccountId } from '../utils/api';
 import { audiences } from '../utils/audiences';
 import WebsocketHandler from '../utils/websocket/WebsocketHandler';
 import handleProcessedReview from '../utils/websocket/handleProcessedReview';
+import { ReviewDocument } from '@monorepo/type';
 import React, { useContext, useEffect, useState } from 'react';
 
 function ReviewsPage() {
@@ -133,9 +134,13 @@ function ReviewsPage() {
                                         setReviewPosition={setReviewPosition}
                                         totalReviews={reviews?.length}
                                     />
-                                    <SidebarReviewTextArea reviews={reviews} reviewPosition={reviewPosition} />
+                                    <SidebarTextArea
+                                        textArray={reviews.map((review) => review.reviewText)}
+                                        position={reviewPosition}
+                                        rows={8}
+                                    />
                                     <hr className="w-11/12 self-end dark:border-slate-500" />
-                                    <SidebarAudienceTextArea audience={parseInt(audience)} />
+                                    <SidebarAudienceLabel audience={parseInt(audience)} />
                                     <SidebarAudienceReasoning audienceReasoning={audienceReasoning} />
                                     <SidebarChangeAudienceButton
                                         audience={audience}

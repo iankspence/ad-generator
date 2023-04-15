@@ -28,6 +28,15 @@ const TopNav = () => {
                         </span>
 
                         <span
+                            className={`block w-full text-center items-center md:my-0 md:inline-block md:mx-2
+                            ${router.asPath === '/campaigns' ? 'text-blue-500' : 'text-white'}`}
+                        >
+                            <Link href="/campaigns" id="campaigns">
+                                Campaigns
+                            </Link>
+                        </span>
+
+                        <span
                             className={`block w-full text-center items-center mt-2 md:my-0 md:inline-block md:mx-2
                             ${router.asPath === '/clinic' ? 'text-blue-500' : 'text-white'}`}
                         >

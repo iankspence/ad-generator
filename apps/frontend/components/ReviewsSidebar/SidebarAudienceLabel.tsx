@@ -5,7 +5,7 @@ interface SidebarAudienceTextAreaProps {
     audience: number;
 }
 
-const SidebarAudienceTextArea: React.FC<SidebarAudienceTextAreaProps> = ({ audience }) => {
+const SidebarAudienceLabel: React.FC<SidebarAudienceTextAreaProps> = ({ audience }) => {
     return (
         <div className="w-3/4 px-6 grid grid-cols-2 mt-4 text-xl">
             <div className="flex flex-col items-start">
@@ -18,4 +18,4 @@ const SidebarAudienceTextArea: React.FC<SidebarAudienceTextAreaProps> = ({ audie
     );
 };
 
-export default SidebarAudienceTextArea;
+export default SidebarAudienceLabel;
