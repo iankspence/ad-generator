@@ -19,7 +19,7 @@ export class OpenAiController {
      * @returns - response string
      */
     @Post('create-completion-gpt4')
-    async createCompletionGPT4(@Body('prompt') prompt: string): Promise<[number, number[]]> {
+    async createCompletionGPT4(@Body('prompt') prompt: string): Promise<[number, string]> {
         return await this.openAiService.createCompletionGPT4(prompt);
     }
 }

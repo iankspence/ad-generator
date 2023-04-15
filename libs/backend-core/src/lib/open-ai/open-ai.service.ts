@@ -13,6 +13,54 @@ function addPromptSuffix(prompt: string): string {
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
 });
+
+function reviewClassifierPrompt(prompt) {
+    return `
+
+Can you tell me which of the 10 audiences best matches the review?
+
+Review:
+${prompt}
+
+Here are the audiences and their interests:
+1. The Stressed Professional:
+Age Range: 25 - 60 years
+Interests: Business, entrepreneurship, career development, productivity, time management, stress relief, self - improvement.
+2. The Weekend Warrior:
+Age Range: 18 - 60 years
+Interests: Fitness, sports, running, cycling, yoga, CrossFit, hiking, swimming, outdoor activities, sports injuries.
+3. The Chronic Pain Sufferer:
+Age Range: 30 - 70 years
+Interests: Chronic pain, pain management, arthritis, sciatica, fibromyalgia, back pain, alternative medicine.
+4. The Posture Protector:
+Age Range: 25 - 60 years
+Interests: Posture correction, ergonomics, office health, back pain, neck pain, spinal health, physical therapy.
+5. The Aging Gracefully:
+Age Range: 50 - 80 + years
+Interests: Aging, senior health, joint health, arthritis, mobility, wellness, active aging, health and wellness.
+6. The Accident Recovery:
+Age Range: 18 - 70 years
+Interests: Accident recovery, injury rehabilitation, whiplash, back pain, physical therapy, chiropractic care.
+7. The Office Worker:
+Age Range: 25 - 60 years
+Interests: Office health, ergonomics, sitting posture, back pain, neck pain, work - life balance, health and wellness.
+8. The Parent:
+Age Range: 25 - 50 years
+Interests: Parenting, child care, family health, mom and dad blogs, postpartum health, babywearing, family activities.
+9. The Migraine Sufferer:
+Age Range: 25 - 60 years
+Interests: Migraine relief, headache relief, natural remedies, chronic pain, alternative medicine, chiropractic care.
+10. The Holistic Health Seeker:
+Age Range: 25 - 70 years
+Interests: Holistic health, alternative medicine, wellness, nutrition, natural remedies, meditation, mindfulness, chiropractic care.
+
+First write a 2-3 sentences on your decision including the name and number of the best fit audience and why you chose that one for this review, then on the final line of your answer write the number of the audience.
+
+I want the final row of the answer to only have the audience number (from 1-10) like this "4" - no other text please.
+
+Here is the review one last time ${prompt}.`;
+}
+
 @Injectable()
 export class OpenAiService {
     constructor(@InjectModel(Review.name) private reviewModel: Model<ReviewDocument>) {}
@@ -22,8 +70,6 @@ export class OpenAiService {
      * @param prompt - The review string to return values for.
      */
     async createCompletion(prompt: string): Promise<[string, string[]]> {
-        console.log('creating completion for ', prompt);
-
         const openai = new OpenAIApi(configuration);
         const response = await openai.createCompletion({
             model: 'davinci:ft-personal-2023-03-02-13-13-09',
@@ -46,9 +92,9 @@ export class OpenAiService {
     /**
      * General API for GPT 4
      *
-     * @param prompt - The review to classify personas for.
+     * @param prompt - The review to classify audiences for.
      */
-    async createCompletionGPT4(prompt: string): Promise<[number, number[]]> {
+    async createCompletionGPT4(prompt: string): Promise<[number, string]> {
         const openai = new OpenAIApi(configuration);
         const response = await openai.createChatCompletion({
             model: 'gpt-4',
@@ -56,86 +102,39 @@ export class OpenAiService {
                 {
                     role: 'system',
                     content:
-                        'You are a review persona classifier who determines which personas fit with a given online review',
+                        'You are an expert marketer who is classifying online chiropractor reviews into 1 of 10 audiences.',
                 },
                 {
                     role: 'user',
-                    content: `Can you come up with the top 10 personas that would be seen by a chiropractic office?`,
-                },
-                {
-                    role: 'assistant',
-                    content: `
-                    Here are the personas
-        1. The Stressed Professional:
-                Age Range: 25 - 60 years
-        Interests: Business, entrepreneurship, career development, productivity, time management, stress relief, self - improvement.
-2. The Weekend Warrior:
-            Age Range: 18 - 60 years
-        Interests: Fitness, sports, running, cycling, yoga, CrossFit, hiking, swimming, outdoor activities, sports injuries.
-3. The Chronic Pain Sufferer:
-            Age Range: 30 - 70 years
-        Interests: Chronic pain, pain management, arthritis, sciatica, fibromyalgia, back pain, alternative medicine.
-4. The Posture Protector:
-            Age Range: 25 - 60 years
-        Interests: Posture correction, ergonomics, office health, back pain, neck pain, spinal health, physical therapy.
-5. The Aging Gracefully:
-            Age Range: 50 - 80 + years
-        Interests: Aging, senior health, joint health, arthritis, mobility, wellness, active aging, health and wellness.
-6. The Accident Recovery:
-            Age Range: 18 - 70 years
-        Interests: Accident recovery, injury rehabilitation, whiplash, back pain, physical therapy, chiropractic care.
-7. The Office Worker:
-            Age Range: 25 - 60 years
-        Interests: Office health, ergonomics, sitting posture, back pain, neck pain, work - life balance, health and wellness.
-8. The Parent:
-            Age Range: 25 - 50 years
-        Interests: Parenting, child care, family health, mom and dad blogs, postpartum health, babywearing, family activities.
-9. The Migraine Sufferer:
-            Age Range: 25 - 60 years
-        Interests: Migraine relief, headache relief, natural remedies, chronic pain, alternative medicine, chiropractic care.
-10. The Holistic Health Seeker:
-            Age Range: 25 - 70 years
-        Interests: Holistic health, alternative medicine, wellness, nutrition, natural remedies, meditation, mindfulness, chiropractic care.`,
-                },
-
-                {
-                    role: 'user',
-                    content: `
-                    Can you tell me which of the personas best  matches the review?  And can you tell me all of the personas that could have made the review?
-
-                    I want the answer to be like this "4,1,2,4,7,9" - no other text please.
-                    where persona 4 is the best fit but personas 1,2,4,7,9 could all be matched with it.
-                    With every response, there should be at least one best fit persona and at least one other matching persona.
-
-                    Here is the review ${prompt}`,
+                    content: reviewClassifierPrompt(prompt),
                 },
             ],
             top_p: 0.05,
-            max_tokens: 40,
+            max_tokens: 120,
         });
 
         const responseContent = response.data.choices[0].message.content;
-        const parsedResponse = responseContent.split(',').map((x) => parseInt(x, 10));
-        const bestFitPersona = parsedResponse[0];
-        const otherMatchingPersonas = parsedResponse.slice(1);
+        const splitResponseContent = responseContent.split('\n');
+        const bestFitNumberMatch = splitResponseContent[splitResponseContent.length - 1];
+        const bestFitReasoning = splitResponseContent[0];
 
-        console.log(responseContent, parsedResponse, bestFitPersona, otherMatchingPersonas);
+        if (!bestFitNumberMatch || !bestFitReasoning) {
+            throw new Error(
+                `Unable to extract best fit audience number and reasoning from the GPT-4 response. responseContent: ${responseContent} bestFitNumberMatch: ${bestFitNumberMatch} bestFitReasoningMatch: ${bestFitReasoning}`,
+            );
+        }
 
-        return [bestFitPersona, otherMatchingPersonas];
+        return [parseInt(bestFitNumberMatch), bestFitReasoning];
     }
 
     async updateReviewWithClassification(reviewJob: { review: ReviewDocument }): Promise<ReviewDocument> {
         const review: ReviewDocument = reviewJob.review;
-        console.log('review test before classification', review);
-        console.log('Review Text:', review.reviewText);
-        const [bestFitPersona, otherMatchingPersonas] = await this.createCompletionGPT4(review.reviewText);
-        console.log('classificationResponse', [bestFitPersona, otherMatchingPersonas]);
-
+        const [bestFitAudience, bestFitReasoning] = await this.createCompletionGPT4(review.reviewText);
         return this.reviewModel.findByIdAndUpdate(
             review._id,
             {
-                bestFitPersona: bestFitPersona,
-                otherMatchingPersonas: otherMatchingPersonas,
+                bestFitAudience: bestFitAudience,
+                bestFitReasoning: bestFitReasoning,
             },
             { new: true },
         );

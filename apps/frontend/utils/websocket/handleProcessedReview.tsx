@@ -1,12 +1,12 @@
 const handleProcessedReview = (review, setChartData, setIsLoading, setShowChart) => {
     console.log('Received new review:', review);
-    if (review && review.bestFitPersona) {
+    if (review && review.bestFitAudience) {
         setChartData((prevData) => {
             setIsLoading(false);
             setShowChart(true);
 
             const newData = { ...prevData };
-            const personaIndex = review.bestFitPersona - 1;
+            const personaIndex = review.bestFitAudience - 1;
             const newDataset = { ...newData.datasets[0] };
             const newDatasetData = [...newData.datasets[0].data];
             newDatasetData[personaIndex]++;

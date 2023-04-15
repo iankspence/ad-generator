@@ -1,6 +1,7 @@
 import ProcessedReviewChart, { data } from '../components/ProcessedReviewChart';
 import SidebarAudienceReasoning from '../components/ReviewsSidebar/SidebarAudienceReasoning';
 import SidebarAudienceTextArea from '../components/ReviewsSidebar/SidebarAudienceTextArea';
+import SidebarChangeAudienceButton from '../components/ReviewsSidebar/SidebarChangeAudienceButton';
 import SidebarReviewConnector from '../components/ReviewsSidebar/SidebarReviewConnector';
 import SidebarReviewTextArea from '../components/ReviewsSidebar/SidebarReviewTextArea';
 import SidebarReviewViewer from '../components/ReviewsSidebar/SidebarReviewViewer';
@@ -21,14 +22,12 @@ function ReviewsPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [reviewPosition, setReviewPosition] = useState(1);
+    const [audience, setAudience] = useState('');
+    const [audienceReasoning, setAudienceReasoning] = useState('');
+    const [refreshReviews, setRefreshReviews] = useState(false);
 
     const updateFrequency = 'Weekly';
-    const reviewText =
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vitae pulvinar turpis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vitae pulvinar turpis.';
-    const audience = 'The Parent';
-    const audienceReasoning = 'Lorem ipsum dolor sit amet, consectetur adipiscing';
 
-    // set the reviews to be the reviews from the account
     useEffect(() => {
         if (account) {
             getReviewsByAccountId(account._id.toString()).then((reviews) => {
@@ -36,7 +35,20 @@ function ReviewsPage() {
             });
             console.log('reviews', reviews);
         }
-    }, [account]);
+        setRefreshReviews(false);
+    }, [account, showChart, refreshReviews]);
+
+    // set audience and audience reasoning
+    useEffect(() => {
+        if (reviews.length > 0) {
+            const review = reviews[reviewPosition - 1];
+            console.log('review', review);
+            if (review) {
+                setAudience(review.bestFitAudience);
+                setAudienceReasoning(review.bestFitReasoning);
+            }
+        }
+    }, [reviews, reviewPosition]);
 
     return (
         <div className="min-h-screen bg-reviewDrumLightGray">
@@ -83,11 +95,16 @@ function ReviewsPage() {
                                 />
                                 <SidebarReviewTextArea reviews={reviews} reviewPosition={reviewPosition} />
                                 <hr className="w-60 ml-4 dark:border-slate-500 mt-4" />
-                                <SidebarAudienceTextArea audience={audience} />
+                                <SidebarAudienceTextArea audience={parseInt(audience)} />
                                 <SidebarAudienceReasoning audienceReasoning={audienceReasoning} />
-                                <button className="bg-reviewDrumBlue text-reviewDrumLightGray px-4 py-2 mt-4 rounded w-48">
-                                    Change Audience
-                                </button>
+                                <SidebarChangeAudienceButton
+                                    audience={audience}
+                                    setAudience={setAudience}
+                                    audienceReasoning={audienceReasoning}
+                                    setAudienceReasoning={setAudienceReasoning}
+                                    review={reviews[reviewPosition - 1]}
+                                    setRefreshReviews={setRefreshReviews}
+                                />
                                 <hr className="w-60 ml-4 dark:border-slate-500 mt-4" />
                             </div>
 

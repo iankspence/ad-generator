@@ -7,7 +7,7 @@ function SidebarUpdateFrequency({ updateFrequency }) {
                 <span className="text-reviewDrumMedGray py-2 pr-2">Update Frequency</span>
             </div>
             <div className="flex flex-col items-start">
-                <span className="text-reviewDrumMedGray py-2">{updateFrequency}</span>
+                <span className="text-reviewDrumLightGray py-2">{updateFrequency}.</span>
             </div>
         </div>
     );

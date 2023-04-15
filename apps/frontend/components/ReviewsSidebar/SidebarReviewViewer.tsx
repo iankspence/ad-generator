@@ -14,14 +14,14 @@ const SidebarReviewViewer: React.FC<SidebarReviewViewerProps> = ({
     return (
         <div className="w-64 px-6 grid grid-cols-2 mt-4">
             <div className="flex flex-col items-start">
-                <span className="text-reviewDrumMedGray py-2">
+                <span className="text-reviewDrumMedGray py-3">
                     Review ({reviewPosition}/{totalReviews})
                 </span>
             </div>
             <div className="flex flex-col items-start">
                 <div className="flex justify-center items-start">
                     <button
-                        className="bg-reviewDrumDarkGray text-reviewDrumMedGray px-2  rounded-l text-6xl"
+                        className="bg-reviewDrumDarkGray text-reviewDrumMedGray px-6  rounded-l text-5xl"
                         onClick={() => {
                             if (reviewPosition > 1) {
                                 setReviewPosition(reviewPosition - 1);
@@ -31,7 +31,7 @@ const SidebarReviewViewer: React.FC<SidebarReviewViewerProps> = ({
                         &lt;
                     </button>
                     <button
-                        className="bg-reviewDrumDarkGray text-reviewDrumMedGray px-6 rounded-r text-6xl"
+                        className="bg-reviewDrumDarkGray text-reviewDrumMedGray rounded-r text-5xl"
                         onClick={() => {
                             if (reviewPosition < totalReviews) {
                                 setReviewPosition(reviewPosition + 1);

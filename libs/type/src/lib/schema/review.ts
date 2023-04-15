@@ -48,13 +48,23 @@ export class Review {
     author?: string;
 
     @Prop({ required: false })
-    bestFitPersona?: number;
+    bestFitAudience?: number;
 
-    @Prop({ required: false, type: [Number] })
-    otherMatchingPersonas?: number[];
+    @Prop({ required: false })
+    bestFitReasoning?: string;
 
     @Prop({ required: false })
     sourceTextHash?: string;
+
+    @Prop({ required: false })
+    audienceChanges?: {
+        dateOfChange: string;
+        userId: string;
+        bestFitAudienceBefore: number;
+        bestFitAudienceAfter: number;
+        bestFitReasoningBefore: string;
+        bestFitReasoningAfter: string;
+    }[];
 }
 
 export const ReviewSchema = SchemaFactory.createForClass(Review);

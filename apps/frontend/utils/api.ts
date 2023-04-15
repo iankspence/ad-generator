@@ -1,3 +1,4 @@
+import { ReviewDocument } from '@monorepo/type';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:3333/api';
@@ -151,6 +152,26 @@ export const getReviewsByAccountId = async (accountId: string) => {
         return response.data;
     } catch (error) {
         console.error('Error fetching reviews:', error);
+        throw error;
+    }
+};
+
+export const updateReview = async (
+    userId: string,
+    reviewId: string,
+    bestFitAudience: number,
+    bestFitReasoning: string,
+) => {
+    try {
+        const response = await axios.patch(`${API_URL}/review/update`, {
+            userId,
+            reviewId,
+            bestFitAudience,
+            bestFitReasoning,
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating review:', error);
         throw error;
     }
 };
