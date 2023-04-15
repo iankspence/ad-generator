@@ -10,7 +10,7 @@ const SidebarAudienceReasoning: React.FC<SidebarAudienceReasoningProps> = ({ aud
             <div className="flex flex-col items-start mt-2">
                 <textarea
                     className="w-full p-2 text-reviewDrumLightGray bg-reviewDrumDarkGray rounded text-md"
-                    rows={4}
+                    rows={6}
                     value={audienceReasoning}
                     readOnly
                 ></textarea>

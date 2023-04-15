@@ -84,75 +84,77 @@ function ReviewsPage() {
     const tableData = transformAudienceData(reviews, audiences);
 
     return (
-        <div className="min-h-screen bg-reviewDrumLightGray">
-            <TopNav />
-            <WebsocketHandler
-                onDataReceived={(review) => handleProcessedReview(review, setChartData, setIsLoading, setShowChart)}
-            />
-            {isLoading ? (
-                <div className="flex flex-col flex-grow">
-                    <div className="fixed w-screen h-screen z-50 flex items-center justify-center">
-                        <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
+        <div className="bg-reviewDrumLightGray">
+            <div className="w-full">
+                <TopNav />
+                <WebsocketHandler
+                    onDataReceived={(review) => handleProcessedReview(review, setChartData, setIsLoading, setShowChart)}
+                />
+                {isLoading ? (
+                    <div className="flex flex-col flex-grow">
+                        <div className="fixed w-screen h-screen z-50 flex items-center justify-center">
+                            <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
+                        </div>
+                        <p className="pt-24 text-center fixed top-1/4 left-0 w-screen h-screen z-50 flex items-center justify-center">
+                            Reviews are being connected to your account. This can take between 20 seconds and 5 minutes.
+                        </p>
                     </div>
-                    <p className="pt-24 text-center fixed top-1/4 left-0 w-screen h-screen z-50 flex items-center justify-center">
-                        Reviews are being connected to your account. This can take between 20 seconds and 5 minutes.
-                    </p>
-                </div>
-            ) : (
-                <div className="bg-black min-h-screen text-white  flex flex-col  justify-center">
-                    {showChart ? (
-                        <div className="w-full max-w-7xl">
-                            <ProcessedReviewChart chartData={chartData} onCloseChart={() => setShowChart(false)} />
-                        </div>
-                    ) : (
-                        <div className="flex flex-col md:flex-row flex-grow">
-                            <div
-                                className="flex flex-col items-center bg-reviewDrumDarkGray py-4"
-                                style={{
-                                    flexBasis: '25%',
-                                    minWidth: '400px',
-                                }}
-                            >
-                                <h2 className="text-reviewDrumMedGray text-3xl font-roboto mb-4">Reviews</h2>
-                                <hr className="w-11/12 self-end dark:border-slate-500" />
-                                {user && account && (
-                                    <SidebarReviewConnector
-                                        userId={user._id}
-                                        account={account}
-                                        setAccount={setAccount}
-                                        isLoading={isLoading}
-                                        setIsLoading={setIsLoading}
+                ) : (
+                    <div className="bg-black min-h-screen w-full text-white flex flex-col  justify-center">
+                        {showChart ? (
+                            <div className="w-full max-w-7xl">
+                                <ProcessedReviewChart chartData={chartData} onCloseChart={() => setShowChart(false)} />
+                            </div>
+                        ) : (
+                            <div className="flex flex-col md:flex-row flex-grow">
+                                <div
+                                    className="flex flex-col items-center bg-reviewDrumDarkGray pt-4"
+                                    style={{
+                                        flexBasis: '25%',
+                                        minWidth: '400px',
+                                    }}
+                                >
+                                    <h2 className="text-reviewDrumMedGray text-3xl font-roboto mb-4">Reviews</h2>
+                                    <hr className="w-11/12 self-end dark:border-slate-500" />
+                                    {user && account && (
+                                        <SidebarReviewConnector
+                                            userId={user._id}
+                                            account={account}
+                                            setAccount={setAccount}
+                                            isLoading={isLoading}
+                                            setIsLoading={setIsLoading}
+                                        />
+                                    )}
+                                    <hr className="w-11/12 self-end dark:border-slate-500" />
+                                    <SidebarUpdateFrequency updateFrequency={updateFrequency} />
+                                    <hr className="w-11/12 self-end dark:border-slate-500" />
+                                    <SidebarReviewViewer
+                                        reviewPosition={reviewPosition}
+                                        setReviewPosition={setReviewPosition}
+                                        totalReviews={reviews?.length}
                                     />
-                                )}
-                                <hr className="w-11/12 self-end dark:border-slate-500" />
-                                <SidebarUpdateFrequency updateFrequency={updateFrequency} />
-                                <hr className="w-11/12 self-end dark:border-slate-500" />
-                                <SidebarReviewViewer
-                                    reviewPosition={reviewPosition}
-                                    setReviewPosition={setReviewPosition}
-                                    totalReviews={reviews?.length}
-                                />
-                                <SidebarReviewTextArea reviews={reviews} reviewPosition={reviewPosition} />
-                                <hr className="w-11/12 self-end dark:border-slate-500" />
-                                <SidebarAudienceTextArea audience={parseInt(audience)} />
-                                <SidebarAudienceReasoning audienceReasoning={audienceReasoning} />
-                                <SidebarChangeAudienceButton
-                                    audience={audience}
-                                    setAudience={setAudience}
-                                    audienceReasoning={audienceReasoning}
-                                    setAudienceReasoning={setAudienceReasoning}
-                                    review={reviews[reviewPosition - 1]}
-                                    setRefreshReviews={setRefreshReviews}
-                                />
-                            </div>
+                                    <SidebarReviewTextArea reviews={reviews} reviewPosition={reviewPosition} />
+                                    <hr className="w-11/12 self-end dark:border-slate-500" />
+                                    <SidebarAudienceTextArea audience={parseInt(audience)} />
+                                    <SidebarAudienceReasoning audienceReasoning={audienceReasoning} />
+                                    <SidebarChangeAudienceButton
+                                        audience={audience}
+                                        setAudience={setAudience}
+                                        audienceReasoning={audienceReasoning}
+                                        setAudienceReasoning={setAudienceReasoning}
+                                        review={reviews[reviewPosition - 1]}
+                                        setRefreshReviews={setRefreshReviews}
+                                    />
+                                </div>
 
-                            <div className="w-full md:w-3/4 flex-grow">
-                                <ReviewsAudienceTable audienceData={tableData} />
+                                <div className="w-full md:w-3/4 flex-grow">
+                                    <ReviewsAudienceTable audienceData={tableData} />
+                                </div>
                             </div>
-                        </div>
-                    )}
-                </div>
-            )}
+                        )}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
