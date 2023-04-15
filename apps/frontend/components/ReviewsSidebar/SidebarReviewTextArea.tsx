@@ -11,7 +11,7 @@ const SidebarReviewTextArea: React.FC<SidebarReviewContentProps> = ({ reviews, r
     return (
         <div className="w-3/4 px-6 pb-4">
             <textarea
-                className="w-full bg-reviewDrumDarkGray text-reviewDrumLightGray border-none resize-none text-md"
+                className="w-full bg-reviewDrumDarkGray text-reviewDrumLightGray border-none text-md"
                 rows={8}
                 readOnly
                 value={reviewText}

@@ -56,9 +56,7 @@ Interests: Holistic health, alternative medicine, wellness, nutrition, natural r
 
 First write a 2-3 sentences on your decision including the name and number of the best fit audience and why you chose that one for this review, then on the final line of your answer write the number of the audience.
 
-I want the final row of the answer to only have the audience number (from 1-10) like this "4" - no other text please.
-
-Here is the review one last time ${prompt}.`;
+I want the final row of the answer to only have the audience number (from 1-10) like this "4" - no other text please.`;
 }
 
 @Injectable()
