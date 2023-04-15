@@ -3,7 +3,7 @@ export const audiences = [
         name: 'The Stressed Professional',
         ageRange: '25 - 60 years',
         interests:
-            'Business, entrepreneurship, career development, productivity, time management, stress relief, self - improvement.',
+            'Business, entrepreneurship, career development, productivity, time management, stress relief, self-improvement.',
     },
     {
         name: 'The Weekend Warrior',
@@ -38,7 +38,7 @@ export const audiences = [
         name: 'The Office Worker',
         ageRange: '25 - 60 years',
         interests:
-            'Office health, ergonomics, sitting posture, back pain, neck pain, work - life balance, health and wellness.',
+            'Office health, ergonomics, sitting posture, back pain, neck pain, work-life balance, health and wellness.',
     },
     {
         name: 'The Parent',

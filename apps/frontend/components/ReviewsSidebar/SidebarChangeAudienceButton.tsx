@@ -76,7 +76,7 @@ const SidebarChangeAudienceButton: React.FC<SidebarChangeAudienceButtonProps> = 
     return (
         <>
             <button
-                className="bg-reviewDrumBlue text-reviewDrumLightGray px-4 py-2 mt-4 rounded hover:bg-blue-600 text-xl"
+                className="bg-reviewDrumBlue text-reviewDrumLightGray px-4 py-2 mt-4 mb-4 rounded hover:bg-blue-600 text-xl"
                 onClick={() => setShowForm(!showForm)}
             >
                 Change Audience
