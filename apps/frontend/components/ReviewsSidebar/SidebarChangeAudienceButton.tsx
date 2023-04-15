@@ -76,7 +76,7 @@ const SidebarChangeAudienceButton: React.FC<SidebarChangeAudienceButtonProps> = 
     return (
         <>
             <button
-                className="bg-reviewDrumBlue text-reviewDrumLightGray px-4 py-2 mt-4 mb-4 rounded hover:bg-blue-600 text-xl"
+                className="bg-reviewDrumBlue w-3/4 text-white px-4 py-2 my-4 rounded hover:bg-blue-600 text-xl"
                 onClick={() => setShowForm(!showForm)}
             >
                 Change Audience
@@ -84,44 +84,50 @@ const SidebarChangeAudienceButton: React.FC<SidebarChangeAudienceButtonProps> = 
 
             {showForm && (
                 <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50">
-                    <div className="bg-reviewDrumLightGray text-reviewDrumDarkGray p-8 rounded">
+                    <div className="bg-white p-8 rounded">
                         <div className="flex justify-between">
-                            <p className="pb-12">{review?.reviewText}</p>
+                            <p className="pb-12 text-reviewDrumDarkGray">{review?.reviewText}</p>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
-                            <label htmlFor="audience" className="font-semibold">
+                            <label htmlFor="audience" className="font-semibold text-reviewDrumDarkGray">
                                 Audience:
                             </label>
                             <div className="flex items-center">
-                                <button onClick={handlePrevAudience} className="mr-2">
+                                <button
+                                    onClick={handlePrevAudience}
+                                    className="mr-2 bg-gray-800 text-white py-1 px-2 rounded"
+                                >
                                     &lt;
                                 </button>
-                                <button onClick={handleNextAudience} className="mr-8">
+                                <button
+                                    onClick={handleNextAudience}
+                                    className="mr-8 bg-gray-800 text-white py-1 px-2 rounded"
+                                >
                                     &gt;
                                 </button>
-                                <p className="mx-2">
+                                <p className="mx-2 text-reviewDrumDarkGray">
                                     {audiences[newAudiencePosition - 1] && audiences[newAudiencePosition - 1].name}
                                 </p>
                             </div>
-                            <label htmlFor="audienceReasoning" className="font-semibold">
+                            <label htmlFor="audienceReasoning" className="font-semibold text-white">
                                 Audience Reasoning:
                             </label>
                             <textarea
                                 id="audienceReasoning"
                                 value={newAudienceReasoning}
                                 onChange={(e) => setNewAudienceReasoning(e.target.value)}
-                                className="w-full h-24"
+                                className="w-full h-24 bg-gray-800 text-white py-2 px-4 rounded"
                             />
                         </div>
                         <div className="flex justify-end mt-4">
                             <button
-                                className="bg-red-500 text-reviewDrumLightGray py-2 px-4 rounded hover:bg-red-600"
+                                className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
                                 onClick={() => setShowForm(false)}
                             >
                                 Cancel
                             </button>
                             <button
-                                className="bg-reviewDrumBlue text-reviewDrumLightGray px-4 py-2 mx-4 rounded hover:bg-blue-600"
+                                className="bg-reviewDrumBlue text-white px-4 py-2 mx-4 rounded hover:bg-blue-600"
                                 onClick={handleSubmit}
                             >
                                 Submit
@@ -134,5 +140,4 @@ const SidebarChangeAudienceButton: React.FC<SidebarChangeAudienceButtonProps> = 
         </>
     );
 };
-
 export default SidebarChangeAudienceButton;

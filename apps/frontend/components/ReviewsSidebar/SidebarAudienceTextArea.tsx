@@ -11,7 +11,7 @@ const SidebarAudienceTextArea: React.FC<SidebarAudienceTextAreaProps> = ({ audie
             <div className="flex flex-col items-start">
                 <span className="text-reviewDrumMedGray py-2 pr-2">Best Fit Audience</span>
             </div>
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-end">
                 <span className="text-reviewDrumLightGray py-2">{audiences[audience - 1]?.name}</span>
             </div>
         </div>

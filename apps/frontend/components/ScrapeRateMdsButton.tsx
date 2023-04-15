@@ -65,7 +65,7 @@ export const ScrapeRateMdsButton: React.FC<Props> = ({ userId, account, setAccou
                 <div className="text-reviewDrumLightGray py-2 text-xl">Connected.</div>
             ) : (
                 <button
-                    className="bg-reviewDrumBlue text-reviewDrumLightGray py-2 px-4 rounded hover:bg-blue-600"
+                    className="bg-reviewDrumBlue text-white py-2 px-4 rounded text-xl hover:bg-blue-600"
                     onClick={toggleRateMdsForm}
                 >
                     Connect
@@ -77,7 +77,7 @@ export const ScrapeRateMdsButton: React.FC<Props> = ({ userId, account, setAccou
                     <div className="bg-white p-8 rounded">
                         <p className="mb-4 text-reviewDrumDarkGray">
                             {/* Replace with the paragraph of information */}
-                            Enter the full link to the RateMds page you want to connect.
+                            Enter the full link to the RateMDs page you want to connect.
                             <br />
                             <br />
                             Example:

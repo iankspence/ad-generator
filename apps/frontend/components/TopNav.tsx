@@ -14,7 +14,7 @@ const TopNav = () => {
     };
 
     return (
-        <nav className="bg-black py-2 text-white flex flex-col md:flex-row">
+        <nav className="bg-black py-2 text-white flex flex-col md:flex-row ">
             <div className="flex-1 flex flex-col md:flex-row md:justify-center w-full lg:y-4">
                 {user ? (
                     <>

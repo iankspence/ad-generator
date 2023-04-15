@@ -85,7 +85,7 @@ function ReviewsPage() {
 
     return (
         <div className="bg-reviewDrumLightGray">
-            <div className="w-full">
+            <div className="w-full min-w-fit">
                 <TopNav />
                 <WebsocketHandler
                     onDataReceived={(review) => handleProcessedReview(review, setChartData, setIsLoading, setShowChart)}
@@ -100,7 +100,7 @@ function ReviewsPage() {
                         </p>
                     </div>
                 ) : (
-                    <div className="bg-black min-h-screen w-full text-white flex flex-col  justify-center">
+                    <div className="bg-black min-h-screen min-w-fit w-full text-white flex flex-col  justify-center">
                         {showChart ? (
                             <div className="w-full max-w-7xl">
                                 <ProcessedReviewChart chartData={chartData} onCloseChart={() => setShowChart(false)} />

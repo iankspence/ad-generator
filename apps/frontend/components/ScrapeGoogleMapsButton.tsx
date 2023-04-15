@@ -45,10 +45,10 @@ export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, account, setAc
     return (
         <>
             {account.googleQuery ? (
-                <div className="py-2 text-reviewDrumLightGray">Connected.</div>
+                <div className="py-2 text-reviewDrumLightGray text-xl">Connected.</div>
             ) : (
                 <button
-                    className="bg-reviewDrumBlue text-xl text-reviewDrumLightGray px-4 py-2 rounded hover:bg-blue-600"
+                    className="bg-reviewDrumBlue text-xl text-white px-4 py-2 rounded hover:bg-blue-600"
                     onClick={toggleGoogleQueryForm}
                 >
                     Connect
@@ -74,13 +74,13 @@ export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, account, setAc
                                 className="bg-gray-800 text-white py-2 px-4 rounded"
                             />
                             <button
-                                className="bg-red-500 py-2 px-4 rounded hover:bg-red-600"
+                                className="bg-red-500 py-2 px-4 text-white rounded hover:bg-red-600"
                                 onClick={toggleGoogleQueryForm}
                             >
                                 Hide
                             </button>
                             <button
-                                className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 ml-2"
+                                className="bg-blue-500 py-2 px-4  text-white rounded hover:bg-blue-600 ml-2"
                                 onClick={handleGoogleQuerySubmit}
                             >
                                 Submit
