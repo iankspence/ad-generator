@@ -24,7 +24,7 @@ export const audiences = [
     },
     {
         name: 'The Aging Gracefully',
-        ageRange: '50 - 80 + years',
+        ageRange: '50 - 80+ years',
         interests:
             'Aging, senior health, joint health, arthritis, mobility, wellness, active aging, health and wellness.',
     },

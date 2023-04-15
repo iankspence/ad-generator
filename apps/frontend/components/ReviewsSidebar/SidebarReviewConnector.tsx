@@ -12,15 +12,10 @@ interface Props {
 }
 
 export const SidebarReviewConnector: React.FC<Props> = ({ userId, account, setAccount, isLoading, setIsLoading }) => {
-    const currentRateMdsLink = 'https://www.ratemds.com/doctor-ratings/';
-
     return (
-        <div className="w-64 px-6 grid grid-cols-2 mt-4">
-            <div className="flex flex-col items-start">
-                <span className="text-reviewDrumMedGray py-2">Google</span>
-                <span className="text-reviewDrumMedGray py-2">RateMDs</span>
-            </div>
-            <div className="flex flex-col items-start">
+        <div className="w-3/4 px-6 py-4 flex flex-col items-start">
+            <div className="w-full flex justify-between">
+                <span className="text-reviewDrumMedGray text-xl py-2 font-semibold">Google</span>
                 <ScrapeGoogleMapsButton
                     userId={userId}
                     account={account}
@@ -28,15 +23,16 @@ export const SidebarReviewConnector: React.FC<Props> = ({ userId, account, setAc
                     isLoading={isLoading}
                     setIsLoading={setIsLoading}
                 />
-                <div className="flex flex-col items-start mt-2">
-                    <ScrapeRateMdsButton
-                        userId={userId}
-                        account={account}
-                        setAccount={setAccount}
-                        isLoading={isLoading}
-                        setIsLoading={setIsLoading}
-                    />
-                </div>
+            </div>
+            <div className="w-full flex justify-between mt-4">
+                <span className="text-reviewDrumMedGray text-xl py-2 font-semibold">RateMDs</span>
+                <ScrapeRateMdsButton
+                    userId={userId}
+                    account={account}
+                    setAccount={setAccount}
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
+                />
             </div>
         </div>
     );

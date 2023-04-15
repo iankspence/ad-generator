@@ -6,14 +6,11 @@ interface SidebarAudienceReasoningProps {
 
 const SidebarAudienceReasoning: React.FC<SidebarAudienceReasoningProps> = ({ audienceReasoning }) => {
     return (
-        <div className="w-64 px-6">
-            <div className="flex flex-col items-start">
-                <span className="text-reviewDrumMedGray">Reason</span>
-            </div>
+        <div className="w-3/4 px-6">
             <div className="flex flex-col items-start mt-2">
                 <textarea
-                    className="w-full p-2 text-reviewDrumLightGray bg-reviewDrumDarkGray rounded text-sm"
-                    rows={7}
+                    className="w-full p-2 text-reviewDrumLightGray bg-reviewDrumDarkGray rounded text-md"
+                    rows={4}
                     value={audienceReasoning}
                     readOnly
                 ></textarea>

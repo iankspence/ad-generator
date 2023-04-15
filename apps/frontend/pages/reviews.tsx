@@ -1,4 +1,5 @@
 import ProcessedReviewChart, { data } from '../components/ProcessedReviewChart';
+import ReviewsAudienceTable from '../components/ReviewsAudienceTable';
 import SidebarAudienceReasoning from '../components/ReviewsSidebar/SidebarAudienceReasoning';
 import SidebarAudienceTextArea from '../components/ReviewsSidebar/SidebarAudienceTextArea';
 import SidebarChangeAudienceButton from '../components/ReviewsSidebar/SidebarChangeAudienceButton';
@@ -10,6 +11,7 @@ import TopNav from '../components/TopNav';
 import UserContext from '../contexts/UserContext';
 import useAccount from '../hooks/useAccount';
 import { getReviewsByAccountId } from '../utils/api';
+import { audiences } from '../utils/audiences';
 import WebsocketHandler from '../utils/websocket/WebsocketHandler';
 import handleProcessedReview from '../utils/websocket/handleProcessedReview';
 import React, { useContext, useEffect, useState } from 'react';
@@ -50,6 +52,37 @@ function ReviewsPage() {
         }
     }, [reviews, reviewPosition]);
 
+    const transformAudienceData = (reviews: any[], audiences: any[]) => {
+        const audienceData: any[] = [];
+
+        audiences.forEach((audience) => {
+            console.log('audience', audience);
+            console.log('audiences', audiences);
+            console.log('reviews', reviews);
+
+            const googleReviews = reviews.filter(
+                (review) => review.source === 'Google' && audiences[review.bestFitAudience - 1]?.name === audience.name,
+            ).length;
+            const rateMDsReviews = reviews.filter(
+                (review) =>
+                    review.source === 'RateMDs' && audiences[review.bestFitAudience - 1]?.name === audience.name,
+            ).length;
+
+            audienceData.push({
+                name: audience.name,
+                age: audience.ageRange,
+                interests: audience.interests,
+                googleReviews: googleReviews,
+                rateMDsReviews: rateMDsReviews,
+                totalReviews: googleReviews + rateMDsReviews,
+            });
+        });
+
+        return audienceData;
+    };
+
+    const tableData = transformAudienceData(reviews, audiences);
+
     return (
         <div className="min-h-screen bg-reviewDrumLightGray">
             <TopNav />
@@ -72,10 +105,16 @@ function ReviewsPage() {
                             <ProcessedReviewChart chartData={chartData} onCloseChart={() => setShowChart(false)} />
                         </div>
                     ) : (
-                        <div className="flex flex-grow">
-                            <div className="w-64 flex flex-col items-center bg-reviewDrumDarkGray py-4">
-                                <h2 className="text-reviewDrumMedGray text-2xl font-roboto mb-4">Reviews</h2>
-                                <hr className="w-60 ml-4 dark:border-slate-500" />
+                        <div className="flex flex-col md:flex-row flex-grow">
+                            <div
+                                className="flex flex-col items-center bg-reviewDrumDarkGray py-4"
+                                style={{
+                                    flexBasis: '25%',
+                                    minWidth: '400px',
+                                }}
+                            >
+                                <h2 className="text-reviewDrumMedGray text-3xl font-roboto mb-4">Reviews</h2>
+                                <hr className="w-11/12 self-end dark:border-slate-500" />
                                 {user && account && (
                                     <SidebarReviewConnector
                                         userId={user._id}
@@ -85,16 +124,16 @@ function ReviewsPage() {
                                         setIsLoading={setIsLoading}
                                     />
                                 )}
-                                <hr className="w-60 ml-4  dark:border-slate-500 mt-4" />
+                                <hr className="w-11/12 self-end dark:border-slate-500" />
                                 <SidebarUpdateFrequency updateFrequency={updateFrequency} />
-                                <hr className="w-60 ml-4 dark:border-slate-500 mt-4" />
+                                <hr className="w-11/12 self-end dark:border-slate-500" />
                                 <SidebarReviewViewer
                                     reviewPosition={reviewPosition}
                                     setReviewPosition={setReviewPosition}
                                     totalReviews={reviews?.length}
                                 />
                                 <SidebarReviewTextArea reviews={reviews} reviewPosition={reviewPosition} />
-                                <hr className="w-60 ml-4 dark:border-slate-500 mt-4" />
+                                <hr className="w-11/12 self-end dark:border-slate-500" />
                                 <SidebarAudienceTextArea audience={parseInt(audience)} />
                                 <SidebarAudienceReasoning audienceReasoning={audienceReasoning} />
                                 <SidebarChangeAudienceButton
@@ -105,10 +144,11 @@ function ReviewsPage() {
                                     review={reviews[reviewPosition - 1]}
                                     setRefreshReviews={setRefreshReviews}
                                 />
-                                <hr className="w-60 ml-4 dark:border-slate-500 mt-4" />
                             </div>
 
-                            <div className="flex-grow">{/* The main table will be added here later */}</div>
+                            <div className="w-full md:w-3/4 flex-grow">
+                                <ReviewsAudienceTable audienceData={tableData} />
+                            </div>
                         </div>
                     )}
                 </div>

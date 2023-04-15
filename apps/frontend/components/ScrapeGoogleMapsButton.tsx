@@ -48,7 +48,7 @@ export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, account, setAc
                 <div className="py-2 text-reviewDrumLightGray">Connected.</div>
             ) : (
                 <button
-                    className="bg-reviewDrumBlue text-reviewDrumLightGray px-4 py-2 rounded hover:bg-blue-600"
+                    className="bg-reviewDrumBlue text-xl text-reviewDrumLightGray px-4 py-2 rounded hover:bg-blue-600"
                     onClick={toggleGoogleQueryForm}
                 >
                     Connect

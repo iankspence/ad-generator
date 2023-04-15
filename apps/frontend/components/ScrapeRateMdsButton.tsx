@@ -62,7 +62,7 @@ export const ScrapeRateMdsButton: React.FC<Props> = ({ userId, account, setAccou
     return (
         <>
             {account.rateMdsLinks?.[0] ? (
-                <div className="text-reviewDrumLightGray">Connected.</div>
+                <div className="text-reviewDrumLightGray py-2 text-xl">Connected.</div>
             ) : (
                 <button
                     className="bg-reviewDrumBlue text-reviewDrumLightGray py-2 px-4 rounded hover:bg-blue-600"
