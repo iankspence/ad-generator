@@ -2,6 +2,7 @@
 @import '../node_modules/tailwindcss/components.css';
 @import '../node_modules/tailwindcss/utilities.css';
 
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);
