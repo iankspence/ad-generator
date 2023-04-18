@@ -1,9 +1,9 @@
+import { THEME_NAMES } from '../../../utils/constants/themes';
 import SkyBubblesToolbar from './SkyBubblesToolbar';
 import React from 'react';
 
 function Toolbar({ theme, setTheme, applyToAll, activeCanvas }) {
-    const themes = ['skyBubblesCenterText']; // Add more theme names to this array as needed
-
+    const themes = THEME_NAMES;
     const currentThemeIndex = themes.findIndex((t) => t === theme);
 
     const handleThemeSwitch = (direction) => {
@@ -15,7 +15,8 @@ function Toolbar({ theme, setTheme, applyToAll, activeCanvas }) {
         if (theme === 'skyBubblesCenterText') {
             return <SkyBubblesToolbar applyToAll={applyToAll} activeCanvas={activeCanvas} />;
         }
-        // Add more theme-specific controls here
+
+        // Add more interface-specific controls here
     };
 
     return (

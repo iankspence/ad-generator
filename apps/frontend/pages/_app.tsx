@@ -1,4 +1,5 @@
 import '../../../styles/globals.css';
+import CampaignProvider from '../contexts/CampaignContext';
 import { UserProvider } from '../contexts/UserContext';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { AppProps } from 'next/app';
@@ -9,15 +10,17 @@ const theme = createTheme();
 function CustomApp({ Component, pageProps }: AppProps) {
     return (
         <UserProvider>
-            <Head>
-                <title>Chiro Creative</title>
-            </Head>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <main className="app">
-                    <Component {...pageProps} />
-                </main>
-            </ThemeProvider>
+            <CampaignProvider>
+                <Head>
+                    <title>Chiro Creative</title>
+                </Head>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <main className="app">
+                        <Component {...pageProps} />
+                    </main>
+                </ThemeProvider>
+            </CampaignProvider>
         </UserProvider>
     );
 }

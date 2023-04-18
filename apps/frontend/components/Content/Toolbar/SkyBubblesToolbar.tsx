@@ -1,16 +1,16 @@
-import SkyBubblesThemeContext from '../../../contexts/SkyBubblesThemeContext';
-import { TextField, Button, Box, Slider } from '@material-ui/core';
+import { CampaignContext } from '../../../contexts/CampaignContext';
+import { Button, Box, Slider } from '@material-ui/core';
 import ClickAwayListener from '@mui/base/ClickAwayListener';
 import React, { useContext, useState } from 'react';
 import { ChromePicker } from 'react-color';
 
 function SkyBubblesToolbar({ applyToAll, activeCanvas }) {
-    const { gradientColors, bubbleCount, minSize, maxSize, updateTheme } = useContext(SkyBubblesThemeContext);
+    const { skyBubblesTheme, updateSkyBubblesTheme } = useContext(CampaignContext);
 
-    const [gradientColorsState, setGradientColorsState] = useState(gradientColors);
-    const [bubbleCountState, setBubbleCountState] = useState(bubbleCount);
-    const [minSizeState, setMinSizeState] = useState(minSize);
-    const [maxSizeState, setMaxSizeState] = useState(maxSize);
+    const [gradientColorsState, setGradientColorsState] = useState(skyBubblesTheme.gradientColors);
+    const [bubbleCountState, setBubbleCountState] = useState(skyBubblesTheme.bubbleCount);
+    const [minSizeState, setMinSizeState] = useState(skyBubblesTheme.minSize);
+    const [maxSizeState, setMaxSizeState] = useState(skyBubblesTheme.maxSize);
     const [showColorPicker, setShowColorPicker] = useState([false, false]);
 
     const handleColorChange = (color, index) => {
@@ -18,12 +18,7 @@ function SkyBubblesToolbar({ applyToAll, activeCanvas }) {
         newGradientColors[`color${index}`] = color.hex;
         setGradientColorsState(newGradientColors);
     };
-    //
-    // const toggleColorPicker = (index) => {
-    //     const newShowColorPicker = [...showColorPicker];
-    //     newShowColorPicker[index] = !newShowColorPicker[index];
-    //     setShowColorPicker(newShowColorPicker);
-    // };
+
     const handleClickAway = () => {
         setShowColorPicker([false, false]);
     };
@@ -94,7 +89,7 @@ function SkyBubblesToolbar({ applyToAll, activeCanvas }) {
                 variant="contained"
                 color="primary"
                 onClick={() => {
-                    updateTheme({
+                    updateSkyBubblesTheme({
                         gradientColors: gradientColorsState,
                         bubbleCount: bubbleCountState,
                         minSize: minSizeState,

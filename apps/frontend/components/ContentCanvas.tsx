@@ -1,16 +1,15 @@
-import { SkyBubblesThemeProvider } from '../contexts/SkyBubblesThemeContext';
+import { THEME_NAMES } from '../utils/constants/themes';
 import ClaimCanvas from './Content/Canvas/ClaimCanvas';
 import CloseCanvas from './Content/Canvas/CloseCanvas';
 import HookCanvas from './Content/Canvas/HookCanvas';
 import ReviewCanvas from './Content/Canvas/ReviewCanvas';
-import SkyBubblesToolbar from './Content/Toolbar/SkyBubblesToolbar';
 import Toolbar from './Content/Toolbar/Toolbar';
 import { Button } from '@material-ui/core';
 import domtoimage from 'dom-to-image';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 function ContentCanvas({ hooks, claims, reviews, closes }) {
-    const [currentTheme, setCurrentTheme] = useState('skyBubblesCenterText');
+    const [currentTheme, setCurrentTheme] = useState(THEME_NAMES[0]);
     const [selectedImage, setSelectedImage] = useState(null);
     const [applyToAll, setApplyToAll] = useState(true);
     const [activeCanvas, setActiveCanvas] = useState({ type: null, id: null });
@@ -26,22 +25,6 @@ function ContentCanvas({ hooks, claims, reviews, closes }) {
         border: '0px solid gray',
         aspectRatio: '1/1',
     };
-
-    const [skyBubblesTheme, setSkyBubblesTheme] = useState({
-        gradientColors: {
-            color1: 'rgba(95, 195, 228, 1)',
-            color2: 'rgba(88, 147, 233, 1)',
-        },
-        bubbleCount: 30,
-        minSize: 15,
-        maxSize: 50,
-        updateTheme: (newTheme) => {
-            setSkyBubblesTheme((prevState) => ({
-                ...prevState,
-                ...newTheme,
-            }));
-        },
-    });
 
     async function downloadCanvasImages() {
         const canvasIds = ['hookCanvas', 'claimCanvas', 'reviewCanvas', 'closeCanvas'];
@@ -62,10 +45,7 @@ function ContentCanvas({ hooks, claims, reviews, closes }) {
                 quality: 1,
                 filter: (node) => {
                     // Exclude external stylesheets from rendering process
-                    if (node.tagName === 'LINK' && node.rel === 'stylesheet' && node.href.startsWith('http')) {
-                        return false;
-                    }
-                    return true;
+                    return !(node.tagName === 'LINK' && node.rel === 'stylesheet' && node.href.startsWith('http'));
                 },
             };
 
@@ -78,55 +58,53 @@ function ContentCanvas({ hooks, claims, reviews, closes }) {
         }
     }
     return (
-        <SkyBubblesThemeProvider>
-            <div className="w-full h-full flex flex-col items-center">
-                <Toolbar
-                    theme={currentTheme}
-                    setTheme={setCurrentTheme}
-                    applyToAll={applyToAll}
-                    activeCanvas={activeCanvas}
-                />
+        <div className="w-full h-full flex flex-col items-center">
+            <Toolbar
+                theme={currentTheme}
+                setTheme={setCurrentTheme}
+                applyToAll={applyToAll}
+                activeCanvas={activeCanvas}
+            />
 
-                {/* Image selector */}
-                <input type="file" onChange={handleImageChange} />
+            {/* Image selector */}
+            <input type="file" onChange={handleImageChange} />
 
-                {/* 4-image canvas */}
-                <div
-                    className="canvas-grid"
-                    style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(2, minmax(0, 300px))', // Change the 300px to your preferred size
-                        gap: '4px',
-                        width: '100%',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                >
-                    <div id="hookCanvas" className="relative" style={{ ...squareStyle }}>
-                        <HookCanvas
-                            hook={hooks[0]}
-                            currentTheme={currentTheme}
-                            key={`${hooks[0].id}-${currentTheme}`}
-                            imageFile={selectedImage}
-                            setActiveCanvas={() => setActiveCanvas({ type: 'hookCanvas', id: hooks[0] })}
-                        />
-                    </div>
-                    <div id="claimCanvas" className="relative" style={{ ...squareStyle }}>
-                        <ClaimCanvas claim={claims[0]} currentTheme={currentTheme} />
-                    </div>
-                    <div id="reviewCanvas" className="relative" style={{ ...squareStyle }}>
-                        <ReviewCanvas review={reviews[0]} currentTheme={currentTheme} />
-                    </div>
-                    <div id="closeCanvas" className="relative" style={{ ...squareStyle }}>
-                        <CloseCanvas close={closes[0]} currentTheme={currentTheme} />
-                    </div>
+            {/* 4-image canvas */}
+            <div
+                className="canvas-grid"
+                style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, minmax(0, 300px))', // Change the 300px to your preferred size
+                    gap: '4px',
+                    width: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <div id="hookCanvas" className="relative" style={{ ...squareStyle }}>
+                    <HookCanvas
+                        hook={hooks[0]}
+                        currentTheme={currentTheme}
+                        key={`${hooks[0]}-${currentTheme}`}
+                        imageFile={selectedImage}
+                        setActiveCanvas={() => setActiveCanvas({ type: 'hookCanvas', id: hooks[0] })}
+                    />
                 </div>
-                {/* Download button */}
-                <Button variant="contained" color="primary" onClick={downloadCanvasImages} className="mt-4">
-                    Download Images
-                </Button>
+                <div id="claimCanvas" className="relative" style={{ ...squareStyle }}>
+                    <ClaimCanvas claim={claims[0]} currentTheme={currentTheme} />
+                </div>
+                <div id="reviewCanvas" className="relative" style={{ ...squareStyle }}>
+                    <ReviewCanvas review={reviews[0]} currentTheme={currentTheme} />
+                </div>
+                <div id="closeCanvas" className="relative" style={{ ...squareStyle }}>
+                    <CloseCanvas close={closes[0]} currentTheme={currentTheme} />
+                </div>
             </div>
-        </SkyBubblesThemeProvider>
+            {/* Download button */}
+            <Button variant="contained" color="primary" onClick={downloadCanvasImages} className="mt-4">
+                Download Images
+            </Button>
+        </div>
     );
 }
 

@@ -11,7 +11,7 @@ import TopNav from '../components/TopNav';
 import UserContext from '../contexts/UserContext';
 import useAccount from '../hooks/useAccount';
 import { getReviewsByAccountId } from '../utils/api';
-import { audiences } from '../utils/audiences';
+import { audiences } from '../utils/constants/audiences';
 import WebsocketHandler from '../utils/websocket/WebsocketHandler';
 import handleProcessedReview from '../utils/websocket/handleProcessedReview';
 import { ReviewDocument } from '@monorepo/type';

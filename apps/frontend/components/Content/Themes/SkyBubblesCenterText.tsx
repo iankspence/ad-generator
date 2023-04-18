@@ -1,4 +1,4 @@
-import SkyBubblesThemeContext from '../../../contexts/SkyBubblesThemeContext';
+import { CampaignContext } from '../../../contexts/CampaignContext';
 import { GradientBackground } from '../Groups/GradientBackground';
 import { ManyCircles } from '../Groups/ManyCircles';
 import { TextRect } from '../Groups/TextRect';
@@ -6,22 +6,8 @@ import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 
 function SkyBubblesCenterText({ text, currentTheme }) {
-    const { gradientColors, bubbleCount, minSize, maxSize } = useContext(SkyBubblesThemeContext);
-    console.log(
-        'gradientColors',
-        gradientColors,
-        'bubbleCount',
-        bubbleCount,
-        'minSize',
-        minSize,
-        'maxSize',
-        maxSize,
-        'currentTheme',
-        currentTheme,
-        'text',
-        text,
-        'SkyBubblesCenterText',
-    );
+    const { skyBubblesTheme } = useContext(CampaignContext);
+
     if (currentTheme !== 'skyBubblesCenterText') {
         return null;
     }
@@ -29,12 +15,12 @@ function SkyBubblesCenterText({ text, currentTheme }) {
     return (
         <>
             <GradientBackground
-                gradient={`linear-gradient(135deg, ${gradientColors.color1} 0%, ${gradientColors.color2} 100%)`}
+                gradient={`linear-gradient(135deg, ${skyBubblesTheme.gradientColors.color1} 0%, ${skyBubblesTheme.gradientColors.color2} 100%)`}
             />
             <ManyCircles
-                count={bubbleCount}
-                minSize={minSize}
-                maxSize={maxSize}
+                count={skyBubblesTheme.bubbleCount}
+                minSize={skyBubblesTheme.minSize}
+                maxSize={skyBubblesTheme.maxSize}
                 colors={['rgba(255, 255, 255, 0.2)', 'rgba(255, 255, 255, 0.4)', 'rgba(255, 255, 255, 0.6)']}
             />
             <TextRect
