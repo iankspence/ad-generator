@@ -23,13 +23,6 @@ export class Copy {
     @Prop({ required: true, type: String, ref: 'Campaign' })
     reviewId!: string;
 
-    // These are on the review doc but may change
-    @Prop({ required: true })
-    bestFitAudience!: number;
-    // These are on the review doc but may change
-    @Prop({ required: true })
-    bestFitReasoning!: string;
-
     @Prop({ required: true })
     copyText!: string;
 }

@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
-export interface HookDocument extends Hook, Document<Types.ObjectId> {}
+export interface CloseDocument extends Close, Document<Types.ObjectId> {}
 
 @Schema({ timestamps: true })
-export class Hook {
+export class Close {
     @Prop({ required: true, type: String, ref: 'User' })
     userId!: string;
 
@@ -24,7 +24,7 @@ export class Hook {
     reviewId!: string;
 
     @Prop({ required: true })
-    hookText!: string;
+    closeText!: string;
 }
 
-export const HookSchema = SchemaFactory.createForClass(Hook);
+export const CloseSchema = SchemaFactory.createForClass(Close);

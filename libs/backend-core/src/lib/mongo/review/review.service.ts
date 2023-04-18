@@ -40,4 +40,8 @@ export class ReviewService {
             )
             .exec();
     }
+
+    async createReview(review: Partial<Review>): Promise<Review> {
+        return await this.reviewModel.create(review);
+    }
 }
