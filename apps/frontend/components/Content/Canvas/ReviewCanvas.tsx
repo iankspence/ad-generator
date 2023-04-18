@@ -1,10 +1,16 @@
+import EarthySquaresTopText from '../Themes/EarthySquaresTopText';
+import SkyBubblesCenterText from '../Themes/SkyBubblesCenterText';
 import React from 'react';
 
-function ReviewCanvas({ review }) {
+function ReviewCanvas({ review, currentTheme }) {
     return (
-        <div className="p-2 text-black">
-            <h2>Review</h2>
-            <p>{review}</p>
+        <div className="review-canvas w-full h-full">
+            <SkyBubblesCenterText text={'This is a review'} currentTheme={currentTheme} />
+            <EarthySquaresTopText
+                text={'This is a review'}
+                companyName={'Redefined Health'}
+                currentTheme={currentTheme}
+            />
         </div>
     );
 }
