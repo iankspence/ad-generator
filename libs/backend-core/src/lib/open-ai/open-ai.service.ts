@@ -1,4 +1,18 @@
-import { Review, ReviewDocument } from '@monorepo/type';
+import { classifyReviewPrompt } from '../util/classifyReviewPrompt';
+import { extractHooksFromReviewPrompt } from '../util/extractHooksFromReviewPrompt';
+import { generateClaimCopyClosePrompt } from '../util/generateClaimCopyClosePrompt';
+import {
+    Claim,
+    Hook,
+    HookDocument,
+    Review,
+    ReviewDocument,
+    ClaimDocument,
+    Close,
+    CloseDocument,
+    Copy,
+    CopyDocument,
+} from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -14,54 +28,15 @@ const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
-function reviewClassifierPrompt(prompt) {
-    return `
-
-Can you tell me which of the 10 audiences best matches the review?
-
-Review:
-${prompt}
-
-Here are the audiences and their interests:
-1. The Stressed Professional:
-Age Range: 25 - 60 years
-Interests: Business, entrepreneurship, career development, productivity, time management, stress relief, self - improvement.
-2. The Weekend Warrior:
-Age Range: 18 - 60 years
-Interests: Fitness, sports, running, cycling, yoga, CrossFit, hiking, swimming, outdoor activities, sports injuries.
-3. The Chronic Pain Sufferer:
-Age Range: 30 - 70 years
-Interests: Chronic pain, pain management, arthritis, sciatica, fibromyalgia, back pain, alternative medicine.
-4. The Posture Protector:
-Age Range: 25 - 60 years
-Interests: Posture correction, ergonomics, office health, back pain, neck pain, spinal health, physical therapy.
-5. The Aging Gracefully:
-Age Range: 50 - 80 + years
-Interests: Aging, senior health, joint health, arthritis, mobility, wellness, active aging, health and wellness.
-6. The Accident Recovery:
-Age Range: 18 - 70 years
-Interests: Accident recovery, injury rehabilitation, whiplash, back pain, physical therapy, chiropractic care.
-7. The Office Worker:
-Age Range: 25 - 60 years
-Interests: Office health, ergonomics, sitting posture, back pain, neck pain, work - life balance, health and wellness.
-8. The Parent:
-Age Range: 25 - 50 years
-Interests: Parenting, child care, family health, mom and dad blogs, postpartum health, babywearing, family activities.
-9. The Migraine Sufferer:
-Age Range: 25 - 60 years
-Interests: Migraine relief, headache relief, natural remedies, chronic pain, alternative medicine, chiropractic care.
-10. The Holistic Health Seeker:
-Age Range: 25 - 70 years
-Interests: Holistic health, alternative medicine, wellness, nutrition, natural remedies, meditation, mindfulness, chiropractic care.
-
-First write a 2-3 sentences on your decision including the name and number of the best fit audience and why you chose that one for this review, then on the final line of your answer write the number of the audience.
-
-I want the final row of the answer to only have the audience number (from 1-10) like this "4" - no other text please.`;
-}
-
 @Injectable()
 export class OpenAiService {
-    constructor(@InjectModel(Review.name) private reviewModel: Model<ReviewDocument>) {}
+    constructor(
+        @InjectModel(Review.name) private reviewModel: Model<ReviewDocument>,
+        @InjectModel(Hook.name) private hookModel: Model<HookDocument>,
+        @InjectModel(Claim.name) private claimModel: Model<ClaimDocument>,
+        @InjectModel(Copy.name) private copyModel: Model<CopyDocument>,
+        @InjectModel(Close.name) private closeModel: Model<CloseDocument>,
+    ) {}
     /**
      * Extract a positiveDescriptor and an array of business claims for a review.
      *
@@ -69,6 +44,8 @@ export class OpenAiService {
      */
     async createCompletion(prompt: string): Promise<[string, string[]]> {
         const openai = new OpenAIApi(configuration);
+        console.log('prompt from createCompletion: ', prompt);
+
         const response = await openai.createCompletion({
             model: 'davinci:ft-personal-2023-03-02-13-13-09',
             prompt: addPromptSuffix(prompt),
@@ -104,7 +81,7 @@ export class OpenAiService {
                 },
                 {
                     role: 'user',
-                    content: reviewClassifierPrompt(prompt),
+                    content: classifyReviewPrompt(prompt),
                 },
             ],
             top_p: 0.05,
@@ -136,5 +113,139 @@ export class OpenAiService {
             },
             { new: true },
         );
+    }
+
+    async extractHooksFromReview(
+        userId: string,
+        accountId: string,
+        reviewId: string,
+        reviewText: string,
+    ): Promise<Partial<HookDocument[]>> {
+        const openai = new OpenAIApi(configuration);
+
+        console.log(extractHooksFromReviewPrompt(reviewText));
+        try {
+            const response = await openai.createChatCompletion({
+                model: 'gpt-4',
+                messages: [
+                    {
+                        role: 'system',
+                        content:
+                            'You are an expert marketer turning online chiropractor reviews into text for content.',
+                    },
+                    {
+                        role: 'user',
+                        content: extractHooksFromReviewPrompt(reviewText),
+                    },
+                ],
+                top_p: 0.05,
+                max_tokens: 250,
+            });
+
+            const responseContent = response.data.choices[0].message.content;
+            const splitResponseContent = responseContent.split('\n');
+            console.log('splitResponseContent: ', splitResponseContent);
+            const hookArray: HookDocument[] = [];
+
+            for (const line of splitResponseContent) {
+                console.log('line before if check: ', line);
+                if (reviewText.includes(line) && line.length > 2 && line !== '' && line !== null) {
+                    console.log('line after if check: ', line);
+
+                    const newHook = await this.hookModel.create({
+                        hookText: line,
+                        reviewId: reviewId,
+                        userId,
+                        accountId,
+                    });
+
+                    hookArray.push(newHook);
+                }
+            }
+
+            console.log('hookArray: ', hookArray);
+
+            return hookArray;
+        } catch (error) {
+            console.log('error from extractHooksFromReview: ', error);
+        }
+    }
+
+    async generateClaimCopyClose(
+        reviewId: string,
+        reviewText: string,
+        hookId: string,
+        hookText: string,
+        reviewAudienceName: string,
+        reviewAudienceAge: string,
+    ) {
+        const openai = new OpenAIApi(configuration);
+        try {
+            const response = await openai.createChatCompletion({
+                model: 'gpt-4',
+                messages: [
+                    {
+                        role: 'system',
+                        content:
+                            'You are an expert marketer turning online chiropractor reviews into text for content.',
+                    },
+                    {
+                        role: 'user',
+                        content: generateClaimCopyClosePrompt(
+                            reviewText,
+                            hookText,
+                            reviewAudienceName,
+                            reviewAudienceAge,
+                        ),
+                    },
+                ],
+                top_p: 0.05,
+                max_tokens: 250,
+            });
+
+            const responseContent = response.data.choices[0].message.content;
+            const splitResponseContent = responseContent.split('\n');
+
+            console.log('splitResponseContent: ', splitResponseContent);
+
+            let currentCategory = null;
+            for (const line of splitResponseContent) {
+                if (line.length > 2 && line !== '' && line !== null) {
+                    if (line === 'Claims:') {
+                        currentCategory = 'claims';
+                    } else if (line === 'Copies:') {
+                        currentCategory = 'copies';
+                    } else if (line === 'Closes:') {
+                        currentCategory = 'closes';
+                    }
+
+                    if (!line.includes('Claims:') && !line.includes('Copies:') && !line.includes('Closes:')) {
+                        if (currentCategory === 'claims') {
+                            await this.claimModel.create({
+                                reviewId,
+                                hookId,
+                                claimText: line,
+                            });
+                        }
+                        if (currentCategory === 'copies') {
+                            await this.copyModel.create({
+                                reviewId,
+                                hookId,
+                                copyText: line,
+                            });
+                        }
+                        if (currentCategory === 'closes') {
+                            await this.closeModel.create({
+                                reviewId,
+                                hookId,
+                                closeText: line,
+                            });
+                        }
+                    }
+                }
+            }
+        } catch (error) {
+            console.log('error from extractHooksFromReview: ', error);
+        }
     }
 }

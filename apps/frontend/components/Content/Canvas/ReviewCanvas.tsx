@@ -1,12 +1,22 @@
+import { CampaignContext } from '../../../contexts/CampaignContext';
+import FullImageBackground from '../Themes/FullImageBackground';
 import SkyBubblesCenterText from '../Themes/SkyBubblesCenterText';
-import React from 'react';
+import React, { useContext } from 'react';
 
-function ReviewCanvas({ review, currentTheme }) {
+type ReviewCanvasProps = {
+    imageFile: any;
+    setActiveCanvas: () => void;
+};
+const ReviewCanvas: React.FC<ReviewCanvasProps> = ({ imageFile, setActiveCanvas }) => {
+    const { reviewPosition, reviews, currentTheme } = useContext(CampaignContext);
+    const reviewText = reviews[reviewPosition - 1].reviewText;
+
     return (
         <div className="review-canvas w-full h-full">
-            <SkyBubblesCenterText text={'This is a review'} currentTheme={currentTheme} />
+            <SkyBubblesCenterText text={reviewText} currentTheme={currentTheme} />
+            <FullImageBackground currentTheme={currentTheme} imageFile={imageFile} />
         </div>
     );
-}
+};
 
 export default ReviewCanvas;

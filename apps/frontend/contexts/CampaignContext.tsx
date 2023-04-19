@@ -18,32 +18,33 @@ import {
 import { createContext, useState, useCallback } from 'react';
 
 interface CampaignContextProps {
+    themes: string[];
     currentTheme: string;
 
     copies: CopyDocument[] | Partial<CopyDocument>[];
     updateCopies: (newCopies: CopyDocument[] | Partial<CopyDocument>[]) => void;
-    selectedCopy: CopyDocument | Partial<CopyDocument>;
-    updateSelectedCopy: (newCopy: CopyDocument | Partial<CopyDocument>) => void;
+    copyPosition: number;
+    updateCopyPosition: (newCopy: number) => void;
 
     hooks: HookDocument[] | Partial<HookDocument>[];
     updateHooks: (newHooks: HookDocument[] | Partial<HookDocument>[]) => void;
-    selectedHook: HookDocument | Partial<HookDocument>;
-    updateSelectedHook: (newHook: HookDocument | Partial<HookDocument>) => void;
+    hookPosition: number;
+    updateHookPosition: (newHook: number) => void;
 
     claims: ClaimDocument[] | Partial<ClaimDocument>[];
     updateClaims: (newClaims: ClaimDocument[] | Partial<ClaimDocument>[]) => void;
-    selectedClaim: ClaimDocument | Partial<ClaimDocument>;
-    updateSelectedClaim: (newClaim: ClaimDocument | Partial<ClaimDocument>) => void;
+    claimPosition: number;
+    updateClaimPosition: (newClaim: number) => void;
 
     reviews: ReviewDocument[] | Partial<ReviewDocument>[];
     updateReviews: (newReviews: ReviewDocument[] | Partial<ReviewDocument>[]) => void;
-    selectedReview: ReviewDocument | Partial<ReviewDocument>;
-    updateSelectedReview: (newReview: ReviewDocument | Partial<ReviewDocument>) => void;
+    reviewPosition: number;
+    updateReviewPosition: (newReview: number) => void;
 
     closes: CloseDocument[] | Partial<CloseDocument>[];
     updateCloses: (newCloses: CloseDocument[] | Partial<CloseDocument>[]) => void;
-    selectedClose: CloseDocument | Partial<CloseDocument>;
-    updateSelectedClose: (newClose: CloseDocument | Partial<CloseDocument>) => void;
+    closePosition: number;
+    updateClosePosition: (newClose: number) => void;
 
     skyBubblesTheme: SkyBubblesCenterTextTheme;
     updateCurrentTheme: (theme: string) => void;
@@ -51,44 +52,47 @@ interface CampaignContextProps {
 }
 
 const CampaignContext = createContext<CampaignContextProps>({
+    themes: THEME_NAMES,
     currentTheme: THEME_NAMES[0],
+
     copies: [],
     updateCopies: () => void 0,
-    selectedCopy: defaultCopyArray[0],
-    updateSelectedCopy: () => void 0,
+    copyPosition: 1,
+    updateCopyPosition: () => void 0,
     hooks: [],
     updateHooks: () => void 0,
-    selectedHook: defaultHookArray[0],
-    updateSelectedHook: () => void 0,
+    hookPosition: 1,
+    updateHookPosition: () => void 0,
     claims: [],
     updateClaims: () => void 0,
-    selectedClaim: defaultClaimArray[0],
-    updateSelectedClaim: () => void 0,
+    claimPosition: 1,
+    updateClaimPosition: () => void 0,
     reviews: [],
     updateReviews: () => void 0,
-    selectedReview: defaultReviewArray[0],
-    updateSelectedReview: () => void 0,
+    reviewPosition: 1,
+    updateReviewPosition: () => void 0,
     closes: [],
     updateCloses: () => void 0,
-    selectedClose: defaultCloseArray[0],
-    updateSelectedClose: () => void 0,
-    skyBubblesTheme: defaultSkyBubblesTheme,
+    closePosition: 1,
+    updateClosePosition: () => void 0,
+
     updateCurrentTheme: () => void 0,
     updateSkyBubblesTheme: () => void 0,
+    skyBubblesTheme: defaultSkyBubblesTheme,
 });
 
 const CampaignProvider = ({ children }) => {
     const [currentTheme, setCurrentTheme] = useState(THEME_NAMES[0]);
     const [copies, setCopies] = useState(defaultCopyArray);
-    const [selectedCopy, setSelectedCopy] = useState(defaultCopyArray[0]);
+    const [copyPosition, setCopyPosition] = useState(1);
     const [hooks, setHooks] = useState(defaultHookArray);
-    const [selectedHook, setSelectedHook] = useState(defaultHookArray[0]);
+    const [hookPosition, setHookPosition] = useState(1);
     const [claims, setClaims] = useState(defaultClaimArray);
-    const [selectedClaim, setSelectedClaim] = useState(defaultClaimArray[0]);
+    const [claimPosition, setClaimPosition] = useState(1);
     const [reviews, setReviews] = useState(defaultReviewArray);
-    const [selectedReview, setSelectedReview] = useState(defaultReviewArray[0]);
+    const [reviewPosition, setReviewPosition] = useState(1);
     const [closes, setCloses] = useState(defaultCloseArray);
-    const [selectedClose, setSelectedClose] = useState(defaultCloseArray[0]);
+    const [closePosition, setClosePosition] = useState(1);
     const [skyBubblesTheme, setSkyBubblesTheme] = useState(defaultSkyBubblesTheme);
 
     const updateCurrentTheme = (theme) => {
@@ -102,30 +106,31 @@ const CampaignProvider = ({ children }) => {
     return (
         <CampaignContext.Provider
             value={{
+                themes: THEME_NAMES,
                 currentTheme,
                 copies,
                 updateCopies: setCopies,
-                selectedCopy,
-                updateSelectedCopy: setSelectedCopy,
+                copyPosition: copyPosition,
+                updateCopyPosition: setCopyPosition,
                 hooks,
                 updateHooks: setHooks,
-                selectedHook,
-                updateSelectedHook: setSelectedHook,
+                hookPosition: hookPosition,
+                updateHookPosition: setHookPosition,
                 claims,
                 updateClaims: setClaims,
-                selectedClaim,
-                updateSelectedClaim: setSelectedClaim,
+                claimPosition: claimPosition,
+                updateClaimPosition: setClaimPosition,
                 reviews,
                 updateReviews: setReviews,
-                selectedReview,
-                updateSelectedReview: setSelectedReview,
+                reviewPosition: reviewPosition,
+                updateReviewPosition: setReviewPosition,
                 closes,
                 updateCloses: setCloses,
-                selectedClose,
-                updateSelectedClose: setSelectedClose,
-                skyBubblesTheme,
+                closePosition: closePosition,
+                updateClosePosition: setClosePosition,
                 updateCurrentTheme,
                 updateSkyBubblesTheme,
+                skyBubblesTheme,
             }}
         >
             {children}

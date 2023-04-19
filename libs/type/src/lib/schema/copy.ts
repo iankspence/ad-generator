@@ -5,23 +5,11 @@ export interface CopyDocument extends Copy, Document<Types.ObjectId> {}
 
 @Schema({ timestamps: true })
 export class Copy {
-    @Prop({ required: true, type: String, ref: 'User' })
-    userId!: string;
-
-    @Prop({ required: true, type: String, ref: 'Account' })
-    accountId!: string;
-
-    @Prop({ required: true, type: String, ref: 'Campaign' })
-    campaignId!: string;
-
-    @Prop({ required: true, type: String, ref: 'AdSet' })
-    adSetId!: string;
-
-    @Prop({ required: true, type: String, ref: 'Ad' })
-    adId!: string;
-
     @Prop({ required: true, type: String, ref: 'Campaign' })
     reviewId!: string;
+
+    @Prop({ required: true, type: String, ref: 'Hook' })
+    hookId!: string;
 
     @Prop({ required: true })
     copyText!: string;

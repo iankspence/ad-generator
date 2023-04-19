@@ -1,3 +1,4 @@
+import { CampaignContext } from '../contexts/CampaignContext';
 import { THEME_NAMES } from '../utils/constants/themes';
 import ClaimCanvas from './Content/Canvas/ClaimCanvas';
 import CloseCanvas from './Content/Canvas/CloseCanvas';
@@ -6,10 +7,11 @@ import ReviewCanvas from './Content/Canvas/ReviewCanvas';
 import Toolbar from './Content/Toolbar/Toolbar';
 import { Button } from '@material-ui/core';
 import domtoimage from 'dom-to-image';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
-function ContentCanvas({ hooks, claims, reviews, closes }) {
-    const [currentTheme, setCurrentTheme] = useState(THEME_NAMES[0]);
+function ContentCanvas() {
+    const { copies, hooks, claims, reviews, closes, currentTheme, updateCurrentTheme } = useContext(CampaignContext);
+
     const [selectedImage, setSelectedImage] = useState(null);
     const [applyToAll, setApplyToAll] = useState(true);
     const [activeCanvas, setActiveCanvas] = useState({ type: null, id: null });
@@ -61,7 +63,7 @@ function ContentCanvas({ hooks, claims, reviews, closes }) {
         <div className="w-full h-full flex flex-col items-center">
             <Toolbar
                 theme={currentTheme}
-                setTheme={setCurrentTheme}
+                setTheme={updateCurrentTheme}
                 applyToAll={applyToAll}
                 activeCanvas={activeCanvas}
             />
@@ -83,21 +85,27 @@ function ContentCanvas({ hooks, claims, reviews, closes }) {
             >
                 <div id="hookCanvas" className="relative" style={{ ...squareStyle }}>
                     <HookCanvas
-                        hook={hooks[0]}
-                        currentTheme={currentTheme}
-                        key={`${hooks[0]}-${currentTheme}`}
                         imageFile={selectedImage}
-                        setActiveCanvas={() => setActiveCanvas({ type: 'hookCanvas', id: hooks[0] })}
+                        setActiveCanvas={() => setActiveCanvas({ type: 'hookCanvas', id: hooks[0]._id })}
                     />
                 </div>
                 <div id="claimCanvas" className="relative" style={{ ...squareStyle }}>
-                    <ClaimCanvas claim={claims[0]} currentTheme={currentTheme} />
+                    <ClaimCanvas
+                        imageFile={selectedImage}
+                        setActiveCanvas={() => setActiveCanvas({ type: 'claimCanvas', id: claims[0]._id })}
+                    />
                 </div>
                 <div id="reviewCanvas" className="relative" style={{ ...squareStyle }}>
-                    <ReviewCanvas review={reviews[0]} currentTheme={currentTheme} />
+                    <ReviewCanvas
+                        imageFile={selectedImage}
+                        setActiveCanvas={() => setActiveCanvas({ type: 'reviewCanvas', id: reviews[0]._id })}
+                    />
                 </div>
                 <div id="closeCanvas" className="relative" style={{ ...squareStyle }}>
-                    <CloseCanvas close={closes[0]} currentTheme={currentTheme} />
+                    <CloseCanvas
+                        imageFile={selectedImage}
+                        setActiveCanvas={() => setActiveCanvas({ type: 'closeCanvas', id: closes[0]._id })}
+                    />
                 </div>
             </div>
             {/* Download button */}

@@ -5,13 +5,12 @@ import SidebarCampaignOverview from '../CampaignSidebar/SidebarCampaignOverview'
 import SidebarClaimViewer from '../CampaignSidebar/SidebarClaimViewer';
 import SidebarCopyViewer from '../CampaignSidebar/SidebarCopyViewer';
 import SidebarHookViewer from '../CampaignSidebar/SidebarHookViewer';
+import SidebarCloseViewer from './SidebarCloseViewer';
 import SidebarReviewViewer from './SidebarReviewViewer';
 import SidebarTextArea from './SidebarTextArea';
 import React, { useContext } from 'react';
 
 export function CampaignSidebar() {
-    const { user } = useContext(UserContext);
-
     const {
         copies,
         copyPosition,
@@ -22,6 +21,9 @@ export function CampaignSidebar() {
         claims,
         claimPosition,
         updateClaimPosition,
+        closes,
+        closePosition,
+        updateClosePosition,
         reviews,
         reviewPosition,
         updateReviewPosition,
@@ -74,9 +76,14 @@ export function CampaignSidebar() {
             />
             <SidebarTextArea textArray={claims.map((claim) => claim.claimText)} position={claimPosition} rows={2} />
 
-            <hr className="w-11/12 self-end dark:border-slate-500" />
+            <SidebarCloseViewer
+                closePosition={closePosition}
+                setClosePosition={updateClosePosition}
+                totalCloses={closes.length}
+            />
+            <SidebarTextArea textArray={closes.map((close) => close.closeText)} position={closePosition} rows={2} />
 
-            <DownloadCampaignButton userId={user._id?.toString()} />
+            <hr className="w-11/12 self-end dark:border-slate-500" />
         </div>
     );
 }

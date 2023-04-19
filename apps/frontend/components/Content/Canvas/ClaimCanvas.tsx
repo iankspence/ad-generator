@@ -1,12 +1,22 @@
+import { CampaignContext } from '../../../contexts/CampaignContext';
+import FullImageBackground from '../Themes/FullImageBackground';
 import SkyBubblesCenterText from '../Themes/SkyBubblesCenterText';
-import React from 'react';
+import React, { useContext } from 'react';
 
-function ClaimCanvas({ claim, currentTheme }) {
+type ClaimCanvasProps = {
+    imageFile: any;
+    setActiveCanvas: () => void;
+};
+const ClaimCanvas: React.FC<ClaimCanvasProps> = ({ imageFile, setActiveCanvas }) => {
+    const { claimPosition, claims, currentTheme } = useContext(CampaignContext);
+    const claimText = claims[claimPosition - 1].claimText;
+
     return (
         <div className="claim-canvas w-full h-full">
-            <SkyBubblesCenterText text={'This is a claim'} currentTheme={currentTheme} />
+            <SkyBubblesCenterText text={claimText} currentTheme={currentTheme} />
+            <FullImageBackground currentTheme={currentTheme} imageFile={imageFile} />
         </div>
     );
-}
+};
 
 export default ClaimCanvas;

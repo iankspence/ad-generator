@@ -1,4 +1,5 @@
 import { OpenAiService } from './open-ai.service';
+import { Hook, ReviewDocument } from '@monorepo/type';
 import { Controller, Post, Body } from '@nestjs/common';
 
 @Controller('open-ai')
@@ -21,5 +22,34 @@ export class OpenAiController {
     @Post('create-completion-gpt4')
     async createCompletionGPT4(@Body('prompt') prompt: string): Promise<[number, string]> {
         return await this.openAiService.createCompletionGPT4(prompt);
+    }
+
+    @Post('extract-hooks-from-review')
+    async extractHooksFromReview(
+        @Body('userId') userId: string,
+        @Body('accountId') accountId: string,
+        @Body('reviewId') reviewId: string,
+        @Body('reviewText') reviewText: string,
+    ): Promise<Hook[]> {
+        return await this.openAiService.extractHooksFromReview(userId, accountId, reviewId, reviewText);
+    }
+
+    @Post('generate-claim-copy-close')
+    async generateClaimCopyClose(
+        @Body('reviewId') reviewId: string,
+        @Body('reviewText') reviewText: string,
+        @Body('hookId') hookId: string,
+        @Body('hookText') hookText: string,
+        @Body('reviewAudienceName') reviewAudienceName: string,
+        @Body('reviewAudienceAge') reviewAudienceAge: string,
+    ): Promise<void> {
+        return await this.openAiService.generateClaimCopyClose(
+            reviewId,
+            reviewText,
+            hookId,
+            hookText,
+            reviewAudienceName,
+            reviewAudienceAge,
+        );
     }
 }
