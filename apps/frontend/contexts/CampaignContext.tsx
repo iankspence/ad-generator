@@ -6,7 +6,7 @@ import {
     defaultReviewArray,
 } from '../utils/constants/contentText';
 import { THEME_NAMES } from '../utils/constants/themes';
-import { defaultSkyBubblesTheme } from '../utils/constants/themes';
+import { defaultSkyBubblesTheme, defaultBasicSwooshTheme } from '../utils/constants/themes';
 import {
     ClaimDocument,
     CloseDocument,
@@ -14,12 +14,14 @@ import {
     HookDocument,
     ReviewDocument,
     SkyBubblesCenterTextTheme,
+    BasicSwooshTheme,
 } from '@monorepo/type';
 import { createContext, useState, useCallback } from 'react';
 
 interface CampaignContextProps {
     themes: string[];
     currentTheme: string;
+    updateCurrentTheme: (theme: string) => void;
 
     copies: CopyDocument[] | Partial<CopyDocument>[];
     updateCopies: (newCopies: CopyDocument[] | Partial<CopyDocument>[]) => void;
@@ -47,13 +49,15 @@ interface CampaignContextProps {
     updateClosePosition: (newClose: number) => void;
 
     skyBubblesTheme: SkyBubblesCenterTextTheme;
-    updateCurrentTheme: (theme: string) => void;
     updateSkyBubblesTheme: (newTheme: Partial<SkyBubblesCenterTextTheme>) => void;
+    basicSwooshTheme: BasicSwooshTheme;
+    updateBasicSwooshTheme: (newTheme: Partial<BasicSwooshTheme>) => void;
 }
 
 const CampaignContext = createContext<CampaignContextProps>({
     themes: THEME_NAMES,
     currentTheme: THEME_NAMES[0],
+    updateCurrentTheme: () => void 0,
 
     copies: [],
     updateCopies: () => void 0,
@@ -76,9 +80,10 @@ const CampaignContext = createContext<CampaignContextProps>({
     closePosition: 1,
     updateClosePosition: () => void 0,
 
-    updateCurrentTheme: () => void 0,
     updateSkyBubblesTheme: () => void 0,
     skyBubblesTheme: defaultSkyBubblesTheme,
+    updateBasicSwooshTheme: () => void 0,
+    basicSwooshTheme: defaultBasicSwooshTheme,
 });
 
 const CampaignProvider = ({ children }) => {
@@ -94,6 +99,7 @@ const CampaignProvider = ({ children }) => {
     const [closes, setCloses] = useState(defaultCloseArray);
     const [closePosition, setClosePosition] = useState(1);
     const [skyBubblesTheme, setSkyBubblesTheme] = useState(defaultSkyBubblesTheme);
+    const [basicSwooshTheme, setBasicSwooshTheme] = useState(defaultBasicSwooshTheme);
 
     const updateCurrentTheme = (theme) => {
         setCurrentTheme(theme);
@@ -103,11 +109,16 @@ const CampaignProvider = ({ children }) => {
         setSkyBubblesTheme((prevTheme) => ({ ...prevTheme, ...newTheme }));
     }, []);
 
+    const updateBasicSwooshTheme = useCallback((newTheme: Partial<BasicSwooshTheme>) => {
+        setBasicSwooshTheme((prevTheme) => ({ ...prevTheme, ...newTheme }));
+    }, []);
+
     return (
         <CampaignContext.Provider
             value={{
                 themes: THEME_NAMES,
                 currentTheme,
+                updateCurrentTheme,
                 copies,
                 updateCopies: setCopies,
                 copyPosition: copyPosition,
@@ -128,9 +139,11 @@ const CampaignProvider = ({ children }) => {
                 updateCloses: setCloses,
                 closePosition: closePosition,
                 updateClosePosition: setClosePosition,
-                updateCurrentTheme,
+
                 updateSkyBubblesTheme,
                 skyBubblesTheme,
+                updateBasicSwooshTheme,
+                basicSwooshTheme,
             }}
         >
             {children}

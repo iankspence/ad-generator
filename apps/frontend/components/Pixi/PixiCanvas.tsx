@@ -9,7 +9,7 @@ const PixiCanvas = ({ width, height, id }) => {
             view: canvasRef.current,
             width: width,
             height: height,
-            transparent: true,
+            backgroundColor: 0xffffff, // Set the color to a transparent one if you need transparency, e.g., 0x00000000
         });
 
         // Add your PixiJS code here to customize each canvas

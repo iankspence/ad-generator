@@ -1,4 +1,5 @@
 import { THEME_NAMES } from '../../../utils/constants/themes';
+import BasicSwooshToolbar from './BasicSwooshToolbar';
 import SkyBubblesToolbar from './SkyBubblesToolbar';
 import React from 'react';
 
@@ -14,6 +15,9 @@ function Toolbar({ theme, setTheme, applyToAll, activeCanvas }) {
     const renderThemeControls = () => {
         if (theme === 'skyBubblesCenterText') {
             return <SkyBubblesToolbar applyToAll={applyToAll} activeCanvas={activeCanvas} />;
+        }
+        if (theme === 'basicSwoosh') {
+            return <BasicSwooshToolbar />;
         }
 
         // Add more interface-specific controls here

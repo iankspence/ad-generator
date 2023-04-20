@@ -1,4 +1,4 @@
-import { ReviewDocument } from '@monorepo/type';
+import { MaskDocument, ReviewDocument } from '@monorepo/type';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:3333/api';
@@ -172,6 +172,16 @@ export const updateReview = async (
         return response.data;
     } catch (error) {
         console.error('Error updating review:', error);
+        throw error;
+    }
+};
+
+export const getMasksByNames = async (maskNames: string[]): Promise<MaskDocument[]> => {
+    try {
+        const response = await axios.post(`${API_URL}/mask/find-all-by-names`, { maskNames });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching masks:', error);
         throw error;
     }
 };

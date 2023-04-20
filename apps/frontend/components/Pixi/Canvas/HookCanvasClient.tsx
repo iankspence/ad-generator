@@ -3,15 +3,15 @@ import useZoom from '../../../hooks/useZoom';
 import * as PIXI from 'pixi.js';
 import React, { useEffect, useRef } from 'react';
 
-const HookCanvas = ({ imageUrl }) => {
+const HookCanvasClient = ({ imageUrl }) => {
     const appRef = useRef(new PIXI.Application({ antialias: true }));
 
     useEffect(() => {
         document.getElementById('canvas-container').appendChild(appRef.current.view as HTMLCanvasElement);
     }, [appRef.current.view]);
 
-    useDraggable(() => appRef.current, imageUrl);
-    useZoom(() => appRef.current);
+    useDraggable(appRef, imageUrl);
+    useZoom(appRef);
 
     return (
         <>
@@ -20,4 +20,4 @@ const HookCanvas = ({ imageUrl }) => {
     );
 };
 
-export default HookCanvas;
+export default HookCanvasClient;

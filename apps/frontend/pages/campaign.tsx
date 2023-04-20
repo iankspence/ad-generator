@@ -1,4 +1,5 @@
 import ContentCanvas from '../components/ContentCanvas';
+import ContentGenerator from '../components/ContentGenerator';
 import { CampaignSidebar } from '../components/Sidebar/CampaignSidebar';
 import TopNav from '../components/TopNav';
 import CampaignProvider, { CampaignContext } from '../contexts/CampaignContext';
@@ -17,7 +18,8 @@ function CampaignPage() {
                     <div className="bg-black min-h-screen min-w-fit w-full text-white flex flex-col justify-center">
                         <div className="flex flex-col md:flex-row flex-grow">
                             <CampaignSidebar />
-                            <ContentCanvas />
+                            {/*<ContentCanvas />*/}
+                            <ContentGenerator />
                         </div>
                     </div>
                 </div>
