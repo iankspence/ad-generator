@@ -1,54 +1,114 @@
 import * as PIXI from 'pixi.js';
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef, useState } from 'react';
 
 const useDraggable = (appRef, imageUrl) => {
+    const imageRef = useRef(null);
+    const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
+    const imagePositionRef = useRef(imagePosition);
+
     const onDragStart = useCallback(
         (event) => {
             const app = appRef.current;
             if (!app) return;
 
-            const dragTarget = event.currentTarget;
-            dragTarget.alpha = 0.5;
-            dragTarget.dragging = true;
-            dragTarget.dragData = event.data;
+            const image = imageRef.current;
+            if (!image) return;
+
+            image.alpha = 0.5;
+            image.dragging = true;
+            image.dragData = event.data;
+            image.dragOffset = event.data.getLocalPosition(image);
+            image.dragOffset.x *= -1;
+            image.dragOffset.y *= -1;
+
+            console.log('onDragStart');
+            console.log('onDragStart - localPosition', event.data.getLocalPosition(image));
+            console.log('onDragStart', imagePositionRef.current);
         },
         [appRef],
     );
 
-    const onDragEnd = useCallback((event) => {
-        const dragTarget = event.currentTarget;
-        dragTarget.alpha = 1;
-        dragTarget.dragging = false;
-        dragTarget.dragData = null;
+    const onDragMove = useCallback((event) => {
+        const image = imageRef.current;
+        if (!image) return;
+
+        if (image.dragging) {
+            const newPosition = event.data.getLocalPosition(image.parent);
+
+            newPosition.x += image.dragOffset.x;
+            newPosition.y += image.dragOffset.y;
+            console.log('onDragMove');
+            console.log('onDragMove - localPosition', event.data.getLocalPosition(image));
+            console.log('onDragMove - imagePositionRef.current', imagePositionRef.current);
+
+            image.x = newPosition.x;
+            image.y = newPosition.y;
+
+            imagePositionRef.current = { x: newPosition.x, y: newPosition.y };
+
+            console.log('onDragMove', imagePositionRef.current);
+        } else {
+            return;
+        }
     }, []);
 
-    const onDragMove = useCallback((event) => {
-        const dragTarget = event.currentTarget;
-        if (dragTarget && dragTarget.dragging) {
-            const newPosition = dragTarget.dragData.getLocalPosition(dragTarget.parent);
-            dragTarget.x = newPosition.x;
-            dragTarget.y = newPosition.y;
-        }
+    const onDragEnd = useCallback((event) => {
+        const image = imageRef.current;
+        if (!image || !image.dragging) return;
+
+        image.alpha = 1;
+        image.dragging = false;
+
+        const dragData = event.data;
+        const newPosition = dragData.getLocalPosition(image.parent);
+        image.x = newPosition.x;
+        image.y = newPosition.y;
+
+        setImagePosition({ x: newPosition.x, y: newPosition.y });
+        imagePositionRef.current = { x: newPosition.x, y: newPosition.y };
+
+        console.log('onDragEnd');
+        console.log('onDragEnd - localPosition', event.data.getLocalPosition(image));
+        console.log('onDragEnd', imagePositionRef.current);
     }, []);
 
     useEffect(() => {
         const app = appRef.current;
         if (app && imageUrl) {
-            const image = PIXI.Sprite.from(imageUrl);
-            image.anchor.set(0.5);
-            image.x = app.screen.width / 2;
-            image.y = app.screen.height / 2;
-            image.interactive = true;
-            image.cursor = 'pointer';
+            if (!imageRef.current) {
+                const image = PIXI.Sprite.from(imageUrl);
+                image.anchor.set(0.5);
+                image.x = app.screen.width / 2 + imagePosition.x;
+                image.y = app.screen.height / 2 + imagePosition.y;
+                image.interactive = true;
+                image.cursor = 'pointer';
 
-            image.on('pointerdown', onDragStart);
-            image.on('pointerup', onDragEnd);
-            image.on('pointerupoutside', onDragEnd);
-            image.on('pointermove', onDragMove);
-
-            app.stage.addChild(image);
+                image.on('pointerdown', onDragStart);
+                image.on('pointerup', onDragEnd);
+                image.on('pointerupoutside', onDragEnd);
+                image.on('pointermove', onDragMove);
+                app.stage.addChild(image);
+                imageRef.current = image;
+            }
         }
-    }, [appRef, imageUrl, onDragStart, onDragEnd, onDragMove]);
+
+        return () => {
+            const app = appRef.current;
+            const image = imageRef.current;
+
+            if (app && image) {
+                image.off('pointerdown', onDragStart);
+                image.off('pointerup', onDragEnd);
+                image.off('pointerupoutside', onDragEnd);
+                image.off('pointermove', onDragMove);
+
+                app.stage.removeChild(image);
+                imageRef.current = null;
+            }
+        };
+    }, [appRef, imageUrl, imagePosition, onDragStart, onDragEnd, onDragMove]);
+
+    return imagePosition;
 };
 
 export default useDraggable;
