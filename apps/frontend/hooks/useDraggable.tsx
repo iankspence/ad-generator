@@ -1,10 +1,13 @@
+import { PixiContext } from '../contexts/PixiContext';
 import * as PIXI from 'pixi.js';
-import { useEffect, useCallback, useRef, useState } from 'react';
+import { useEffect, useCallback, useRef, useState, useContext } from 'react';
 
 const useDraggable = (appRef, imageUrl) => {
     const imageRef = useRef(null);
     const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
     const imagePositionRef = useRef(imagePosition);
+
+    const { updateDebugText } = useContext(PixiContext);
 
     const onDragStart = useCallback(
         (event) => {
@@ -21,9 +24,16 @@ const useDraggable = (appRef, imageUrl) => {
             image.dragOffset.x *= -1;
             image.dragOffset.y *= -1;
 
-            console.log('onDragStart');
-            console.log('onDragStart - localPosition', event.data.getLocalPosition(image));
-            console.log('onDragStart', imagePositionRef.current);
+            imagePositionRef.current = { x: image.x, y: image.y };
+
+            updateDebugText({
+                globalPosition: event.data.global,
+                localPosition: event.data.getLocalPosition(image),
+                dragOffset: image.dragOffset,
+                imagePositionRefCurrent: imagePositionRef.current,
+                imageX: image.x,
+                imageY: image.y,
+            });
         },
         [appRef],
     );
@@ -37,16 +47,20 @@ const useDraggable = (appRef, imageUrl) => {
 
             newPosition.x += image.dragOffset.x;
             newPosition.y += image.dragOffset.y;
-            console.log('onDragMove');
-            console.log('onDragMove - localPosition', event.data.getLocalPosition(image));
-            console.log('onDragMove - imagePositionRef.current', imagePositionRef.current);
 
             image.x = newPosition.x;
             image.y = newPosition.y;
 
             imagePositionRef.current = { x: newPosition.x, y: newPosition.y };
 
-            console.log('onDragMove', imagePositionRef.current);
+            updateDebugText({
+                globalPosition: event.data.global,
+                localPosition: event.data.getLocalPosition(image),
+                dragOffset: image.dragOffset,
+                imagePositionRefCurrent: imagePositionRef.current,
+                imageX: image.x,
+                imageY: image.y,
+            });
         } else {
             return;
         }
@@ -59,17 +73,12 @@ const useDraggable = (appRef, imageUrl) => {
         image.alpha = 1;
         image.dragging = false;
 
-        const dragData = event.data;
-        const newPosition = dragData.getLocalPosition(image.parent);
-        image.x = newPosition.x;
-        image.y = newPosition.y;
-
-        setImagePosition({ x: newPosition.x, y: newPosition.y });
-        imagePositionRef.current = { x: newPosition.x, y: newPosition.y };
-
-        console.log('onDragEnd');
-        console.log('onDragEnd - localPosition', event.data.getLocalPosition(image));
-        console.log('onDragEnd', imagePositionRef.current);
+        updateDebugText({
+            globalPosition: event.data.global,
+            localPosition: event.data.getLocalPosition(image),
+            dragOffset: image.dragOffset,
+            imagePositionRefCurrent: imagePositionRef.current,
+        });
     }, []);
 
     useEffect(() => {
@@ -78,6 +87,7 @@ const useDraggable = (appRef, imageUrl) => {
             if (!imageRef.current) {
                 const image = PIXI.Sprite.from(imageUrl);
                 image.anchor.set(0.5);
+
                 image.x = app.screen.width / 2 + imagePosition.x;
                 image.y = app.screen.height / 2 + imagePosition.y;
                 image.interactive = true;
@@ -98,7 +108,7 @@ const useDraggable = (appRef, imageUrl) => {
 
             if (app && image) {
                 image.off('pointerdown', onDragStart);
-                image.off('pointerup', onDragEnd);
+                // image.off('pointerup', onDragEnd);
                 image.off('pointerupoutside', onDragEnd);
                 image.off('pointermove', onDragMove);
 
