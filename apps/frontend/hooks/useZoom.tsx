@@ -23,8 +23,6 @@ const useZoom = (appRef, scaleFactor = 1.1) => {
 
         const app = appRef.current;
 
-        if (!app || !app?.view) return;
-
         if (app && app.view) {
             app.view.addEventListener('wheel', handleWheel);
         }

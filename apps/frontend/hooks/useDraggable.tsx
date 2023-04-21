@@ -1,13 +1,10 @@
-import { PixiContext } from '../contexts/PixiContext';
 import * as PIXI from 'pixi.js';
-import { useEffect, useCallback, useRef, useState, useContext } from 'react';
+import { useEffect, useCallback, useRef, useState } from 'react';
 
 const useDraggable = (appRef, imageUrl) => {
     const imageRef = useRef(null);
     const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
     const imagePositionRef = useRef(imagePosition);
-
-    const { updateDebugText } = useContext(PixiContext);
 
     const onDragStart = useCallback(
         (event) => {
@@ -25,15 +22,6 @@ const useDraggable = (appRef, imageUrl) => {
             image.dragOffset.y *= -1;
 
             imagePositionRef.current = { x: image.x, y: image.y };
-
-            updateDebugText({
-                globalPosition: event.data.global,
-                localPosition: event.data.getLocalPosition(image),
-                dragOffset: image.dragOffset,
-                imagePositionRefCurrent: imagePositionRef.current,
-                imageX: image.x,
-                imageY: image.y,
-            });
         },
         [appRef],
     );
@@ -52,15 +40,6 @@ const useDraggable = (appRef, imageUrl) => {
             image.y = newPosition.y;
 
             imagePositionRef.current = { x: newPosition.x, y: newPosition.y };
-
-            updateDebugText({
-                globalPosition: event.data.global,
-                localPosition: event.data.getLocalPosition(image),
-                dragOffset: image.dragOffset,
-                imagePositionRefCurrent: imagePositionRef.current,
-                imageX: image.x,
-                imageY: image.y,
-            });
         } else {
             return;
         }
@@ -72,13 +51,6 @@ const useDraggable = (appRef, imageUrl) => {
 
         image.alpha = 1;
         image.dragging = false;
-
-        updateDebugText({
-            globalPosition: event.data.global,
-            localPosition: event.data.getLocalPosition(image),
-            dragOffset: image.dragOffset,
-            imagePositionRefCurrent: imagePositionRef.current,
-        });
     }, []);
 
     useEffect(() => {
@@ -108,7 +80,7 @@ const useDraggable = (appRef, imageUrl) => {
 
             if (app && image) {
                 image.off('pointerdown', onDragStart);
-                // image.off('pointerup', onDragEnd);
+                image.off('pointerup', onDragEnd);
                 image.off('pointerupoutside', onDragEnd);
                 image.off('pointermove', onDragMove);
 

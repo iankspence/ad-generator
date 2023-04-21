@@ -1,11 +1,12 @@
+import PixiContext from '../../contexts/PixiContext';
 import useDownload from '../../hooks/useDownload';
 import useZoom from '../../hooks/useZoom';
 import HookCanvas from './Canvas/HookCanvas';
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 const ZoomableCanvas = ({ imageUrl, width = 300, height = 300 }) => {
-    const [app, setApp] = React.useState(null);
-    useZoom(app);
+    const app = useContext(PixiContext);
+
     const downloadCanvas = useDownload(app, 'canvas.png', 1080, 1080);
 
     const handleDownloadButtonClick = useCallback(() => {
