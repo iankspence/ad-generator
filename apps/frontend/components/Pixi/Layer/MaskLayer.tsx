@@ -48,7 +48,7 @@ void main(void)
         app.stage.addChild(mask);
 
         return () => {
-            app.stage.removeChild(mask);
+            app.stage?.removeChild(mask);
         };
     }, [appRef, maskTexture, colour]);
 
