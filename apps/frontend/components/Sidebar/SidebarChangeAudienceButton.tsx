@@ -1,6 +1,6 @@
 import UserContext from '../../contexts/UserContext';
-import { updateReview } from '../../utils/api';
-import { audiences } from '../../utils/constants/audiences';
+import { updateReview } from '../../util/api';
+import { audiences } from '../../util/constants/audiences';
 import { ReviewDocument } from '@monorepo/type';
 import React, { useContext, useEffect, useState } from 'react';
 

@@ -1,5 +1,5 @@
+import { userAccount } from '../util/api';
 import { createContext, useState, useEffect } from 'react';
-import {userAccount} from "../utils/api";
 
 const UserContext = createContext(null);
 
@@ -9,16 +9,18 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem('userToken');
         if (token) {
-            userAccount(token).then((data) => {
-                console.log('Context data: ', data);
+            userAccount(token).then(
+                (data) => {
+                    console.log('Context data: ', data);
 
-                setUser(data);
-            }, (error) => {
-                console.log('Context error: ', error);
-            });
+                    setUser(data);
+                },
+                (error) => {
+                    console.log('Context error: ', error);
+                },
+            );
         }
-    }
-    , []);
+    }, []);
     return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };
 

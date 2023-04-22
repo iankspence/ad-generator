@@ -10,10 +10,10 @@ import SidebarUpdateFrequency from '../components/Sidebar/SidebarUpdateFrequency
 import TopNav from '../components/TopNav';
 import UserContext from '../contexts/UserContext';
 import useAccount from '../hooks/useAccount';
-import { getReviewsByAccountId } from '../utils/api';
-import { audiences } from '../utils/constants/audiences';
-import WebsocketHandler from '../utils/websocket/WebsocketHandler';
-import handleProcessedReview from '../utils/websocket/handleProcessedReview';
+import { getReviewsByAccountId } from '../util/api';
+import { audiences } from '../util/constants/audiences';
+import WebsocketHandler from '../util/websocket/WebsocketHandler';
+import handleProcessedReview from '../util/websocket/handleProcessedReview';
 import { ReviewDocument } from '@monorepo/type';
 import React, { useContext, useEffect, useState } from 'react';
 

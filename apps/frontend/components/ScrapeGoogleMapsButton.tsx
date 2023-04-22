@@ -1,4 +1,4 @@
-import { addGoogleQuery, getGoogleMapsReviews } from '../utils/api';
+import { addGoogleQuery, getGoogleMapsReviews } from '../util/api';
 import { AccountDocument } from '@monorepo/type';
 import React, { useState } from 'react';
 

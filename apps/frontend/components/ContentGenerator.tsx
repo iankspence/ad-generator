@@ -1,10 +1,12 @@
 import useDownload from '../hooks/useDownload';
+import { themes } from '../util/constants/themes';
 import HookCanvasClient from './Pixi/Canvas/HookCanvasClient';
 import React, { useCallback, useState } from 'react';
 
 const ContentGenerator = () => {
     const [imageUrl, setImageUrl] = useState(null);
     const [app, setApp] = useState(null);
+    const [selectedThemeId, setSelectedThemeId] = useState('basic-swoosh');
 
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
@@ -23,10 +25,32 @@ const ContentGenerator = () => {
         downloadCanvas();
     }, [downloadCanvas]);
 
+    const handleThemeChange = (event) => {
+        setSelectedThemeId(event.target.value);
+    };
+
+    const getSelectedThemeSettings = () => {
+        const theme = themes.find((t) => t.id === selectedThemeId);
+        return theme.settings.short;
+    };
+
     return (
         <div>
             <input type="file" accept="image/*" onChange={handleImageUpload} />
-            <HookCanvasClient imageUrl={imageUrl} app={app} setApp={setApp} size={400} />
+            <select value={selectedThemeId} onChange={handleThemeChange}>
+                {themes.map((theme) => (
+                    <option key={theme.id} value={theme.id}>
+                        {theme.name}
+                    </option>
+                ))}
+            </select>
+            <HookCanvasClient
+                imageUrl={imageUrl}
+                app={app}
+                setApp={setApp}
+                size={400}
+                themeSettings={getSelectedThemeSettings()}
+            />
             <button onClick={handleDownloadButtonClick}>Download</button>
         </div>
     );

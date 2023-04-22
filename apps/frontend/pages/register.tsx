@@ -1,5 +1,5 @@
 import TopNav from '../components/TopNav';
-import { register } from '../utils/api';
+import { register } from '../util/api';
 import React, { useState } from 'react';
 
 export function RegisterPage() {

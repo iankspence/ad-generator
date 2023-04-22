@@ -1,6 +1,6 @@
 import TopNav from '../components/TopNav';
 import UserContext from '../contexts/UserContext';
-import { signIn } from '../utils/api';
+import { signIn } from '../util/api';
 import Link from 'next/link';
 import Router from 'next/router';
 import React, { useState, useContext } from 'react';

@@ -1,4 +1,4 @@
-import { getMasksByNames } from '../../../utils/api';
+import { getMasksByNames } from '../../../util/api';
 import * as PIXI from 'pixi.js';
 import { useEffect, useState } from 'react';
 
@@ -39,7 +39,7 @@ uniform vec4 uColour; // Add this line to pass the colour as a uniform
 void main(void)
 {
     vec4 originalColor = texture2D(uSampler, vTextureCoord);
-    float alpha = smoothstep(0.01, 0.99, originalColor.r);
+    float alpha = smoothstep(0.3, 0.7, originalColor.r);
     gl_FragColor = mix(vec4(0.0, 0.0, 0.0, 0.0), vec4(uColour.rgb, 1.0), alpha);
 }
 `;

@@ -1,5 +1,5 @@
 import useLoading from '../hooks/useLoading';
-import { addRateMdsLink, startRobotJob } from '../utils/api';
+import { addRateMdsLink, startRobotJob } from '../util/api';
 import { AccountDocument } from '@monorepo/type';
 import React, { useState } from 'react';
 
