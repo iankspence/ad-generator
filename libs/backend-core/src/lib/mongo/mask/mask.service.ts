@@ -27,11 +27,6 @@ export class MaskService {
         }
     }
 
-    // private async imageToBase64(filepath: string): Promise<string> {
-    //     const binaryData = await fs.promises.readFile(filepath);
-    //     return binaryData.toString('base64');
-    // }
-
     async findAllByNames(names: string[]): Promise<MaskDocument[]> {
         return await this.maskModel.find({ maskName: { $in: names } }).exec();
     }

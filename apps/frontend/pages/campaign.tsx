@@ -1,4 +1,3 @@
-import ContentCanvas from '../components/ContentCanvas';
 import ContentGenerator from '../components/ContentGenerator';
 import { CampaignSidebar } from '../components/Sidebar/CampaignSidebar';
 import TopNav from '../components/TopNav';
