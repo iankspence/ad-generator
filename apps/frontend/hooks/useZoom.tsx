@@ -39,12 +39,12 @@ const useZoom = (
 
         const app = appRef.current;
 
-        if (app && app.view) {
+        if (app && app?.view) {
             app.view.addEventListener('wheel', handleWheel);
         }
 
         return () => {
-            if (app && app.view) {
+            if (app && app?.view) {
                 app.view.removeEventListener('wheel', handleWheel);
             }
         };
