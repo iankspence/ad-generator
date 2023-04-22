@@ -28,7 +28,7 @@ const ImageLayer: React.FC<ImageLayerProps> = ({ appRef, imageUrl, children = nu
 
                 image.x = app.screen.width / 2;
                 image.y = app.screen.height / 2;
-                image.interactive = true;
+                image.eventMode = 'static';
                 image.cursor = 'pointer';
 
                 container.addChild(image);

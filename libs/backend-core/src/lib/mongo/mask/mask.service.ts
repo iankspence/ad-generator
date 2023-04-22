@@ -20,10 +20,13 @@ export class MaskService {
 
         for (const file of files) {
             const filePath = path.join(directoryPath, file);
-            const maskName = path.basename(file, path.extname(file));
-
-            const maskBase64 = await this.imageToBase64(filePath);
-            await this.createMask(maskName, maskBase64);
+            const fileExtension = path.extname(file);
+            // Check if the file is an SVG or PNG before processing
+            if (['.svg', '.png'].includes(fileExtension.toLowerCase())) {
+                const maskName = path.basename(file, fileExtension);
+                const maskBase64 = await this.imageToBase64(filePath);
+                await this.createMask(maskName, maskBase64);
+            }
         }
     }
 
@@ -43,6 +46,7 @@ export class MaskService {
             '.jpg': 'image/jpeg',
             '.jpeg': 'image/jpeg',
             '.gif': 'image/gif',
+            '.svg': 'image/svg+xml', // Add the MIME type for SVG files
         };
 
         return mimeTypes[extension.toLowerCase()] || 'application/octet-stream';

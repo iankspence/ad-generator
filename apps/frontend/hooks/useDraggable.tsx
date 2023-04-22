@@ -89,11 +89,11 @@ const useDraggable = (
 
                 image.x = app.screen.width / 2;
                 image.y = app.screen.height / 2;
-                image.interactive = true;
+                image.eventMode = 'static';
                 image.cursor = 'pointer';
 
                 container.addChild(image);
-                container.interactive = true;
+                container.eventMode = 'static';
                 container
                     .on('pointerdown', onDragStart)
                     .on('pointerup', onDragEnd)

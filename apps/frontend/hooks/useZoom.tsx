@@ -19,7 +19,7 @@ const useZoom = (
             const scale = direction > 0 ? scaleFactor : 1 / scaleFactor;
 
             const globalMousePosition = new PIXI.Point(event.clientX, event.clientY);
-            app.renderer.plugins.interaction.mapPositionToPoint(globalMousePosition, event.clientX, event.clientY);
+            app.renderer.events.mapPositionToPoint(globalMousePosition, event.clientX, event.clientY);
 
             const localMousePositionBeforeZoom = container.toLocal(globalMousePosition);
 
