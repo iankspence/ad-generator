@@ -1,7 +1,8 @@
 import { useLayerContext } from '../contexts/LayerContext';
-import PixiProvider, { PixiContext } from '../contexts/PixiContext';
+import { PixiContext } from '../contexts/PixiContext';
 import useDownload from '../hooks/useDownload';
 import { themes } from '../utils/constants/themes';
+import ClaimCanvasClient from './pixi/canvas/ClaimCanvasClient';
 import HookCanvasClient from './pixi/canvas/HookCanvasClient';
 import React, { useCallback, useContext, useState } from 'react';
 
@@ -43,7 +44,6 @@ const ContentGenerator = () => {
                 <select
                     value={selectedThemeId}
                     onChange={handleThemeChange}
-                    size={1}
                     style={{ color: '#000', backgroundColor: '#fff' }} // Add inline style to set text color and background color
                 >
                     {themes.map((theme) => (
@@ -52,7 +52,24 @@ const ContentGenerator = () => {
                         </option>
                     ))}
                 </select>
-                <HookCanvasClient imageUrl={imageUrl} size={400} selectedThemeId={selectedThemeId} />
+                <div className="">
+                    <h1>Hook Canvas</h1>
+                    <HookCanvasClient
+                        imageUrl={imageUrl}
+                        size={400}
+                        selectedThemeId={selectedThemeId}
+                        canvasName={'hook'}
+                    />
+
+                    <h1>Claim Canvas</h1>
+                    <ClaimCanvasClient
+                        imageUrl={imageUrl}
+                        size={400}
+                        selectedThemeId={selectedThemeId}
+                        canvasName={'claim'}
+                    />
+                </div>
+
                 <input type="file" accept="image/*" onChange={handleImageUpload} />
                 <button onClick={handleDownloadButtonClick}>Download</button>
             </div>

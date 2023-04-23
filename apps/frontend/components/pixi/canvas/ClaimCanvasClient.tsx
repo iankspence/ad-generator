@@ -5,13 +5,13 @@ import useSelectedTheme from '../../../hooks/useSelectedTheme';
 import { renderLayer } from '../utils/renderLayer';
 import React, { useContext, useRef } from 'react';
 
-const HookCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
+const ClaimCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const appRef = useRef(null);
-    const { updateHookApp } = useContext(PixiContext);
+    const { updateClaimApp } = useContext(PixiContext);
     const { layers } = useLayerContext();
-    console.log('HookCanvasClient: layers', layers);
+    console.log('ClaimCanvasClient: layers', layers);
 
-    useCanvasApp(appRef, size, updateHookApp);
+    useCanvasApp(appRef, size, updateClaimApp);
     useSelectedTheme(imageUrl, selectedThemeId, canvasName);
 
     return (
@@ -24,4 +24,4 @@ const HookCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     );
 };
 
-export default HookCanvasClient;
+export default ClaimCanvasClient;

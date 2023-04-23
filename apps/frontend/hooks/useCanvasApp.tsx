@@ -1,0 +1,28 @@
+import * as PIXI from 'pixi.js';
+import { useEffect } from 'react';
+
+const useCanvasApp = (appRef, size, updateCanvasApp) => {
+    useEffect(() => {
+        appRef.current = new PIXI.Application({
+            antialias: true,
+            height: size,
+            width: size,
+            backgroundColor: 0x000000,
+            backgroundAlpha: 0,
+            resolution: 1,
+        });
+        document.getElementById('canvas-container').appendChild(appRef.current.view as HTMLCanvasElement);
+
+        updateCanvasApp(appRef.current);
+
+        return () => {
+            appRef.current.destroy(true, { children: true });
+            appRef.current = null;
+            updateCanvasApp(null);
+        };
+    }, [updateCanvasApp, size]);
+
+    return appRef;
+};
+
+export default useCanvasApp;
