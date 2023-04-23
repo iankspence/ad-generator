@@ -4,7 +4,7 @@ import {
     defaultCopyArray,
     defaultHookArray,
     defaultReviewArray,
-} from '../util/constants/contentText';
+} from '../utils/constants/contentText';
 import { ClaimDocument, CloseDocument, CopyDocument, HookDocument, ReviewDocument } from '@monorepo/type';
 import { createContext, useState } from 'react';
 

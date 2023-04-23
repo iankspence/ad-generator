@@ -1,10 +1,10 @@
-import { BrowseAiModule } from './browse-ai/browse-ai.module';
-import { BullConfigModule } from './bull/bull.module';
-import { MongoModule } from './mongo/mongo.module';
-import { OpenAiModule } from './open-ai/open-ai.module';
-import { OutscraperModule } from './outscraper/outscraper.module';
-import { S3Module } from './s3/s3.module';
-import { WebsocketModule } from './websocket/websocket.module';
+import { BrowseAiModule } from './modules/browse-ai/browse-ai.module';
+import { BullConfigModule } from './modules/bull/bull.module';
+import { MongoModule } from './modules/mongo/mongo.module';
+import { OpenAiModule } from './modules/open-ai/open-ai.module';
+import { OutscraperModule } from './modules/outscraper/outscraper.module';
+import { S3Module } from './modules/s3/s3.module';
+import { WebsocketModule } from './modules/websocket/websocket.module';
 import { Module } from '@nestjs/common';
 
 @Module({

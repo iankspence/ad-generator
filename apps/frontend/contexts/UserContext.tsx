@@ -1,4 +1,4 @@
-import { userAccount } from '../util/api';
+import { userAccount } from '../utils/api';
 import { createContext, useState, useEffect } from 'react';
 
 const UserContext = createContext(null);

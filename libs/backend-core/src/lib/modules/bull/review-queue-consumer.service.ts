@@ -1,5 +1,5 @@
+import { audiences } from '../../utils/constants/audiences';
 import { OpenAiService } from '../open-ai/open-ai.service';
-import { audiences } from '../util/audiences';
 import { ReviewGateway } from '../websocket/review.gateway';
 import { ReviewQueueProducerService } from './review-queue-producer.service';
 import { Hook, HookDocument, Review, ReviewDocument } from '@monorepo/type';

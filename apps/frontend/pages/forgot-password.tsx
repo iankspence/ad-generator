@@ -1,5 +1,5 @@
 import TopNav from '../components/TopNav';
-import { forgotPassword } from '../util/api';
+import { forgotPassword } from '../utils/api';
 import Link from 'next/link';
 import React, { useState } from 'react';
 

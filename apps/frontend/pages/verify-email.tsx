@@ -1,4 +1,4 @@
-import { verifyEmail } from '../util/api';
+import { verifyEmail } from '../utils/api';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 

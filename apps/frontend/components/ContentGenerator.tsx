@@ -1,6 +1,6 @@
 import useDownload from '../hooks/useDownload';
-import { themes } from '../util/constants/themes';
-import HookCanvasClient from './Pixi/Canvas/HookCanvasClient';
+import { themes } from '../utils/constants/themes';
+import HookCanvasClient from './pixi/canvas/HookCanvasClient';
 import React, { useCallback, useState } from 'react';
 
 const ContentGenerator = () => {
@@ -31,7 +31,7 @@ const ContentGenerator = () => {
 
     const getSelectedThemeSettings = () => {
         const theme = themes.find((t) => t.id === selectedThemeId);
-        return theme.settings.short;
+        return theme.settings.shortCanvas;
     };
 
     return (

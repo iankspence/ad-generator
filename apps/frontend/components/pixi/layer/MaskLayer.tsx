@@ -1,4 +1,4 @@
-import { getMasksByNames } from '../../../util/api';
+import { getMasksByNames } from '../../../utils/api';
 import * as PIXI from 'pixi.js';
 import { useEffect, useState } from 'react';
 

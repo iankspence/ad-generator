@@ -1,5 +1,5 @@
 import TopNav from '../components/TopNav';
-import { resetPassword } from '../util/api'; // Import the resetPassword function
+import { resetPassword } from '../utils/api'; // Import the resetPassword function
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 

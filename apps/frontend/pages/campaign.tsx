@@ -1,6 +1,6 @@
 import ContentGenerator from '../components/ContentGenerator';
-import { CampaignSidebar } from '../components/Sidebar/CampaignSidebar';
 import TopNav from '../components/TopNav';
+import { CampaignSidebar } from '../components/sidebar/CampaignSidebar';
 import CampaignProvider, { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';
 import React, { useContext, useState } from 'react';

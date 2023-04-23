@@ -1,7 +1,7 @@
 import { useLayerContext } from '../../../contexts/LayerContext';
 import PixiContext from '../../../contexts/PixiContext';
-import ImageLayer from '../Layer/ImageLayer';
-import MaskLayer from '../Layer/MaskLayer';
+import ImageLayer from '../layer/ImageLayer';
+import MaskLayer from '../layer/MaskLayer';
 import * as PIXI from 'pixi.js';
 import React, { useEffect, useRef } from 'react';
 

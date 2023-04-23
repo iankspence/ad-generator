@@ -1,6 +1,6 @@
-import { classifyReviewPrompt } from '../util/classifyReviewPrompt';
-import { extractHooksFromReviewPrompt } from '../util/extractHooksFromReviewPrompt';
-import { generateClaimCopyClosePrompt } from '../util/generateClaimCopyClosePrompt';
+import { classifyReviewPrompt } from '../../utils/classifyReviewPrompt';
+import { extractHooksFromReviewPrompt } from '../../utils/extractHooksFromReviewPrompt';
+import { generateClaimCopyClosePrompt } from '../../utils/generateClaimCopyClosePrompt';
 import {
     Claim,
     Hook,

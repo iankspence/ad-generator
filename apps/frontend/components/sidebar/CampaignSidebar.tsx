@@ -1,10 +1,10 @@
 import { CampaignContext } from '../../contexts/CampaignContext';
 import UserContext from '../../contexts/UserContext';
-import DownloadCampaignButton from '../CampaignSidebar/DownloadCampaignButton';
-import SidebarCampaignOverview from '../CampaignSidebar/SidebarCampaignOverview';
-import SidebarClaimViewer from '../CampaignSidebar/SidebarClaimViewer';
-import SidebarCopyViewer from '../CampaignSidebar/SidebarCopyViewer';
-import SidebarHookViewer from '../CampaignSidebar/SidebarHookViewer';
+import DownloadCampaignButton from '../campaign-sidebar/DownloadCampaignButton';
+import SidebarCampaignOverview from '../campaign-sidebar/SidebarCampaignOverview';
+import SidebarClaimViewer from '../campaign-sidebar/SidebarClaimViewer';
+import SidebarCopyViewer from '../campaign-sidebar/SidebarCopyViewer';
+import SidebarHookViewer from '../campaign-sidebar/SidebarHookViewer';
 import SidebarCloseViewer from './SidebarCloseViewer';
 import SidebarReviewViewer from './SidebarReviewViewer';
 import SidebarTextArea from './SidebarTextArea';

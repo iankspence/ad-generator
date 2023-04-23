@@ -1,4 +1,4 @@
-import { getAccountByUserId } from '../util/api';
+import { getAccountByUserId } from '../utils/api';
 import { AccountDocument } from '@monorepo/type';
 import { useEffect, useState } from 'react';
 
