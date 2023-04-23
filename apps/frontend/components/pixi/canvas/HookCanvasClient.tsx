@@ -1,15 +1,19 @@
 import { useLayerContext } from '../../../contexts/LayerContext';
-import PixiContext from '../../../contexts/PixiContext';
+import { PixiContext } from '../../../contexts/PixiContext';
+import { themes } from '../../../utils/constants/themes';
 import ImageLayer from '../layer/ImageLayer';
 import MaskLayer from '../layer/MaskLayer';
 import * as PIXI from 'pixi.js';
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
-const HookCanvasClient = ({ imageUrl, app, setApp, size, themeSettings }) => {
+const HookCanvasClient = ({ imageUrl, size, selectedThemeId }) => {
     const appRef = useRef(null);
+    const { updateHookApp } = useContext(PixiContext);
     const { layers, setLayers } = useLayerContext();
+    const [imageLayerId, setImageLayerId] = useState(null);
+    const [maskLayerIds, setMaskLayerIds] = useState([]);
 
-    const maskColour = { r: 255, g: 0, b: 0 }; // Red color for the white part of the mask
+    console.log('layers', layers);
 
     useEffect(() => {
         appRef.current = new PIXI.Application({
@@ -22,43 +26,64 @@ const HookCanvasClient = ({ imageUrl, app, setApp, size, themeSettings }) => {
         });
         document.getElementById('canvas-container').appendChild(appRef.current.view as HTMLCanvasElement);
 
-        setApp(appRef.current);
+        updateHookApp(appRef.current);
 
         return () => {
             appRef.current.destroy(true, { children: true });
             appRef.current = null;
-            setApp(null);
+            updateHookApp(null);
         };
-    }, [setApp]);
+    }, [updateHookApp]);
 
-    const addImageLayer = () => {
+    const addImageLayer = (selectedTheme) => {
+        const newImageLayerId = Date.now();
+        setImageLayerId(newImageLayerId);
+
         setLayers((prevLayers) => [
             ...prevLayers,
-            { id: Date.now(), type: 'image', imageUrl, ...themeSettings.imageLayer },
+            { id: newImageLayerId, type: 'image', imageUrl, ...selectedTheme.settings },
         ]);
     };
+    const addMaskLayers = (selectedTheme) => {
+        console.log('layers addMaskLayers before', layers);
+        const newMaskLayerIds = selectedTheme.settings.shortMasks.map((maskLayer) => maskLayer.id);
+        setMaskLayerIds(newMaskLayerIds);
 
-    const addMaskLayers = () => {
         setLayers((prevLayers) =>
-            themeSettings.maskLayers.reduce((layers, maskLayer) => {
+            selectedTheme.settings.shortMasks.reduce((layers, maskLayer) => {
                 layers.push({
-                    id: Date.now(),
+                    id: newMaskLayerIds.shift(),
                     type: 'mask',
                     maskName: maskLayer.id,
                     colour: maskLayer.colour,
-                    ...maskLayer,
                 });
                 return layers;
             }, prevLayers),
         );
+        console.log('layers addMaskLayers after', layers);
     };
 
     useEffect(() => {
-        if (imageUrl) {
-            addImageLayer();
-            addMaskLayers();
+        if (selectedThemeId) {
+            const selectedTheme = themes.find((theme) => theme.id === selectedThemeId);
+
+            if (imageUrl && selectedTheme) {
+                // Remove the previous image layer if it exists
+                if (imageLayerId) {
+                    removeLayer(imageLayerId);
+                }
+
+                if (maskLayerIds) {
+                    maskLayerIds.forEach((maskLayerId) => {
+                        removeLayer(maskLayerId);
+                    });
+                }
+
+                addImageLayer(selectedTheme);
+                addMaskLayers(selectedTheme);
+            }
         }
-    }, [imageUrl]);
+    }, [selectedThemeId, imageUrl]);
 
     const removeLayer = (id) => {
         setLayers((prevLayers) => prevLayers.filter((layer) => layer.id !== id));
@@ -73,11 +98,11 @@ const HookCanvasClient = ({ imageUrl, app, setApp, size, themeSettings }) => {
     };
 
     return (
-        <PixiContext.Provider value={appRef.current}>
+        <>
             <div id="canvas-container"></div>
             {layers.map(renderLayer)}
             {/* Add other layer types buttons here */}
-        </PixiContext.Provider>
+        </>
     );
 };
 

@@ -1,6 +1,4 @@
 import { CampaignContext } from '../../contexts/CampaignContext';
-import UserContext from '../../contexts/UserContext';
-import DownloadCampaignButton from '../campaign-sidebar/DownloadCampaignButton';
 import SidebarCampaignOverview from '../campaign-sidebar/SidebarCampaignOverview';
 import SidebarClaimViewer from '../campaign-sidebar/SidebarClaimViewer';
 import SidebarCopyViewer from '../campaign-sidebar/SidebarCopyViewer';
