@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
 
-const useCanvasApp = (appRef, size, updateCanvasApp) => {
+const useCanvasApp = (appRef, size, updateCanvasApp, canvasName) => {
     useEffect(() => {
         appRef.current = new PIXI.Application({
             antialias: true,
@@ -11,7 +11,7 @@ const useCanvasApp = (appRef, size, updateCanvasApp) => {
             backgroundAlpha: 0,
             resolution: 1,
         });
-        document.getElementById('canvas-container').appendChild(appRef.current.view as HTMLCanvasElement);
+        document.getElementById(`${canvasName}-canvas-container`).appendChild(appRef.current.view as HTMLCanvasElement);
 
         updateCanvasApp(appRef.current);
 

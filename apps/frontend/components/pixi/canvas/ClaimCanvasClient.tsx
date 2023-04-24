@@ -11,16 +11,15 @@ const ClaimCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const { layers } = useLayerContext();
     console.log('ClaimCanvasClient: layers', layers);
 
-    useCanvasApp(appRef, size, updateClaimApp);
+    useCanvasApp(appRef, size, updateClaimApp, canvasName);
     useSelectedTheme(imageUrl, selectedThemeId, canvasName);
 
     return (
-        <>
-            <div id="canvas-container"></div>
+        <div id={`${canvasName}-canvas-container`}>
             {layers.map((layer) => {
                 if (layer.id.split('__')[0] === canvasName) return renderLayer(layer, appRef);
             })}
-        </>
+        </div>
     );
 };
 

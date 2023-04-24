@@ -12,13 +12,16 @@ function CampaignPage() {
     return (
         <CampaignProvider>
             <div className="bg-reviewDrumLightGray">
-                <div className="w-full min-w-fit">
+                <div className="w-full">
                     <TopNav />
-                    <div className="bg-black min-h-screen min-w-fit w-full text-white flex flex-col justify-center">
+                    <div className="bg-black min-h-screen w-full text-white flex flex-col justify-center">
                         <div className="flex flex-col md:flex-row flex-grow">
-                            <CampaignSidebar />
-                            {/*<ContentCanvas />*/}
-                            <ContentGenerator />
+                            <div className="flex-1">
+                                <CampaignSidebar />
+                            </div>
+                            <div className="flex-grow">
+                                <ContentGenerator />
+                            </div>
                         </div>
                     </div>
                 </div>
