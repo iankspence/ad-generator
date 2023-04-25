@@ -9,7 +9,7 @@ const ClaimCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const appRef = useRef(null);
     const { updateClaimApp } = useContext(PixiContext);
     const { layers } = useLayerContext();
-    console.log('ClaimCanvasClient: layers', layers);
+    // console.log('ClaimCanvasClient: layers', layers);
 
     useCanvasApp(appRef, size, updateClaimApp, canvasName);
     useSelectedTheme(imageUrl, selectedThemeId, canvasName);

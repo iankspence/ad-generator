@@ -34,7 +34,7 @@ const MaskLayer = ({ appRef, maskName, colour }) => {
         const fragment = `
 varying vec2 vTextureCoord;
 uniform sampler2D uSampler;
-uniform vec4 uColour; // Add this line to pass the colour as a uniform
+uniform vec4 uColour;
 
 void main(void)
 {

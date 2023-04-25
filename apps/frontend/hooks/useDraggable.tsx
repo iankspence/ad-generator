@@ -21,6 +21,8 @@ const useDraggable = (
 
     const onDragStart = useCallback(
         (event) => {
+            if (!appRef.current) return;
+
             const container = containerRef.current;
             if (!container) return;
 
@@ -37,7 +39,7 @@ const useDraggable = (
 
             imagePositionRef.current = { x: container.x, y: container.y };
         },
-        [containerRef],
+        [appRef, imageUrl, containerRef],
     );
 
     const onDragMove = useCallback(

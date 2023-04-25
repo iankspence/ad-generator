@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 const useSelectedThemes = (imageUrl, selectedThemeId, canvasName) => {
     const [imageLayerId, setImageLayerId] = useState(null);
     const [maskLayerIds, setMaskLayerIds] = useState([]);
-    const { layers, setLayers } = useLayerContext();
+    const { setLayers } = useLayerContext();
 
     useEffect(() => {
         if (selectedThemeId) {
@@ -24,7 +24,7 @@ const useSelectedThemes = (imageUrl, selectedThemeId, canvasName) => {
                     });
                 }
                 addImageLayer(selectedTheme, setImageLayerId, setLayers, imageUrl, canvasName);
-                addMaskLayers(selectedTheme, setMaskLayerIds, layers, setLayers, canvasName);
+                addMaskLayers(selectedTheme, setMaskLayerIds, setLayers, canvasName);
             }
         }
     }, [selectedThemeId, imageUrl]);

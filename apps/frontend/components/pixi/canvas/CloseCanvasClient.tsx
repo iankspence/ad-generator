@@ -9,7 +9,7 @@ const CloseCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const appRef = useRef(null);
     const { updateCloseApp } = useContext(PixiContext);
     const { layers } = useLayerContext();
-    console.log('CloseCanvasClient: layers', layers);
+    // console.log('CloseCanvasClient: layers', layers);
 
     useCanvasApp(appRef, size, updateCloseApp, canvasName);
     useSelectedTheme(imageUrl, selectedThemeId, canvasName);

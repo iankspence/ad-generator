@@ -8,10 +8,10 @@ const useZoom = (
 ) => {
     const handleWheel = useCallback(
         (event) => {
+            if (!appRef.current || !containerRef.current) return;
+
             const app = appRef.current;
             const container = containerRef.current;
-
-            if (!app || !container) return;
 
             event.preventDefault();
 
@@ -34,17 +34,18 @@ const useZoom = (
         },
         [appRef, containerRef, scaleFactor],
     );
+
     useEffect(() => {
-        if (!appRef?.current) return;
+        if (!appRef.current) return;
 
         const app = appRef.current;
 
-        if (app && app?.view) {
+        if (app.view) {
             app.view.addEventListener('wheel', handleWheel);
         }
 
         return () => {
-            if (app && app?.view) {
+            if (appRef.current && app.view) {
                 app.view.removeEventListener('wheel', handleWheel);
             }
         };

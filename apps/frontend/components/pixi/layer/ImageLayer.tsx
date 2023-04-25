@@ -16,6 +16,7 @@ const ImageLayer: React.FC<ImageLayerProps> = ({ appRef, imageUrl, children = nu
     useZoom(appRef, containerRef);
 
     useEffect(() => {
+        if (!appRef.current) return;
         const app = appRef.current;
         if (app && imageUrl) {
             if (!containerRef.current) {

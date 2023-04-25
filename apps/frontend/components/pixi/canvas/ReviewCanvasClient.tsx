@@ -9,7 +9,7 @@ const ReviewCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => 
     const appRef = useRef(null);
     const { updateReviewApp } = useContext(PixiContext);
     const { layers } = useLayerContext();
-    console.log('ReviewCanvasClient: layers', layers);
+    // console.log('ReviewCanvasClient: layers', layers);
 
     useCanvasApp(appRef, size, updateReviewApp, canvasName);
     useSelectedTheme(imageUrl, selectedThemeId, canvasName);
