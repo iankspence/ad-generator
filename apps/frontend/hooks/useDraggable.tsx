@@ -1,13 +1,16 @@
+import { onDragEnd } from '../callbacks/onDragEnd';
+import { onDragMove } from '../callbacks/onDragMove';
+import { onDragStart } from '../callbacks/onDragStart';
 import * as PIXI from 'pixi.js';
-import { useEffect, useCallback, useRef, useState, MutableRefObject } from 'react';
+import { useEffect, useCallback, useState, MutableRefObject } from 'react';
 
-interface CustomInteractionData {
+export interface CustomInteractionData {
     getLocalPosition(displayObject: PIXI.DisplayObject, point?: PIXI.Point, globalPos?: PIXI.Point): PIXI.Point;
 }
 
 export interface DraggableContainer extends PIXI.Container {
     dragging: boolean;
-    dragData: CustomInteractionData | null;
+    dragData: PIXI.FederatedPointerEvent | null;
     dragOffset: PIXI.Point | null;
 }
 
@@ -16,61 +19,18 @@ const useDraggable = (
     imageUrl: string,
     containerRef: MutableRefObject<DraggableContainer | null>,
 ) => {
-    const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
-    const imagePositionRef = useRef(imagePosition);
+    const [imagePosition] = useState({ x: 0, y: 0 });
 
-    const onDragStart = useCallback(
-        (event) => {
-            if (!appRef.current) return;
-
-            const container = containerRef.current;
-            if (!container) return;
-
-            container.alpha = 0.5;
-            container.dragging = true;
-            container.dragData = event.data;
-            const localPosition = event.data.getLocalPosition(container);
-            container.dragOffset = new PIXI.Point(
-                localPosition.x * container.scale.x,
-                localPosition.y * container.scale.y,
-            );
-            container.dragOffset.x *= -1;
-            container.dragOffset.y *= -1;
-
-            imagePositionRef.current = { x: container.x, y: container.y };
-        },
-        [appRef, imageUrl, containerRef],
+    const handleDragStart = useCallback(
+        (event: PIXI.FederatedPointerEvent) => onDragStart(appRef, containerRef)(event),
+        [appRef, containerRef],
     );
-
-    const onDragMove = useCallback(
-        (event) => {
-            const container = containerRef.current;
-            if (!container) return;
-
-            if (container.dragging) {
-                const newPosition = event.data.getLocalPosition(container.parent);
-
-                newPosition.x += container.dragOffset.x;
-                newPosition.y += container.dragOffset.y;
-
-                container.x = newPosition.x;
-                container.y = newPosition.y;
-                imagePositionRef.current = { x: newPosition.x, y: newPosition.y };
-            } else {
-                return;
-            }
-        },
+    const handleDragMove = useCallback(
+        (event: PIXI.FederatedPointerEvent) => onDragMove(containerRef)(event),
         [containerRef],
     );
-
-    const onDragEnd = useCallback(
-        (event) => {
-            const container = containerRef.current;
-            if (!container || !container.dragging) return;
-
-            container.alpha = 1;
-            container.dragging = false;
-        },
+    const handleDragEnd = useCallback(
+        (event: PIXI.FederatedPointerEvent) => onDragEnd(containerRef)(event),
         [containerRef],
     );
 
@@ -97,27 +57,30 @@ const useDraggable = (
                 container.addChild(image);
                 container.eventMode = 'static';
                 container
-                    .on('pointerdown', onDragStart)
-                    .on('pointerup', onDragEnd)
-                    .on('pointerupoutside', onDragEnd)
-                    .on('pointermove', onDragMove);
+                    .on('pointerdown', handleDragStart)
+                    .on('pointerup', handleDragEnd)
+                    .on('pointerupoutside', handleDragEnd)
+                    .on('pointermove', handleDragMove);
             }
         }
+
+        // Create a variable to hold the reference to 'appRef.current' before the cleanup function
+        const currentApp = app;
+
         return () => {
-            const app = appRef.current;
             const container = containerRef.current;
 
-            if (app && container) {
-                container.off('pointerdown', onDragStart);
-                container.off('pointerup', onDragEnd);
-                container.off('pointerupoutside', onDragEnd);
-                container.off('pointermove', onDragMove);
+            if (currentApp && currentApp?.stage && container) {
+                container.off('pointerdown', handleDragStart);
+                container.off('pointerup', handleDragEnd);
+                container.off('pointerupoutside', handleDragEnd);
+                container.off('pointermove', handleDragMove);
 
-                app.stage.removeChild(container);
+                currentApp.stage.removeChild(container);
                 containerRef.current = null;
             }
         };
-    }, [appRef, imageUrl, imagePosition, onDragStart, onDragEnd, onDragMove]);
+    }, [appRef, imageUrl, imagePosition, containerRef, handleDragStart, handleDragEnd, handleDragMove]);
 
     return imagePosition;
 };
