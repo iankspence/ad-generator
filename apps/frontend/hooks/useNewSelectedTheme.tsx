@@ -45,7 +45,7 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName) 
         if (!app || !imageUrl) return;
 
         app.stage.removeChildren();
-        addImageLayer(app, imageUrl);
+        // addImageLayer(app, imageUrl);
 
         if (selectedThemeId) {
             const selectedTheme = themes.find((theme) => theme.id === selectedThemeId);

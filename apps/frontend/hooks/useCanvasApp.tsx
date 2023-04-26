@@ -11,6 +11,7 @@ const useCanvasApp = (appRef, size, updateCanvasApp, canvasName) => {
             backgroundAlpha: 0,
             resolution: 1,
         });
+
         document.getElementById(`${canvasName}-canvas-container`).appendChild(appRef.current.view as HTMLCanvasElement);
 
         updateCanvasApp(appRef.current);

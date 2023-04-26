@@ -3,10 +3,8 @@ import * as PIXI from 'pixi.js';
 import { MutableRefObject } from 'react';
 
 export const onDragStart =
-    (appRef: MutableRefObject<PIXI.Application | null>, containerRef: MutableRefObject<DraggableContainer | null>) =>
+    (containerRef: MutableRefObject<DraggableContainer | null>) =>
     (event: PIXI.FederatedPointerEvent): void => {
-        if (!appRef.current) return;
-
         const container = containerRef.current;
         if (!container) return;
 

@@ -22,7 +22,7 @@ const useDraggable = (
     const [imagePosition] = useState({ x: 0, y: 0 });
 
     const handleDragStart = useCallback(
-        (event: PIXI.FederatedPointerEvent) => onDragStart(appRef, containerRef)(event),
+        (event: PIXI.FederatedPointerEvent) => onDragStart(containerRef)(event),
         [appRef, containerRef],
     );
     const handleDragMove = useCallback(
@@ -42,6 +42,8 @@ const useDraggable = (
 
         if (app && imageUrl) {
             if (!containerRef.current) {
+                app.stage.sortableChildren = true;
+
                 const container = new PIXI.Container();
                 app.stage.addChild(container);
                 containerRef.current = container as DraggableContainer;
@@ -53,6 +55,8 @@ const useDraggable = (
                 image.y = app.screen.height / 2;
                 image.eventMode = 'static';
                 image.cursor = 'pointer';
+
+                image.zIndex = 0;
 
                 container.addChild(image);
 
