@@ -13,91 +13,39 @@ export interface DraggableContainer extends PIXI.Container {
     dragData: PIXI.FederatedPointerEvent | null;
     dragOffset: PIXI.Point | null;
 }
-
-const useDraggable = (
-    appRef: MutableRefObject<PIXI.Application | null>,
-    imageUrl: string,
-    containerRef: MutableRefObject<DraggableContainer | null>,
-    // singleCanvasView: boolean,
-) => {
-    const [imagePosition] = useState({ x: 0, y: 0 });
-
+const useDraggable = (appRef: MutableRefObject<PIXI.Application | null>, container: DraggableContainer | null) => {
     const handleDragStart = useCallback(
-        (event: PIXI.FederatedPointerEvent) => onDragStart(containerRef)(event),
-        [appRef, containerRef],
+        (event: PIXI.FederatedPointerEvent) => onDragStart(container)(event),
+        [container],
     );
     const handleDragMove = useCallback(
-        (event: PIXI.FederatedPointerEvent) => onDragMove(containerRef)(event),
-        [containerRef],
+        (event: PIXI.FederatedPointerEvent) => onDragMove(container)(event),
+        [container],
     );
-    const handleDragEnd = useCallback(
-        (event: PIXI.FederatedPointerEvent) => onDragEnd(containerRef)(event),
-        [containerRef],
-    );
+    const handleDragEnd = useCallback((event: PIXI.FederatedPointerEvent) => onDragEnd(container)(event), [container]);
 
     useEffect(() => {
-        if (!appRef || !appRef?.current) return;
+        if (!appRef || !appRef.current || !container) return;
 
         const app = appRef.current;
-        if (!app || !imageUrl) return;
 
-        if (app && imageUrl) {
-            if (!containerRef.current) {
-                app.stage.sortableChildren = true;
-
-                const container = new PIXI.Container();
-                app.stage.addChild(container);
-                containerRef.current = container as DraggableContainer;
-
-                const image = PIXI.Sprite.from(imageUrl);
-                image.anchor.set(0.5);
-
-                image.x = app.screen.width / 2;
-                image.y = app.screen.height / 2;
-                image.eventMode = 'static';
-                image.cursor = 'pointer';
-
-                image.zIndex = 0;
-
-                console.log('adding image to container: ', image);
-                container.addChild(image);
-
-                container.eventMode = 'static';
-                container
-                    .on('pointerdown', handleDragStart)
-                    .on('pointerup', handleDragEnd)
-                    .on('pointerupoutside', handleDragEnd)
-                    .on('pointermove', handleDragMove);
-            }
-        }
-
-        const currentApp = app;
+        app.stage.sortableChildren = true;
+        container.eventMode = 'static';
+        container
+            .on('pointerdown', handleDragStart)
+            .on('pointerup', handleDragEnd)
+            .on('pointerupoutside', handleDragEnd)
+            .on('pointermove', handleDragMove);
 
         return () => {
-            const container = containerRef.current;
-
-            if (currentApp && currentApp?.stage && container) {
-                container.off('pointerdown', handleDragStart);
-                container.off('pointerup', handleDragEnd);
-                container.off('pointerupoutside', handleDragEnd);
-                container.off('pointermove', handleDragMove);
-
-                currentApp.stage.removeChild(container);
-                containerRef.current = null;
-            }
+            container.off('pointerdown', handleDragStart);
+            container.off('pointerup', handleDragEnd);
+            container.off('pointerupoutside', handleDragEnd);
+            container.off('pointermove', handleDragMove);
         };
-    }, [
-        appRef,
-        imageUrl,
-        imagePosition,
-        containerRef,
-        handleDragStart,
-        handleDragEnd,
-        handleDragMove,
-        // singleCanvasView,
-    ]);
+    }, [appRef, container, handleDragStart, handleDragEnd, handleDragMove]);
 
-    return containerRef;
+    return container;
 };
 
 export default useDraggable;

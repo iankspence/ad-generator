@@ -1,13 +1,9 @@
 import { DraggableContainer, CustomInteractionData } from '../hooks/useDraggable';
 import * as PIXI from 'pixi.js';
-import { MutableRefObject } from 'react';
 
 export const onDragStart =
-    (containerRef: MutableRefObject<DraggableContainer | null>) =>
+    (container: DraggableContainer) =>
     (event: PIXI.FederatedPointerEvent): void => {
-        const container = containerRef.current;
-        if (!container) return;
-
         container.alpha = 0.5;
         container.dragging = true;
         container.dragData = event;

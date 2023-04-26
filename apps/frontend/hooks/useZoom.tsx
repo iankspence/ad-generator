@@ -1,17 +1,12 @@
 import * as PIXI from 'pixi.js';
 import { useEffect, useCallback, MutableRefObject } from 'react';
 
-const useZoom = (
-    appRef: MutableRefObject<PIXI.Application | null>,
-    containerRef: MutableRefObject<PIXI.Container | null>,
-    scaleFactor = 1.1,
-) => {
+const useZoom = (appRef: MutableRefObject<PIXI.Application | null>, container: PIXI.Container, scaleFactor = 1.1) => {
     const handleWheel = useCallback(
         (event) => {
-            if (!appRef.current || !containerRef.current) return;
+            if (!appRef.current || !container) return;
 
             const app = appRef.current;
-            const container = containerRef.current;
 
             event.preventDefault();
 
@@ -32,7 +27,7 @@ const useZoom = (
             container.position.y +=
                 (localMousePositionAfterZoom.y - localMousePositionBeforeZoom.y) * container.scale.y;
         },
-        [appRef, containerRef, scaleFactor],
+        [appRef, container, scaleFactor],
     );
 
     useEffect(() => {
