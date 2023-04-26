@@ -1,7 +1,9 @@
 import { PixiContext } from '../contexts/PixiContext';
 import useDownload from '../hooks/useDownload';
 import { themes } from '../utils/constants/themes';
+import CanvasNavigation from './pixi/CanvasNavigation';
 import CanvasViewToggle from './pixi/CanvasViewToggle';
+import ThemeSelector from './pixi/ThemeSelector';
 import ClaimCanvasClient from './pixi/canvas/ClaimCanvasClient';
 import CloseCanvasClient from './pixi/canvas/CloseCanvasClient';
 import HookCanvasClient from './pixi/canvas/HookCanvasClient';
@@ -121,19 +123,15 @@ const ContentGenerator = () => {
     return (
         <>
             <div className="w-full">
-                <select
-                    value={selectedThemeId}
-                    onChange={handleThemeChange}
-                    style={{ color: '#000', backgroundColor: '#fff' }}
-                >
-                    {themes.map((theme) => (
-                        <option key={theme.id} value={theme.id}>
-                            {theme.id}
-                        </option>
-                    ))}
-                </select>
-                <CanvasViewToggle singleCanvasView={singleCanvasView} onToggle={handleToggleView} />
-
+                <div className="fixed top-8 left-1/2 transform -translate-x-1/2 z-10 flex items-center space-x-4">
+                    <ThemeSelector selectedThemeId={selectedThemeId} onThemeChange={handleThemeChange} />
+                    <CanvasViewToggle singleCanvasView={singleCanvasView} onToggle={handleToggleView} />
+                </div>
+                <CanvasNavigation
+                    onPrevious={handlePreviousCanvas}
+                    onNext={handleNextCanvas}
+                    visible={singleCanvasView}
+                />
                 {singleCanvasView ? (
                     <div
                         className={`relative flex flex-wrap ${singleCanvasView ? 'justify-center' : ''} w-full h-full`}

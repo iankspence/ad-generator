@@ -6,10 +6,7 @@ import React from 'react';
 
 const CanvasViewToggle = ({ singleCanvasView, onToggle }) => {
     return (
-        <div
-            className="fixed top-8 left-1/2 transform -translate-x-1/2 z-10"
-            style={{ color: '#000', backgroundColor: '#fff' }}
-        >
+        <div className="" style={{ color: '#000', backgroundColor: '#fff' }}>
             <ToggleButtonGroup value={singleCanvasView ? 'single' : 'four'} exclusive onChange={onToggle} size="small">
                 <ToggleButton value="four" aria-label="4-canvas view">
                     <BorderAllOutlinedIcon />
