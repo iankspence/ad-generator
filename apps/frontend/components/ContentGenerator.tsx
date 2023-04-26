@@ -1,14 +1,15 @@
 import { PixiContext } from '../contexts/PixiContext';
 import useDownload from '../hooks/useDownload';
 import { themes } from '../utils/constants/themes';
-import CanvasNavigation from './pixi/CanvasNavigation';
-import CanvasViewToggle from './pixi/CanvasViewToggle';
-import DownloadButton from './pixi/DownloadButton';
-import ThemeSelector from './pixi/ThemeSelector';
 import ClaimCanvasClient from './pixi/canvas/ClaimCanvasClient';
 import CloseCanvasClient from './pixi/canvas/CloseCanvasClient';
 import HookCanvasClient from './pixi/canvas/HookCanvasClient';
 import ReviewCanvasClient from './pixi/canvas/ReviewCanvasClient';
+import CanvasNavigation from './pixi/floating-buttons/CanvasNavigation';
+import CanvasViewToggle from './pixi/floating-buttons/CanvasViewToggle';
+import DownloadButton from './pixi/floating-buttons/DownloadButton';
+import ImageUploadDrawer from './pixi/floating-buttons/ImageUploadDrawer';
+import ThemeSelector from './pixi/floating-buttons/ThemeSelector';
 import React, { useCallback, useContext, useState } from 'react';
 
 const ContentGenerator = () => {
@@ -125,6 +126,8 @@ const ContentGenerator = () => {
                     visible={singleCanvasView}
                 />
                 <DownloadButton />
+                <ImageUploadDrawer onImageUpload={handleImageUpload} />
+
                 {singleCanvasView ? (
                     <div
                         className={`relative flex flex-wrap ${singleCanvasView ? 'justify-center' : ''} w-full h-full`}
@@ -140,13 +143,6 @@ const ContentGenerator = () => {
                         {renderCanvas(3)}
                     </div>
                 )}
-                {singleCanvasView && (
-                    <>
-                        <button onClick={handlePreviousCanvas}>Previous</button>
-                        <button onClick={handleNextCanvas}>Next</button>
-                    </>
-                )}
-                <input type="file" accept="image/*" onChange={handleImageUpload} />
             </div>
         </>
     );
