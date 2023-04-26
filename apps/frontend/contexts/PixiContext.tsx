@@ -12,6 +12,14 @@ interface PixiContextProps {
     updateReviewApp: (newApp: PIXI.Application) => void;
     selectedThemeId: string | null;
     updateSelectedThemeId: (selectedThemeId: string) => void;
+    hookImageContainer: PIXI.Container | null;
+    updateHookImageContainer: (container: PIXI.Container) => void;
+    claimImageContainer: PIXI.Container | null;
+    updateClaimImageContainer: (container: PIXI.Container) => void;
+    closeImageContainer: PIXI.Container | null;
+    updateCloseImageContainer: (container: PIXI.Container) => void;
+    reviewImageContainer: PIXI.Container | null;
+    updateReviewImageContainer: (container: PIXI.Container) => void;
 }
 
 const PixiContext = createContext<PixiContextProps>({
@@ -29,6 +37,15 @@ const PixiContext = createContext<PixiContextProps>({
 
     selectedThemeId: 'basic-swoosh',
     updateSelectedThemeId: () => void 0,
+
+    hookImageContainer: null,
+    updateHookImageContainer: () => void 0,
+    claimImageContainer: null,
+    updateClaimImageContainer: () => void 0,
+    closeImageContainer: null,
+    updateCloseImageContainer: () => void 0,
+    reviewImageContainer: null,
+    updateReviewImageContainer: () => void 0,
 });
 
 export const PixiProvider = ({ children }) => {
@@ -37,6 +54,10 @@ export const PixiProvider = ({ children }) => {
     const [closeApp, setCloseApp] = useState(null);
     const [reviewApp, setReviewApp] = useState(null);
     const [selectedThemeId, setSelectedThemeId] = useState('basic-swoosh');
+    const [hookImageContainer, setHookImageContainer] = useState(null);
+    const [claimImageContainer, setClaimImageContainer] = useState(null);
+    const [closeImageContainer, setCloseImageContainer] = useState(null);
+    const [reviewImageContainer, setReviewImageContainer] = useState(null);
 
     return (
         <PixiContext.Provider
@@ -51,6 +72,14 @@ export const PixiProvider = ({ children }) => {
                 updateReviewApp: setReviewApp,
                 selectedThemeId,
                 updateSelectedThemeId: setSelectedThemeId,
+                hookImageContainer,
+                updateHookImageContainer: setHookImageContainer,
+                claimImageContainer,
+                updateClaimImageContainer: setClaimImageContainer,
+                closeImageContainer,
+                updateCloseImageContainer: setCloseImageContainer,
+                reviewImageContainer,
+                updateReviewImageContainer: setReviewImageContainer,
             }}
         >
             {children}

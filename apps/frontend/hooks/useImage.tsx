@@ -1,8 +1,15 @@
+import { PixiContext } from '../contexts/PixiContext';
 import * as PIXI from 'pixi.js';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-export const useImage = (appRef, imageUrl) => {
+export const useImage = (appRef, imageUrl, canvasName) => {
     const [container, setContainer] = useState(null);
+    const {
+        updateHookImageContainer,
+        updateClaimImageContainer,
+        updateCloseImageContainer,
+        updateReviewImageContainer,
+    } = useContext(PixiContext);
 
     useEffect(() => {
         if (!appRef || !appRef.current || !imageUrl) return;
@@ -25,6 +32,23 @@ export const useImage = (appRef, imageUrl) => {
         container.addChild(image);
 
         setContainer(container);
+
+        switch (canvasName) {
+            case 'hook':
+                updateHookImageContainer(container);
+                break;
+            case 'claim':
+                updateClaimImageContainer(container);
+                break;
+            case 'close':
+                updateCloseImageContainer(container);
+                break;
+            case 'review':
+                updateReviewImageContainer(container);
+                break;
+            default:
+                break;
+        }
 
         return () => {
             container.removeChild(image);

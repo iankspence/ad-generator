@@ -13,7 +13,7 @@ const ClaimCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     useCanvasApp(appRef, size, updateClaimApp, canvasName);
     useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName);
 
-    const container = useImage(appRef, imageUrl);
+    const container = useImage(appRef, imageUrl, canvasName);
     useDraggable(appRef, container);
     useZoom(appRef, container);
 

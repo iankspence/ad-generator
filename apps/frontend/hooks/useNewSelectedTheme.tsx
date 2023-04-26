@@ -1,11 +1,14 @@
 import { addMaskLayer } from '../components/pixi/utils/pixi-utils';
+import { PixiContext } from '../contexts/PixiContext';
 import { getMasksByNames } from '../utils/api';
 import { themes } from '../utils/constants/themes';
 import * as PIXI from 'pixi.js';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName) => {
     const [maskTextures, setMaskTextures] = useState([]);
+    const { hookImageContainer, claimImageContainer, closeImageContainer, reviewImageContainer } =
+        useContext(PixiContext);
 
     const fetchMaskTextures = async (maskNames) => {
         try {
@@ -42,33 +45,61 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName) 
         }
     }, [selectedThemeId, canvasName]);
 
+    // Helper function to get the correct image based on the canvasName
+    const getImageForCanvas = (canvasName, hookImage, claimImage, closeImage, reviewImage) => {
+        switch (canvasName) {
+            case 'hook':
+                return hookImage;
+            case 'claim':
+                return claimImage;
+            case 'close':
+                return closeImage;
+            case 'review':
+                return reviewImage;
+            default:
+                return null;
+        }
+    };
+
     useEffect(() => {
-        if (!app || !imageUrl) return;
+        if (!app || !app.stage) return;
+
+        const container = getImageForCanvas(
+            canvasName,
+            hookImageContainer,
+            claimImageContainer,
+            closeImageContainer,
+            reviewImageContainer,
+        );
+        if (!container) return;
 
         app.stage.removeChildren();
-        // addImageLayer(app, imageUrl);
+
+        app.stage.addChild(container);
 
         if (selectedThemeId) {
             const selectedTheme = themes.find((theme) => theme.id === selectedThemeId);
 
             if (selectedTheme) {
                 maskTextures.forEach((texture, index) => {
-                    const masks =
-                        // canvasName === 'review' ? selectedTheme.settings.tallMasks : selectedTheme.settings.shortMasks;
-                        selectedTheme.settings.shortMasks;
+                    const masks = selectedTheme.settings.shortMasks;
                     const maskData = {
                         texture,
                         colour: masks[index].colour,
                     };
                     addMaskLayer(app, maskData);
                 });
-
-                // if (selectedTheme.text) {
-                //     addTextLayer(app, selectedTheme.text);
-                // }
             }
         }
-    }, [app, imageUrl, selectedThemeId, maskTextures]);
+    }, [
+        app,
+        hookImageContainer,
+        claimImageContainer,
+        closeImageContainer,
+        reviewImageContainer,
+        selectedThemeId,
+        maskTextures,
+    ]);
 };
 
 export default useNewSelectedTheme;
