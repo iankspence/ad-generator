@@ -1,4 +1,4 @@
-import { addImageLayer, addMaskLayer, addTextLayer } from '../components/pixi/utils/pixi-utils';
+import { addMaskLayer } from '../components/pixi/utils/pixi-utils';
 import { getMasksByNames } from '../utils/api';
 import { themes } from '../utils/constants/themes';
 import * as PIXI from 'pixi.js';
@@ -54,7 +54,8 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName) 
             if (selectedTheme) {
                 maskTextures.forEach((texture, index) => {
                     const masks =
-                        canvasName === 'review' ? selectedTheme.settings.tallMasks : selectedTheme.settings.shortMasks;
+                        // canvasName === 'review' ? selectedTheme.settings.tallMasks : selectedTheme.settings.shortMasks;
+                        selectedTheme.settings.shortMasks;
                     const maskData = {
                         texture,
                         colour: masks[index].colour,
