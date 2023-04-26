@@ -3,6 +3,7 @@ import useDownload from '../hooks/useDownload';
 import { themes } from '../utils/constants/themes';
 import CanvasNavigation from './pixi/CanvasNavigation';
 import CanvasViewToggle from './pixi/CanvasViewToggle';
+import DownloadButton from './pixi/DownloadButton';
 import ThemeSelector from './pixi/ThemeSelector';
 import ClaimCanvasClient from './pixi/canvas/ClaimCanvasClient';
 import CloseCanvasClient from './pixi/canvas/CloseCanvasClient';
@@ -16,15 +17,6 @@ const ContentGenerator = () => {
 
     const [currentCanvasIndex, setCurrentCanvasIndex] = useState(0);
     const [singleCanvasView, setSingleCanvasView] = useState(true);
-
-    const { downloadHookApp, downloadClaimApp, downloadReviewApp, downloadCloseApp } = useDownload(1080, 1080);
-
-    const handleDownloadButtonClick = useCallback(() => {
-        downloadHookApp();
-        downloadClaimApp();
-        downloadReviewApp();
-        downloadCloseApp();
-    }, [downloadHookApp, downloadClaimApp]);
 
     const handleThemeChange = (event) => {
         console.log(event.target.value);
@@ -132,6 +124,7 @@ const ContentGenerator = () => {
                     onNext={handleNextCanvas}
                     visible={singleCanvasView}
                 />
+                <DownloadButton />
                 {singleCanvasView ? (
                     <div
                         className={`relative flex flex-wrap ${singleCanvasView ? 'justify-center' : ''} w-full h-full`}
@@ -154,7 +147,6 @@ const ContentGenerator = () => {
                     </>
                 )}
                 <input type="file" accept="image/*" onChange={handleImageUpload} />
-                <button onClick={handleDownloadButtonClick}>Download</button>
             </div>
         </>
     );
