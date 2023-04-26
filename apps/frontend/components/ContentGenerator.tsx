@@ -110,16 +110,22 @@ const ContentGenerator = () => {
 
     const renderCanvas = (index, isVisible) => {
         return (
-            <div key={index} className={`w-full p-4 ${isVisible ? 'visible' : 'invisible'}`}>
+            <div
+                key={index}
+                className={`${singleCanvasView ? 'absolute' : 'w-1/2'} p-4 ${isVisible ? 'visible' : 'invisible'}`}
+                style={
+                    singleCanvasView
+                        ? isVisible
+                            ? { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }
+                            : { left: '-9999px' }
+                        : {}
+                }
+            >
                 <h1>{canvases[index].title}</h1>
                 <div className="w-400 h-400">{canvases[index].component}</div>
             </div>
         );
     };
-
-    // console.log(layers);
-    const nonSelectedIndex = (currentCanvasIndex + 1) % canvases.length;
-
     return (
         <>
             <div className="w-full">
@@ -135,7 +141,10 @@ const ContentGenerator = () => {
                     ))}
                 </select>
                 {singleCanvasView ? (
-                    <div className="flex flex-wrap">
+                    <div
+                        className={`relative flex flex-wrap ${singleCanvasView ? 'justify-center' : ''} w-full h-full`}
+                        style={{ minHeight: 'calc(100vh - 100px)' }} // Adjust this value to position the canvases
+                    >
                         {canvases.map((_, index) => {
                             const isVisible = !singleCanvasView || index === currentCanvasIndex;
                             return renderCanvas(index, isVisible);
