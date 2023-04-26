@@ -1,4 +1,3 @@
-import { useLayerContext } from '../contexts/LayerContext';
 import { PixiContext } from '../contexts/PixiContext';
 import useDownload from '../hooks/useDownload';
 import { themes } from '../utils/constants/themes';
@@ -11,7 +10,6 @@ import React, { useCallback, useContext, useState } from 'react';
 const ContentGenerator = () => {
     const [imageUrl, setImageUrl] = useState(null);
     const { selectedThemeId, updateSelectedThemeId } = useContext(PixiContext);
-    const { layers, setLayers } = useLayerContext();
 
     const { hookApp, claimApp, reviewApp, closeApp } = useContext(PixiContext);
     console.log(hookApp, claimApp, reviewApp, closeApp);
@@ -31,11 +29,6 @@ const ContentGenerator = () => {
     const handleThemeChange = (event) => {
         console.log(event.target.value);
         updateSelectedThemeId(event.target.value);
-
-        // if there are layers in the layer context, remove the mask layers
-        if (layers.length > 0) {
-            setLayers((prevLayers) => prevLayers.filter((layer) => layer.type === 'image'));
-        }
     };
     const handleImageUpload = (event) => {
         const file = event.target.files[0];

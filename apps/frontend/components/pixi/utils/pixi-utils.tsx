@@ -1,20 +1,5 @@
 import * as PIXI from 'pixi.js';
 
-export const addImageLayer = (app, imageUrl) => {
-    const container = new PIXI.Container();
-    app.stage.addChild(container);
-
-    const image = PIXI.Sprite.from(imageUrl);
-    image.anchor.set(0.5);
-
-    image.x = app.screen.width / 2;
-    image.y = app.screen.height / 2;
-    image.eventMode = 'static';
-
-    image.zIndex = 0;
-    container.addChild(image);
-};
-
 export const addMaskLayer = (app, maskData) => {
     const { texture, colour } = maskData;
     const mask = new PIXI.Sprite(texture);
@@ -42,10 +27,6 @@ void main(void)
 `;
     const colourFilter = new PIXI.Filter(null, fragment, { uColour: new PIXI.Color(colour).toRgbArray() });
     mask.filters = [colourFilter];
-
-    // console.log('Texture:', texture);
-    // console.log('Mask sprite:', mask);
-    // console.log('Filter properties:', colourFilter);
 
     app.stage.addChild(mask);
 };

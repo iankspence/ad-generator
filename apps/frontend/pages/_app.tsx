@@ -14,17 +14,15 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <UserProvider>
             <CampaignProvider>
                 <PixiProvider>
-                    <LayerProvider>
-                        <Head>
-                            <title>Chiro Creative</title>
-                        </Head>
-                        <ThemeProvider theme={theme}>
-                            <CssBaseline />
-                            <main className="app">
-                                <Component {...pageProps} />
-                            </main>
-                        </ThemeProvider>
-                    </LayerProvider>
+                    <Head>
+                        <title>Chiro Creative</title>
+                    </Head>
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline />
+                        <main className="app">
+                            <Component {...pageProps} />
+                        </main>
+                    </ThemeProvider>
                 </PixiProvider>
             </CampaignProvider>
         </UserProvider>
