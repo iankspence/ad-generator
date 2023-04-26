@@ -84,29 +84,38 @@ const ContentGenerator = () => {
                 />
             ),
         },
-        // {
-        //     title: 'Review Canvas',
-        //     component: (
-        //         <ReviewCanvasClient
-        //             imageUrl={imageUrl}
-        //             size={400}
-        //             selectedThemeId={selectedThemeId}
-        //             canvasName={'review'}
-        //         />
-        //     ),
-        // },
-        // {
-        //     title: 'Close Canvas',
-        //     component: (
-        //         <CloseCanvasClient
-        //             imageUrl={imageUrl}
-        //             size={400}
-        //             selectedThemeId={selectedThemeId}
-        //             canvasName={'close'}
-        //         />
-        //     ),
-        // },
+        {
+            title: 'Review Canvas',
+            component: (
+                <ReviewCanvasClient
+                    imageUrl={imageUrl}
+                    size={400}
+                    selectedThemeId={selectedThemeId}
+                    canvasName={'review'}
+                />
+            ),
+        },
+        {
+            title: 'Close Canvas',
+            component: (
+                <CloseCanvasClient
+                    imageUrl={imageUrl}
+                    size={400}
+                    selectedThemeId={selectedThemeId}
+                    canvasName={'close'}
+                />
+            ),
+        },
     ];
+
+    const renderCanvas = (index, isVisible) => {
+        return (
+            <div className={`w-full p-4 ${isVisible ? '' : 'invisible'}`}>
+                <h1>{canvases[index].title}</h1>
+                <div className="w-400 h-400">{canvases[index].component}</div>
+            </div>
+        );
+    };
 
     // console.log(layers);
     const nonSelectedIndex = (currentCanvasIndex + 1) % canvases.length;
@@ -127,33 +136,18 @@ const ContentGenerator = () => {
                 </select>
                 {singleCanvasView ? (
                     <div className="flex flex-wrap">
-                        <div className="w-full p-4">
-                            <h1>{canvases[currentCanvasIndex].title}</h1>
-                            <div className="w-400 h-400">{canvases[currentCanvasIndex].component}</div>
-                        </div>
-                        <div className="w-full p-4">
-                            <h1>{canvases[nonSelectedIndex].title}</h1>
-                            <div className="w-400 h-400 invisible">{canvases[nonSelectedIndex].component}</div>
-                        </div>
+                        {renderCanvas(currentCanvasIndex, true)}
+                        {renderCanvas((currentCanvasIndex + 1) % canvases.length, false)}
+                        {renderCanvas((currentCanvasIndex + 2) % canvases.length, false)}
+                        {renderCanvas((currentCanvasIndex + 3) % canvases.length, false)}
                     </div>
                 ) : (
                     <div className="flex flex-wrap">
-                        <div className={`w-full md:w-1/2 p-4`}>
-                            <h1>{canvases[0].title}</h1>
-                            <div className="w-400 h-400">{canvases[0].component}</div>
-                        </div>
-
-                        <div className={`w-full md:w-1/2 p-4`}>
-                            <h1>{canvases[1].title}</h1>
-                            <div className="w-400 h-400">{canvases[nonSelectedIndex].component}</div>
-                        </div>
+                        {renderCanvas(0, true)}
+                        {renderCanvas(1, true)}
+                        {renderCanvas(2, true)}
+                        {renderCanvas(3, true)}
                     </div>
-                )}
-                {singleCanvasView && (
-                    <>
-                        <button onClick={handlePreviousCanvas}>Previous</button>
-                        <button onClick={handleNextCanvas}>Next</button>
-                    </>
                 )}
                 <button onClick={handleToggleView}>
                     {singleCanvasView ? 'Show 4 Canvas View' : 'Show Single Canvas View'}
