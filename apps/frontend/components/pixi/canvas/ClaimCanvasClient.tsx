@@ -1,26 +1,23 @@
-import { useLayerContext } from '../../../contexts/LayerContext';
 import { PixiContext } from '../../../contexts/PixiContext';
 import useCanvasApp from '../../../hooks/useCanvasApp';
-import useSelectedTheme from '../../../hooks/useSelectedTheme';
-import { renderLayer } from '../utils/renderLayer';
+import useDraggable from '../../../hooks/useDraggable';
+import useNewSelectedTheme from '../../../hooks/useNewSelectedTheme';
+import useZoom from '../../../hooks/useZoom';
 import React, { useContext, useRef } from 'react';
 
 const ClaimCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const appRef = useRef(null);
+    const containerRef = useRef(null);
     const { updateClaimApp } = useContext(PixiContext);
-    const { layers } = useLayerContext();
-    // console.log('ClaimCanvasClient: layers', layers);
 
     useCanvasApp(appRef, size, updateClaimApp, canvasName);
-    useSelectedTheme(imageUrl, selectedThemeId, canvasName);
+    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName);
 
-    return (
-        <div id={`${canvasName}-canvas-container`}>
-            {layers.map((layer) => {
-                if (layer.id.split('__')[0] === canvasName) return renderLayer(layer, appRef);
-            })}
-        </div>
-    );
+    useDraggable(appRef, imageUrl, containerRef);
+
+    useZoom(appRef, containerRef);
+
+    return <div id={`${canvasName}-canvas-container`}></div>;
 };
 
 export default ClaimCanvasClient;

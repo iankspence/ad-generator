@@ -18,6 +18,7 @@ const useDraggable = (
     appRef: MutableRefObject<PIXI.Application | null>,
     imageUrl: string,
     containerRef: MutableRefObject<DraggableContainer | null>,
+    // singleCanvasView: boolean,
 ) => {
     const [imagePosition] = useState({ x: 0, y: 0 });
 
@@ -58,6 +59,7 @@ const useDraggable = (
 
                 image.zIndex = 0;
 
+                console.log('adding image to container: ', image);
                 container.addChild(image);
 
                 container.eventMode = 'static';
@@ -84,9 +86,18 @@ const useDraggable = (
                 containerRef.current = null;
             }
         };
-    }, [appRef, imageUrl, imagePosition, containerRef, handleDragStart, handleDragEnd, handleDragMove]);
+    }, [
+        appRef,
+        imageUrl,
+        imagePosition,
+        containerRef,
+        handleDragStart,
+        handleDragEnd,
+        handleDragMove,
+        // singleCanvasView,
+    ]);
 
-    return imagePosition;
+    return containerRef;
 };
 
 export default useDraggable;

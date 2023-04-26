@@ -73,17 +73,17 @@ const ContentGenerator = () => {
                 />
             ),
         },
-        // {
-        //     title: 'Claim Canvas',
-        //     component: (
-        //         <ClaimCanvasClient
-        //             imageUrl={imageUrl}
-        //             size={400}
-        //             selectedThemeId={selectedThemeId}
-        //             canvasName={'claim'}
-        //         />
-        //     ),
-        // },
+        {
+            title: 'Claim Canvas',
+            component: (
+                <ClaimCanvasClient
+                    imageUrl={imageUrl}
+                    size={400}
+                    selectedThemeId={selectedThemeId}
+                    canvasName={'claim'}
+                />
+            ),
+        },
         // {
         //     title: 'Review Canvas',
         //     component: (
@@ -108,7 +108,9 @@ const ContentGenerator = () => {
         // },
     ];
 
-    console.log(layers);
+    // console.log(layers);
+    const nonSelectedIndex = (currentCanvasIndex + 1) % canvases.length;
+
     return (
         <>
             <div className="w-full">
@@ -129,20 +131,22 @@ const ContentGenerator = () => {
                             <h1>{canvases[currentCanvasIndex].title}</h1>
                             <div className="w-400 h-400">{canvases[currentCanvasIndex].component}</div>
                         </div>
+                        <div className="w-full p-4">
+                            <h1>{canvases[nonSelectedIndex].title}</h1>
+                            <div className="w-400 h-400 invisible">{canvases[nonSelectedIndex].component}</div>
+                        </div>
                     </div>
                 ) : (
                     <div className="flex flex-wrap">
-                        {canvases.map((canvas, index) => (
-                            <div
-                                key={canvas.title}
-                                className={`w-full md:w-1/2 p-4 ${
-                                    singleCanvasView && index !== currentCanvasIndex ? 'hidden' : ''
-                                }`}
-                            >
-                                <h1>{canvas.title}</h1>
-                                <div className="w-400 h-400">{canvas.component}</div>
-                            </div>
-                        ))}
+                        <div className={`w-full md:w-1/2 p-4`}>
+                            <h1>{canvases[0].title}</h1>
+                            <div className="w-400 h-400">{canvases[0].component}</div>
+                        </div>
+
+                        <div className={`w-full md:w-1/2 p-4`}>
+                            <h1>{canvases[1].title}</h1>
+                            <div className="w-400 h-400">{canvases[nonSelectedIndex].component}</div>
+                        </div>
                     </div>
                 )}
                 {singleCanvasView && (

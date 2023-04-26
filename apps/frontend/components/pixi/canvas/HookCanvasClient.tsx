@@ -12,7 +12,9 @@ const HookCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
 
     useCanvasApp(appRef, size, updateHookApp, canvasName);
     useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName);
+
     useDraggable(appRef, imageUrl, containerRef);
+
     useZoom(appRef, containerRef);
 
     return <div id={`${canvasName}-canvas-container`}></div>;

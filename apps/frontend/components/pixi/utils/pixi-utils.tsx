@@ -43,8 +43,8 @@ void main(void)
     const colourFilter = new PIXI.Filter(null, fragment, { uColour: new PIXI.Color(colour).toRgbArray() });
     mask.filters = [colourFilter];
 
-    console.log('Texture:', texture);
-    console.log('Mask sprite:', mask);
+    // console.log('Texture:', texture);
+    // console.log('Mask sprite:', mask);
     // console.log('Filter properties:', colourFilter);
 
     app.stage.addChild(mask);
