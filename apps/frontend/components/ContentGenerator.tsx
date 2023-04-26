@@ -110,7 +110,7 @@ const ContentGenerator = () => {
 
     const renderCanvas = (index, isVisible) => {
         return (
-            <div className={`w-full p-4 ${isVisible ? '' : 'invisible'}`}>
+            <div key={index} className={`w-full p-4 ${isVisible ? 'visible' : 'invisible'}`}>
                 <h1>{canvases[index].title}</h1>
                 <div className="w-400 h-400">{canvases[index].component}</div>
             </div>
@@ -136,10 +136,10 @@ const ContentGenerator = () => {
                 </select>
                 {singleCanvasView ? (
                     <div className="flex flex-wrap">
-                        {renderCanvas(currentCanvasIndex, true)}
-                        {renderCanvas((currentCanvasIndex + 1) % canvases.length, false)}
-                        {renderCanvas((currentCanvasIndex + 2) % canvases.length, false)}
-                        {renderCanvas((currentCanvasIndex + 3) % canvases.length, false)}
+                        {canvases.map((_, index) => {
+                            const isVisible = !singleCanvasView || index === currentCanvasIndex;
+                            return renderCanvas(index, isVisible);
+                        })}
                     </div>
                 ) : (
                     <div className="flex flex-wrap">
@@ -148,6 +148,12 @@ const ContentGenerator = () => {
                         {renderCanvas(2, true)}
                         {renderCanvas(3, true)}
                     </div>
+                )}
+                {singleCanvasView && (
+                    <>
+                        <button onClick={handlePreviousCanvas}>Previous</button>
+                        <button onClick={handleNextCanvas}>Next</button>
+                    </>
                 )}
                 <button onClick={handleToggleView}>
                     {singleCanvasView ? 'Show 4 Canvas View' : 'Show Single Canvas View'}
