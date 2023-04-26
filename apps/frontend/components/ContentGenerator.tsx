@@ -13,6 +13,9 @@ const ContentGenerator = () => {
     const { selectedThemeId, updateSelectedThemeId } = useContext(PixiContext);
     const { layers, setLayers } = useLayerContext();
 
+    const { hookApp, claimApp, reviewApp, closeApp } = useContext(PixiContext);
+    console.log(hookApp, claimApp, reviewApp, closeApp);
+
     const [currentCanvasIndex, setCurrentCanvasIndex] = useState(0);
     const [singleCanvasView, setSingleCanvasView] = useState(false);
 
@@ -70,39 +73,39 @@ const ContentGenerator = () => {
                 />
             ),
         },
-        {
-            title: 'Claim Canvas',
-            component: (
-                <ClaimCanvasClient
-                    imageUrl={imageUrl}
-                    size={400}
-                    selectedThemeId={selectedThemeId}
-                    canvasName={'claim'}
-                />
-            ),
-        },
-        {
-            title: 'Review Canvas',
-            component: (
-                <ReviewCanvasClient
-                    imageUrl={imageUrl}
-                    size={400}
-                    selectedThemeId={selectedThemeId}
-                    canvasName={'review'}
-                />
-            ),
-        },
-        {
-            title: 'Close Canvas',
-            component: (
-                <CloseCanvasClient
-                    imageUrl={imageUrl}
-                    size={400}
-                    selectedThemeId={selectedThemeId}
-                    canvasName={'close'}
-                />
-            ),
-        },
+        // {
+        //     title: 'Claim Canvas',
+        //     component: (
+        //         <ClaimCanvasClient
+        //             imageUrl={imageUrl}
+        //             size={400}
+        //             selectedThemeId={selectedThemeId}
+        //             canvasName={'claim'}
+        //         />
+        //     ),
+        // },
+        // {
+        //     title: 'Review Canvas',
+        //     component: (
+        //         <ReviewCanvasClient
+        //             imageUrl={imageUrl}
+        //             size={400}
+        //             selectedThemeId={selectedThemeId}
+        //             canvasName={'review'}
+        //         />
+        //     ),
+        // },
+        // {
+        //     title: 'Close Canvas',
+        //     component: (
+        //         <CloseCanvasClient
+        //             imageUrl={imageUrl}
+        //             size={400}
+        //             selectedThemeId={selectedThemeId}
+        //             canvasName={'close'}
+        //         />
+        //     ),
+        // },
     ];
 
     console.log(layers);

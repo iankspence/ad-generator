@@ -55,6 +55,7 @@ const useDraggable = (
                 image.cursor = 'pointer';
 
                 container.addChild(image);
+
                 container.eventMode = 'static';
                 container
                     .on('pointerdown', handleDragStart)
@@ -64,7 +65,6 @@ const useDraggable = (
             }
         }
 
-        // Create a variable to hold the reference to 'appRef.current' before the cleanup function
         const currentApp = app;
 
         return () => {
