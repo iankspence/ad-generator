@@ -1,6 +1,7 @@
 import { PixiContext } from '../contexts/PixiContext';
 import useDownload from '../hooks/useDownload';
 import { themes } from '../utils/constants/themes';
+import CanvasViewToggle from './pixi/CanvasViewToggle';
 import ClaimCanvasClient from './pixi/canvas/ClaimCanvasClient';
 import CloseCanvasClient from './pixi/canvas/CloseCanvasClient';
 import HookCanvasClient from './pixi/canvas/HookCanvasClient';
@@ -12,7 +13,7 @@ const ContentGenerator = () => {
     const { selectedThemeId, updateSelectedThemeId } = useContext(PixiContext);
 
     const [currentCanvasIndex, setCurrentCanvasIndex] = useState(0);
-    const [singleCanvasView, setSingleCanvasView] = useState(false);
+    const [singleCanvasView, setSingleCanvasView] = useState(true);
 
     const { downloadHookApp, downloadClaimApp, downloadReviewApp, downloadCloseApp } = useDownload(1080, 1080);
 
@@ -27,6 +28,11 @@ const ContentGenerator = () => {
         console.log(event.target.value);
         updateSelectedThemeId(event.target.value);
     };
+
+    const handleToggleView = (event, newView) => {
+        setSingleCanvasView(newView === 'single');
+    };
+
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -45,10 +51,6 @@ const ContentGenerator = () => {
 
     const handleNextCanvas = () => {
         setCurrentCanvasIndex((prevIndex) => (prevIndex + 1) % canvases.length);
-    };
-
-    const handleToggleView = () => {
-        setSingleCanvasView((prevSingleCanvasView) => !prevSingleCanvasView);
     };
 
     const canvases = [
@@ -130,6 +132,8 @@ const ContentGenerator = () => {
                         </option>
                     ))}
                 </select>
+                <CanvasViewToggle singleCanvasView={singleCanvasView} onToggle={handleToggleView} />
+
                 {singleCanvasView ? (
                     <div
                         className={`relative flex flex-wrap ${singleCanvasView ? 'justify-center' : ''} w-full h-full`}
@@ -151,9 +155,6 @@ const ContentGenerator = () => {
                         <button onClick={handleNextCanvas}>Next</button>
                     </>
                 )}
-                <button onClick={handleToggleView}>
-                    {singleCanvasView ? 'Show 4 Canvas View' : 'Show Single Canvas View'}
-                </button>
                 <input type="file" accept="image/*" onChange={handleImageUpload} />
                 <button onClick={handleDownloadButtonClick}>Download</button>
             </div>
