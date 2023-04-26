@@ -11,9 +11,6 @@ const ContentGenerator = () => {
     const [imageUrl, setImageUrl] = useState(null);
     const { selectedThemeId, updateSelectedThemeId } = useContext(PixiContext);
 
-    const { hookApp, claimApp, reviewApp, closeApp } = useContext(PixiContext);
-    console.log(hookApp, claimApp, reviewApp, closeApp);
-
     const [currentCanvasIndex, setCurrentCanvasIndex] = useState(0);
     const [singleCanvasView, setSingleCanvasView] = useState(false);
 
@@ -101,16 +98,16 @@ const ContentGenerator = () => {
         },
     ];
 
-    const renderCanvas = (index, isVisible) => {
+    const renderCanvas = (index) => {
         return (
             <div
                 key={index}
-                className={`${singleCanvasView ? 'absolute' : 'w-1/2'} p-4 ${isVisible ? 'visible' : 'invisible'}`}
+                className={`${singleCanvasView ? 'absolute' : 'w-1/2'} p-4`}
                 style={
                     singleCanvasView
-                        ? isVisible
+                        ? index === currentCanvasIndex
                             ? { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }
-                            : { left: '-9999px' }
+                            : { display: 'none' }
                         : {}
                 }
             >
@@ -138,17 +135,14 @@ const ContentGenerator = () => {
                         className={`relative flex flex-wrap ${singleCanvasView ? 'justify-center' : ''} w-full h-full`}
                         style={{ minHeight: 'calc(100vh - 100px)' }} // Adjust this value to position the canvases
                     >
-                        {canvases.map((_, index) => {
-                            const isVisible = !singleCanvasView || index === currentCanvasIndex;
-                            return renderCanvas(index, isVisible);
-                        })}
+                        {canvases.map((_, index) => renderCanvas(index))}
                     </div>
                 ) : (
                     <div className="flex flex-wrap">
-                        {renderCanvas(0, true)}
-                        {renderCanvas(1, true)}
-                        {renderCanvas(2, true)}
-                        {renderCanvas(3, true)}
+                        {renderCanvas(0)}
+                        {renderCanvas(1)}
+                        {renderCanvas(2)}
+                        {renderCanvas(3)}
                     </div>
                 )}
                 {singleCanvasView && (
