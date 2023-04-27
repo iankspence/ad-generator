@@ -16,7 +16,7 @@ const ContentGenerator = () => {
 
     const [currentCanvasIndex, setCurrentCanvasIndex] = useState(0);
     const [singleCanvasView, setSingleCanvasView] = useState(true);
-    const [canvasSize, setCanvasSize] = useState(300);
+    const [canvasSize, setCanvasSize] = useState(360);
 
     const handleThemeChange = (event) => {
         updateSelectedThemeId(event.target.value);
@@ -52,7 +52,7 @@ const ContentGenerator = () => {
 
     const canvases = [
         {
-            title: 'Hook Canvas',
+            title: 'Hook',
             component: (
                 <HookCanvasClient
                     imageUrl={imageUrl}
@@ -63,7 +63,7 @@ const ContentGenerator = () => {
             ),
         },
         {
-            title: 'Claim Canvas',
+            title: 'Claim',
             component: (
                 <ClaimCanvasClient
                     imageUrl={imageUrl}
@@ -74,7 +74,7 @@ const ContentGenerator = () => {
             ),
         },
         {
-            title: 'Review Canvas',
+            title: 'Review',
             component: (
                 <ReviewCanvasClient
                     imageUrl={imageUrl}
@@ -85,7 +85,7 @@ const ContentGenerator = () => {
             ),
         },
         {
-            title: 'Close Canvas',
+            title: 'Close',
             component: (
                 <CloseCanvasClient
                     imageUrl={imageUrl}
@@ -110,7 +110,7 @@ const ContentGenerator = () => {
             ? `calc(50% - ${fullGridSize / 2 + 200}px)`
             : `calc(50% - ${fullGridSize / 2}px)`;
         const leftPositions = [leftOffset, `calc(${leftOffset} + ${halfGridSize}px)`];
-        const topPositions = [`calc(50% - ${halfGridSize}px)`, `calc(50% + 10px)`];
+        const topPositions = [`calc(50% - ${halfGridSize}px)`, `calc(50% + 15px)`];
 
         return (
             <div
@@ -127,7 +127,7 @@ const ContentGenerator = () => {
                           }
                 }
             >
-                <h1>{canvases[index].title}</h1>
+                <h1 className="text-center">{canvases[index].title}</h1>
                 <div className={`w-${canvasSize} h-${canvasSize}`}>{canvases[index].component}</div>
             </div>
         );

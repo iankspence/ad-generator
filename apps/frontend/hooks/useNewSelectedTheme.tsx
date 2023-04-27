@@ -29,13 +29,13 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, 
             const selectedTheme = themes.find((theme) => theme.id === selectedThemeId);
             if (selectedTheme) {
                 let maskNames = [];
-                // if (canvasName === 'review') {
-                //     maskNames = selectedTheme.settings.tallMasks.map((mask) => mask.name);
-                // }
-                // if (canvasName === 'hook' || canvasName === 'claim' || canvasName === 'close') {
-                //     maskNames = selectedTheme.settings.shortMasks.map((mask) => mask.name);
-                // }
-                maskNames = selectedTheme.settings.shortMasks.map((mask) => mask.name);
+                if (canvasName === 'review') {
+                    maskNames = selectedTheme.settings.tallMasks.map((mask) => mask.name);
+                }
+                if (canvasName === 'hook' || canvasName === 'claim' || canvasName === 'close') {
+                    maskNames = selectedTheme.settings.shortMasks.map((mask) => mask.name);
+                }
+                // maskNames = selectedTheme.settings.shortMasks.map((mask) => mask.name);
                 fetchMaskTextures(maskNames).then((r) => console.log('fetchMaskTextures: ', r));
             } else {
                 setMaskTextures([]);
