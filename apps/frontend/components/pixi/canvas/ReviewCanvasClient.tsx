@@ -11,7 +11,7 @@ const ReviewCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => 
     const { updateReviewApp } = useContext(PixiContext);
 
     useCanvasApp(appRef, size, updateReviewApp, canvasName);
-    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName);
+    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size);
 
     const container = useImage(appRef, imageUrl, canvasName);
     useDraggable(appRef, container);

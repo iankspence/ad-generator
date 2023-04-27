@@ -11,7 +11,7 @@ const CloseCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const { updateCloseApp } = useContext(PixiContext);
 
     useCanvasApp(appRef, size, updateCloseApp, canvasName);
-    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName);
+    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size);
 
     const container = useImage(appRef, imageUrl, canvasName);
     useDraggable(appRef, container);

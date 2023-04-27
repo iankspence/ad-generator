@@ -5,7 +5,7 @@ import { themes } from '../utils/constants/themes';
 import * as PIXI from 'pixi.js';
 import { useContext, useEffect, useState } from 'react';
 
-export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName) => {
+export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
     const { hookImageContainer, claimImageContainer, closeImageContainer, reviewImageContainer } =
         useContext(PixiContext);
@@ -87,7 +87,7 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName) 
                         texture,
                         colour: masks[index].colour,
                     };
-                    addMaskLayer(app, maskData);
+                    addMaskLayer(app, maskData, size);
                 });
             }
         }

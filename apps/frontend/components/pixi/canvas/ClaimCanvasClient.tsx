@@ -11,7 +11,7 @@ const ClaimCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const { updateClaimApp } = useContext(PixiContext);
 
     useCanvasApp(appRef, size, updateClaimApp, canvasName);
-    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName);
+    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size);
 
     const container = useImage(appRef, imageUrl, canvasName);
     useDraggable(appRef, container);

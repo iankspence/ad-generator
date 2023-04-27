@@ -11,7 +11,7 @@ const HookCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const { updateHookApp } = useContext(PixiContext);
 
     useCanvasApp(appRef, size, updateHookApp, canvasName);
-    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName);
+    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size);
 
     const container = useImage(appRef, imageUrl, canvasName);
     useDraggable(appRef, container);

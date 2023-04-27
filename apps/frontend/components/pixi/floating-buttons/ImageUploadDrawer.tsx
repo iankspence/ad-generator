@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import React, { useContext } from 'react';
 
-const ImageUploadDrawer = ({ onImageUpload }) => {
+const ImageUploadDrawer = ({ onImageUpload, onDrawerStateChange }) => {
     const [open, setOpen] = React.useState(false);
     const {
         copies,
@@ -32,10 +32,16 @@ const ImageUploadDrawer = ({ onImageUpload }) => {
 
     const handleDrawerOpen = () => {
         setOpen(true);
+        if (onDrawerStateChange) {
+            onDrawerStateChange(true);
+        }
     };
 
     const handleDrawerClose = () => {
         setOpen(false);
+        if (onDrawerStateChange) {
+            onDrawerStateChange(false);
+        }
     };
 
     return (

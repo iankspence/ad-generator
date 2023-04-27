@@ -2,29 +2,30 @@ import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
 import React from 'react';
 
-const CanvasNavigation = ({ onPrevious, onNext, visible }) => {
-    if (!visible) {
-        return null;
-    }
-
+export const CanvasNavigation = ({ onPrevious, onNext, visible, canNavigateLeft, canNavigateRight }) => {
     return (
-        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex items-center space-x-4">
-            <button
-                onClick={onPrevious}
-                className="bg-white text-black p-2 rounded-full hover:bg-gray-300"
-                style={{ width: '48px', height: '48px' }}
-            >
-                <ArrowBackOutlinedIcon style={{ fontSize: '24px' }} />
-            </button>
-            <button
-                onClick={onNext}
-                className="bg-white text-black p-2 rounded-full hover:bg-gray-300"
-                style={{ width: '48px', height: '48px' }}
-            >
-                <ArrowForwardOutlinedIcon style={{ fontSize: '24px' }} />
-            </button>
+        <div className={`${visible ? 'flex' : 'hidden'} fixed inset-x-0 bottom-8 z-10 justify-center`}>
+            <div className="space-x-4">
+                <button
+                    onClick={onPrevious}
+                    className={`bg-white hover:bg-gray-300 text-black p-2 rounded-full ${
+                        canNavigateLeft ? '' : 'opacity-50 cursor-not-allowed'
+                    }`}
+                    disabled={!canNavigateLeft}
+                >
+                    <ArrowBackOutlinedIcon />
+                </button>
+                <button
+                    onClick={onNext}
+                    className={`bg-white hover:bg-gray-300 text-black p-2 rounded-full ${
+                        canNavigateRight ? '' : 'opacity-50 cursor-not-allowed'
+                    }`}
+                    disabled={!canNavigateRight}
+                >
+                    <ArrowForwardOutlinedIcon />
+                </button>
+            </div>
         </div>
     );
 };
-
 export default CanvasNavigation;

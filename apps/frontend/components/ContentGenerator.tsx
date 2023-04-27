@@ -1,6 +1,4 @@
 import { PixiContext } from '../contexts/PixiContext';
-import useDownload from '../hooks/useDownload';
-import { themes } from '../utils/constants/themes';
 import ClaimCanvasClient from './pixi/canvas/ClaimCanvasClient';
 import CloseCanvasClient from './pixi/canvas/CloseCanvasClient';
 import HookCanvasClient from './pixi/canvas/HookCanvasClient';
@@ -10,7 +8,7 @@ import CanvasViewToggle from './pixi/floating-buttons/CanvasViewToggle';
 import DownloadButton from './pixi/floating-buttons/DownloadButton';
 import ImageUploadDrawer from './pixi/floating-buttons/ImageUploadDrawer';
 import ThemeSelector from './pixi/floating-buttons/ThemeSelector';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 const ContentGenerator = () => {
     const [imageUrl, setImageUrl] = useState(null);
@@ -18,9 +16,9 @@ const ContentGenerator = () => {
 
     const [currentCanvasIndex, setCurrentCanvasIndex] = useState(0);
     const [singleCanvasView, setSingleCanvasView] = useState(true);
+    const [canvasSize, setCanvasSize] = useState(300);
 
     const handleThemeChange = (event) => {
-        console.log(event.target.value);
         updateSelectedThemeId(event.target.value);
     };
 
@@ -41,11 +39,15 @@ const ContentGenerator = () => {
 
     // Navigation and toggle functions
     const handlePreviousCanvas = () => {
-        setCurrentCanvasIndex((prevIndex) => (prevIndex - 1 + canvases.length) % canvases.length);
+        if (currentCanvasIndex > 0) {
+            setCurrentCanvasIndex((prevIndex) => prevIndex - 1);
+        }
     };
 
     const handleNextCanvas = () => {
-        setCurrentCanvasIndex((prevIndex) => (prevIndex + 1) % canvases.length);
+        if (currentCanvasIndex < canvases.length - 1) {
+            setCurrentCanvasIndex((prevIndex) => prevIndex + 1);
+        }
     };
 
     const canvases = [
@@ -54,7 +56,7 @@ const ContentGenerator = () => {
             component: (
                 <HookCanvasClient
                     imageUrl={imageUrl}
-                    size={400}
+                    size={canvasSize}
                     selectedThemeId={selectedThemeId}
                     canvasName={'hook'}
                 />
@@ -65,7 +67,7 @@ const ContentGenerator = () => {
             component: (
                 <ClaimCanvasClient
                     imageUrl={imageUrl}
-                    size={400}
+                    size={canvasSize}
                     selectedThemeId={selectedThemeId}
                     canvasName={'claim'}
                 />
@@ -76,7 +78,7 @@ const ContentGenerator = () => {
             component: (
                 <ReviewCanvasClient
                     imageUrl={imageUrl}
-                    size={400}
+                    size={canvasSize}
                     selectedThemeId={selectedThemeId}
                     canvasName={'review'}
                 />
@@ -87,7 +89,7 @@ const ContentGenerator = () => {
             component: (
                 <CloseCanvasClient
                     imageUrl={imageUrl}
-                    size={400}
+                    size={canvasSize}
                     selectedThemeId={selectedThemeId}
                     canvasName={'close'}
                 />
@@ -95,24 +97,42 @@ const ContentGenerator = () => {
         },
     ];
 
+    const [rightDrawerOpen, setRightDrawerOpen] = useState(false);
+
+    const handleDrawerStateChange = (isOpen) => {
+        setRightDrawerOpen(isOpen);
+    };
+
     const renderCanvas = (index) => {
+        const halfGridSize = canvasSize + 10;
+        const fullGridSize = 2 * canvasSize + 10;
+        const leftOffset = rightDrawerOpen
+            ? `calc(50% - ${fullGridSize / 2 + 200}px)`
+            : `calc(50% - ${fullGridSize / 2}px)`;
+        const leftPositions = [leftOffset, `calc(${leftOffset} + ${halfGridSize}px)`];
+        const topPositions = [`calc(50% - ${halfGridSize}px)`, `calc(50% + 10px)`];
+
         return (
             <div
                 key={index}
-                className={`${singleCanvasView ? 'absolute' : 'w-1/2'} p-4`}
+                className={singleCanvasView ? 'fixed p-4' : 'fixed p-2 grid-canvas'}
                 style={
                     singleCanvasView
                         ? index === currentCanvasIndex
                             ? { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }
                             : { display: 'none' }
-                        : {}
+                        : {
+                              left: leftPositions[index % 2],
+                              top: topPositions[Math.floor(index / 2)],
+                          }
                 }
             >
                 <h1>{canvases[index].title}</h1>
-                <div className="w-400 h-400">{canvases[index].component}</div>
+                <div className={`w-${canvasSize} h-${canvasSize}`}>{canvases[index].component}</div>
             </div>
         );
     };
+
     return (
         <>
             <div className="w-full">
@@ -124,25 +144,18 @@ const ContentGenerator = () => {
                     onPrevious={handlePreviousCanvas}
                     onNext={handleNextCanvas}
                     visible={singleCanvasView}
+                    canNavigateLeft={currentCanvasIndex > 0}
+                    canNavigateRight={currentCanvasIndex < canvases.length - 1}
                 />
                 <DownloadButton />
-                <ImageUploadDrawer onImageUpload={handleImageUpload} />
+                <ImageUploadDrawer onImageUpload={handleImageUpload} onDrawerStateChange={handleDrawerStateChange} />
 
-                {singleCanvasView ? (
-                    <div
-                        className={`relative flex flex-wrap ${singleCanvasView ? 'justify-center' : ''} w-full h-full`}
-                        style={{ minHeight: 'calc(100vh - 100px)' }} // Adjust this value to position the canvases
-                    >
-                        {canvases.map((_, index) => renderCanvas(index))}
-                    </div>
-                ) : (
-                    <div className="flex flex-wrap">
-                        {renderCanvas(0)}
-                        {renderCanvas(1)}
-                        {renderCanvas(2)}
-                        {renderCanvas(3)}
-                    </div>
-                )}
+                <div
+                    className="flex flex-col justify-center items-center w-full"
+                    style={{ minHeight: 'calc(100vh - 120px)' }}
+                >
+                    <div className="flex">{canvases.map((_, index) => renderCanvas(index))}</div>
+                </div>
             </div>
         </>
     );

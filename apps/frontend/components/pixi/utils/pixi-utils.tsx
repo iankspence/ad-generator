@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 
-export const addMaskLayer = (app, maskData) => {
+export const addMaskLayer = (app, maskData, size) => {
     const { texture, colour } = maskData;
     const mask = new PIXI.Sprite(texture);
     mask.anchor.set(0.5);
@@ -10,7 +10,7 @@ export const addMaskLayer = (app, maskData) => {
 
     mask.zIndex = 1;
 
-    const scaleFactor = 400 / 1080;
+    const scaleFactor = size / 1080;
     mask.scale.set(scaleFactor);
 
     const fragment = `
