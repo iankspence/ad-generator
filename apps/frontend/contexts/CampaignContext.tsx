@@ -1,10 +1,3 @@
-import {
-    defaultClaimArray,
-    defaultCloseArray,
-    defaultCopyArray,
-    defaultHookArray,
-    defaultReviewArray,
-} from '../utils/constants/contentText';
 import { ClaimDocument, CloseDocument, CopyDocument, HookDocument, ReviewDocument } from '@monorepo/type';
 import { createContext, useState } from 'react';
 
@@ -59,15 +52,15 @@ const CampaignContext = createContext<CampaignContextProps>({
 });
 
 const CampaignProvider = ({ children }) => {
-    const [copies, setCopies] = useState(defaultCopyArray);
+    const [copies, setCopies] = useState([]);
     const [copyPosition, setCopyPosition] = useState(1);
-    const [hooks, setHooks] = useState(defaultHookArray);
+    const [hooks, setHooks] = useState([]);
     const [hookPosition, setHookPosition] = useState(1);
-    const [claims, setClaims] = useState(defaultClaimArray);
+    const [claims, setClaims] = useState([]);
     const [claimPosition, setClaimPosition] = useState(1);
-    const [reviews, setReviews] = useState(defaultReviewArray);
+    const [reviews, setReviews] = useState([]);
     const [reviewPosition, setReviewPosition] = useState(1);
-    const [closes, setCloses] = useState(defaultCloseArray);
+    const [closes, setCloses] = useState([]);
     const [closePosition, setClosePosition] = useState(1);
 
     return (

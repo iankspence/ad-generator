@@ -12,7 +12,11 @@ export class HookService {
         return await createdHook.save();
     }
 
-    async getHooksByReviewId(reviewId: string): Promise<Hook[]> {
+    async getHooksByReviewId(reviewId: string): Promise<HookDocument[]> {
         return this.hookModel.find({ reviewId: reviewId }).exec();
+    }
+
+    async getHooksByAccountId(accountId: string): Promise<HookDocument[]> {
+        return this.hookModel.find({ accountId: accountId }).exec();
     }
 }

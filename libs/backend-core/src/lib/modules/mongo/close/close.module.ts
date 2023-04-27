@@ -8,5 +8,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     imports: [MongooseModule.forFeature([{ name: Close.name, schema: CloseSchema }])],
     controllers: [CloseController],
     providers: [CloseService],
+    exports: [CloseService],
 })
 export class CloseModule {}

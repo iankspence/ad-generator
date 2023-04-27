@@ -8,5 +8,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     imports: [MongooseModule.forFeature([{ name: Claim.name, schema: ClaimSchema }])],
     controllers: [ClaimController],
     providers: [ClaimService],
+    exports: [ClaimService],
 })
 export class ClaimModule {}

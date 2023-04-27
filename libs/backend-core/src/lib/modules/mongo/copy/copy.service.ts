@@ -15,4 +15,8 @@ export class CopyService {
     async getCopiesByReviewId(reviewId: string): Promise<Copy[]> {
         return await this.copyModel.find({ reviewId }).exec();
     }
+
+    async getCopiesByAccountId(accountId: string): Promise<CopyDocument[]> {
+        return await this.copyModel.find({ accountId }).exec();
+    }
 }

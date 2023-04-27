@@ -10,8 +10,10 @@ interface PixiContextProps {
     updateCloseApp: (newApp: PIXI.Application) => void;
     reviewApp: PIXI.Application | null;
     updateReviewApp: (newApp: PIXI.Application) => void;
+
     selectedThemeId: string | null;
     updateSelectedThemeId: (selectedThemeId: string) => void;
+
     hookImageContainer: PIXI.Container | null;
     updateHookImageContainer: (container: PIXI.Container) => void;
     claimImageContainer: PIXI.Container | null;
@@ -20,6 +22,9 @@ interface PixiContextProps {
     updateCloseImageContainer: (container: PIXI.Container) => void;
     reviewImageContainer: PIXI.Container | null;
     updateReviewImageContainer: (container: PIXI.Container) => void;
+
+    textStyles: { [key: string]: PIXI.TextStyle };
+    updateTextStyles: (newTextStyles: { [key: string]: PIXI.TextStyle }) => void;
 }
 
 const PixiContext = createContext<PixiContextProps>({
@@ -46,6 +51,9 @@ const PixiContext = createContext<PixiContextProps>({
     updateCloseImageContainer: () => void 0,
     reviewImageContainer: null,
     updateReviewImageContainer: () => void 0,
+
+    textStyles: {},
+    updateTextStyles: () => void 0,
 });
 
 export const PixiProvider = ({ children }) => {
@@ -58,6 +66,7 @@ export const PixiProvider = ({ children }) => {
     const [claimImageContainer, setClaimImageContainer] = useState(null);
     const [closeImageContainer, setCloseImageContainer] = useState(null);
     const [reviewImageContainer, setReviewImageContainer] = useState(null);
+    const [textStyles, setTextStyles] = useState({});
 
     return (
         <PixiContext.Provider
@@ -80,6 +89,8 @@ export const PixiProvider = ({ children }) => {
                 updateCloseImageContainer: setCloseImageContainer,
                 reviewImageContainer,
                 updateReviewImageContainer: setReviewImageContainer,
+                textStyles,
+                updateTextStyles: setTextStyles,
             }}
         >
             {children}

@@ -35,7 +35,6 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, 
                 if (canvasName === 'hook' || canvasName === 'claim' || canvasName === 'close') {
                     maskNames = selectedTheme.settings.shortMasks.map((mask) => mask.name);
                 }
-                // maskNames = selectedTheme.settings.shortMasks.map((mask) => mask.name);
                 fetchMaskTextures(maskNames).then((r) => console.log('fetchMaskTextures: ', r));
             } else {
                 setMaskTextures([]);
@@ -45,7 +44,6 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, 
         }
     }, [selectedThemeId, canvasName]);
 
-    // Helper function to get the correct image based on the canvasName
     const getImageForCanvas = (canvasName, hookImage, claimImage, closeImage, reviewImage) => {
         switch (canvasName) {
             case 'hook':

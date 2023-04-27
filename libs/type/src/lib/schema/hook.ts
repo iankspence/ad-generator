@@ -5,6 +5,9 @@ export interface HookDocument extends Hook, Document<Types.ObjectId> {}
 
 @Schema({ timestamps: true })
 export class Hook {
+    @Prop({ required: true, type: String, ref: 'Account' })
+    accountId!: string;
+
     @Prop({ required: true, type: String, ref: 'Review' })
     reviewId!: string;
 

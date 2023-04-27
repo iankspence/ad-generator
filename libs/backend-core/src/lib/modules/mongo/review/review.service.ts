@@ -7,7 +7,7 @@ import { Model } from 'mongoose';
 export class ReviewService {
     constructor(@InjectModel(Review.name) private reviewModel: Model<ReviewDocument>) {}
 
-    async getReviewsByAccountId(accountId: string): Promise<Review[]> {
+    async getReviewsByAccountId(accountId: string): Promise<ReviewDocument[]> {
         return this.reviewModel.find({ accountId: accountId }).exec();
     }
 

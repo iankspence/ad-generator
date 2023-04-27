@@ -1,6 +1,6 @@
 import { CampaignContext } from '../../../contexts/CampaignContext';
-import SidebarTextArea from '../design-drawer/SidebarTextArea';
-import Viewer from '../design-drawer/Viewer';
+import SidebarTextArea from './SidebarTextArea';
+import Viewer from './Viewer';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextureOutlinedIcon from '@mui/icons-material/TextureOutlined';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import React, { useContext } from 'react';
 
-const ImageUploadDrawer = ({ onImageUpload, onDrawerStateChange }) => {
+const DesignDrawer = ({ onImageUpload, onDrawerStateChange }) => {
     const [open, setOpen] = React.useState(false);
     const {
         copies,
@@ -43,6 +43,8 @@ const ImageUploadDrawer = ({ onImageUpload, onDrawerStateChange }) => {
             onDrawerStateChange(false);
         }
     };
+
+    console.log('reviews in design-drawer: ', reviews);
 
     return (
         <Box>
@@ -160,4 +162,4 @@ const ImageUploadDrawer = ({ onImageUpload, onDrawerStateChange }) => {
     );
 };
 
-export default ImageUploadDrawer;
+export default DesignDrawer;

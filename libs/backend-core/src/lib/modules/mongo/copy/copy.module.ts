@@ -8,5 +8,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     imports: [MongooseModule.forFeature([{ name: Copy.name, schema: CopySchema }])],
     controllers: [CopyController],
     providers: [CopyService],
+    exports: [CopyService],
 })
 export class CopyModule {}

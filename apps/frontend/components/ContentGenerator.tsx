@@ -3,10 +3,10 @@ import ClaimCanvasClient from './pixi/canvas/ClaimCanvasClient';
 import CloseCanvasClient from './pixi/canvas/CloseCanvasClient';
 import HookCanvasClient from './pixi/canvas/HookCanvasClient';
 import ReviewCanvasClient from './pixi/canvas/ReviewCanvasClient';
+import DesignDrawer from './pixi/design-drawer/DesignDrawer';
 import CanvasNavigation from './pixi/floating-buttons/CanvasNavigation';
 import CanvasViewToggle from './pixi/floating-buttons/CanvasViewToggle';
 import DownloadButton from './pixi/floating-buttons/DownloadButton';
-import ImageUploadDrawer from './pixi/floating-buttons/ImageUploadDrawer';
 import ThemeSelector from './pixi/floating-buttons/ThemeSelector';
 import React, { useContext, useState } from 'react';
 
@@ -148,7 +148,7 @@ const ContentGenerator = () => {
                     canNavigateRight={currentCanvasIndex < canvases.length - 1}
                 />
                 <DownloadButton />
-                <ImageUploadDrawer onImageUpload={handleImageUpload} onDrawerStateChange={handleDrawerStateChange} />
+                <DesignDrawer onImageUpload={handleImageUpload} onDrawerStateChange={handleDrawerStateChange} />
 
                 <div
                     className="flex flex-col justify-center items-center w-full"

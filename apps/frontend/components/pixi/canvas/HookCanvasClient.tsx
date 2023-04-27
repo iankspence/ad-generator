@@ -3,6 +3,7 @@ import useCanvasApp from '../../../hooks/useCanvasApp';
 import useDraggable from '../../../hooks/useDraggable';
 import { useImage } from '../../../hooks/useImage';
 import useNewSelectedTheme from '../../../hooks/useNewSelectedTheme';
+import useText from '../../../hooks/useText';
 import useZoom from '../../../hooks/useZoom';
 import React, { useContext, useRef } from 'react';
 
@@ -12,6 +13,8 @@ const HookCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
 
     useCanvasApp(appRef, size, updateHookApp, canvasName);
     useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size);
+
+    useText(appRef.current, canvasName);
 
     const container = useImage(appRef, imageUrl, canvasName);
     useDraggable(appRef, container);

@@ -1,4 +1,14 @@
-import { MaskDocument, ReviewDocument } from '@monorepo/type';
+import account from '../pages/account';
+import {
+    ClaimDocument,
+    CloseDocument,
+    CopyDocument,
+    Hook,
+    HookDocument,
+    MaskDocument,
+    Review,
+    ReviewDocument,
+} from '@monorepo/type';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:3333/api';
@@ -182,6 +192,19 @@ export const getMasksByNames = async (maskNames: string[]): Promise<MaskDocument
         return response.data;
     } catch (error) {
         console.error('Error fetching masks:', error);
+        throw error;
+    }
+};
+
+export const getAllTextByAccountId = async (
+    accountId: string,
+): Promise<[ReviewDocument[], HookDocument[], ClaimDocument[], CloseDocument[], CopyDocument[]]> => {
+    try {
+        const response = await axios.post(`${API_URL}/account/get-all-text-by-account-id`, { accountId });
+        console.log('getAllTextByAccountId response:', response);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching canvas text:', error);
         throw error;
     }
 };

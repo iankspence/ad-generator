@@ -172,6 +172,7 @@ export class OpenAiService {
     }
 
     async generateClaimCopyClose(
+        accountId: string,
         reviewId: string,
         reviewText: string,
         hookId: string,
@@ -222,6 +223,7 @@ export class OpenAiService {
                     if (!line.includes('Claims:') && !line.includes('Copies:') && !line.includes('Closes:')) {
                         if (currentCategory === 'claims') {
                             await this.claimModel.create({
+                                accountId,
                                 reviewId,
                                 hookId,
                                 claimText: line,
@@ -229,6 +231,7 @@ export class OpenAiService {
                         }
                         if (currentCategory === 'copies') {
                             await this.copyModel.create({
+                                accountId,
                                 reviewId,
                                 hookId,
                                 copyText: line,
@@ -236,6 +239,7 @@ export class OpenAiService {
                         }
                         if (currentCategory === 'closes') {
                             await this.closeModel.create({
+                                accountId,
                                 reviewId,
                                 hookId,
                                 closeText: line,

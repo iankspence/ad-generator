@@ -111,6 +111,7 @@ export class ReviewQueueConsumerService {
             const audience = audiences[job.data.review.bestFitAudience - 1];
 
             await this.openAiService.generateClaimCopyClose(
+                job.data.review.accountId,
                 job.data.review._id,
                 job.data.review.reviewText,
                 job.data.hook._id,

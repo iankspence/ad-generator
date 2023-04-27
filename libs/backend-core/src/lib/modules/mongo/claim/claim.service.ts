@@ -15,4 +15,8 @@ export class ClaimService {
     async getClaimsByReviewId(reviewId: string): Promise<Claim[]> {
         return this.claimModel.find({ reviewId: reviewId }).exec();
     }
+
+    async getClaimsByAccountId(accountId: string): Promise<ClaimDocument[]> {
+        return this.claimModel.find({ accountId: accountId }).exec();
+    }
 }

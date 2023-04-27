@@ -15,4 +15,8 @@ export class CloseService {
     async getClosesByReviewId(reviewId: string): Promise<Close[]> {
         return this.closeModel.find({ reviewId: reviewId }).exec();
     }
+
+    async getClosesByAccountId(accountId: string): Promise<CloseDocument[]> {
+        return this.closeModel.find({ accountId: accountId }).exec();
+    }
 }

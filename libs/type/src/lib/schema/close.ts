@@ -5,6 +5,9 @@ export interface CloseDocument extends Close, Document<Types.ObjectId> {}
 
 @Schema({ timestamps: true })
 export class Close {
+    @Prop({ required: true, type: String, ref: 'Account' })
+    accountId!: string;
+
     @Prop({ required: true, type: String, ref: 'Review' })
     reviewId!: string;
 

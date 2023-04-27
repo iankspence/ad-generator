@@ -50,4 +50,10 @@ export class AccountController {
         console.log('addRateMdsLink Patch Controller', dto);
         return await this.accountModelService.addRateMdsLink(dto.accountId, dto.rateMdsLink);
     }
+
+    @Post('get-all-text-by-account-id')
+    async getAllTextForAccountId(@Body() dto: { accountId: string }) {
+        console.log('getAllTextForAccountId', dto);
+        return await this.accountModelService.getAllTextByAccountId(dto.accountId);
+    }
 }

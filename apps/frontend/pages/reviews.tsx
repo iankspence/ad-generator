@@ -57,9 +57,9 @@ function ReviewsPage() {
         const audienceData: any[] = [];
 
         audiences.forEach((audience) => {
-            console.log('audience', audience);
-            console.log('audiences', audiences);
-            console.log('reviews', reviews);
+            // console.log('audience', audience);
+            // console.log('audiences', audiences);
+            // console.log('reviews', reviews);
 
             const googleReviews = reviews.filter(
                 (review) => review.source === 'Google' && audiences[review.bestFitAudience - 1]?.name === audience.name,

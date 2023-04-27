@@ -1,4 +1,17 @@
-import { Account, AccountDocument, RateMdsHeaderCapturedText } from '@monorepo/type';
+import { ClaimService } from '../claim/claim.service';
+import { CloseService } from '../close/close.service';
+import { CopyService } from '../copy/copy.service';
+import { HookService } from '../hook/hook.service';
+import { ReviewService } from '../review/review.service';
+import {
+    Account,
+    AccountDocument,
+    ClaimDocument,
+    CloseDocument,
+    CopyDocument,
+    HookDocument,
+    ReviewDocument,
+} from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Buffer } from 'buffer';
@@ -6,7 +19,32 @@ import { Model, Types } from 'mongoose';
 
 @Injectable()
 export class AccountModelService {
-    constructor(@InjectModel(Account.name) private accountModel: Model<AccountDocument>) {}
+    constructor(
+        @InjectModel(Account.name) private accountModel: Model<AccountDocument>,
+        private readonly copyService: CopyService,
+        private readonly claimService: ClaimService,
+        private readonly hookService: HookService,
+        private readonly reviewService: ReviewService,
+        private readonly closeService: CloseService,
+    ) {}
+
+    async getAllTextByAccountId(
+        accountId: string,
+    ): Promise<[ReviewDocument[], HookDocument[], ClaimDocument[], CloseDocument[], CopyDocument[]]> {
+        console.log('accountId', accountId);
+        const reviews = await this.reviewService.getReviewsByAccountId(accountId);
+        console.log('reviews', reviews);
+        const hooks = await this.hookService.getHooksByAccountId(accountId);
+        console.log('hooks', hooks);
+        const claims = await this.claimService.getClaimsByAccountId(accountId);
+        console.log('claims', claims);
+        const closes = await this.closeService.getClosesByAccountId(accountId);
+        console.log('closes', closes);
+        const copies = await this.copyService.getCopiesByAccountId(accountId);
+        console.log('copies', copies);
+
+        return [reviews, hooks, claims, closes, copies];
+    }
 
     async create(account: Partial<Account>): Promise<Account> {
         const createdAccount = new this.accountModel(account);
