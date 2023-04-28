@@ -1,17 +1,23 @@
 import { CampaignContext } from '../../../contexts/CampaignContext';
+import { PixiContext } from '../../../contexts/PixiContext';
+import CanvasTextControl from './CanvasTextControl';
 import SidebarTextArea from './SidebarTextArea';
 import Viewer from './Viewer';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextureOutlinedIcon from '@mui/icons-material/TextureOutlined';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Slider } from '@mui/material';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import React, { useContext } from 'react';
+import { useState } from 'react';
 
 const DesignDrawer = ({ onImageUpload, onDrawerStateChange }) => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [selectedCanvases, setSelectedCanvases] = useState({});
     const {
         copies,
         copyPosition,
@@ -30,6 +36,8 @@ const DesignDrawer = ({ onImageUpload, onDrawerStateChange }) => {
         updateReviewPosition,
     } = useContext(CampaignContext);
 
+    const { textStyles } = useContext(PixiContext);
+
     const handleDrawerOpen = () => {
         setOpen(true);
         if (onDrawerStateChange) {
@@ -45,6 +53,32 @@ const DesignDrawer = ({ onImageUpload, onDrawerStateChange }) => {
     };
 
     console.log('reviews in design-drawer: ', reviews);
+
+    const [textStyle, setTextStyle] = useState({
+        fontFamily: 'Arial',
+        fontSize: 24,
+        fill: '#000000',
+        wordWrap: true,
+        wordWrapWidth: 200,
+    });
+
+    const handleFontChange = (event) => {
+        setTextStyle({ ...textStyle, fontFamily: event.target.value });
+    };
+
+    const handleFontSizeChange = (event, newValue) => {
+        setTextStyle({ ...textStyle, fontSize: newValue });
+    };
+
+    const handleColorChange = (event) => {
+        console.log('colour change ' + 'event.target.value: ', event.target.value);
+        const hexColor = event.target.value.startsWith('#') ? event.target.value : `#${event.target.value}`;
+        setTextStyle({ ...textStyle, fill: hexColor });
+    };
+
+    const handleCanvasSelection = (newSelectedCanvases) => {
+        setSelectedCanvases(newSelectedCanvases);
+    };
 
     return (
         <Box>
@@ -154,6 +188,40 @@ const DesignDrawer = ({ onImageUpload, onDrawerStateChange }) => {
                                 position={closePosition}
                                 rows={2}
                             />
+                        </AccordionDetails>
+                    </Accordion>
+
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="subtitle1">Text Inputs</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <CanvasTextControl onCanvasSelection={handleCanvasSelection} />
+                            <div className="py-2"></div>
+
+                            <FormControl fullWidth>
+                                <InputLabel>Font</InputLabel>
+                                <Select value={textStyle.fontFamily} onChange={handleFontChange}>
+                                    <MenuItem value="Arial">Arial</MenuItem>
+                                    <MenuItem value="Times New Roman">Times New Roman</MenuItem>
+                                    <MenuItem value="Georgia">Georgia</MenuItem>
+                                    {/* Add more fonts here */}
+                                </Select>
+                            </FormControl>
+                            <div className="py-2"></div>
+
+                            <Typography gutterBottom>Font Size</Typography>
+                            <Slider
+                                value={textStyle.fontSize}
+                                onChange={handleFontSizeChange}
+                                min={10}
+                                max={60}
+                                valueLabelDisplay="auto"
+                            />
+                            <div className="py-2"></div>
+
+                            <Typography gutterBottom>Color</Typography>
+                            <input type="color" value={textStyle.fill} onChange={handleColorChange} />
                         </AccordionDetails>
                     </Accordion>
                 </Box>

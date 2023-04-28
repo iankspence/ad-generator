@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 interface PixiContextProps {
     hookApp: PIXI.Application | null;
