@@ -17,27 +17,31 @@ export const useText = (app, canvasName, textLayerRef) => {
         console.log('position', position);
         console.log('style', style);
 
+        if (textLayerRef && textLayerRef.current) {
+            canvasApp.stage.removeChild(textLayerRef.current);
+        }
+
         let text = '';
 
         switch (canvasName) {
             case 'hook':
                 if (textArray.length > 0) {
-                    text = textArray[0].hookText;
+                    text = textArray[hookPosition - 1].hookText;
                 }
                 break;
             case 'claim':
                 if (textArray.length > 0) {
-                    text = textArray[0].claimText;
+                    text = textArray[hookPosition - 1].claimText;
                 }
                 break;
             case 'close':
                 if (textArray.length > 0) {
-                    text = textArray[0].closeText;
+                    text = textArray[hookPosition - 1].closeText;
                 }
                 break;
             case 'review':
                 if (textArray.length > 0) {
-                    text = textArray[0].reviewText;
+                    text = textArray[hookPosition - 1].reviewText;
                 }
                 break;
         }
