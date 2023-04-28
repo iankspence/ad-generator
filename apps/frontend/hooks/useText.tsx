@@ -3,38 +3,58 @@ import { PixiContext } from '../contexts/PixiContext';
 import * as PIXI from 'pixi.js';
 import { useContext, useEffect, useState } from 'react';
 
-export const useText = (app, canvasName) => {
+export const useText = (app, canvasName, textLayerRef) => {
     const { hooks, hookPosition, claims, claimPosition, reviews, reviewPosition, closes, closePosition } =
         useContext(CampaignContext);
 
     const { textStyles, updateTextStyles, hookApp, claimApp, closeApp, reviewApp } = useContext(PixiContext);
 
-    const [textContainer, setTextContainer] = useState(null);
-
     const setTextForCanvas = (canvasApp, textArray, position, style) => {
-        if (!canvasApp || !textContainer) return;
+        if (!canvasApp || !canvasApp.stage) return;
 
+        console.log('canvasApp', canvasApp);
         console.log('textArray', textArray);
+        console.log('position', position);
+        console.log('style', style);
 
-        const text = textArray[position - 1];
+        let text = '';
+
+        switch (canvasName) {
+            case 'hook':
+                if (textArray.length > 0) {
+                    text = textArray[0].hookText;
+                }
+                break;
+            case 'claim':
+                if (textArray.length > 0) {
+                    text = textArray[0].claimText;
+                }
+                break;
+            case 'close':
+                if (textArray.length > 0) {
+                    text = textArray[0].closeText;
+                }
+                break;
+            case 'review':
+                if (textArray.length > 0) {
+                    text = textArray[0].reviewText;
+                }
+                break;
+        }
+
+        // const text = textArray[position - 1]?.content;
+        if (!text) return;
         const textObject = new PIXI.Text(text, style);
+        textObject.x = canvasApp.view.width / 2 - textObject.width / 2;
+        textObject.y = canvasApp.view.height / 2 - textObject.height / 2;
 
-        textContainer.removeChildren(); // Remove any existing text objects
-        textContainer.addChild(textObject); // Add the new text object to the text container
+        canvasApp.stage.addChild(textObject);
         canvasApp.render();
+
+        if (textLayerRef) {
+            textLayerRef.current = textObject;
+        }
     };
-
-    useEffect(() => {
-        if (!app || !app.stage) return;
-
-        const container = new PIXI.Container();
-        app.stage.addChild(container);
-        setTextContainer(container);
-
-        return () => {
-            app.stage.removeChild(container);
-        };
-    }, [app]);
 
     useEffect(() => {
         if (!textStyles.defaultStyle) {
@@ -79,7 +99,6 @@ export const useText = (app, canvasName) => {
         textStyles,
         updateTextStyles,
         canvasName,
-        textContainer,
     ]);
 };
 

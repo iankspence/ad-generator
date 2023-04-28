@@ -9,17 +9,20 @@ import React, { useContext, useRef } from 'react';
 
 const HookCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const appRef = useRef(null);
+    const textLayerRef = useRef(null); // Create a new ref for the text layer
+
     const { updateHookApp } = useContext(PixiContext);
 
     useCanvasApp(appRef, size, updateHookApp, canvasName);
-    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size);
+    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size, textLayerRef.current);
 
-    useText(appRef.current, canvasName);
+    useText(appRef.current, canvasName, textLayerRef);
 
     const container = useImage(appRef, imageUrl, canvasName);
     useDraggable(appRef, container);
     useZoom(appRef, container);
 
+    console.log('appRef.current', appRef.current);
     return <div id={`${canvasName}-canvas-container`}></div>;
 };
 

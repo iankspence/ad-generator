@@ -5,7 +5,7 @@ import { themes } from '../utils/constants/themes';
 import * as PIXI from 'pixi.js';
 import { useContext, useEffect, useState } from 'react';
 
-export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, size) => {
+export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, size, textLayer) => {
     const [maskTextures, setMaskTextures] = useState([]);
     const { hookImageContainer, claimImageContainer, closeImageContainer, reviewImageContainer } =
         useContext(PixiContext);
@@ -58,7 +58,6 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, 
                 return null;
         }
     };
-
     useEffect(() => {
         if (!app || !app.stage) return;
 
@@ -74,6 +73,9 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, 
         app.stage.removeChildren();
 
         app.stage.addChild(container);
+        if (textLayer) {
+            app.stage.addChild(textLayer);
+        }
 
         if (selectedThemeId) {
             const selectedTheme = themes.find((theme) => theme.id === selectedThemeId);
@@ -97,6 +99,7 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, 
         reviewImageContainer,
         selectedThemeId,
         maskTextures,
+        textLayer, // Add textLayer to dependencies
     ]);
 };
 

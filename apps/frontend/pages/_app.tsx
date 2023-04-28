@@ -1,6 +1,5 @@
 import '../../../styles/globals.css';
 import CampaignProvider from '../contexts/CampaignContext';
-import { LayerProvider } from '../contexts/LayerContext';
 import PixiProvider from '../contexts/PixiContext';
 import { UserProvider } from '../contexts/UserContext';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';

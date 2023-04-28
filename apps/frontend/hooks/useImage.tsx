@@ -51,7 +51,7 @@ export const useImage = (appRef, imageUrl, canvasName) => {
         }
 
         return () => {
-            container.removeChild(image);
+            if (container) container.removeChild(image);
             app.stage.removeChild(container);
         };
     }, [imageUrl, appRef]);
