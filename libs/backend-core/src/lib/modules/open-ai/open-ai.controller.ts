@@ -36,6 +36,7 @@ export class OpenAiController {
 
     @Post('generate-claim-copy-close')
     async generateClaimCopyClose(
+        @Body('accountId') accountId: string,
         @Body('reviewId') reviewId: string,
         @Body('reviewText') reviewText: string,
         @Body('hookId') hookId: string,
@@ -44,6 +45,7 @@ export class OpenAiController {
         @Body('reviewAudienceAge') reviewAudienceAge: string,
     ): Promise<void> {
         return await this.openAiService.generateClaimCopyClose(
+            accountId,
             reviewId,
             reviewText,
             hookId,
