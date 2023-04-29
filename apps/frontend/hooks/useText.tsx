@@ -50,7 +50,8 @@ export const useText = (app, canvasName, textLayerRef) => {
         if (!text) return;
         const textObject = new PIXI.Text(text, style);
         textObject.x = canvasApp.view.width / 2 - textObject.width / 2;
-        textObject.y = canvasApp.view.height / 2 - textObject.height / 2;
+        textObject.y = canvasApp.view.height / 1.1 - textObject.height / 2;
+        textObject.zIndex = 3;
 
         canvasApp.stage.addChild(textObject);
         canvasApp.render();
@@ -67,6 +68,12 @@ export const useText = (app, canvasName, textLayerRef) => {
                 fontFamily: 'Arial',
                 fontSize: 24,
                 fill: 'white',
+                // stroke: '#000000',
+                // strokeThickness: 4,
+                wordWrap: true,
+                wordWrapWidth: 200,
+                align: 'center',
+                lineHeight: 30,
             });
             updateTextStyles({ ...textStyles, defaultStyle });
         }

@@ -73,7 +73,7 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, 
         app.stage.removeChildren();
 
         app.stage.addChild(container);
-        if (textLayer) {
+        if (textLayer && app.stage) {
             app.stage.addChild(textLayer);
         }
 

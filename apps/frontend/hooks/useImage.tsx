@@ -52,7 +52,7 @@ export const useImage = (appRef, imageUrl, canvasName) => {
 
         return () => {
             if (container) container.removeChild(image);
-            app.stage.removeChild(container);
+            if (app.stage) app.stage.removeChild(container);
         };
     }, [imageUrl, appRef]);
 
