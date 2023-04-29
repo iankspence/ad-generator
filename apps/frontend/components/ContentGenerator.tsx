@@ -13,7 +13,7 @@ import React, { useContext, useState } from 'react';
 
 const ContentGenerator = () => {
     const [imageUrl, setImageUrl] = useState(null);
-    const { selectedThemeId, updateSelectedThemeId } = useContext(PixiContext);
+    const { selectedThemeId, updateSelectedThemeId, activeCanvases, updateActiveCanvases } = useContext(PixiContext);
 
     const [currentCanvasIndex, setCurrentCanvasIndex] = useState(0);
     const [singleCanvasView, setSingleCanvasView] = useState(true);
@@ -24,6 +24,13 @@ const ContentGenerator = () => {
     };
 
     const handleToggleView = (event, newView) => {
+        if (newView === 'single') {
+            const updatedActiveCanvases = { ...activeCanvases };
+            Object.keys(updatedActiveCanvases).forEach((key) => {
+                updatedActiveCanvases[key] = key === canvases[currentCanvasIndex].canvasName;
+            });
+            updateActiveCanvases(updatedActiveCanvases);
+        }
         setSingleCanvasView(newView === 'single');
     };
 
@@ -38,22 +45,28 @@ const ContentGenerator = () => {
         }
     };
 
-    // Navigation and toggle functions
     const handlePreviousCanvas = () => {
         if (currentCanvasIndex > 0) {
+            const previousCanvasName = canvases[currentCanvasIndex].canvasName;
             setCurrentCanvasIndex((prevIndex) => prevIndex - 1);
+            const currentCanvasName = canvases[currentCanvasIndex - 1].canvasName;
+            updateActiveCanvases({ ...activeCanvases, [previousCanvasName]: false, [currentCanvasName]: true });
         }
     };
 
     const handleNextCanvas = () => {
         if (currentCanvasIndex < canvases.length - 1) {
+            const previousCanvasName = canvases[currentCanvasIndex].canvasName;
             setCurrentCanvasIndex((prevIndex) => prevIndex + 1);
+            const currentCanvasName = canvases[currentCanvasIndex + 1].canvasName;
+            updateActiveCanvases({ ...activeCanvases, [previousCanvasName]: false, [currentCanvasName]: true });
         }
     };
 
     const canvases = [
         {
             title: 'Hook',
+            canvasName: 'hook',
             component: (
                 <HookCanvasClient
                     imageUrl={imageUrl}
@@ -65,6 +78,7 @@ const ContentGenerator = () => {
         },
         {
             title: 'Claim',
+            canvasName: 'claim',
             component: (
                 <ClaimCanvasClient
                     imageUrl={imageUrl}
@@ -76,6 +90,7 @@ const ContentGenerator = () => {
         },
         {
             title: 'Review',
+            canvasName: 'review',
             component: (
                 <ReviewCanvasClient
                     imageUrl={imageUrl}
@@ -87,6 +102,7 @@ const ContentGenerator = () => {
         },
         {
             title: 'Close',
+            canvasName: 'close',
             component: (
                 <CloseCanvasClient
                     imageUrl={imageUrl}

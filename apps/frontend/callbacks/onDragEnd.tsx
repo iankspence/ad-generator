@@ -1,6 +1,5 @@
 import { DraggableContainer } from '../hooks/useDraggable';
 import * as PIXI from 'pixi.js';
-import { MutableRefObject } from 'react';
 
 export const onDragEnd =
     (container: DraggableContainer) =>

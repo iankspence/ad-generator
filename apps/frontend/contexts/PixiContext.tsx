@@ -72,9 +72,9 @@ const PixiContext = createContext<PixiContextProps>({
 
     activeCanvases: {
         hook: true,
-        claim: true,
-        review: true,
-        close: true,
+        claim: false,
+        review: false,
+        close: false,
     },
     updateActiveCanvases: () => void 0,
 });
@@ -92,9 +92,9 @@ export const PixiProvider = ({ children }) => {
     const [textStyles, setTextStyles] = useState({});
     const [activeCanvases, setActiveCanvases] = useState({
         hook: true,
-        claim: true,
-        review: true,
-        close: true,
+        claim: false,
+        review: false,
+        close: false,
     });
 
     return (

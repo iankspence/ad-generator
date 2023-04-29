@@ -1,4 +1,4 @@
-import { DraggableContainer, CustomInteractionData } from '../hooks/useDraggable';
+import { DraggableContainer } from '../hooks/useDraggable';
 import * as PIXI from 'pixi.js';
 
 export const onDragStart =
