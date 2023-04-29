@@ -4,6 +4,7 @@ import CloseCanvasClient from './pixi/canvas/CloseCanvasClient';
 import HookCanvasClient from './pixi/canvas/HookCanvasClient';
 import ReviewCanvasClient from './pixi/canvas/ReviewCanvasClient';
 import DesignDrawer from './pixi/design-drawer/DesignDrawer';
+import ActiveCanvasButtonGroup from './pixi/floating-buttons/ActiveCanvasButtonGroup';
 import CanvasNavigation from './pixi/floating-buttons/CanvasNavigation';
 import CanvasViewToggle from './pixi/floating-buttons/CanvasViewToggle';
 import DownloadButton from './pixi/floating-buttons/DownloadButton';
@@ -16,7 +17,7 @@ const ContentGenerator = () => {
 
     const [currentCanvasIndex, setCurrentCanvasIndex] = useState(0);
     const [singleCanvasView, setSingleCanvasView] = useState(true);
-    const [canvasSize, setCanvasSize] = useState(360);
+    const [canvasSize, setCanvasSize] = useState(320);
 
     const handleThemeChange = (event) => {
         updateSelectedThemeId(event.target.value);
@@ -149,6 +150,7 @@ const ContentGenerator = () => {
                 />
                 <DownloadButton />
                 <DesignDrawer onImageUpload={handleImageUpload} onDrawerStateChange={handleDrawerStateChange} />
+                <ActiveCanvasButtonGroup visible={!singleCanvasView} />
 
                 <div
                     className="flex flex-col justify-center items-center w-full"

@@ -1,6 +1,5 @@
 import { CampaignContext } from '../../../contexts/CampaignContext';
 import { PixiContext } from '../../../contexts/PixiContext';
-import CanvasTextControl from './CanvasTextControl';
 import SidebarTextArea from './SidebarTextArea';
 import Viewer from './Viewer';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -196,9 +195,6 @@ const DesignDrawer = ({ onImageUpload, onDrawerStateChange }) => {
                             <Typography variant="subtitle1">Text Inputs</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <CanvasTextControl onCanvasSelection={handleCanvasSelection} />
-                            <div className="py-2"></div>
-
                             <FormControl fullWidth>
                                 <InputLabel>Font</InputLabel>
                                 <Select value={textStyle.fontFamily} onChange={handleFontChange}>

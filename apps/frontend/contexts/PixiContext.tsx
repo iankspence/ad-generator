@@ -25,6 +25,21 @@ interface PixiContextProps {
 
     textStyles: { [key: string]: PIXI.TextStyle };
     updateTextStyles: (newTextStyles: { [key: string]: PIXI.TextStyle }) => void;
+
+    activeCanvases: {
+        hook: boolean;
+        claim: boolean;
+        review: boolean;
+        close: boolean;
+    };
+    updateActiveCanvases: (
+        newActiveCanvases: {
+            hook: boolean;
+            claim: boolean;
+            review: boolean;
+            close: boolean;
+        } | null,
+    ) => void;
 }
 
 const PixiContext = createContext<PixiContextProps>({
@@ -54,6 +69,14 @@ const PixiContext = createContext<PixiContextProps>({
 
     textStyles: {},
     updateTextStyles: () => void 0,
+
+    activeCanvases: {
+        hook: true,
+        claim: true,
+        review: true,
+        close: true,
+    },
+    updateActiveCanvases: () => void 0,
 });
 
 export const PixiProvider = ({ children }) => {
@@ -67,6 +90,12 @@ export const PixiProvider = ({ children }) => {
     const [closeImageContainer, setCloseImageContainer] = useState(null);
     const [reviewImageContainer, setReviewImageContainer] = useState(null);
     const [textStyles, setTextStyles] = useState({});
+    const [activeCanvases, setActiveCanvases] = useState({
+        hook: true,
+        claim: true,
+        review: true,
+        close: true,
+    });
 
     return (
         <PixiContext.Provider
@@ -91,6 +120,8 @@ export const PixiProvider = ({ children }) => {
                 updateReviewImageContainer: setReviewImageContainer,
                 textStyles,
                 updateTextStyles: setTextStyles,
+                activeCanvases,
+                updateActiveCanvases: setActiveCanvases,
             }}
         >
             {children}
