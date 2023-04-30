@@ -5,6 +5,7 @@ import { useImage } from '../../../hooks/useImage';
 import useNewSelectedTheme from '../../../hooks/useNewSelectedTheme';
 import useZoom from '../../../hooks/useZoom';
 import React, { useContext, useRef } from 'react';
+import useSync from "../../../hooks/useSync";
 
 const CloseCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const appRef = useRef(null);
@@ -13,9 +14,11 @@ const CloseCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     useCanvasApp(appRef, size, updateCanvasApp, canvasName);
     useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size);
 
-    useImage(appRef.current, imageUrl);
+    useImage(appRef.current, imageUrl, canvasName);
     useDraggable(appRef.current, canvasName);
     useZoom(appRef.current, canvasName);
+
+    useSync();
 
     return <div id={`${canvasName}-canvas-container`}></div>;
 };

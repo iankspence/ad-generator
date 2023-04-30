@@ -17,7 +17,7 @@ const ContentGenerator = () => {
 
     const [currentCanvasIndex, setCurrentCanvasIndex] = useState(0);
     const [singleCanvasView, setSingleCanvasView] = useState(true);
-    const [canvasSize, setCanvasSize] = useState(320);
+    const [canvasSize] = useState(320);
 
     const handleThemeChange = (event) => {
         updateSelectedThemeId(event.target.value);

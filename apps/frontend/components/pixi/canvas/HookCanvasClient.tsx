@@ -6,6 +6,7 @@ import useNewSelectedTheme from '../../../hooks/useNewSelectedTheme';
 import useText from '../../../hooks/useText';
 import useZoom from '../../../hooks/useZoom';
 import React, { useContext, useRef } from 'react';
+import useSync from "../../../hooks/useSync";
 
 const HookCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const appRef = useRef(null);
@@ -19,9 +20,12 @@ const HookCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
 
     useText(appRef.current, canvasName, textLayerRef);
 
-    useImage(appRef.current, imageUrl);
+    useImage(appRef.current, imageUrl, canvasName);
     useDraggable(appRef.current, canvasName);
     useZoom(appRef.current, canvasName);
+
+    // add the useSync hook
+    useSync();
 
     console.log('appRef.current', appRef.current);
     return <div id={`${canvasName}-canvas-container`}></div>;

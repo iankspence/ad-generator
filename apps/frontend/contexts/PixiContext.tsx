@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import { createContext, useEffect, useState } from 'react';
+import EventEmitter from 'eventemitter3';
 
 interface ActiveCanvases {
     hook: boolean;
@@ -25,6 +26,8 @@ interface PixiContextProps {
     updateActiveCanvases: (
         newActiveCanvases: ActiveCanvases | null,
     ) => void;
+
+    eventEmitter: EventEmitter | null;
 }
 
 export const PixiContext = createContext<PixiContextProps>({
@@ -47,6 +50,8 @@ export const PixiContext = createContext<PixiContextProps>({
         close: false,
     },
     updateActiveCanvases: () => void 0,
+
+    eventEmitter: new EventEmitter(),
 });
 
 export const PixiProvider = ({ children }) => {
@@ -60,6 +65,8 @@ export const PixiProvider = ({ children }) => {
         review: false,
         close: false,
     });
+
+    const eventEmitter = new EventEmitter();
 
     const updateCanvasApp = (key: string, newApp: PIXI.Application) => {
         setCanvasApps((prev) => ({ ...prev, [key]: newApp }));
@@ -82,6 +89,7 @@ export const PixiProvider = ({ children }) => {
                 updateTextStyles: setTextStyles,
                 activeCanvases,
                 updateActiveCanvases: setActiveCanvases,
+                eventEmitter,
             }}
         >
             {children}

@@ -13,19 +13,19 @@ export interface DraggableContainer extends PIXI.Container {
     dragOffset: PIXI.Point | null;
 }
 const useDraggable = (app, canvasName: string) => {
-    const { canvasApps } = useContext(PixiContext);
+    const { canvasApps, eventEmitter } = useContext(PixiContext);
 
     const container = findImageContainer(canvasApps, canvasName) as DraggableContainer;
 
     const handleDragStart = useCallback(
-        (event: PIXI.FederatedPointerEvent) => onDragStart(container)(event),
-        [container],
+        (event: PIXI.FederatedPointerEvent) => onDragStart(container, eventEmitter)(event),
+        [container, eventEmitter],
     );
     const handleDragMove = useCallback(
-        (event: PIXI.FederatedPointerEvent) => onDragMove(container)(event),
-        [container],
+        (event: PIXI.FederatedPointerEvent) => onDragMove(container, eventEmitter)(event),
+        [container, eventEmitter],
     );
-    const handleDragEnd = useCallback((event: PIXI.FederatedPointerEvent) => onDragEnd(container)(event), [container]);
+    const handleDragEnd = useCallback((event: PIXI.FederatedPointerEvent) => onDragEnd(container, eventEmitter)(event), [container, eventEmitter]);
 
     useEffect(() => {
         if (!app || !container) return;

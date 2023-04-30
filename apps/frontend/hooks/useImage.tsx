@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
 
-export const useImage = (app, imageUrl) => {
+export const useImage = (app, imageUrl, canvasName) => {
     useEffect(() => {
         if (!app || !app?.stage || !imageUrl) return;
 
@@ -16,6 +16,7 @@ export const useImage = (app, imageUrl) => {
         image.cursor = 'pointer';
         image.zIndex = 0;
         container.addChild(image);
+        container.name = canvasName;
 
         return () => {
             if (container) container.removeChild(image);

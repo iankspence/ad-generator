@@ -5,7 +5,8 @@ import {findImageContainer} from "../components/pixi/utils/findImageContainer";
 import {DraggableContainer} from "./useDraggable";
 
 export const useZoom = (app, canvasName) => {
-    const { canvasApps } = useContext(PixiContext);
+    const { canvasApps, eventEmitter } = useContext(PixiContext);
+
     const scaleFactor = 1.1;
 
     const container = findImageContainer(canvasApps, canvasName) as DraggableContainer;
@@ -32,8 +33,12 @@ export const useZoom = (app, canvasName) => {
                 (localMousePositionAfterZoom.x - localMousePositionBeforeZoom.x) * container.scale.x;
             container.position.y +=
                 (localMousePositionAfterZoom.y - localMousePositionBeforeZoom.y) * container.scale.y;
+
+            eventEmitter.emit("zoom", container);
+
+            console.log("zoom", container.name)
         },
-        [app, container, scaleFactor],
+    [app, container, scaleFactor],
     );
 
     useEffect(() => {
@@ -44,7 +49,7 @@ export const useZoom = (app, canvasName) => {
             if (!app || !app.view) return;
             app.view.removeEventListener('wheel', handleWheel);
         };
-    }, [app, handleWheel]);
+    }, [app, handleWheel, eventEmitter]);
 };
 
 export default useZoom;
