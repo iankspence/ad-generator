@@ -12,11 +12,11 @@ const CloseCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const {updateCanvasApp} = useContext(PixiContext);
 
     useCanvasApp(appRef, size, updateCanvasApp, canvasName);
-    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size);
+    useNewSelectedTheme(appRef, imageUrl, selectedThemeId, canvasName, size);
 
-    useImage(appRef.current, imageUrl, canvasName);
-    useDraggable(appRef.current, canvasName);
-    useZoom(appRef.current, canvasName);
+    useImage(appRef, imageUrl, canvasName);
+    useDraggable(appRef, canvasName);
+    useZoom(appRef, canvasName);
 
     useSync();
 

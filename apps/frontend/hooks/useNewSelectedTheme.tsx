@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 import {findImageContainer} from "../components/pixi/utils/findImageContainer";
 import {DraggableContainer} from "./useDraggable";
 
-export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, size) => {
+export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
     const { canvasApps } = useContext(PixiContext);
 
@@ -48,9 +48,9 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, 
     }, [selectedThemeId, canvasName]);
 
     useEffect(() => {
-        if (!app || !app.stage) return;
+        if (!appRef?.current || !container) return;
 
-        if (!container) return;
+        const app = appRef.current;
 
         app.stage.removeChildren();
 
@@ -71,7 +71,7 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, 
             }
         }
     }, [
-        app,
+        appRef,
         container,
         canvasApps,
         selectedThemeId,

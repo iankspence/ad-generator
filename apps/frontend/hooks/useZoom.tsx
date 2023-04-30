@@ -4,7 +4,7 @@ import {PixiContext} from "../contexts/PixiContext";
 import {findImageContainer} from "../components/pixi/utils/findImageContainer";
 import {DraggableContainer} from "./useDraggable";
 
-export const useZoom = (app, canvasName: string) => {
+export const useZoom = (appRef, canvasName: string) => {
     const { canvasApps, eventEmitter } = useContext(PixiContext);
 
     const scaleFactor = 1.1;
@@ -13,7 +13,9 @@ export const useZoom = (app, canvasName: string) => {
 
     const handleWheel = useCallback(
         (event) => {
-            if (!app || !container) return;
+            if (!appRef.current || !container) return;
+
+            const app = appRef.current;
 
             event.preventDefault();
 
@@ -38,18 +40,25 @@ export const useZoom = (app, canvasName: string) => {
 
             console.log("zoom", container.name)
         },
-    [app, container, scaleFactor, eventEmitter],
+    [appRef, container, scaleFactor, eventEmitter],
     );
 
     useEffect(() => {
-        if (!app || !app?.view) return;
-        app.view.addEventListener('wheel', handleWheel);
+        if (!appRef.current) return;
+
+        const app = appRef.current;
+
+        if (app.view) {
+            app.view.addEventListener('wheel', handleWheel);
+        }
 
         return () => {
-            if (!app || !app.view) return;
-            app.view.removeEventListener('wheel', handleWheel);
+            if (appRef.current && app.view) {
+                app.view.removeEventListener('wheel', handleWheel);
+            }
         };
-    }, [app, handleWheel, eventEmitter]);
+    }, [appRef, handleWheel]);
+
 };
 
 export default useZoom;

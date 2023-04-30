@@ -2,7 +2,7 @@ import { onDragEnd } from '../callbacks/onDragEnd';
 import { onDragMove } from '../callbacks/onDragMove';
 import { onDragStart } from '../callbacks/onDragStart';
 import * as PIXI from 'pixi.js';
-import {useEffect, useCallback, MutableRefObject, useContext} from 'react';
+import {useEffect, useCallback, useContext} from 'react';
 import {PixiContext} from "../contexts/PixiContext";
 import {findImageContainer} from "../components/pixi/utils/findImageContainer";
 
@@ -12,7 +12,7 @@ export interface DraggableContainer extends PIXI.Container {
     dragData: PIXI.FederatedPointerEvent | null;
     dragOffset: PIXI.Point | null;
 }
-const useDraggable = (app, canvasName: string) => {
+const useDraggable = (appRef, canvasName: string) => {
     const { canvasApps, eventEmitter } = useContext(PixiContext);
 
     const container = findImageContainer(canvasApps, canvasName) as DraggableContainer;
@@ -28,7 +28,9 @@ const useDraggable = (app, canvasName: string) => {
     const handleDragEnd = useCallback((event: PIXI.FederatedPointerEvent) => onDragEnd(container, eventEmitter)(event), [container, eventEmitter]);
 
     useEffect(() => {
-        if (!app || !container) return;
+        if (!appRef?.current || !container) return;
+
+        const app = appRef.current;
 
         app.stage.sortableChildren = true;
         container.eventMode = 'static';
@@ -44,7 +46,7 @@ const useDraggable = (app, canvasName: string) => {
             container.off('pointerupoutside', handleDragEnd);
             container.off('pointermove', handleDragMove);
         };
-    }, [app, container, handleDragStart, handleDragEnd, handleDragMove]);
+    }, [appRef, container, handleDragStart, handleDragEnd, handleDragMove]);
 
     return container;
 };

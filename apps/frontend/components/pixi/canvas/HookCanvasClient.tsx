@@ -15,15 +15,12 @@ const HookCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const {updateCanvasApp} = useContext(PixiContext);
 
     useCanvasApp(appRef, size, updateCanvasApp, canvasName);
-    // useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size, textLayerRef.current);
-    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size);
 
-    useText(appRef.current, canvasName, textLayerRef);
-
-    useImage(appRef.current, imageUrl, canvasName);
-    useDraggable(appRef.current, canvasName);
-    useZoom(appRef.current, canvasName);
-
+    useNewSelectedTheme(appRef, imageUrl, selectedThemeId, canvasName, size);
+    useText(appRef, canvasName, textLayerRef);
+    useImage(appRef, imageUrl, canvasName);
+    useDraggable(appRef, canvasName);
+    useZoom(appRef, canvasName);
     // add the useSync hook
     useSync();
 

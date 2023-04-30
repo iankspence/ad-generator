@@ -1,9 +1,11 @@
 import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
 
-export const useImage = (app, imageUrl, canvasName) => {
+export const useImage = (appRef, imageUrl, canvasName) => {
     useEffect(() => {
-        if (!app || !app?.stage || !imageUrl) return;
+        if (!appRef?.current || !imageUrl) return;
+
+        const app = appRef.current;
 
         const container = new PIXI.Container();
         app.stage.addChild(container);
@@ -22,5 +24,5 @@ export const useImage = (app, imageUrl, canvasName) => {
             if (container) container.removeChild(image);
             if (app.stage) app.stage.removeChild(container);
         };
-    }, [imageUrl, app]);
+    }, [imageUrl, appRef]);
 };
