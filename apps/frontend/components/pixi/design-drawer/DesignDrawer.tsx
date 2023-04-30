@@ -79,11 +79,11 @@ const DesignDrawer = ({ onImageUpload, onDrawerStateChange }) => {
 
     return (
         <Box>
-            <div className="fixed top-8 right-8 z-10">
+            <div className="fixed top-8 right-8 z-10 bg-white hover:bg-gray-300 text-black rounded-full">
                 <IconButton
                     onClick={handleDrawerOpen}
-                    style={{ zIndex: 20 }}
-                    className="bg-white hover:bg-gray-300 text-black p-2 rounded-full"
+                    style={{ zIndex: 20, color: 'black' }}
+                    className=""
                 >
                     <TextureOutlinedIcon />
                 </IconButton>
