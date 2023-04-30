@@ -13,9 +13,9 @@ const ReviewCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => 
     useCanvasApp(appRef, size, updateCanvasApp, canvasName);
     useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size);
 
-    const container = useImage(appRef, imageUrl, canvasName);
-    useDraggable(appRef, container);
-    useZoom(appRef, container);
+    useImage(appRef.current, imageUrl);
+    useDraggable(appRef.current, canvasName);
+    useZoom(appRef.current, canvasName);
 
     return <div id={`${canvasName}-canvas-container`}></div>;
 };

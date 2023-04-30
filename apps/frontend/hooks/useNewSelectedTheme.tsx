@@ -4,12 +4,14 @@ import { getMasksByNames } from '../utils/api';
 import { themes } from '../utils/constants/themes';
 import * as PIXI from 'pixi.js';
 import { useContext, useEffect, useState } from 'react';
+import {findImageContainer} from "../components/pixi/utils/findImageContainer";
+import {DraggableContainer} from "./useDraggable";
 
 export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
-    const {
-        imageContainers,
-    } = useContext(PixiContext);
+    const { canvasApps } = useContext(PixiContext);
+
+    const container = findImageContainer(canvasApps, canvasName) as DraggableContainer;
 
     const fetchMaskTextures = async (maskNames) => {
         try {
@@ -48,7 +50,6 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, 
     useEffect(() => {
         if (!app || !app.stage) return;
 
-        const container = imageContainers[canvasName];
         if (!container) return;
 
         app.stage.removeChildren();
@@ -71,7 +72,8 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, 
         }
     }, [
         app,
-        imageContainers,
+        container,
+        canvasApps,
         selectedThemeId,
         maskTextures,
         canvasName,

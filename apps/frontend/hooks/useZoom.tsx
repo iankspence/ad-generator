@@ -1,12 +1,18 @@
 import * as PIXI from 'pixi.js';
-import { useEffect, useCallback, MutableRefObject } from 'react';
+import {useEffect, useCallback, useContext} from 'react';
+import {PixiContext} from "../contexts/PixiContext";
+import {findImageContainer} from "../components/pixi/utils/findImageContainer";
+import {DraggableContainer} from "./useDraggable";
 
-export const useZoom = (appRef: MutableRefObject<PIXI.Application | null>, container: PIXI.Container, scaleFactor = 1.1) => {
+export const useZoom = (app, canvasName) => {
+    const { canvasApps } = useContext(PixiContext);
+    const scaleFactor = 1.1;
+
+    const container = findImageContainer(canvasApps, canvasName) as DraggableContainer;
+
     const handleWheel = useCallback(
         (event) => {
-            if (!appRef.current || !container) return;
-
-            const app = appRef.current;
+            if (!app || !container) return;
 
             event.preventDefault();
 
@@ -27,24 +33,18 @@ export const useZoom = (appRef: MutableRefObject<PIXI.Application | null>, conta
             container.position.y +=
                 (localMousePositionAfterZoom.y - localMousePositionBeforeZoom.y) * container.scale.y;
         },
-        [appRef, container, scaleFactor],
+        [app, container, scaleFactor],
     );
 
     useEffect(() => {
-        if (!appRef.current) return;
-
-        const app = appRef.current;
-
-        if (app.view) {
-            app.view.addEventListener('wheel', handleWheel);
-        }
+        if (!app || !app?.view) return;
+        app.view.addEventListener('wheel', handleWheel);
 
         return () => {
-            if (appRef.current && app.view) {
-                app.view.removeEventListener('wheel', handleWheel);
-            }
+            if (!app || !app.view) return;
+            app.view.removeEventListener('wheel', handleWheel);
         };
-    }, [appRef, handleWheel]);
+    }, [app, handleWheel]);
 };
 
 export default useZoom;

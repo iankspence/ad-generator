@@ -51,8 +51,6 @@ const DesignDrawer = ({ onImageUpload, onDrawerStateChange }) => {
         }
     };
 
-    console.log('reviews in design-drawer: ', reviews);
-
     const [textStyle, setTextStyle] = useState({
         fontFamily: 'Arial',
         fontSize: 24,

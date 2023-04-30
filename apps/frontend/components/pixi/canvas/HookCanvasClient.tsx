@@ -19,11 +19,9 @@ const HookCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
 
     useText(appRef.current, canvasName, textLayerRef);
 
-    const container = useImage(appRef, imageUrl, canvasName);
-    useDraggable(appRef, container);
-    useZoom(appRef, container);
-
-    // useActionSync(appRef.current, canvasName);
+    useImage(appRef.current, imageUrl);
+    useDraggable(appRef.current, canvasName);
+    useZoom(appRef.current, canvasName);
 
     console.log('appRef.current', appRef.current);
     return <div id={`${canvasName}-canvas-container`}></div>;

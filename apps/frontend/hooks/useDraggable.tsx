@@ -2,7 +2,9 @@ import { onDragEnd } from '../callbacks/onDragEnd';
 import { onDragMove } from '../callbacks/onDragMove';
 import { onDragStart } from '../callbacks/onDragStart';
 import * as PIXI from 'pixi.js';
-import { useEffect, useCallback, MutableRefObject } from 'react';
+import {useEffect, useCallback, MutableRefObject, useContext} from 'react';
+import {PixiContext} from "../contexts/PixiContext";
+import {findImageContainer} from "../components/pixi/utils/findImageContainer";
 
 
 export interface DraggableContainer extends PIXI.Container {
@@ -10,7 +12,11 @@ export interface DraggableContainer extends PIXI.Container {
     dragData: PIXI.FederatedPointerEvent | null;
     dragOffset: PIXI.Point | null;
 }
-const useDraggable = (appRef: MutableRefObject<PIXI.Application | null>, container: DraggableContainer | null) => {
+const useDraggable = (app, canvasName: string) => {
+    const { canvasApps } = useContext(PixiContext);
+
+    const container = findImageContainer(canvasApps, canvasName) as DraggableContainer;
+
     const handleDragStart = useCallback(
         (event: PIXI.FederatedPointerEvent) => onDragStart(container)(event),
         [container],
@@ -22,9 +28,7 @@ const useDraggable = (appRef: MutableRefObject<PIXI.Application | null>, contain
     const handleDragEnd = useCallback((event: PIXI.FederatedPointerEvent) => onDragEnd(container)(event), [container]);
 
     useEffect(() => {
-        if (!appRef || !appRef.current || !container) return;
-
-        const app = appRef.current;
+        if (!app || !container) return;
 
         app.stage.sortableChildren = true;
         container.eventMode = 'static';
@@ -40,7 +44,7 @@ const useDraggable = (appRef: MutableRefObject<PIXI.Application | null>, contain
             container.off('pointerupoutside', handleDragEnd);
             container.off('pointermove', handleDragMove);
         };
-    }, [appRef, container, handleDragStart, handleDragEnd, handleDragMove]);
+    }, [app, container, handleDragStart, handleDragEnd, handleDragMove]);
 
     return container;
 };
