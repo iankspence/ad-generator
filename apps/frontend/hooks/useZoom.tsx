@@ -4,7 +4,7 @@ import {PixiContext} from "../contexts/PixiContext";
 import {findImageContainer} from "../components/pixi/utils/findImageContainer";
 import {DraggableContainer} from "./useDraggable";
 
-export const useZoom = (app, canvasName) => {
+export const useZoom = (app, canvasName: string) => {
     const { canvasApps, eventEmitter } = useContext(PixiContext);
 
     const scaleFactor = 1.1;
@@ -38,7 +38,7 @@ export const useZoom = (app, canvasName) => {
 
             console.log("zoom", container.name)
         },
-    [app, container, scaleFactor],
+    [app, container, scaleFactor, eventEmitter],
     );
 
     useEffect(() => {
