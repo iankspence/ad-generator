@@ -1,6 +1,6 @@
 import '../../../styles/globals.css';
 import CampaignProvider from '../contexts/CampaignContext';
-import PixiProvider from '../contexts/PixiContext';
+import {PixiProvider} from '../contexts/PixiContext';
 import { UserProvider } from '../contexts/UserContext';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { AppProps } from 'next/app';

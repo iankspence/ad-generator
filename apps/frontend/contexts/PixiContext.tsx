@@ -1,71 +1,41 @@
 import * as PIXI from 'pixi.js';
 import { createContext, useEffect, useState } from 'react';
 
+interface ActiveCanvases {
+    hook: boolean;
+    claim: boolean;
+    review: boolean;
+    close: boolean;
+}
+
 interface PixiContextProps {
-    hookApp: PIXI.Application | null;
-    updateHookApp: (newApp: PIXI.Application) => void;
-    claimApp: PIXI.Application | null;
-    updateClaimApp: (newApp: PIXI.Application) => void;
-    closeApp: PIXI.Application | null;
-    updateCloseApp: (newApp: PIXI.Application) => void;
-    reviewApp: PIXI.Application | null;
-    updateReviewApp: (newApp: PIXI.Application) => void;
+    canvasApps: { [key: string]: PIXI.Application | null; }
+    updateCanvasApp: (key: string, newApp: PIXI.Application) => void;
+
+    imageContainers: { [key: string]: PIXI.Container | null; };
+    updateImageContainer: (key: string, newImageContainer: PIXI.Container) => void;
 
     selectedThemeId: string | null;
     updateSelectedThemeId: (selectedThemeId: string) => void;
 
-    hookImageContainer: PIXI.Container | null;
-    updateHookImageContainer: (container: PIXI.Container) => void;
-    claimImageContainer: PIXI.Container | null;
-    updateClaimImageContainer: (container: PIXI.Container) => void;
-    closeImageContainer: PIXI.Container | null;
-    updateCloseImageContainer: (container: PIXI.Container) => void;
-    reviewImageContainer: PIXI.Container | null;
-    updateReviewImageContainer: (container: PIXI.Container) => void;
-
     textStyles: { [key: string]: PIXI.TextStyle };
     updateTextStyles: (newTextStyles: { [key: string]: PIXI.TextStyle }) => void;
 
-    activeCanvases: {
-        hook: boolean;
-        claim: boolean;
-        review: boolean;
-        close: boolean;
-    };
+    activeCanvases: ActiveCanvases | null;
     updateActiveCanvases: (
-        newActiveCanvases: {
-            hook: boolean;
-            claim: boolean;
-            review: boolean;
-            close: boolean;
-        } | null,
+        newActiveCanvases: ActiveCanvases | null,
     ) => void;
 }
 
-const PixiContext = createContext<PixiContextProps>({
-    hookApp: null,
-    updateHookApp: () => void 0,
+export const PixiContext = createContext<PixiContextProps>({
+    canvasApps: {},
+    updateCanvasApp: () => void 0,
 
-    claimApp: null,
-    updateClaimApp: () => void 0,
-
-    closeApp: null,
-    updateCloseApp: () => void 0,
-
-    reviewApp: null,
-    updateReviewApp: () => void 0,
+    imageContainers: {},
+    updateImageContainer: () => void 0,
 
     selectedThemeId: 'basic-swoosh',
     updateSelectedThemeId: () => void 0,
-
-    hookImageContainer: null,
-    updateHookImageContainer: () => void 0,
-    claimImageContainer: null,
-    updateClaimImageContainer: () => void 0,
-    closeImageContainer: null,
-    updateCloseImageContainer: () => void 0,
-    reviewImageContainer: null,
-    updateReviewImageContainer: () => void 0,
 
     textStyles: {},
     updateTextStyles: () => void 0,
@@ -80,15 +50,9 @@ const PixiContext = createContext<PixiContextProps>({
 });
 
 export const PixiProvider = ({ children }) => {
-    const [hookApp, setHookApp] = useState(null);
-    const [claimApp, setClaimApp] = useState(null);
-    const [closeApp, setCloseApp] = useState(null);
-    const [reviewApp, setReviewApp] = useState(null);
+    const [canvasApps, setCanvasApps] = useState({});
+    const [imageContainers, setImageContainers] = useState({});
     const [selectedThemeId, setSelectedThemeId] = useState('basic-swoosh');
-    const [hookImageContainer, setHookImageContainer] = useState(null);
-    const [claimImageContainer, setClaimImageContainer] = useState(null);
-    const [closeImageContainer, setCloseImageContainer] = useState(null);
-    const [reviewImageContainer, setReviewImageContainer] = useState(null);
     const [textStyles, setTextStyles] = useState({});
     const [activeCanvases, setActiveCanvases] = useState({
         hook: true,
@@ -97,27 +61,23 @@ export const PixiProvider = ({ children }) => {
         close: false,
     });
 
+    const updateCanvasApp = (key: string, newApp: PIXI.Application) => {
+        setCanvasApps((prev) => ({ ...prev, [key]: newApp }));
+    }
+    const updateImageContainer = (key: string, newImageContainer: PIXI.Container) => {
+        setImageContainers((prev) => ({ ...prev, [key]: newImageContainer }));
+    };
+
+
     return (
         <PixiContext.Provider
             value={{
-                hookApp,
-                updateHookApp: setHookApp,
-                claimApp,
-                updateClaimApp: setClaimApp,
-                closeApp,
-                updateCloseApp: setCloseApp,
-                reviewApp,
-                updateReviewApp: setReviewApp,
+                canvasApps,
+                updateCanvasApp,
+                imageContainers,
+                updateImageContainer,
                 selectedThemeId,
                 updateSelectedThemeId: setSelectedThemeId,
-                hookImageContainer,
-                updateHookImageContainer: setHookImageContainer,
-                claimImageContainer,
-                updateClaimImageContainer: setClaimImageContainer,
-                closeImageContainer,
-                updateCloseImageContainer: setCloseImageContainer,
-                reviewImageContainer,
-                updateReviewImageContainer: setReviewImageContainer,
                 textStyles,
                 updateTextStyles: setTextStyles,
                 activeCanvases,
@@ -128,6 +88,3 @@ export const PixiProvider = ({ children }) => {
         </PixiContext.Provider>
     );
 };
-
-export { PixiContext };
-export default PixiProvider;

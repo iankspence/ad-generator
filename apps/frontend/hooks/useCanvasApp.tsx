@@ -13,14 +13,14 @@ const useCanvasApp = (appRef, size, updateCanvasApp, canvasName) => {
         });
         document.getElementById(`${canvasName}-canvas-container`).appendChild(appRef.current.view as HTMLCanvasElement);
 
-        updateCanvasApp(appRef.current);
+        updateCanvasApp(canvasName, appRef.current);
 
         return () => {
             appRef.current.destroy(true, { children: true });
             appRef.current = null;
             updateCanvasApp(null);
         };
-    }, [updateCanvasApp, size]);
+    }, [size]);
 
     return appRef;
 };

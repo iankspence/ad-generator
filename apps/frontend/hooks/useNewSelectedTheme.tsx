@@ -5,10 +5,11 @@ import { themes } from '../utils/constants/themes';
 import * as PIXI from 'pixi.js';
 import { useContext, useEffect, useState } from 'react';
 
-export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, size, textLayer) => {
+export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
-    const { hookImageContainer, claimImageContainer, closeImageContainer, reviewImageContainer } =
-        useContext(PixiContext);
+    const {
+        imageContainers,
+    } = useContext(PixiContext);
 
     const fetchMaskTextures = async (maskNames) => {
         try {
@@ -44,38 +45,15 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, 
         }
     }, [selectedThemeId, canvasName]);
 
-    const getImageForCanvas = (canvasName, hookImage, claimImage, closeImage, reviewImage) => {
-        switch (canvasName) {
-            case 'hook':
-                return hookImage;
-            case 'claim':
-                return claimImage;
-            case 'close':
-                return closeImage;
-            case 'review':
-                return reviewImage;
-            default:
-                return null;
-        }
-    };
     useEffect(() => {
         if (!app || !app.stage) return;
 
-        const container = getImageForCanvas(
-            canvasName,
-            hookImageContainer,
-            claimImageContainer,
-            closeImageContainer,
-            reviewImageContainer,
-        );
+        const container = imageContainers[canvasName];
         if (!container) return;
 
         app.stage.removeChildren();
 
         app.stage.addChild(container);
-        if (textLayer && app.stage) {
-            app.stage.addChild(textLayer);
-        }
 
         if (selectedThemeId) {
             const selectedTheme = themes.find((theme) => theme.id === selectedThemeId);
@@ -93,13 +71,10 @@ export const useNewSelectedTheme = (app, imageUrl, selectedThemeId, canvasName, 
         }
     }, [
         app,
-        hookImageContainer,
-        claimImageContainer,
-        closeImageContainer,
-        reviewImageContainer,
+        imageContainers,
         selectedThemeId,
         maskTextures,
-        textLayer, // Add textLayer to dependencies
+        canvasName,
     ]);
 };
 

@@ -8,9 +8,9 @@ import React, { useContext, useRef } from 'react';
 
 const ClaimCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const appRef = useRef(null);
-    const { updateClaimApp } = useContext(PixiContext);
+    const {updateCanvasApp} = useContext(PixiContext);
 
-    useCanvasApp(appRef, size, updateClaimApp, canvasName);
+    useCanvasApp(appRef, size, updateCanvasApp, canvasName);
     useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size);
 
     const container = useImage(appRef, imageUrl, canvasName);

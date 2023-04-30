@@ -11,40 +11,19 @@ const HookCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const appRef = useRef(null);
     const textLayerRef = useRef(null); // Create a new ref for the text layer
 
-    const {
-        hookImageContainer,
-        claimImageContainer,
-        closeImageContainer,
-        reviewImageContainer,
-        activeCanvases,
-        updateHookApp,
-    } = useContext(PixiContext);
+    const {updateCanvasApp} = useContext(PixiContext);
 
-    useCanvasApp(appRef, size, updateHookApp, canvasName);
-    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size, textLayerRef.current);
+    useCanvasApp(appRef, size, updateCanvasApp, canvasName);
+    // useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size, textLayerRef.current);
+    useNewSelectedTheme(appRef.current, imageUrl, selectedThemeId, canvasName, size);
 
     useText(appRef.current, canvasName, textLayerRef);
 
-    const imageContainer = useImage(appRef, imageUrl, canvasName);
+    const container = useImage(appRef, imageUrl, canvasName);
+    useDraggable(appRef, container);
+    useZoom(appRef, container);
 
-    const activeContainers = [
-        activeCanvases.hook ? hookImageContainer : null,
-        activeCanvases.claim ? claimImageContainer : null,
-        activeCanvases.close ? closeImageContainer : null,
-        activeCanvases.review ? reviewImageContainer : null,
-    ].filter((container) => container !== null);
-
-    // If imageContainer is available, include it in the draggable and zoomable containers
-    if (imageContainer) {
-        activeContainers.push(imageContainer);
-    }
-
-    useDraggable(appRef, activeContainers as DraggableContainer[]);
-    useZoom(appRef, activeContainers);
-
-    // const container = useImage(appRef, imageUrl, canvasName);
-    // useDraggable(appRef, container);
-    // useZoom(appRef, container);
+    // useActionSync(appRef.current, canvasName);
 
     console.log('appRef.current', appRef.current);
     return <div id={`${canvasName}-canvas-container`}></div>;
