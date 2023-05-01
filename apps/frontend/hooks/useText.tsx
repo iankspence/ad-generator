@@ -17,10 +17,6 @@ export const useText = (appRef, canvasName) => {
         console.log('position', position);
         console.log('style', style);
 
-        if (textLayerRef && textLayerRef.current) {
-            canvasApp.stage.removeChild(textLayerRef.current);
-        }
-
         let mainText = '';
 
         switch (canvasName) {
@@ -53,13 +49,10 @@ export const useText = (appRef, canvasName) => {
         mainTextObject.x = canvasApp.view.width / 2 - mainTextObject.width / 2;
         mainTextObject.y = canvasApp.view.height / 1.1 - mainTextObject.height / 2;
         mainTextObject.zIndex = 3;
+        mainTextObject.name = `${canvasName}-main-text`
 
         canvasApp.stage.addChild(mainTextObject);
         canvasApp.render();
-
-        // if (textLayerRef) {
-        //     textLayerRef.current = mainTextObject;
-        // }
     };
 
     useEffect(() => {
