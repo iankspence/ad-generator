@@ -3,13 +3,13 @@ import { PixiContext } from '../contexts/PixiContext';
 import * as PIXI from 'pixi.js';
 import { useContext, useEffect, useState } from 'react';
 
-export const useText = (app, canvasName, textLayerRef) => {
+export const useText = (appRef, canvasName) => {
     const { hooks, hookPosition, claims, claimPosition, reviews, reviewPosition, closes, closePosition } =
         useContext(CampaignContext);
 
-    const { textStyles, updateTextStyles, hookApp, claimApp, closeApp, reviewApp } = useContext(PixiContext);
+    const { textStyles, updateTextStyles, canvasApps } = useContext(PixiContext);
 
-    const setTextForCanvas = (canvasApp, textArray, position, style) => {
+    const setMainTextForCanvas = (canvasApp, textArray, position, style) => {
         if (!canvasApp || !canvasApp.stage) return;
 
         console.log('canvasApp', canvasApp);
@@ -21,44 +21,45 @@ export const useText = (app, canvasName, textLayerRef) => {
             canvasApp.stage.removeChild(textLayerRef.current);
         }
 
-        let text = '';
+        let mainText = '';
 
         switch (canvasName) {
             case 'hook':
                 if (textArray.length > 0) {
-                    text = textArray[hookPosition - 1].hookText;
+                    mainText = textArray[hookPosition - 1].hookText;
                 }
                 break;
             case 'claim':
                 if (textArray.length > 0) {
-                    text = textArray[hookPosition - 1].claimText;
-                }
-                break;
-            case 'close':
-                if (textArray.length > 0) {
-                    text = textArray[hookPosition - 1].closeText;
+                    mainText = textArray[claimPosition - 1].claimText;
                 }
                 break;
             case 'review':
                 if (textArray.length > 0) {
-                    text = textArray[hookPosition - 1].reviewText;
+                    mainText = textArray[reviewPosition - 1].reviewText;
                 }
+                break;
+            case 'close':
+                if (textArray.length > 0) {
+                    mainText = textArray[closePosition - 1].closeText;
+                }
+                break;
+            default:
                 break;
         }
 
-        // const text = textArray[position - 1]?.content;
-        if (!text) return;
-        const textObject = new PIXI.Text(text, style);
-        textObject.x = canvasApp.view.width / 2 - textObject.width / 2;
-        textObject.y = canvasApp.view.height / 1.1 - textObject.height / 2;
-        textObject.zIndex = 3;
+        if (!mainText) return;
+        const mainTextObject = new PIXI.Text(mainText, style);
+        mainTextObject.x = canvasApp.view.width / 2 - mainTextObject.width / 2;
+        mainTextObject.y = canvasApp.view.height / 1.1 - mainTextObject.height / 2;
+        mainTextObject.zIndex = 3;
 
-        canvasApp.stage.addChild(textObject);
+        canvasApp.stage.addChild(mainTextObject);
         canvasApp.render();
 
-        if (textLayerRef) {
-            textLayerRef.current = textObject;
-        }
+        // if (textLayerRef) {
+        //     textLayerRef.current = mainTextObject;
+        // }
     };
 
     useEffect(() => {
@@ -68,8 +69,6 @@ export const useText = (app, canvasName, textLayerRef) => {
                 fontFamily: 'Arial',
                 fontSize: 24,
                 fill: 'white',
-                // stroke: '#000000',
-                // strokeThickness: 4,
                 wordWrap: true,
                 wordWrapWidth: 200,
                 align: 'center',
@@ -80,31 +79,28 @@ export const useText = (app, canvasName, textLayerRef) => {
 
         switch (canvasName) {
             case 'hook':
-                setTextForCanvas(hookApp, hooks, hookPosition, textStyles.defaultStyle);
+                setMainTextForCanvas(canvasApps['hook'], hooks, hookPosition, textStyles.defaultStyle);
                 break;
             case 'claim':
-                setTextForCanvas(claimApp, claims, claimPosition, textStyles.defaultStyle);
+                setMainTextForCanvas(canvasApps['claim'], claims, claimPosition, textStyles.defaultStyle);
                 break;
             case 'close':
-                setTextForCanvas(closeApp, closes, closePosition, textStyles.defaultStyle);
+                setMainTextForCanvas(canvasApps['close'], closes, closePosition, textStyles.defaultStyle);
                 break;
             case 'review':
-                setTextForCanvas(reviewApp, reviews, reviewPosition, textStyles.defaultStyle);
+                setMainTextForCanvas(canvasApps['review'], reviews, reviewPosition, textStyles.defaultStyle);
                 break;
             default:
                 break;
         }
     }, [
-        hookApp,
+        canvasApps,
         hooks,
         hookPosition,
-        claimApp,
         claims,
         claimPosition,
-        closeApp,
         closes,
         closePosition,
-        reviewApp,
         reviews,
         reviewPosition,
         textStyles,

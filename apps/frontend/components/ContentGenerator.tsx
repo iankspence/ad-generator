@@ -10,6 +10,7 @@ import CanvasViewToggle from './pixi/floating-buttons/CanvasViewToggle';
 import DownloadButton from './pixi/floating-buttons/DownloadButton';
 import ThemeSelector from './pixi/floating-buttons/ThemeSelector';
 import React, { useContext, useState } from 'react';
+import Button from '@mui/material/Button';
 
 const ContentGenerator = () => {
     const [imageUrl, setImageUrl] = useState(null);
@@ -62,6 +63,14 @@ const ContentGenerator = () => {
             updateActiveCanvases({ ...activeCanvases, [previousCanvasName]: false, [currentCanvasName]: true });
         }
     };
+
+
+    const handleActiveButtonClick = (canvas) => {
+        const newSelectedCanvases = { ...activeCanvases, [canvas]: !activeCanvases[canvas] };
+
+        updateActiveCanvases(newSelectedCanvases);
+    };
+
 
     const canvases = [
         {
@@ -127,7 +136,10 @@ const ContentGenerator = () => {
             ? `calc(50% - ${fullGridSize / 2 + 200}px)`
             : `calc(50% - ${fullGridSize / 2}px)`;
         const leftPositions = [leftOffset, `calc(${leftOffset} + ${halfGridSize}px)`];
-        const topPositions = [`calc(50% - ${halfGridSize}px)`, `calc(50% + 15px)`];
+        const topPositions = [`calc(50% - ${halfGridSize}px)`, `calc(50% + 35px)`];
+
+        const canvas = canvases[index];
+        const isActive = activeCanvases[canvas.canvasName];
 
         return (
             <div
@@ -139,13 +151,23 @@ const ContentGenerator = () => {
                             ? { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }
                             : { display: 'none' }
                         : {
-                              left: leftPositions[index % 2],
-                              top: topPositions[Math.floor(index / 2)],
-                          }
+                            left: leftPositions[index % 2],
+                            top: topPositions[Math.floor(index / 2)],
+                        }
                 }
             >
-                <h1 className="text-center">{canvases[index].title}</h1>
-                <div className={`w-${canvasSize} h-${canvasSize}`}>{canvases[index].component}</div>
+                <Button
+                    onClick={() => handleActiveButtonClick(canvas.canvasName)}
+                    sx={{
+                        borderColor: isActive ? 'grey.100' : 'grey.800',
+                        color: isActive ? 'grey.100' : 'grey.800',
+                        width: '100%',
+                        marginBottom: '4px',
+                    }}
+                >
+                    {canvas.title}
+                </Button>
+                <div className={`w-${canvasSize} h-${canvasSize}`}>{canvas.component}</div>
             </div>
         );
     };
@@ -164,9 +186,8 @@ const ContentGenerator = () => {
                     canNavigateLeft={currentCanvasIndex > 0}
                     canNavigateRight={currentCanvasIndex < canvases.length - 1}
                 />
-                <DownloadButton />
+                <DownloadButton singleCanvasView={singleCanvasView} />
                 <DesignDrawer onImageUpload={handleImageUpload} onDrawerStateChange={handleDrawerStateChange} />
-                <ActiveCanvasButtonGroup visible={!singleCanvasView} />
 
                 <div
                     className="flex flex-col justify-center items-center w-full"

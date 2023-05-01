@@ -73,10 +73,6 @@ const DesignDrawer = ({ onImageUpload, onDrawerStateChange }) => {
         setTextStyle({ ...textStyle, fill: hexColor });
     };
 
-    const handleCanvasSelection = (newSelectedCanvases) => {
-        setSelectedCanvases(newSelectedCanvases);
-    };
-
     return (
         <Box>
             <div className="fixed top-8 right-8 z-10 bg-white hover:bg-gray-300 text-black rounded-full">

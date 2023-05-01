@@ -8,6 +8,7 @@ export const useImage = (appRef, imageUrl, canvasName) => {
         const app = appRef.current;
 
         const container = new PIXI.Container();
+        container.name = canvasName;
         app.stage.addChild(container);
 
         const image = PIXI.Sprite.from(imageUrl);
@@ -18,7 +19,6 @@ export const useImage = (appRef, imageUrl, canvasName) => {
         image.cursor = 'pointer';
         image.zIndex = 0;
         container.addChild(image);
-        container.name = canvasName;
 
         return () => {
             if (container) container.removeChild(image);

@@ -2,7 +2,7 @@ import { PixiContext } from '../contexts/PixiContext';
 import { useCallback, useContext } from 'react';
 
 const useDownload = (width = 1080, height = 1080) => {
-    const { hookApp, claimApp, reviewApp, closeApp } = useContext(PixiContext);
+    const { canvasApps } = useContext(PixiContext);
 
     const downloadCanvas = useCallback(
         (app, filename) => {
@@ -34,20 +34,20 @@ const useDownload = (width = 1080, height = 1080) => {
     );
 
     const downloadHookApp = useCallback(() => {
-        downloadCanvas(hookApp, 'hook-image.png');
-    }, [hookApp, downloadCanvas]);
+        downloadCanvas(canvasApps['hook'], 'hook-image.png');
+    }, [canvasApps, downloadCanvas]);
 
     const downloadClaimApp = useCallback(() => {
-        downloadCanvas(claimApp, 'claim-image.png');
-    }, [claimApp, downloadCanvas]);
+        downloadCanvas(canvasApps['claim'], 'claim-image.png');
+    }, [canvasApps, downloadCanvas]);
 
     const downloadReviewApp = useCallback(() => {
-        downloadCanvas(reviewApp, 'review-image.png');
-    }, [reviewApp, downloadCanvas]);
+        downloadCanvas(canvasApps['review'], 'review-image.png');
+    }, [canvasApps, downloadCanvas]);
 
     const downloadCloseApp = useCallback(() => {
-        downloadCanvas(closeApp, 'close-image.png');
-    }, [closeApp, downloadCanvas]);
+        downloadCanvas(canvasApps['close'], 'close-image.png');
+    }, [canvasApps, downloadCanvas]);
 
     return { downloadHookApp, downloadClaimApp, downloadReviewApp, downloadCloseApp };
 };
