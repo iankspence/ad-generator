@@ -1,10 +1,9 @@
 import { PixiContext } from '../contexts/PixiContext';
-import ClaimCanvasClient from './pixi/canvas/ClaimCanvasClient';
-import CloseCanvasClient from './pixi/canvas/CloseCanvasClient';
-import HookCanvasClient from './pixi/canvas/HookCanvasClient';
-import ReviewCanvasClient from './pixi/canvas/ReviewCanvasClient';
+// import ClaimCanvasClient from './pixi/canvas/ClaimCanvasClient';
+// import CloseCanvasClient from './pixi/canvas/CloseCanvasClient';
+import CanvasClient from './pixi/canvas/CanvasClient';
+// import ReviewCanvasClient from './pixi/canvas/ReviewCanvasClient';
 import DesignDrawer from './pixi/design-drawer/DesignDrawer';
-import ActiveCanvasButtonGroup from './pixi/floating-buttons/ActiveCanvasButtonGroup';
 import CanvasNavigation from './pixi/floating-buttons/CanvasNavigation';
 import CanvasViewToggle from './pixi/floating-buttons/CanvasViewToggle';
 import DownloadButton from './pixi/floating-buttons/DownloadButton';
@@ -77,7 +76,7 @@ const ContentGenerator = () => {
             title: 'Hook',
             canvasName: 'hook',
             component: (
-                <HookCanvasClient
+                <CanvasClient
                     imageUrl={imageUrl}
                     size={canvasSize}
                     selectedThemeId={selectedThemeId}
@@ -89,7 +88,7 @@ const ContentGenerator = () => {
             title: 'Claim',
             canvasName: 'claim',
             component: (
-                <ClaimCanvasClient
+                <CanvasClient
                     imageUrl={imageUrl}
                     size={canvasSize}
                     selectedThemeId={selectedThemeId}
@@ -101,7 +100,7 @@ const ContentGenerator = () => {
             title: 'Review',
             canvasName: 'review',
             component: (
-                <ReviewCanvasClient
+                <CanvasClient
                     imageUrl={imageUrl}
                     size={canvasSize}
                     selectedThemeId={selectedThemeId}
@@ -113,7 +112,7 @@ const ContentGenerator = () => {
             title: 'Close',
             canvasName: 'close',
             component: (
-                <CloseCanvasClient
+                <CanvasClient
                     imageUrl={imageUrl}
                     size={canvasSize}
                     selectedThemeId={selectedThemeId}

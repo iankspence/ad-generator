@@ -3,24 +3,25 @@ import useCanvasApp from '../../../hooks/useCanvasApp';
 import useDraggable from '../../../hooks/useDraggable';
 import { useImage } from '../../../hooks/useImage';
 import useNewSelectedTheme from '../../../hooks/useNewSelectedTheme';
+import useText from '../../../hooks/useText';
 import useZoom from '../../../hooks/useZoom';
 import React, { useContext, useRef } from 'react';
 import useSync from "../../../hooks/useSync";
 
-const ReviewCanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
+const CanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const appRef = useRef(null);
+
     const {updateCanvasApp} = useContext(PixiContext);
 
     useCanvasApp(appRef, size, updateCanvasApp, canvasName);
-    useNewSelectedTheme(appRef, imageUrl, selectedThemeId, canvasName, size);
 
+    useNewSelectedTheme(appRef, imageUrl, selectedThemeId, canvasName, size);
     useImage(appRef, imageUrl, canvasName);
     useDraggable(appRef, canvasName);
     useZoom(appRef, canvasName);
-
     useSync();
 
     return <div id={`${canvasName}-canvas-container`}></div>;
 };
 
-export default ReviewCanvasClient;
+export default CanvasClient;
