@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { PixiContext } from '../contexts/PixiContext';
-import { findImageContainer } from "../components/pixi/utils/findImageContainer";
+import { findImageContainer } from "../components/pixi/utils/find-image-container";
 
 const useSync = () => {
     const { canvasApps, activeCanvases, eventEmitter } = useContext(PixiContext);
@@ -25,10 +25,6 @@ const useSync = () => {
         const actionCanvasName = container.name;
         const actionImageContainer = imageContainers[actionCanvasName];
 
-        console.log('actionCanvasName', actionCanvasName);
-        console.log('actionImageContainer', actionImageContainer);
-        console.log('imageContainers', imageContainers);
-
         for (const key in imageContainers) {
             if (key !== actionCanvasName) {
                 const imageContainer = imageContainers[key];
@@ -51,7 +47,7 @@ const useSync = () => {
         eventEmitter.on('dragmove', syncImageContainers);
         eventEmitter.on('dragend', syncImageContainers);
         eventEmitter.on('zoom', syncImageContainers);
-        console.log("sync")
+        // console.log("sync")
 
         return () => {
             eventEmitter.off('dragstart', syncImageContainers);

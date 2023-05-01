@@ -10,7 +10,6 @@ import useSync from "../../../hooks/useSync";
 
 const CanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const appRef = useRef(null);
-
     const {updateCanvasApp} = useContext(PixiContext);
 
     useCanvasApp(appRef, size, updateCanvasApp, canvasName);
@@ -19,7 +18,10 @@ const CanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     useImage(appRef, imageUrl, canvasName);
     useDraggable(appRef, canvasName);
     useZoom(appRef, canvasName);
+    useText(appRef, canvasName);
     useSync();
+
+    console.log('CanvasClient: ', appRef.current);
 
     return <div id={`${canvasName}-canvas-container`}></div>;
 };

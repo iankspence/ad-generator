@@ -4,14 +4,16 @@ import { getMasksByNames } from '../utils/api';
 import { themes } from '../utils/constants/themes';
 import * as PIXI from 'pixi.js';
 import { useContext, useEffect, useState } from 'react';
-import {findImageContainer} from "../components/pixi/utils/findImageContainer";
+import {findImageContainer} from "../components/pixi/utils/find-image-container";
 import {DraggableContainer} from "./useDraggable";
+import findTextObject from "../components/pixi/utils/find-text-object";
 
 export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
     const { canvasApps } = useContext(PixiContext);
 
     const container = findImageContainer(canvasApps, canvasName) as DraggableContainer;
+    const mainText = findTextObject(canvasApps[canvasName], `${canvasName}-main-text`);
 
     const fetchMaskTextures = async (maskNames) => {
         try {
@@ -48,13 +50,15 @@ export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasNam
     }, [selectedThemeId, canvasName]);
 
     useEffect(() => {
-        if (!appRef?.current || !container) return;
 
+        if (!appRef?.current || !container ) return;
         const app = appRef.current;
-
+        if (!app?.stage || !app?.stage?.children) return;
         app.stage.removeChildren();
-
         app.stage.addChild(container);
+
+        if (!mainText) return;
+        app.stage.addChild(mainText);
 
         if (selectedThemeId) {
             const selectedTheme = themes.find((theme) => theme.id === selectedThemeId);
@@ -69,6 +73,7 @@ export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasNam
                     addMaskLayer(app, maskData, size);
                 });
             }
+
         }
     }, [
         appRef,
@@ -77,6 +82,7 @@ export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasNam
         selectedThemeId,
         maskTextures,
         canvasName,
+        mainText,
     ]);
 };
 
