@@ -13,9 +13,6 @@ interface PixiContextProps {
     canvasApps: { [key: string]: PIXI.Application | null; }
     updateCanvasApp: (key: string, newApp: PIXI.Application) => void;
 
-    imageContainers: { [key: string]: PIXI.Container | null; };
-    updateImageContainer: (key: string, newImageContainer: PIXI.Container) => void;
-
     selectedThemeId: string | null;
     updateSelectedThemeId: (selectedThemeId: string) => void;
 
@@ -33,9 +30,6 @@ interface PixiContextProps {
 export const PixiContext = createContext<PixiContextProps>({
     canvasApps: {},
     updateCanvasApp: () => void 0,
-
-    imageContainers: {},
-    updateImageContainer: () => void 0,
 
     selectedThemeId: 'basic-swoosh',
     updateSelectedThemeId: () => void 0,
@@ -56,7 +50,6 @@ export const PixiContext = createContext<PixiContextProps>({
 
 export const PixiProvider = ({ children }) => {
     const [canvasApps, setCanvasApps] = useState({});
-    const [imageContainers, setImageContainers] = useState({});
     const [selectedThemeId, setSelectedThemeId] = useState('basic-swoosh');
     const [textStyles, setTextStyles] = useState({});
     const [activeCanvases, setActiveCanvases] = useState({
@@ -71,18 +64,12 @@ export const PixiProvider = ({ children }) => {
     const updateCanvasApp = (key: string, newApp: PIXI.Application) => {
         setCanvasApps((prev) => ({ ...prev, [key]: newApp }));
     }
-    const updateImageContainer = (key: string, newImageContainer: PIXI.Container) => {
-        setImageContainers((prev) => ({ ...prev, [key]: newImageContainer }));
-    };
-
 
     return (
         <PixiContext.Provider
             value={{
                 canvasApps,
                 updateCanvasApp,
-                imageContainers,
-                updateImageContainer,
                 selectedThemeId,
                 updateSelectedThemeId: setSelectedThemeId,
                 textStyles,
