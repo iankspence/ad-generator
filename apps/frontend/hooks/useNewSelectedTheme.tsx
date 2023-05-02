@@ -1,12 +1,12 @@
-import { addMaskLayer } from '../components/pixi/utils/pixi-utils';
+import { addMaskLayer } from '../components/pixi/utils/pixiUtils';
 import { PixiContext } from '../contexts/PixiContext';
 import { getMasksByNames } from '../utils/api';
 import { themes } from '../utils/constants/themes';
 import * as PIXI from 'pixi.js';
 import { useContext, useEffect, useState } from 'react';
-import {findImageContainer} from "../components/pixi/utils/find-image-container";
+import {findImageContainer} from "../components/pixi/utils/findImageContainer";
 import {DraggableContainer} from "./useDraggable";
-import findTextObject from "../components/pixi/utils/find-text-object";
+import findTextObject from "../components/pixi/utils/findTextObject";
 
 export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
@@ -14,6 +14,8 @@ export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasNam
 
     const container = findImageContainer(canvasApps, canvasName) as DraggableContainer;
     const mainText = findTextObject(canvasApps[canvasName], `${canvasName}-main`);
+
+    console.log('finding main text: ', mainText);
 
     const fetchMaskTextures = async (maskNames) => {
         try {
@@ -53,12 +55,26 @@ export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasNam
 
         if (!appRef?.current || !container ) return;
         const app = appRef.current;
-        if (!app?.stage || !app?.stage?.children) return;
+
+        if ( !app || !app?.stage) return;
         app.stage.removeChildren();
         app.stage.addChild(container);
 
         if (!mainText) return;
         app.stage.addChild(mainText);
+
+        // if (canvasName === 'review' || canvasName === 'hook') {
+        //     const authorText = findTextObject(canvasApps[canvasName], `${canvasName}-author`);
+        //     const dateText = findTextObject(canvasApps[canvasName], `${canvasName}-date`);
+        //     const sourceText = findTextObject(canvasApps[canvasName], `${canvasName}-source`);
+        //
+        //     if (!authorText || !dateText || !sourceText || !app?.stage ) return;
+        //     app.stage.addChild(authorText);
+        //     app.stage.addChild(dateText);
+        //     app.stage.addChild(sourceText);
+        // }
+
+        console.log('adding mask layers');
 
         if (selectedThemeId) {
             const selectedTheme = themes.find((theme) => theme.id === selectedThemeId);
@@ -73,7 +89,6 @@ export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasNam
                     addMaskLayer(app, maskData, size);
                 });
             }
-
         }
     }, [
         appRef,

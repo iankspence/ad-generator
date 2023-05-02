@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { PixiContext } from '../contexts/PixiContext';
-import { findImageContainer } from "../components/pixi/utils/find-image-container";
+import { findImageContainer } from "../components/pixi/utils/findImageContainer";
 
 const useSync = () => {
     const { canvasApps, activeCanvases, eventEmitter } = useContext(PixiContext);

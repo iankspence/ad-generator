@@ -1,8 +1,8 @@
 import { CampaignContext } from '../contexts/CampaignContext';
 import { PixiContext } from '../contexts/PixiContext';
 import { useContext, useEffect } from 'react';
-import setCanvasMainText from '../components/pixi/utils/set-canvas-main-text';
 import { themes } from '../utils/constants/themes';
+import setCanvasText from "../components/pixi/utils/setCanvasText";
 
 export const useText = (appRef, canvasName, size) => {
     // const { updateCanvasApp, canvasApps, selectedThemeId } = useContext(PixiContext);
@@ -22,12 +22,10 @@ export const useText = (appRef, canvasName, size) => {
         return themes.find((theme) => theme.id === selectedThemeId);
     };
     const selectedTheme = getSelectedTheme(selectedThemeId); // Get the selected theme object
-
     const getDefaultTextSettings = (canvasName, textName, selectedTheme) => {
         const textDefaults = Object.values(selectedTheme.settings)
             .flatMap(setting => Object.values(setting))
             .find(text => text.canvasName === canvasName && text.textName === textName);
-
         return textDefaults ? { style: textDefaults.style, x: textDefaults.x, y: textDefaults.y } : null;
     };
 
@@ -47,23 +45,39 @@ export const useText = (appRef, canvasName, size) => {
             };
 
             const { array, position } = textData[canvasName] || {};
-
             if (array && position) {
 
-                const defaultTextSettings = getDefaultTextSettings(canvasName, 'main', selectedTheme);
+                const getTextNames = (canvasName) => {
+                    if (canvasName === 'hook' || canvasName === 'review') {
+                        return ['main', 'author', 'date', 'source'];
+                    } else if (canvasName === 'claim' || canvasName === 'close') {
+                        return ['main'];
+                    }
+                    return [];
+                };
+                const textNames = getTextNames(canvasName);
+                textNames.forEach(textName => {
+                    const defaultTextSettings = getDefaultTextSettings(canvasName, textName, selectedTheme);
 
-                if (defaultTextSettings) {
-                    setCanvasMainText(
-                        canvasName,
-                        canvasApps,
-                        array,
-                        position,
-                        defaultTextSettings.style,
-                        size,
-                        defaultTextSettings.x,
-                        defaultTextSettings.y
-                    );
-                }
+                    if (defaultTextSettings) {
+                        setCanvasText(
+                            canvasName,
+                            canvasApps,
+                            textName,
+                            array,
+                            position,
+                            reviews,
+                            reviewPosition,
+                            defaultTextSettings.style,
+                            size,
+                            defaultTextSettings.x,
+                            defaultTextSettings.y
+                        );
+                    } else {
+                        console.warn(`No default text settings found for canvasName=${canvasName}, textName=${textName}`);
+                    }
+                });
+
             }
         }
     }, [

@@ -28,7 +28,7 @@ export const themes = [
                 hookMainText: {
                     canvasName: 'hook',
                     textName: 'main',
-                    x: 120,
+                    x: 80,
                     y: 140,
                     style: {
                         fontFamily: "Arial",
