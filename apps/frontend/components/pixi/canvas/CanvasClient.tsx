@@ -18,7 +18,7 @@ const CanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     useImage(appRef, imageUrl, canvasName);
     useDraggable(appRef, canvasName);
     useZoom(appRef, canvasName);
-    useText(appRef, canvasName);
+    useText(appRef, canvasName, size);
     useSync();
 
     console.log('CanvasClient: ', appRef.current);

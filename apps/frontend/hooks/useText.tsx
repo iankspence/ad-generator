@@ -4,7 +4,7 @@ import * as PIXI from 'pixi.js';
 import { useContext, useEffect} from 'react';
 import setCanvasMainText from '../components/pixi/utils/set-canvas-main-text';
 
-export const useText = (appRef, canvasName) => {
+export const useText = (appRef, canvasName, size) => {
     const {
         hooks,
         hookPosition,
@@ -55,7 +55,8 @@ export const useText = (appRef, canvasName) => {
                     canvasApps,
                     array,
                     position,
-                    textStyles.defaultStyle
+                    textStyles.defaultStyle,
+                    size,
                 );
             }
         }
