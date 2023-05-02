@@ -1,15 +1,13 @@
 import * as PIXI from 'pixi.js';
 import findTextObject from './find-text-object';
 
-const setCanvasMainText = (canvasName, canvasApps, textArray, position, style, size) => {
+const setCanvasMainText = (canvasName, canvasApps, textArray, position, style, size, x, y) => {
     if (!canvasName) return;
-    const objectName = `${canvasName}-main-text`;
+    const objectName = `${canvasName}-main`;
     const canvasApp = canvasApps[canvasName];
 
     if (!canvasApp || !canvasApp.stage) return;
-
     let mainText = '';
-
     switch (canvasName) {
         case 'hook':
             if (textArray.length > 0) {
@@ -36,25 +34,21 @@ const setCanvasMainText = (canvasName, canvasApps, textArray, position, style, s
     }
 
     if (!mainText) return;
-
     let mainTextObject = findTextObject(canvasApp, objectName);
     if (!mainTextObject) {
         mainTextObject = new PIXI.Text(mainText, style);
         mainTextObject.name = objectName;
-
-
-
         canvasApp.stage.addChild(mainTextObject);
-
-
     } else {
         mainTextObject.text = mainText;
         mainTextObject.style = style;
     }
 
+    mainTextObject.x = x;
+    mainTextObject.y = y;
 
-    mainTextObject.x = canvasApp.view.width / 2 - mainTextObject.width / 2;
-    mainTextObject.y = canvasApp.view.height / 1.1 - mainTextObject.height / 2;
+    // mainTextObject.x = canvasApp.view.width / 2 - mainTextObject.width / 2;
+    // mainTextObject.y = canvasApp.view.height / 1.1 - mainTextObject.height / 2;
     mainTextObject.zIndex = 3;
     mainTextObject.resolution = 1080 / size;
 
@@ -62,4 +56,3 @@ const setCanvasMainText = (canvasName, canvasApps, textArray, position, style, s
 };
 
 export default setCanvasMainText;
-

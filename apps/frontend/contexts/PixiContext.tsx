@@ -16,9 +16,6 @@ interface PixiContextProps {
     selectedThemeId: string | null;
     updateSelectedThemeId: (selectedThemeId: string) => void;
 
-    textStyles: { [key: string]: PIXI.TextStyle };
-    updateTextStyles: (newTextStyles: { [key: string]: PIXI.TextStyle }) => void;
-
     activeCanvases: ActiveCanvases | null;
     updateActiveCanvases: (
         newActiveCanvases: ActiveCanvases | null,
@@ -34,9 +31,6 @@ export const PixiContext = createContext<PixiContextProps>({
     selectedThemeId: 'basic-swoosh',
     updateSelectedThemeId: () => void 0,
 
-    textStyles: {},
-    updateTextStyles: () => void 0,
-
     activeCanvases: {
         hook: true,
         claim: false,
@@ -51,7 +45,6 @@ export const PixiContext = createContext<PixiContextProps>({
 export const PixiProvider = ({ children }) => {
     const [canvasApps, setCanvasApps] = useState({});
     const [selectedThemeId, setSelectedThemeId] = useState('basic-swoosh');
-    const [textStyles, setTextStyles] = useState({});
     const [activeCanvases, setActiveCanvases] = useState({
         hook: true,
         claim: false,
@@ -72,8 +65,6 @@ export const PixiProvider = ({ children }) => {
                 updateCanvasApp,
                 selectedThemeId,
                 updateSelectedThemeId: setSelectedThemeId,
-                textStyles,
-                updateTextStyles: setTextStyles,
                 activeCanvases,
                 updateActiveCanvases: setActiveCanvases,
                 eventEmitter,
