@@ -13,9 +13,11 @@ export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasNam
     const { canvasApps } = useContext(PixiContext);
 
     const container = findImageContainer(canvasApps, canvasName) as DraggableContainer;
-    const mainText = findTextObject(canvasApps[canvasName], `${canvasName}-main`);
 
-    console.log('finding main text: ', mainText);
+    const mainText = findTextObject(canvasApps[canvasName], `${canvasName}-main`);
+    const authorText = findTextObject(canvasApps[canvasName], `${canvasName}-author`);
+    const dateText = findTextObject(canvasApps[canvasName], `${canvasName}-date`);
+    const sourceText = findTextObject(canvasApps[canvasName], `${canvasName}-source`);
 
     const fetchMaskTextures = async (maskNames) => {
         try {
@@ -60,19 +62,18 @@ export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasNam
         app.stage.removeChildren();
         app.stage.addChild(container);
 
-        if (!mainText) return;
-        app.stage.addChild(mainText);
-
-        // if (canvasName === 'review' || canvasName === 'hook') {
-        //     const authorText = findTextObject(canvasApps[canvasName], `${canvasName}-author`);
-        //     const dateText = findTextObject(canvasApps[canvasName], `${canvasName}-date`);
-        //     const sourceText = findTextObject(canvasApps[canvasName], `${canvasName}-source`);
-        //
-        //     if (!authorText || !dateText || !sourceText || !app?.stage ) return;
-        //     app.stage.addChild(authorText);
-        //     app.stage.addChild(dateText);
-        //     app.stage.addChild(sourceText);
-        // }
+        if (mainText) {
+            app.stage.addChild(mainText);
+        }
+        if (authorText) {
+            app.stage.addChild(authorText);
+        }
+        if (dateText) {
+            app.stage.addChild(dateText);
+        }
+        if (sourceText) {
+            app.stage.addChild(sourceText);
+        }
 
         console.log('adding mask layers');
 
