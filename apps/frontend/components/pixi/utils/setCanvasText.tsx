@@ -65,6 +65,7 @@ const setCanvasText = (canvasName, canvasApps, textName, textArray, position, re
 
 
     if (!text || !canvasApp || !canvasApp.stage ) return;
+
     let textObject = findTextObject(canvasApp, objectName);
 
     if (!textObject) {
@@ -77,7 +78,7 @@ const setCanvasText = (canvasName, canvasApps, textName, textArray, position, re
         canvasApp.stage.addChild(textObject);
 
     } else {
-        textObject.text = textObject;
+        textObject.text = text;
         textObject.style = style;
     }
     canvasApp.render();
