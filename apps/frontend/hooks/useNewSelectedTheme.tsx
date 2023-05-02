@@ -13,7 +13,7 @@ export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasNam
     const { canvasApps } = useContext(PixiContext);
 
     const container = findImageContainer(canvasApps, canvasName) as DraggableContainer;
-    const mainText = findTextObject(canvasApps[canvasName], `${canvasName}-main-text`);
+    const mainText = findTextObject(canvasApps[canvasName], `${canvasName}-main`);
 
     const fetchMaskTextures = async (maskNames) => {
         try {
