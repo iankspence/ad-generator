@@ -35,22 +35,26 @@ const setCanvasMainText = (canvasName, canvasApps, textArray, position, style, s
 
     if (!mainText) return;
     let mainTextObject = findTextObject(canvasApp, objectName);
+    console.log('setCanvasMainText - finding text object: ', mainTextObject);
     if (!mainTextObject) {
         mainTextObject = new PIXI.Text(mainText, style);
         mainTextObject.name = objectName;
+        mainTextObject.x = x;
+        mainTextObject.y = y;
+        mainTextObject.zIndex = 3;
+        mainTextObject.resolution = 1080 / size;
         canvasApp.stage.addChild(mainTextObject);
+
     } else {
         mainTextObject.text = mainText;
         mainTextObject.style = style;
     }
 
-    mainTextObject.x = x;
-    mainTextObject.y = y;
+
 
     // mainTextObject.x = canvasApp.view.width / 2 - mainTextObject.width / 2;
     // mainTextObject.y = canvasApp.view.height / 1.1 - mainTextObject.height / 2;
-    mainTextObject.zIndex = 3;
-    mainTextObject.resolution = 1080 / size;
+
 
     canvasApp.render();
 };

@@ -28,7 +28,7 @@ const MainTextAccordion = ({ handleFontChange, handleFontSizeChange, handleColor
             .map(([canvasName]) => {
                 const canvasApp = canvasApps[canvasName];
                 if (canvasApp) {
-                    const textObject = canvasApp.stage.getChildByName(`${canvasName}-main-text`) as PIXI.Text;
+                    const textObject = canvasApp.stage.getChildByName(`${canvasName}-main`) as PIXI.Text;
                     if (textObject) {
                         return textObject.style;
                     }
@@ -76,6 +76,7 @@ const MainTextAccordion = ({ handleFontChange, handleFontSizeChange, handleColor
             </AccordionSummary>
             <AccordionDetails>
                 <FormControl fullWidth>
+
                     <InputLabel>Font</InputLabel>
                     <Select value={fontFamily} name={'main'} onChange={handleLocalFontChange}>
                         <MenuItem value="Arial">Arial</MenuItem>

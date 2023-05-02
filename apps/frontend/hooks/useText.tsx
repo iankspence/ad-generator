@@ -78,8 +78,7 @@ export const useText = (appRef, canvasName, size) => {
         reviewPosition,
         canvasName,
         appRef,
-        updateCanvasApp,
-        selectedTheme, // Add selectedTheme to the dependency array
+        selectedTheme,
     ]);
 };
 
