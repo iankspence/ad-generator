@@ -10,10 +10,11 @@ import DownloadButton from './pixi/floating-buttons/DownloadButton';
 import ThemeSelector from './pixi/floating-buttons/ThemeSelector';
 import React, { useContext, useState } from 'react';
 import Button from '@mui/material/Button';
+import * as PIXI from 'pixi.js';
 
 const ContentGenerator = () => {
     const [imageUrl, setImageUrl] = useState(null);
-    const { selectedThemeId, updateSelectedThemeId, activeCanvases, updateActiveCanvases } = useContext(PixiContext);
+    const { selectedThemeId, updateSelectedThemeId, activeCanvases, updateActiveCanvases, canvasApps } = useContext(PixiContext);
 
     const [currentCanvasIndex, setCurrentCanvasIndex] = useState(0);
     const [singleCanvasView, setSingleCanvasView] = useState(true);
@@ -186,8 +187,10 @@ const ContentGenerator = () => {
                     canNavigateRight={currentCanvasIndex < canvases.length - 1}
                 />
                 <DownloadButton singleCanvasView={singleCanvasView} />
-                <DesignDrawer onImageUpload={handleImageUpload} onDrawerStateChange={handleDrawerStateChange} />
-
+                <DesignDrawer
+                    onImageUpload={handleImageUpload}
+                    onDrawerStateChange={handleDrawerStateChange}
+                />
                 <div
                     className="flex flex-col justify-center items-center w-full"
                     style={{ minHeight: 'calc(100vh - 120px)' }}

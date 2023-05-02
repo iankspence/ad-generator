@@ -21,8 +21,6 @@ const CanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     useText(appRef, canvasName, size);
     useSync();
 
-    console.log('CanvasClient: ', appRef.current);
-
     return <div id={`${canvasName}-canvas-container`}></div>;
 };
 

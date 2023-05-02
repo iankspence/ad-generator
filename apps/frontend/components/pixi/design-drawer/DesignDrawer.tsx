@@ -10,7 +10,7 @@ import ImageUploadAccordion from './ImageUploadAccordion';
 import TextInputAccordion from './TextInputAccordion';
 import TextStyleAccordion from './TextStyleAccordion';
 
-const DesignDrawer = ({ onImageUpload, onDrawerStateChange }) => {
+const DesignDrawer = ({ onImageUpload, onDrawerStateChange}) => {
     const [open, setOpen] = useState(false);
 
     const handleDrawerOpen = () => {
