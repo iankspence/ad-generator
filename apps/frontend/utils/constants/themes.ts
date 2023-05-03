@@ -131,7 +131,7 @@ export const themes = [
                 hookMainText: {
                     canvasName: 'hook',
                     textName: 'main',
-                    yRange: [270, 300],
+                    yRange: [270, 310],
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
@@ -143,7 +143,7 @@ export const themes = [
                 hookAuthorText: {
                     canvasName: 'hook',
                     textName: 'author',
-                    yRange: [270, 300],
+                    yRange: [270, 310],
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
@@ -157,7 +157,7 @@ export const themes = [
                 claimMainText: {
                     canvasName: 'claim',
                     textName: 'main',
-                    yRange: [270, 300],
+                    yRange: [270, 310],
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
@@ -171,7 +171,7 @@ export const themes = [
                 reviewMainText: {
                     canvasName: 'review',
                     textName: 'main',
-                    yRange: [200, 300],
+                    yRange: [220, 300],
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
@@ -183,7 +183,7 @@ export const themes = [
                 reviewAuthorText: {
                     canvasName: 'review',
                     textName: 'author',
-                    yRange: [200, 300],
+                    yRange: [220, 300],
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
@@ -197,7 +197,7 @@ export const themes = [
                 closeMainText: {
                     canvasName: 'close',
                     textName: 'main',
-                    yRange: [270, 300],
+                    yRange: [270, 310],
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
@@ -209,5 +209,4 @@ export const themes = [
             }
         },
     },
-
 ];

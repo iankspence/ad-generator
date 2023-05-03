@@ -16,7 +16,7 @@ export const useText = (appRef, canvasName, size) => {
         closePosition,
     } = useContext(CampaignContext);
 
-    const { updateCanvasApp, canvasApps, selectedThemeId } = useContext(PixiContext);
+    const { updateCanvasApp, canvasApps, selectedThemeId, xRanges, yRanges } = useContext(PixiContext);
 
     const getSelectedTheme = (selectedThemeId) => {
         return themes.find((theme) => theme.id === selectedThemeId);
@@ -59,6 +59,9 @@ export const useText = (appRef, canvasName, size) => {
             if (array && position) {
 
                 const textNames = getTextNames(canvasName);
+                const xRange = xRanges[canvasName];
+                const yRange = yRanges[canvasName];
+
                 textNames.forEach(textName => {
                     const defaultTextSettings = getDefaultTextSettings(canvasName, textName, selectedTheme);
                     const mainTextSettings = getDefaultTextSettings(canvasName, 'main', selectedTheme);
@@ -74,10 +77,8 @@ export const useText = (appRef, canvasName, size) => {
                             mainTextSettings.style,
                             defaultTextSettings.style,
                             size,
-                            defaultTextSettings.x,
-                            defaultTextSettings.y,
-                            defaultTextSettings.xRange,
-                            defaultTextSettings.yRange,
+                            xRange,
+                            yRange,
                         );
                     } else {
                         console.warn(`No default text settings found for canvasName=${canvasName}, textName=${textName}`);
@@ -98,6 +99,8 @@ export const useText = (appRef, canvasName, size) => {
         canvasName,
         appRef,
         selectedTheme,
+        xRanges,
+        yRanges,
     ]);
 };
 

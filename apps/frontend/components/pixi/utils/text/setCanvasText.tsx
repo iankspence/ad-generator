@@ -14,8 +14,6 @@ const setCanvasText = (
     mainStyle,
     authorStyle,
     size,
-    x,
-    y,
     xRange,
     yRange
 ) => {
@@ -52,10 +50,8 @@ const setCanvasText = (
     }
 
     if (!canvasApp || !canvasApp.stage) return;
-    // if ((!mainText || mainText === '""') || !canvasApp || !canvasApp.stage) return;
 
     let mainTextObject = findTextObject(canvasApp, `${canvasName}-main`);
-
     if (!mainTextObject) {
         mainTextObject = new PIXI.Text(mainText, mainStyle);
         mainTextObject.name = `${canvasName}-main`;

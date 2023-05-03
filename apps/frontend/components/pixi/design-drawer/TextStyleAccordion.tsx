@@ -9,7 +9,7 @@ import * as PIXI from "pixi.js";
 
 const TextStyleAccordion = () => {
 
-    const {activeCanvases, canvasApps} = useContext(PixiContext);
+    const { activeCanvases, canvasApps, xRanges, yRanges, updateRange } = useContext(PixiContext);
 
     const handleTextStyleChange = (textName, newTextStyle) => {
         Object.entries(activeCanvases).forEach(([canvasName, isActive]) => {
@@ -48,6 +48,33 @@ const TextStyleAccordion = () => {
         const textName = event.target.name;
         handleTextStyleChange(textName, updatedTextStyle);
     };
+
+    // Inside the TextStyleAccordion component
+    // const handleXRangeChange = (event, newValue) => {
+    //     const updatedRange = { x: newValue };
+    //     const textName = event.target.name;
+    //     handleTextRangeChange(textName, updatedRange);
+    // };
+    //
+    // const handleYRangeChange = (event, newValue) => {
+    //     const updatedRange = { y: newValue };
+    //     const textName = event.target.name;
+    //     handleTextRangeChange(textName, updatedRange);
+    // };
+
+    const mode = (arr) => {
+        return arr.sort((a, b) =>
+            arr.filter((v) => v === a).length - arr.filter((v) => v === b).length
+        ).pop();
+    };
+
+    const activeCanvasNames = Object.entries(activeCanvases).filter(([canvasName, isActive]) => isActive).map(([canvasName, isActive]) => canvasName);
+
+    const xMinMode = mode(activeCanvasNames.map((canvas) => xRanges[canvas][0]));
+    const xMaxMode = mode(activeCanvasNames.map((canvas) => xRanges[canvas][1]));
+    const yMinMode = mode(activeCanvasNames.map((canvas) => yRanges[canvas][0]));
+    const yMaxMode = mode(activeCanvasNames.map((canvas) => yRanges[canvas][1]));
+
     return (
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -59,6 +86,8 @@ const TextStyleAccordion = () => {
                     handleFontChange={handleFontChange}
                     handleFontSizeChange={handleFontSizeChange}
                     handleColorChange={handleColorChange}
+                    initialXRange={[xMinMode, xMaxMode]}
+                    initialYRange={[yMinMode, yMaxMode]}
                 />
             </AccordionDetails>
         </Accordion>

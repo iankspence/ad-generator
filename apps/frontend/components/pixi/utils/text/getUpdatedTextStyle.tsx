@@ -2,11 +2,11 @@ import * as PIXI from 'pixi.js';
 
 export const getUpdatedTextStyle = (mainContent, authorContent, mainStyle, authorStyle, canvasSize, xRange, yRange) => {
     const wordWrapWidth = (xRange[1] - xRange[0])
-    const mainFontSize = 8;
+    const mainFontSize = 10;
     const updatedMainStyle = { ...mainStyle, fontSize: mainFontSize, lineHeight: mainFontSize * 1.33, wordWrapWidth };
     const updatedMainPosition = { x: xRange[0], y: 0 };
 
-    const authorFontSize = 8;
+    const authorFontSize = 10;
     const updatedAuthorStyle = { ...authorStyle, fontSize: authorFontSize, lineHeight: authorFontSize * 1.33, wordWrapWidth };
     const updatedAuthorPosition = { x: xRange[0], y: 0 };
 
