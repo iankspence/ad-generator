@@ -4,17 +4,18 @@ export const getUpdatedTextStyle = (originalStyle, content, canvasSize, textName
     let lines = 1;
     let currentLineWidth = 0;
 
+    const fontSize = 12;
+    const updatedStyle = { ...originalStyle, fontSize, lineHeight: fontSize * 1.33, wordWrapWidth: (xRange[1] - xRange[0]) };
+    const updatedPosition = { x: xRange[0], y: 0 };
+
     words.forEach((word) => {
-        const wordWidth = originalStyle.fontSize * word.length;
+        const wordWidth = updatedStyle.fontSize * word.length;
         currentLineWidth += wordWidth;
         if (currentLineWidth > wordWrapWidth) {
             lines++;
             currentLineWidth = wordWidth;
         }
     });
-
-    const updatedStyle = { ...originalStyle };
-    const updatedPosition = { x: xRange[0], y: 0 };
 
     if (textName === 'main') {
         let totalHeight = lines * updatedStyle.lineHeight;
@@ -60,16 +61,14 @@ export const getUpdatedTextStyle = (originalStyle, content, canvasSize, textName
         updatedPosition.y = yRange[0] + centerY;
 
     } else if (textName === 'author') {
-        console.log('mainText in the author is: ', mainTextObject)
-        // Rule 3: The main text should always be larger than the author text
-        updatedStyle.fontSize = Math.min(mainTextObject.fontSize * 0.8, originalStyle.fontSize);
-        updatedStyle.lineHeight = updatedStyle.fontSize * 1.33;
-        // Rule 4: Position the author text directly under the main text
-        console.log('textName is author, mainTextObject is: ', mainTextObject.x, mainTextObject.y, mainTextObject.width, mainTextObject.height, mainTextObject)
-
-        updatedPosition.y = mainTextObject.y + mainTextObject.height + 5;
-        updatedPosition.x = mainTextObject.x;
-        console.log('updatedPosition is: ', updatedPosition)
+        if (mainTextObject) {
+            // Rule 3: The main text should always be larger than the author text
+            updatedStyle.fontSize = Math.min(mainTextObject.fontSize * 0.8, originalStyle.fontSize);
+            updatedStyle.lineHeight = updatedStyle.fontSize * 1.33;
+            // Rule 4: Position the author text directly under the main text
+            updatedPosition.y = mainTextObject.y + mainTextObject.height + 5;
+            updatedPosition.x = mainTextObject.x;
+        }
     }
 
     return { updatedStyle, updatedPosition };

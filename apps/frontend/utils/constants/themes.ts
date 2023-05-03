@@ -30,12 +30,9 @@ export const themes = [
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 18,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 296,
                         align: "left",
-                        lineHeight: 24,
                     },
                 },
                 hookAuthorText: {
@@ -45,12 +42,9 @@ export const themes = [
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 12,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 296,
                         align: "left",
-                        lineHeight: 16,
                     }
                 },
             },
@@ -62,12 +56,9 @@ export const themes = [
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 24,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 200,
                         align: "left",
-                        lineHeight: 30,
                     },
                 },
             },
@@ -79,12 +70,9 @@ export const themes = [
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 24,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 200,
                         align: "left",
-                        lineHeight: 30,
                     }
                 },
                 reviewAuthorText: {
@@ -94,12 +82,9 @@ export const themes = [
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 16,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 200,
                         align: "left",
-                        lineHeight: 20,
                     }
                 },
             },
@@ -111,12 +96,9 @@ export const themes = [
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 24,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 200,
                         align: "left",
-                        lineHeight: 30,
                     },
                 },
             }
@@ -153,12 +135,9 @@ export const themes = [
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 18,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 296,
                         align: "left",
-                        lineHeight: 24,
                     },
                 },
                 hookAuthorText: {
@@ -168,12 +147,9 @@ export const themes = [
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 12,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 296,
                         align: "left",
-                        lineHeight: 16,
                     }
                 },
             },
@@ -185,12 +161,9 @@ export const themes = [
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 24,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 200,
                         align: "left",
-                        lineHeight: 30,
                     },
                 },
             },
@@ -202,12 +175,9 @@ export const themes = [
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 24,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 200,
                         align: "left",
-                        lineHeight: 30,
                     }
                 },
                 reviewAuthorText: {
@@ -217,12 +187,9 @@ export const themes = [
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 16,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 200,
                         align: "left",
-                        lineHeight: 20,
                     }
                 },
             },
@@ -234,15 +201,13 @@ export const themes = [
                     xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 24,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 200,
                         align: "left",
-                        lineHeight: 30,
                     },
                 },
             }
         },
     },
+
 ];
