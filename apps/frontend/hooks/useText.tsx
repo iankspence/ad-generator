@@ -61,6 +61,8 @@ export const useText = (appRef, canvasName, size) => {
                 const textNames = getTextNames(canvasName);
                 textNames.forEach(textName => {
                     const defaultTextSettings = getDefaultTextSettings(canvasName, textName, selectedTheme);
+                    const mainTextSettings = getDefaultTextSettings(canvasName, 'main', selectedTheme);
+
                     if (defaultTextSettings) {
                         setCanvasText(
                             canvasName,
@@ -69,6 +71,7 @@ export const useText = (appRef, canvasName, size) => {
                             position,
                             reviews,
                             reviewPosition,
+                            mainTextSettings.style,
                             defaultTextSettings.style,
                             size,
                             defaultTextSettings.x,

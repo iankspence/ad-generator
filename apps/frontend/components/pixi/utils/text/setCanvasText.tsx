@@ -11,7 +11,8 @@ const setCanvasText = (
     position,
     reviews,
     reviewPosition,
-    style,
+    mainStyle,
+    authorStyle,
     size,
     x,
     y,
@@ -22,8 +23,6 @@ const setCanvasText = (
     const canvasApp = canvasApps[canvasName];
     let mainText = '';
     let authorText = '';
-
-    console.log('setting canvas text: ', canvasName);
 
     switch (canvasName) {
         case 'hook':
@@ -52,45 +51,49 @@ const setCanvasText = (
             break;
     }
 
-    if (!mainText || !canvasApp || !canvasApp.stage) return;
+    if (!canvasApp || !canvasApp.stage) return;
+    // if ((!mainText || mainText === '""') || !canvasApp || !canvasApp.stage) return;
 
     let mainTextObject = findTextObject(canvasApp, `${canvasName}-main`);
 
     if (!mainTextObject) {
-        mainTextObject = new PIXI.Text(mainText, style);
+        mainTextObject = new PIXI.Text(mainText, mainStyle);
         mainTextObject.name = `${canvasName}-main`;
         mainTextObject.zIndex = 3;
         mainTextObject.resolution = 1080 / size;
         canvasApp.stage.addChild(mainTextObject);
     } else {
         mainTextObject.text = mainText;
-        mainTextObject.style = style;
+        mainTextObject.style = mainStyle;
     }
 
-    const { updatedStyle, updatedPosition } = getUpdatedTextStyle(style,  mainText, size, 'main', xRange, yRange);
-    mainTextObject.style = updatedStyle;
-    mainTextObject.x = updatedPosition.x;
-    mainTextObject.y = updatedPosition.y;
-
+    let authorTextObject;
     if (authorText) {
-        let authorTextObject = findTextObject(canvasApp, `${canvasName}-author`);
-        const mainTextObject = findTextObject(canvasApp, `${canvasName}-main`);
-
+        authorTextObject = findTextObject(canvasApp, `${canvasName}-author`);
         if (!authorTextObject) {
-            authorTextObject = new PIXI.Text(authorText, style);
+            authorTextObject = new PIXI.Text(authorText, authorStyle);
             authorTextObject.name = `${canvasName}-author`;
             authorTextObject.zIndex = 3;
             authorTextObject.resolution = 1080 / size;
             canvasApp.stage.addChild(authorTextObject);
         } else {
             authorTextObject.text = authorText;
-            authorTextObject.style = style;
+            authorTextObject.style = authorStyle;
         }
+    }
 
-        const { updatedStyle, updatedPosition } = getUpdatedTextStyle(style, authorText, size, 'author', xRange, yRange, mainTextObject);
-        authorTextObject.style = updatedStyle;
-        authorTextObject.x = updatedPosition.x;
-        authorTextObject.y = updatedPosition.y;
+    console.log('updating style for canvas: ', canvasName)
+
+    const { main: { updatedStyle: mainUpdatedStyle, updatedPosition: mainUpdatedPosition }, author: { updatedStyle: authorUpdatedStyle, updatedPosition: authorUpdatedPosition } } = getUpdatedTextStyle(mainText, authorText, mainStyle, authorStyle, size, xRange, yRange);
+
+    mainTextObject.style = mainUpdatedStyle;
+    mainTextObject.x = mainUpdatedPosition.x;
+    mainTextObject.y = mainUpdatedPosition.y;
+
+    if (authorTextObject) {
+        authorTextObject.style = authorUpdatedStyle;
+        authorTextObject.x = authorUpdatedPosition.x;
+        authorTextObject.y = authorUpdatedPosition.y;
     }
 };
 
