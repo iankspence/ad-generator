@@ -6,7 +6,7 @@ import * as PIXI from 'pixi.js';
 import { useContext, useEffect, useState } from 'react';
 import {findImageContainer} from "../components/pixi/utils/findImageContainer";
 import {DraggableContainer} from "./useDraggable";
-import findTextObject from "../components/pixi/utils/findTextObject";
+import findTextObject from "../components/pixi/utils/text/findTextObject";
 
 export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
@@ -16,8 +16,6 @@ export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasNam
 
     const mainText = findTextObject(canvasApps[canvasName], `${canvasName}-main`);
     const authorText = findTextObject(canvasApps[canvasName], `${canvasName}-author`);
-    const dateText = findTextObject(canvasApps[canvasName], `${canvasName}-date`);
-    const sourceText = findTextObject(canvasApps[canvasName], `${canvasName}-source`);
 
     const fetchMaskTextures = async (maskNames) => {
         try {
@@ -68,12 +66,6 @@ export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasNam
         if (authorText) {
             app.stage.addChild(authorText);
         }
-        if (dateText) {
-            app.stage.addChild(dateText);
-        }
-        if (sourceText) {
-            app.stage.addChild(sourceText);
-        }
 
         console.log('adding mask layers');
 
@@ -99,6 +91,7 @@ export const useNewSelectedTheme = (appRef, imageUrl, selectedThemeId, canvasNam
         maskTextures,
         canvasName,
         mainText,
+        authorText,
     ]);
 };
 

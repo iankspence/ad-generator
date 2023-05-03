@@ -1,5 +1,3 @@
-import * as PIXI from 'pixi.js';
-
 export const themes = [
     {
         id: 'basic-swoosh',
@@ -28,61 +26,31 @@ export const themes = [
                 hookMainText: {
                     canvasName: 'hook',
                     textName: 'main',
-                    x: 80,
-                    y: 140,
+                    yRange: [270, 300],
+                    xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 24,
+                        fontSize: 18,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 200,
+                        wordWrapWidth: 296,
                         align: "left",
-                        lineHeight: 30,
+                        lineHeight: 24,
                     },
                 },
                 hookAuthorText: {
                     canvasName: 'hook',
                     textName: 'author',
-                    x: 120,
-                    y: 180,
+                    yRange: [270, 300],
+                    xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 16,
+                        fontSize: 12,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 200,
+                        wordWrapWidth: 296,
                         align: "left",
-                        lineHeight: 20,
-                    }
-                },
-                hookDateText: {
-                    canvasName: 'hook',
-                    textName: 'date',
-                    x: 120,
-                    y: 200,
-                    style: {
-                        fontFamily: "Arial",
-                        fontSize: 16,
-                        fill: "white",
-                        wordWrap: true,
-                        wordWrapWidth: 200,
-                        align: "left",
-                        lineHeight: 20,
-                    }
-                },
-                hookSourceText: {
-                    canvasName: 'hook',
-                    textName: 'source',
-                    x: 120,
-                    y: 220,
-                    style: {
-                        fontFamily: "Arial",
-                        fontSize: 16,
-                        fill: "white",
-                        wordWrap: true,
-                        wordWrapWidth: 200,
-                        align: "left",
-                        lineHeight: 20,
+                        lineHeight: 16,
                     }
                 },
             },
@@ -90,8 +58,8 @@ export const themes = [
                 claimMainText: {
                     canvasName: 'claim',
                     textName: 'main',
-                    x: 120,
-                    y: 140,
+                    yRange: [270, 300],
+                    xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
                         fontSize: 24,
@@ -107,8 +75,8 @@ export const themes = [
                 reviewMainText: {
                     canvasName: 'review',
                     textName: 'main',
-                    x: 120,
-                    y: 140,
+                    yRange: [200, 300],
+                    xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
                         fontSize: 24,
@@ -122,8 +90,8 @@ export const themes = [
                 reviewAuthorText: {
                     canvasName: 'review',
                     textName: 'author',
-                    x: 120,
-                    y: 180,
+                    yRange: [200, 300],
+                    xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
                         fontSize: 16,
@@ -134,43 +102,13 @@ export const themes = [
                         lineHeight: 20,
                     }
                 },
-                reviewDateText: {
-                    canvasName: 'review',
-                    textName: 'date',
-                    x: 120,
-                    y: 200,
-                    style: {
-                        fontFamily: "Arial",
-                        fontSize: 16,
-                        fill: "white",
-                        wordWrap: true,
-                        wordWrapWidth: 200,
-                        align: "left",
-                        lineHeight: 20,
-                    }
-                },
-                reviewSourceText: {
-                    canvasName: 'review',
-                    textName: 'source',
-                    x: 120,
-                    y: 220,
-                    style: {
-                        fontFamily: "Arial",
-                        fontSize: 16,
-                        fill: "white",
-                        wordWrap: true,
-                        wordWrapWidth: 200,
-                        align: "left",
-                        lineHeight: 20,
-                    }
-                }
             },
             closeTextDefaults: {
                 closeMainText: {
                     canvasName: 'close',
                     textName: 'main',
-                    x: 120,
-                    y: 140,
+                    yRange: [270, 300],
+                    xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
                         fontSize: 24,
@@ -211,61 +149,31 @@ export const themes = [
                 hookMainText: {
                     canvasName: 'hook',
                     textName: 'main',
-                    x: 120,
-                    y: 140,
+                    yRange: [270, 300],
+                    xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 24,
+                        fontSize: 18,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 200,
+                        wordWrapWidth: 296,
                         align: "left",
-                        lineHeight: 30,
+                        lineHeight: 24,
                     },
                 },
                 hookAuthorText: {
                     canvasName: 'hook',
                     textName: 'author',
-                    x: 120,
-                    y: 180,
+                    yRange: [270, 300],
+                    xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
-                        fontSize: 16,
+                        fontSize: 12,
                         fill: "white",
                         wordWrap: true,
-                        wordWrapWidth: 200,
+                        wordWrapWidth: 296,
                         align: "left",
-                        lineHeight: 20,
-                    }
-                },
-                hookDateText: {
-                    canvasName: 'hook',
-                    textName: 'date',
-                    x: 120,
-                    y: 200,
-                    style: {
-                        fontFamily: "Arial",
-                        fontSize: 16,
-                        fill: "white",
-                        wordWrap: true,
-                        wordWrapWidth: 200,
-                        align: "left",
-                        lineHeight: 20,
-                    }
-                },
-                hookSourceText: {
-                    canvasName: 'hook',
-                    textName: 'source',
-                    x: 120,
-                    y: 220,
-                    style: {
-                        fontFamily: "Arial",
-                        fontSize: 16,
-                        fill: "white",
-                        wordWrap: true,
-                        wordWrapWidth: 200,
-                        align: "left",
-                        lineHeight: 20,
+                        lineHeight: 16,
                     }
                 },
             },
@@ -273,8 +181,8 @@ export const themes = [
                 claimMainText: {
                     canvasName: 'claim',
                     textName: 'main',
-                    x: 120,
-                    y: 140,
+                    yRange: [270, 300],
+                    xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
                         fontSize: 24,
@@ -290,8 +198,8 @@ export const themes = [
                 reviewMainText: {
                     canvasName: 'review',
                     textName: 'main',
-                    x: 120,
-                    y: 140,
+                    yRange: [200, 300],
+                    xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
                         fontSize: 24,
@@ -305,8 +213,8 @@ export const themes = [
                 reviewAuthorText: {
                     canvasName: 'review',
                     textName: 'author',
-                    x: 120,
-                    y: 180,
+                    yRange: [200, 300],
+                    xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
                         fontSize: 16,
@@ -317,43 +225,13 @@ export const themes = [
                         lineHeight: 20,
                     }
                 },
-                reviewDateText: {
-                    canvasName: 'review',
-                    textName: 'date',
-                    x: 120,
-                    y: 200,
-                    style: {
-                        fontFamily: "Arial",
-                        fontSize: 16,
-                        fill: "white",
-                        wordWrap: true,
-                        wordWrapWidth: 200,
-                        align: "left",
-                        lineHeight: 20,
-                    }
-                },
-                reviewSourceText: {
-                    canvasName: 'review',
-                    textName: 'source',
-                    x: 120,
-                    y: 220,
-                    style: {
-                        fontFamily: "Arial",
-                        fontSize: 16,
-                        fill: "white",
-                        wordWrap: true,
-                        wordWrapWidth: 200,
-                        align: "left",
-                        lineHeight: 20,
-                    }
-                }
             },
             closeTextDefaults: {
                 closeMainText: {
                     canvasName: 'close',
                     textName: 'main',
-                    x: 120,
-                    y: 140,
+                    yRange: [270, 300],
+                    xRange: [20, 300],
                     style: {
                         fontFamily: "Arial",
                         fontSize: 24,

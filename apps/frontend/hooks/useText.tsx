@@ -2,7 +2,7 @@ import { CampaignContext } from '../contexts/CampaignContext';
 import { PixiContext } from '../contexts/PixiContext';
 import { useContext, useEffect } from 'react';
 import { themes } from '../utils/constants/themes';
-import setCanvasText from "../components/pixi/utils/setCanvasText";
+import setCanvasText from "../components/pixi/utils/text/setCanvasText";
 
 export const useText = (appRef, canvasName, size) => {
     const {
@@ -26,12 +26,12 @@ export const useText = (appRef, canvasName, size) => {
         const textDefaults = Object.values(selectedTheme.settings)
             .flatMap(setting => Object.values(setting))
             .find(text => text.canvasName === canvasName && text.textName === textName);
-        return textDefaults ? { style: textDefaults.style, x: textDefaults.x, y: textDefaults.y } : null;
+        return textDefaults ? { style: textDefaults.style, x: textDefaults.x, y: textDefaults.y, xRange: textDefaults.xRange, yRange: textDefaults.yRange  } : null;
     };
 
     const getTextNames = (canvasName) => {
         if (canvasName === 'hook' || canvasName === 'review') {
-            return ['main', 'author', 'date', 'source'];
+            return ['main', 'author'];
         } else if (canvasName === 'claim' || canvasName === 'close') {
             return ['main'];
         }
@@ -65,7 +65,6 @@ export const useText = (appRef, canvasName, size) => {
                         setCanvasText(
                             canvasName,
                             canvasApps,
-                            textName,
                             array,
                             position,
                             reviews,
@@ -74,12 +73,13 @@ export const useText = (appRef, canvasName, size) => {
                             size,
                             defaultTextSettings.x,
                             defaultTextSettings.y,
+                            defaultTextSettings.xRange,
+                            defaultTextSettings.yRange,
                         );
                     } else {
                         console.warn(`No default text settings found for canvasName=${canvasName}, textName=${textName}`);
                     }
                 });
-
             }
         }
     }, [
