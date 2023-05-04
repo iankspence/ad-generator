@@ -36,7 +36,7 @@ export const getUpdatedTextStyle = (mainContent, authorContent, mainStyle, autho
 
     // Calculate new y positions
     const mainTextHeight = mainTextMetrics.height;
-    const spacing = mainTextHeight * 0.07;
+    const spacing = mainTextHeight * 0.03;
 
     updatedAuthorPosition.y = updatedMainPosition.y + mainTextHeight + spacing;
 
