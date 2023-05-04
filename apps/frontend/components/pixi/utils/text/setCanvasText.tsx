@@ -15,7 +15,8 @@ const setCanvasText = (
     authorStyle,
     size,
     xRange,
-    yRange
+    yRange,
+    lineHeightMultipliers,
 ) => {
     if (!canvasName || !textArray || !position) return;
     const canvasApp = canvasApps[canvasName];
@@ -80,7 +81,7 @@ const setCanvasText = (
 
     console.log('updating style for canvas: ', canvasName)
 
-    const { main: { updatedStyle: mainUpdatedStyle, updatedPosition: mainUpdatedPosition }, author: { updatedStyle: authorUpdatedStyle, updatedPosition: authorUpdatedPosition } } = getUpdatedTextStyle(mainText, authorText, mainStyle, authorStyle, size, xRange, yRange);
+    const { main: { updatedStyle: mainUpdatedStyle, updatedPosition: mainUpdatedPosition }, author: { updatedStyle: authorUpdatedStyle, updatedPosition: authorUpdatedPosition } } = getUpdatedTextStyle(mainText, authorText, mainStyle, authorStyle, size, xRange, yRange, lineHeightMultipliers[canvasName]);
 
     mainTextObject.style = mainUpdatedStyle;
     mainTextObject.x = mainUpdatedPosition.x;

@@ -27,6 +27,9 @@ interface PixiContextProps {
     xRanges: { [key: string]: [number, number] };
     yRanges: { [key: string]: [number, number] };
     updateRange: (canvasName: string, xRange: [number, number], yRange: [number, number]) => void;
+
+    lineHeightMultipliers: { [key: string]: number };
+    updateLineHeightMultipliers: (canvasName: string, lineHeightMultiplier: number) => void;
 }
 
 export const PixiContext = createContext<PixiContextProps>({
@@ -59,6 +62,14 @@ export const PixiContext = createContext<PixiContextProps>({
         close: [0, 0],
     },
     updateRange: () => void 0,
+
+    lineHeightMultipliers: {
+        hook: 1.33,
+        claim: 1.33,
+        review: 1.33,
+        close: 1.33,
+    },
+    updateLineHeightMultipliers: () => void 0,
 });
 
 export const PixiProvider = ({ children }) => {
@@ -69,6 +80,12 @@ export const PixiProvider = ({ children }) => {
         claim: false,
         review: false,
         close: false,
+    });
+    const [lineHeightMultipliers, setLineHeightMultipliers] = useState({
+        hook: 1.33,
+        claim: 1.33,
+        review: 1.33,
+        close: 1.33,
     });
 
     // Find the default theme
@@ -115,6 +132,11 @@ export const PixiProvider = ({ children }) => {
                     setXRanges((prev) => ({ ...prev, [canvasName]: xRange }));
                     setYRanges((prev) => ({ ...prev, [canvasName]: yRange }));
                 },
+                lineHeightMultipliers,
+                    updateLineHeightMultipliers: (canvasName: string, lineHeightMultiplier: number) => {
+                    setLineHeightMultipliers((prev) => ({ ...prev, [canvasName]: lineHeightMultiplier }));
+                },
+
             }}
         >
             {children}

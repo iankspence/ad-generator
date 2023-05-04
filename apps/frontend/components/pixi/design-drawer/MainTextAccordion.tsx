@@ -14,12 +14,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import * as PIXI from 'pixi.js';
 import {PixiContext} from "../../../contexts/PixiContext";
 import {DualButtonSlider} from "./DualButtonSlider";
+import {mode} from "../utils/mode";
 
-const MainTextAccordion = ({ handleFontChange, handleFontSizeChange, handleColorChange, initialXRange, initialYRange, }) => {
-    const { activeCanvases, canvasApps, xRanges, yRanges, updateRange } = useContext(PixiContext);
+const MainTextAccordion = ({ handleFontChange, handleFontSizeChange, handleColorChange, initialXRange, initialYRange,  }) => {
+    const { activeCanvases, canvasApps, xRanges, yRanges, updateRange, lineHeightMultipliers, updateLineHeightMultipliers } = useContext(PixiContext);
 
     const [fontFamily, setFontFamily] = useState('Arial');
-    const [fontSize, setFontSize] = useState(24);
+    const [lineHeightMultiplier, setLineHeightMultiplier] = useState(1.33);
     const [fill, setFill] = useState('#000000');
 
     useEffect(() => {
@@ -39,30 +40,30 @@ const MainTextAccordion = ({ handleFontChange, handleFontSizeChange, handleColor
 
         if (activeTextStyles.length > 0) {
             const mostCommonFontFamily = mode(activeTextStyles.map((style) => style.fontFamily));
-            const mostCommonFontSize = mode(activeTextStyles.map((style) => style.fontSize));
             const mostCommonFill = mode(activeTextStyles.map((style) => style.fill));
 
             setFontFamily(mostCommonFontFamily || 'Arial');
-            setFontSize(mostCommonFontSize || 24);
             setFill(mostCommonFill || '#000000');
         }
     }, [activeCanvases, canvasApps]);
-
-    const mode = (arr) => {
-        return arr.sort((a, b) =>
-            arr.filter((v) => v === a).length - arr.filter((v) => v === b).length
-        ).pop();
-    };
 
     const handleLocalFontChange = (event) => {
         setFontFamily(event.target.value);
         handleFontChange(event);
     };
 
-    const handleLocalFontSizeChange = (event, newValue) => {
-        setFontSize(newValue);
-        handleFontSizeChange(event, newValue);
-    };
+    const handleLocalLineHeightChange = (event, newValue) => {
+        const lineHeightMultiplier = newValue;
+        setLineHeightMultiplier(lineHeightMultiplier);
+        Object.entries(activeCanvases).forEach(([canvasName, isActive]) => {
+            if (isActive) {
+                const canvasApp = canvasApps[canvasName];
+                if (canvasApp) {
+                    updateLineHeightMultipliers(canvasName, lineHeightMultiplier/100);
+                }
+            }
+        });
+    }
 
     const handleLocalColorChange = (event) => {
         setFill(event.target.value);
@@ -130,12 +131,12 @@ const MainTextAccordion = ({ handleFontChange, handleFontSizeChange, handleColor
                     </Select>
                 </FormControl>
                 <div className="py-2"></div>
-                <Typography gutterBottom>Font Size</Typography>
+                <Typography gutterBottom>Line Height</Typography>
                 <Slider
-                    value={fontSize}
-                    onChange={handleLocalFontSizeChange}
-                    min={10}
-                    max={60}
+                    value={lineHeightMultiplier}
+                    onChange={handleLocalLineHeightChange}
+                    min={100}
+                    max={200}
                     valueLabelDisplay="auto"
                     name={'main'}
                 />
