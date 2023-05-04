@@ -7,10 +7,11 @@ import MainTextAccordion from "./MainTextAccordion";
 import {ActiveCanvasButtonGroup} from './ActiveCanvasButtonGroup';
 import * as PIXI from "pixi.js";
 import { mode } from '../utils/mode';
+import {DualButtonSlider} from "./DualButtonSlider";
 
 const TextStyleAccordion = () => {
 
-    const { activeCanvases, canvasApps, xRanges, yRanges } = useContext(PixiContext);
+    const { activeCanvases, canvasApps, xRanges, yRanges, updateRange } = useContext(PixiContext);
 
     const handleTextStyleChange = (textName, newTextStyle) => {
         Object.entries(activeCanvases).forEach(([canvasName, isActive]) => {
@@ -56,6 +57,32 @@ const TextStyleAccordion = () => {
     const yMinMode = mode(activeCanvasNames.map((canvas) => yRanges[canvas][0]));
     const yMaxMode = mode(activeCanvasNames.map((canvas) => yRanges[canvas][1]));
 
+
+    const handleTextRangeChange = (textName, newRange) => {
+        Object.entries(activeCanvases).forEach(([canvasName, isActive]) => {
+            if (isActive) {
+                const canvasApp = canvasApps[canvasName];
+                if (canvasApp) {
+                    const updatedXRange = Object.prototype.hasOwnProperty.call(newRange, "x") ? newRange.x as [number, number] : xRanges[canvasName];
+                    const updatedYRange = Object.prototype.hasOwnProperty.call(newRange, "y") ? newRange.y as [number, number] : yRanges[canvasName];
+                    updateRange(canvasName, updatedXRange, updatedYRange);
+                }
+            }
+        });
+    };
+
+    const handleXRangeChange = (event, newValue) => {
+        const updatedRange = { x: newValue };
+        const textName = event.target.name;
+        handleTextRangeChange(textName, updatedRange);
+    };
+
+    const handleYRangeChange = (event, newValue) => {
+        const updatedRange = { y: newValue };
+        const textName = event.target.name;
+        handleTextRangeChange(textName, updatedRange);
+    };
+
     return (
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -63,12 +90,30 @@ const TextStyleAccordion = () => {
             </AccordionSummary>
             <AccordionDetails>
                 <ActiveCanvasButtonGroup visible={true} />
+
+                <DualButtonSlider
+                    label="X Range"
+                    name="main"
+                    min={0}
+                    max={320}
+                    value1={xMinMode}
+                    value2={xMaxMode}
+                    onChange={handleXRangeChange}
+                />
+                <DualButtonSlider
+                    label="Y Range"
+                    name="main"
+                    min={0}
+                    max={320}
+                    value1={yMinMode}
+                    value2={yMaxMode}
+                    onChange={handleYRangeChange}
+                />
+
                 <MainTextAccordion
                     handleFontChange={handleFontChange}
                     handleFontSizeChange={handleFontSizeChange}
                     handleColorChange={handleColorChange}
-                    initialXRange={[xMinMode, xMaxMode]}
-                    initialYRange={[yMinMode, yMaxMode]}
                 />
             </AccordionDetails>
         </Accordion>

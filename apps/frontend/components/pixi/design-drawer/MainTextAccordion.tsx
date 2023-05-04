@@ -13,11 +13,10 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import * as PIXI from 'pixi.js';
 import {PixiContext} from "../../../contexts/PixiContext";
-import {DualButtonSlider} from "./DualButtonSlider";
 import {mode} from "../utils/mode";
 
-const MainTextAccordion = ({ handleFontChange, handleFontSizeChange, handleColorChange, initialXRange, initialYRange,  }) => {
-    const { activeCanvases, canvasApps, xRanges, yRanges, updateRange, lineHeightMultipliers, updateLineHeightMultipliers } = useContext(PixiContext);
+const MainTextAccordion = ({ handleFontChange, handleFontSizeChange, handleColorChange  }) => {
+    const { activeCanvases, canvasApps, updateLineHeightMultipliers } = useContext(PixiContext);
 
     const [fontFamily, setFontFamily] = useState('Arial');
     const [lineHeightMultiplier, setLineHeightMultiplier] = useState(1.33);
@@ -70,30 +69,7 @@ const MainTextAccordion = ({ handleFontChange, handleFontSizeChange, handleColor
         handleColorChange(event);
     };
 
-    const handleTextRangeChange = (textName, newRange) => {
-        Object.entries(activeCanvases).forEach(([canvasName, isActive]) => {
-            if (isActive) {
-                const canvasApp = canvasApps[canvasName];
-                if (canvasApp) {
-                    const updatedXRange = Object.prototype.hasOwnProperty.call(newRange, "x") ? newRange.x as [number, number] : xRanges[canvasName];
-                    const updatedYRange = Object.prototype.hasOwnProperty.call(newRange, "y") ? newRange.y as [number, number] : yRanges[canvasName];
-                    updateRange(canvasName, updatedXRange, updatedYRange);
-                }
-            }
-        });
-    };
 
-    const handleXRangeChange = (event, newValue) => {
-        const updatedRange = { x: newValue };
-        const textName = event.target.name;
-        handleTextRangeChange(textName, updatedRange);
-    };
-
-    const handleYRangeChange = (event, newValue) => {
-        const updatedRange = { y: newValue };
-        const textName = event.target.name;
-        handleTextRangeChange(textName, updatedRange);
-    };
 
     return (
         <Accordion>
@@ -101,25 +77,6 @@ const MainTextAccordion = ({ handleFontChange, handleFontSizeChange, handleColor
                 <Typography variant="subtitle1">Main Text</Typography>
             </AccordionSummary>
             <AccordionDetails>
-
-                <DualButtonSlider
-                    label="X Range"
-                    name="main"
-                    min={0}
-                    max={320}
-                    value1={initialXRange[0]}
-                    value2={initialXRange[1]}
-                    onChange={handleXRangeChange}
-                />
-                <DualButtonSlider
-                    label="Y Range"
-                    name="main"
-                    min={0}
-                    max={320}
-                    value1={initialYRange[0]}
-                    value2={initialYRange[1]}
-                    onChange={handleYRangeChange}
-                />
 
                 <FormControl fullWidth>
                     <InputLabel>Font</InputLabel>
