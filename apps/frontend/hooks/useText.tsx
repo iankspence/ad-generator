@@ -3,6 +3,7 @@ import { PixiContext } from '../contexts/PixiContext';
 import { useContext, useEffect } from 'react';
 import { themes } from '../utils/constants/themes';
 import setCanvasText from "../components/pixi/utils/text/setCanvasText";
+import findTextObject from "../components/pixi/utils/text/findTextObject";
 
 export const useText = (appRef, canvasName, size) => {
     const {
@@ -22,7 +23,18 @@ export const useText = (appRef, canvasName, size) => {
         return themes.find((theme) => theme.id === selectedThemeId);
     };
 
-    const getDefaultTextSettings = (canvasName, textName, selectedTheme) => {
+    const getDefaultTextSettings = (canvasName, textName, selectedTheme, canvasApp) => {
+        const existingTextObject = findTextObject(canvasApp, `${canvasName}-${textName}`);
+        if (existingTextObject) {
+            return {
+                style: existingTextObject.style,
+                x: existingTextObject.x,
+                y: existingTextObject.y,
+                xRange: xRanges[canvasName],
+                yRange: yRanges[canvasName],
+            };
+        }
+
         const textDefaults = Object.values(selectedTheme.settings)
             .flatMap(setting => Object.values(setting))
             .find(text => text.canvasName === canvasName && text.textName === textName);
@@ -63,8 +75,8 @@ export const useText = (appRef, canvasName, size) => {
                 const yRange = yRanges[canvasName];
 
                 textNames.forEach(textName => {
-                    const defaultTextSettings = getDefaultTextSettings(canvasName, textName, selectedTheme);
-                    const mainTextSettings = getDefaultTextSettings(canvasName, 'main', selectedTheme);
+                    const defaultTextSettings = getDefaultTextSettings(canvasName, textName, selectedTheme, canvasApps[canvasName]);
+                    const mainTextSettings = getDefaultTextSettings(canvasName, 'main', selectedTheme, canvasApps[canvasName]);
 
                     if (defaultTextSettings) {
                         setCanvasText(
