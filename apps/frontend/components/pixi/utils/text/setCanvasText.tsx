@@ -2,24 +2,26 @@ import * as PIXI from 'pixi.js';
 import findTextObject from './findTextObject';
 import { abbreviateAuthor } from "./abbreviateAuthor";
 import { addQuotesToText } from "./addQuotesToText";
-import { getUpdatedTextStyle } from "./getUpdatedTextStyle";
+import { updateTextStyleAndPosition } from "./updateTextStyleAndPosition";
 
 const setCanvasText = (
     canvasName,
-    canvasApps,
+    appRef,
     textArray,
     position,
     reviews,
     reviewPosition,
-    mainStyle,
-    authorStyle,
+    mainStyleSettings,
+    authorStyleSettings,
     size,
     xRange,
     yRange,
     lineHeightMultipliers,
 ) => {
-    if (!canvasName || !textArray || !position) return;
-    const canvasApp = canvasApps[canvasName];
+    if (!canvasName || !textArray || !position || !appRef?.current ) return;
+
+    const app = appRef.current;
+
     let mainText = '';
     let authorText = '';
 
@@ -50,38 +52,38 @@ const setCanvasText = (
             break;
     }
 
-    if (!canvasApp || !canvasApp.stage) return;
+    if (!app || !app.stage) return;
 
-    let mainTextObject = findTextObject(canvasApp, `${canvasName}-main`);
+    let mainTextObject = findTextObject(app, `${canvasName}-main`);
     if (!mainTextObject) {
-        mainTextObject = new PIXI.Text(mainText, mainStyle);
+        mainTextObject = new PIXI.Text(mainText, mainStyleSettings.style);
         mainTextObject.name = `${canvasName}-main`;
         mainTextObject.zIndex = 3;
         mainTextObject.resolution = 1080 / size;
-        canvasApp.stage.addChild(mainTextObject);
+        app.stage.addChild(mainTextObject);
     } else {
         mainTextObject.text = mainText;
-        mainTextObject.style = mainStyle;
+        mainTextObject.style = mainStyleSettings.style;
     }
 
     let authorTextObject;
     if (authorText) {
-        authorTextObject = findTextObject(canvasApp, `${canvasName}-author`);
+        authorTextObject = findTextObject(app, `${canvasName}-author`);
         if (!authorTextObject) {
-            authorTextObject = new PIXI.Text(authorText, authorStyle);
+            authorTextObject = new PIXI.Text(authorText, authorStyleSettings.style);
             authorTextObject.name = `${canvasName}-author`;
             authorTextObject.zIndex = 3;
             authorTextObject.resolution = 1080 / size;
-            canvasApp.stage.addChild(authorTextObject);
+            app.stage.addChild(authorTextObject);
         } else {
             authorTextObject.text = authorText;
-            authorTextObject.style = authorStyle;
+            authorTextObject.style = authorStyleSettings.style;
         }
     }
 
     console.log('updating style for canvas: ', canvasName)
 
-    const { main: { updatedStyle: mainUpdatedStyle, updatedPosition: mainUpdatedPosition }, author: { updatedStyle: authorUpdatedStyle, updatedPosition: authorUpdatedPosition } } = getUpdatedTextStyle(mainText, authorText, mainStyle, authorStyle, size, xRange, yRange, lineHeightMultipliers[canvasName]);
+    const { main: { updatedStyle: mainUpdatedStyle, updatedPosition: mainUpdatedPosition }, author: { updatedStyle: authorUpdatedStyle, updatedPosition: authorUpdatedPosition } } = updateTextStyleAndPosition(mainText, authorText, mainStyleSettings.style, authorStyleSettings?.style, size, xRange, yRange, lineHeightMultipliers[canvasName]);
 
     mainTextObject.style = mainUpdatedStyle;
     mainTextObject.x = mainUpdatedPosition.x;

@@ -50,8 +50,6 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange  }) => {
         handleFontChange(event);
     };
 
-
-
     const handleLocalColorChange = (event) => {
         setFill(event.target.value);
         handleColorChange(event);
