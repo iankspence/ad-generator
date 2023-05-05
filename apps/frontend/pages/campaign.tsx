@@ -1,6 +1,6 @@
 import ContentGenerator from '../components/ContentGenerator';
 import TopNav from '../components/TopNav';
-import CampaignProvider, { CampaignContext } from '../contexts/CampaignContext';
+import { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';
 import useAccount from '../hooks/useAccount';
 import { getAllTextByAccountId } from '../utils/api';
@@ -14,17 +14,10 @@ function CampaignPage() {
 
     useEffect(() => {
         if (!account) return;
-
-        // console.log('account', account);
-
         const fetchData = async () => {
             const allText = await getAllTextByAccountId(account?._id.toString());
-            // console.log('allText response: ', allText);
 
             if (account) {
-                // console.log('allText', allText);
-                //
-                // console.log('sending reviews to context', allText[0]);
                 updateReviews(allText[0]);
                 updateHooks(allText[1]);
                 updateClaims(allText[2]);

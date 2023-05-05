@@ -7,13 +7,13 @@ import {getSelectedTheme} from "../components/pixi/utils/getSelectedTheme";
 
 export const useText = (appRef, canvasName, size) => {
     const {
-        hooks,
+        activeHooks,
         hookPosition,
-        claims,
+        activeClaims,
         claimPosition,
-        reviews,
+        activeReviews,
         reviewPosition,
-        closes,
+        activeCloses,
         closePosition,
     } = useContext(CampaignContext);
 
@@ -25,10 +25,10 @@ export const useText = (appRef, canvasName, size) => {
             const app = appRef.current;
 
             const textData = {
-                hook: { array: hooks, position: hookPosition },
-                claim: { array: claims, position: claimPosition },
-                close: { array: closes, position: closePosition },
-                review: { array: reviews, position: reviewPosition },
+                hook: { array: activeHooks, position: hookPosition },
+                claim: { array: activeClaims, position: claimPosition },
+                close: { array: activeCloses, position: closePosition },
+                review: { array: activeReviews, position: reviewPosition },
             };
 
             const { array, position } = textData[canvasName] || {};
@@ -45,7 +45,7 @@ export const useText = (appRef, canvasName, size) => {
                     appRef,
                     array,
                     position,
-                    reviews,
+                    activeReviews,
                     reviewPosition,
                     mainTextSettings,
                     authorTextSettings,
@@ -59,13 +59,13 @@ export const useText = (appRef, canvasName, size) => {
             }
         }
     }, [
-        hooks,
+        // activeHooks,
         hookPosition,
-        claims,
+        // activeClaims,
         claimPosition,
-        closes,
+        // activeCloses,
         closePosition,
-        reviews,
+        activeReviews,
         reviewPosition,
         canvasName,
         appRef,

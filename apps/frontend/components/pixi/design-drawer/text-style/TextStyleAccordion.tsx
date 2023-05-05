@@ -130,7 +130,7 @@ const TextStyleAccordion = ({ textName, handleFontChange, handleColorChange, han
     return (
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle1">{capitalizeFirstLetter(textName)} Text</Typography>
+                <Typography variant="subtitle1">{capitalizeFirstLetter(textName)} Style</Typography>
             </AccordionSummary>
             <AccordionDetails>
 

@@ -9,7 +9,7 @@ const setCanvasText = (
     appRef,
     textArray,
     position,
-    reviews,
+    activeReviews,
     reviewPosition,
     mainStyleSettings,
     authorStyleSettings,
@@ -28,31 +28,33 @@ const setCanvasText = (
     switch (canvasName) {
         case 'hook':
             if (textArray && position > 0 && textArray[position - 1]) {
-                mainText = addQuotesToText(textArray[position - 1].hookText);
-                authorText = abbreviateAuthor(reviews[reviewPosition - 1].author);
+                mainText = addQuotesToText(textArray[position - 1]?.hookText);
+                authorText = abbreviateAuthor(activeReviews[reviewPosition - 1]?.author);
             }
             break;
         case 'claim':
             if (textArray && position > 0 && textArray[position - 1]) {
-                mainText = textArray[position - 1].claimText;
+                mainText = textArray[position - 1]?.claimText;
             }
             break;
         case 'review':
-            if (reviews && reviewPosition > 0 && reviews[reviewPosition - 1]) {
-                mainText = addQuotesToText(reviews[reviewPosition - 1].reviewText);
-                authorText = abbreviateAuthor(reviews[reviewPosition - 1].author);
+            if (activeReviews && reviewPosition > 0 && activeReviews[reviewPosition - 1]) {
+                mainText = addQuotesToText(activeReviews[reviewPosition - 1]?.reviewText);
+                authorText = abbreviateAuthor(activeReviews[reviewPosition - 1]?.author);
             }
             break;
         case 'close':
             if (textArray && position > 0 && textArray[position - 1]) {
-                mainText = textArray[position - 1].closeText;
+                mainText = textArray[position - 1]?.closeText;
             }
             break;
         default:
             break;
     }
 
-    if (!app || !app.stage) return;
+    if (!app || !app.stage || !mainText ) return;
+
+    console.log('setting text for canvas: ', canvasName, mainText, authorText)
 
     let mainTextObject = findTextObject(app, `${canvasName}-main`);
     if (!mainTextObject) {
