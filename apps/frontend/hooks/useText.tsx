@@ -3,7 +3,9 @@ import { PixiContext } from '../contexts/PixiContext';
 import { useContext, useEffect } from 'react';
 import { themes } from '../utils/constants/themes';
 import setCanvasText from "../components/pixi/utils/text/setCanvasText";
-import findTextObject from "../components/pixi/utils/text/findTextObject";
+import {getDefaultTextSettings} from "../components/pixi/utils/text/getDefaultTextSettings";
+import {getSelectedTheme} from "../components/pixi/utils/getSelectedTheme";
+import {getTextNamesForCanvas} from "../components/pixi/utils/text/getTextNames";
 
 export const useText = (appRef, canvasName, size) => {
     const {
@@ -18,39 +20,7 @@ export const useText = (appRef, canvasName, size) => {
     } = useContext(CampaignContext);
 
     const { updateCanvasApp, canvasApps, selectedThemeId, xRanges, yRanges, lineHeightMultipliers } = useContext(PixiContext);
-
-    const getSelectedTheme = (selectedThemeId) => {
-        return themes.find((theme) => theme.id === selectedThemeId);
-    };
-
-    const getDefaultTextSettings = (canvasName, textName, selectedTheme, canvasApp) => {
-        const existingTextObject = findTextObject(canvasApp, `${canvasName}-${textName}`);
-        if (existingTextObject) {
-            return {
-                style: existingTextObject.style,
-                x: existingTextObject.x,
-                y: existingTextObject.y,
-                xRange: xRanges[canvasName],
-                yRange: yRanges[canvasName],
-            };
-        }
-
-        const textDefaults = Object.values(selectedTheme.settings)
-            .flatMap(setting => Object.values(setting))
-            .find(text => text.canvasName === canvasName && text.textName === textName);
-        return textDefaults ? { style: textDefaults.style, x: textDefaults.x, y: textDefaults.y, xRange: textDefaults.xRange, yRange: textDefaults.yRange  } : null;
-    };
-
-    const getTextNames = (canvasName) => {
-        if (canvasName === 'hook' || canvasName === 'review') {
-            return ['main', 'author'];
-        } else if (canvasName === 'claim' || canvasName === 'close') {
-            return ['main'];
-        }
-        return [];
-    };
-
-    const selectedTheme = getSelectedTheme(selectedThemeId); // Get the selected theme object
+    const selectedTheme = getSelectedTheme(selectedThemeId);
 
     useEffect(() => {
         if (appRef.current) {
@@ -70,13 +40,13 @@ export const useText = (appRef, canvasName, size) => {
             const { array, position } = textData[canvasName] || {};
             if (array && position) {
 
-                const textNames = getTextNames(canvasName);
+                const textNames = getTextNamesForCanvas(canvasName);
                 const xRange = xRanges[canvasName];
                 const yRange = yRanges[canvasName];
 
                 textNames.forEach(textName => {
-                    const defaultTextSettings = getDefaultTextSettings(canvasName, textName, selectedTheme, canvasApps[canvasName]);
-                    const mainTextSettings = getDefaultTextSettings(canvasName, 'main', selectedTheme, canvasApps[canvasName]);
+                    const defaultTextSettings = getDefaultTextSettings(canvasName, textName, selectedTheme, canvasApps[canvasName], xRanges, yRanges);
+                    const mainTextSettings = getDefaultTextSettings(canvasName, 'main', selectedTheme, canvasApps[canvasName], xRanges, yRanges);
 
                     if (defaultTextSettings) {
                         setCanvasText(
