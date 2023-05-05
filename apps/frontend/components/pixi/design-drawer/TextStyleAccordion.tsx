@@ -3,7 +3,7 @@ import { PixiContext } from '../../../contexts/PixiContext';
 import {Accordion, AccordionSummary, AccordionDetails, Slider} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MainTextAccordion from "./MainTextAccordion";
+import StyleAccordion from "./StyleAccordion";
 import {ActiveCanvasButtonGroup} from './ActiveCanvasButtonGroup';
 import * as PIXI from "pixi.js";
 import { mode } from '../utils/mode';
@@ -145,7 +145,17 @@ const TextStyleAccordion = () => {
                 />
                 <div className="py-2"></div>
 
-                <MainTextAccordion
+                <StyleAccordion
+                    textName={'main'}
+                    handleFontChange={handleFontChange}
+                    handleColorChange={handleColorChange}
+                    handleFontWeightChange={handleFontWeightChange}
+                    handleFontStyleChange={handleFontStyleChange}
+                    handleFontVariantChange={handleFontVariantChange}
+                    handleLetterSpacingChange={handleLetterSpacingChange}
+                />
+                <StyleAccordion
+                    textName={'author'}
                     handleFontChange={handleFontChange}
                     handleColorChange={handleColorChange}
                     handleFontWeightChange={handleFontWeightChange}

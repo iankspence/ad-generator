@@ -21,7 +21,7 @@ import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import KeyboardCapslockIcon from '@mui/icons-material/KeyboardCapslock';
 import Grid from '@material-ui/core/Grid';
 
-const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeightChange, handleFontStyleChange, handleFontVariantChange, handleLetterSpacingChange }) => {
+const StyleAccordion = ({ textName, handleFontChange, handleColorChange, handleFontWeightChange, handleFontStyleChange, handleFontVariantChange, handleLetterSpacingChange }) => {
     const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const [fontFamily, setFontFamily] = useState('Arial');
@@ -37,7 +37,7 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeig
             .map(([canvasName]) => {
                 const canvasApp = canvasApps[canvasName];
                 if (canvasApp) {
-                    const textObject = canvasApp.stage.getChildByName(`${canvasName}-main`) as PIXI.Text;
+                    const textObject = canvasApp.stage.getChildByName(`${canvasName}-${textName}`) as PIXI.Text;
                     if (textObject) {
                         return textObject.style;
                     }
@@ -69,26 +69,26 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeig
     const handleLocalFontWeightChange = (event, newFontWeight) => {
         if (newFontWeight !== null) {
             setFontWeight(newFontWeight);
-            handleFontWeightChange('main', newFontWeight);
+            handleFontWeightChange(textName, newFontWeight);
         } else {
             setFontWeight('normal');
-            handleFontWeightChange('main', 'normal');
+            handleFontWeightChange(textName, 'normal');
         }
     };
 
     const handleLocalFontStyleChange = (event, newFontStyle) => {
         if (newFontStyle !== null) {
             setFontStyle(newFontStyle);
-            handleFontStyleChange('main', newFontStyle);
+            handleFontStyleChange(textName, newFontStyle);
             if (newFontStyle === 'italic') {
-                handlePaddingChange('main', 5);
+                handlePaddingChange(textName, 5);
             } else {
-                handlePaddingChange('main', 0);
+                handlePaddingChange(textName, 0);
             }
         } else {
             setFontStyle('normal');
-            handleFontStyleChange('main', 'normal');
-            handlePaddingChange('main', 0);
+            handleFontStyleChange(textName, 'normal');
+            handlePaddingChange(textName, 0);
         }
     };
 
@@ -115,29 +115,28 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeig
     const handleLocalFontVariantChange = (event, newFontVariant) => {
         if (newFontVariant !== null) {
             setFontVariant(newFontVariant);
-            handleFontVariantChange('main', newFontVariant);
+            handleFontVariantChange(textName, newFontVariant);
         } else {
             setFontVariant('normal');
-            handleFontVariantChange('main', 'normal');
+            handleFontVariantChange(textName, 'normal');
         }
     };
 
     const handleLocalLetterSpacingChange = (event, newValue) => {
         setLetterSpacing(newValue);
-        handleLetterSpacingChange('main', newValue / 100);
+        handleLetterSpacingChange(textName, newValue / 100);
     };
-
 
     return (
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle1">Main Text</Typography>
+                <Typography variant="subtitle1">{textName} Text</Typography>
             </AccordionSummary>
             <AccordionDetails>
 
                 <FormControl fullWidth>
                     <InputLabel>Font</InputLabel>
-                    <Select value={fontFamily} name={'main'} onChange={handleLocalFontChange}>
+                    <Select value={fontFamily} name={textName} onChange={handleLocalFontChange}>
                         <MenuItem value="Arial Narrow">Arial Narrow</MenuItem>
                         <MenuItem value="Arial">Arial</MenuItem>
                         <MenuItem value="Arial Black">Arial Black</MenuItem>
@@ -162,7 +161,7 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeig
                             type="color"
                             value={fill}
                             onChange={handleLocalColorChange}
-                            name={'main'}
+                            name={textName}
                         />
                     </Grid>
 
@@ -220,4 +219,4 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeig
     );
 };
 
-export default MainTextAccordion;
+export default StyleAccordion;
