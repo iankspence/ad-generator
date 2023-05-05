@@ -58,6 +58,11 @@ const TextStyleAccordion = () => {
         handleTextStyleChange(textName, updatedTextStyle);
     }
 
+    const handleLetterSpacingChange = (textName, newLetterSpacing) => {
+        const updatedTextStyle = { letterSpacing: newLetterSpacing };
+        handleTextStyleChange(textName, updatedTextStyle);
+    }
+
     const activeCanvasNames = Object.entries(activeCanvases).filter(([canvasName, isActive]) => isActive).map(([canvasName, isActive]) => canvasName);
     const xMinMode = mode(activeCanvasNames.map((canvas) => xRanges[canvas][0]));
     const xMaxMode = mode(activeCanvasNames.map((canvas) => xRanges[canvas][1]));
@@ -146,6 +151,7 @@ const TextStyleAccordion = () => {
                     handleFontWeightChange={handleFontWeightChange}
                     handleFontStyleChange={handleFontStyleChange}
                     handleFontVariantChange={handleFontVariantChange}
+                    handleLetterSpacingChange={handleLetterSpacingChange}
                 />
             </AccordionDetails>
         </Accordion>

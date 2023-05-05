@@ -19,8 +19,9 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import KeyboardCapslockIcon from '@mui/icons-material/KeyboardCapslock';
+import Grid from '@material-ui/core/Grid';
 
-const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeightChange, handleFontStyleChange, handleFontVariantChange  }) => {
+const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeightChange, handleFontStyleChange, handleFontVariantChange, handleLetterSpacingChange }) => {
     const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const [fontFamily, setFontFamily] = useState('Arial');
@@ -28,6 +29,7 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeig
     const [fontWeight, setFontWeight] = useState('normal');
     const [fontStyle, setFontStyle] = useState('normal');
     const [fontVariant, setFontVariant] = useState('normal');
+    const [letterSpacing, setLetterSpacing] = useState(0);
 
     useEffect(() => {
         const activeTextStyles = Object.entries(activeCanvases)
@@ -120,6 +122,12 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeig
         }
     };
 
+    const handleLocalLetterSpacingChange = (event, newValue) => {
+        setLetterSpacing(newValue);
+        handleLetterSpacingChange('main', newValue / 100);
+    };
+
+
     return (
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -141,54 +149,72 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeig
                         <MenuItem value="Tahoma">Tahoma</MenuItem>
                         <MenuItem value="sans-serif">sans-serif</MenuItem>
                         <MenuItem value="serif">serif</MenuItem>
-                        <MenuItem value="Rockwell">Rockwell</MenuItem>
                         <MenuItem value="Hoefler Text">Hoefler Text</MenuItem>
                     </Select>
                 </FormControl>
                 <div className="py-2"></div>
 
-                <Typography gutterBottom>Color</Typography>
-                <input
-                    type="color"
-                    value={fill}
-                    onChange={handleLocalColorChange}
-                    name={'main'}
+
+                <Grid container justifyContent="space-between" alignItems="center">
+                    <Grid item xs={3}>
+                        <input
+                            style={{height: '30px', width: '100%'}}
+                            type="color"
+                            value={fill}
+                            onChange={handleLocalColorChange}
+                            name={'main'}
+                        />
+                    </Grid>
+
+                    <Grid item xs={2}>
+                        <ToggleButtonGroup
+                            value={fontWeight}
+                            exclusive
+                            onChange={handleLocalFontWeightChange}
+                            aria-label="text weight"
+                        >
+                            <ToggleButton value="bold" aria-label="bold">
+                                <FormatBoldIcon style={{fontSize: 36}} />
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                    </Grid>
+
+                    <Grid item xs={2}>
+                        <ToggleButtonGroup
+                            value={fontStyle}
+                            exclusive
+                            onChange={handleLocalFontStyleChange}
+                            aria-label="text style"
+                        >
+                            <ToggleButton value="italic" aria-label="italic">
+                                <FormatItalicIcon style={{fontSize: 36}} />
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                    </Grid>
+
+                    <Grid item xs={3}>
+                        <ToggleButtonGroup
+                            value={fontVariant}
+                            exclusive
+                            onChange={handleLocalFontVariantChange}
+                            aria-label="text variant"
+                        >
+                            <ToggleButton value="small-caps" aria-label="small-caps">
+                                <KeyboardCapslockIcon style={{fontSize: 36}} />
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                    </Grid>
+                </Grid>
+
+                <Typography id="letter-spacing-slider" gutterBottom>
+                    Letter Spacing
+                </Typography>
+                <Slider
+                    value={letterSpacing}
+                    onChange={handleLocalLetterSpacingChange}
+                    aria-labelledby="letter-spacing-slider"
+                    valueLabelDisplay="auto"
                 />
-
-
-                <ToggleButtonGroup
-                    value={fontWeight}
-                    exclusive
-                    onChange={handleLocalFontWeightChange}
-                    aria-label="text weight"
-                >
-                    <ToggleButton value="bold" aria-label="bold">
-                        <FormatBoldIcon />
-                    </ToggleButton>
-                </ToggleButtonGroup>
-
-                <ToggleButtonGroup
-                    value={fontStyle}
-                    exclusive
-                    onChange={handleLocalFontStyleChange}
-                    aria-label="text style"
-                >
-                    <ToggleButton value="italic" aria-label="italic">
-                        <FormatItalicIcon />
-                    </ToggleButton>
-                </ToggleButtonGroup>
-
-                <ToggleButtonGroup
-                    value={fontVariant}
-                    exclusive
-                    onChange={handleLocalFontVariantChange}
-                    aria-label="text variant"
-                >
-                    <ToggleButton value="small-caps" aria-label="small-caps">
-                        <KeyboardCapslockIcon />
-                    </ToggleButton>
-                </ToggleButtonGroup>
-
             </AccordionDetails>
         </Accordion>
     );
