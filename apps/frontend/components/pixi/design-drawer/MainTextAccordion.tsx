@@ -14,12 +14,18 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import * as PIXI from 'pixi.js';
 import {PixiContext} from "../../../contexts/PixiContext";
 import {mode} from "../utils/mode";
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import FormatBoldIcon from '@mui/icons-material/FormatBold';
+import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 
-const MainTextAccordion = ({ handleFontChange, handleColorChange  }) => {
+const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeightChange, handleFontStyleChange  }) => {
     const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const [fontFamily, setFontFamily] = useState('Arial');
     const [fill, setFill] = useState('#000000');
+    const [fontWeight, setFontWeight] = useState('normal');
+    const [fontStyle, setFontStyle] = useState('normal');
 
     useEffect(() => {
         const activeTextStyles = Object.entries(activeCanvases)
@@ -39,9 +45,11 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange  }) => {
         if (activeTextStyles.length > 0) {
             const mostCommonFontFamily = mode(activeTextStyles.map((style) => style.fontFamily));
             const mostCommonFill = mode(activeTextStyles.map((style) => style.fill));
+            const mostCommonFontWeight = mode(activeTextStyles.map((style) => style.fontWeight));
 
             setFontFamily(mostCommonFontFamily || 'Arial');
             setFill(mostCommonFill || '#000000');
+            setFontWeight(mostCommonFontWeight || 'normal');
         }
     }, [activeCanvases, canvasApps]);
 
@@ -49,11 +57,57 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange  }) => {
         setFontFamily(event.target.value);
         handleFontChange(event);
     };
-
     const handleLocalColorChange = (event) => {
         setFill(event.target.value);
         handleColorChange(event);
     };
+
+    const handleLocalFontWeightChange = (event, newFontWeight) => {
+        if (newFontWeight !== null) {
+            setFontWeight(newFontWeight);
+            handleFontWeightChange('main', newFontWeight);
+        } else {
+            setFontWeight('normal');
+            handleFontWeightChange('main', 'normal');
+        }
+    };
+
+    const handleLocalFontStyleChange = (event, newFontStyle) => {
+        if (newFontStyle !== null) {
+            setFontStyle(newFontStyle);
+            handleFontStyleChange('main', newFontStyle);
+            if (newFontStyle === 'italic') {
+                handlePaddingChange('main', 5);
+            } else {
+                handlePaddingChange('main', 0);
+            }
+        } else {
+            setFontStyle('normal');
+            handleFontStyleChange('main', 'normal');
+            handlePaddingChange('main', 0);
+        }
+    };
+
+    const handlePaddingChange = (textType, padding) => {
+        const activeTextStyles = Object.entries(activeCanvases)
+            .filter(([canvasName, isActive]) => isActive)
+            .map(([canvasName]) => {
+                const canvasApp = canvasApps[canvasName];
+                if (canvasApp) {
+                    const textObject = canvasApp.stage.getChildByName(`${canvasName}-${textType}`) as PIXI.Text;
+                    if (textObject) {
+                        return textObject.style;
+                    }
+                }
+                return null;
+            })
+            .filter((style) => style !== null);
+
+        activeTextStyles.forEach((style) => {
+            style.padding = padding;
+        });
+    }
+
 
     return (
         <Accordion>
@@ -89,6 +143,30 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange  }) => {
                     onChange={handleLocalColorChange}
                     name={'main'}
                 />
+
+
+                <ToggleButtonGroup
+                    value={fontWeight}
+                    exclusive
+                    onChange={handleLocalFontWeightChange}
+                    aria-label="text weight"
+                >
+                    <ToggleButton value="bold" aria-label="bold">
+                        <FormatBoldIcon />
+                    </ToggleButton>
+                </ToggleButtonGroup>
+
+                <ToggleButtonGroup
+                    value={fontStyle}
+                    exclusive
+                    onChange={handleLocalFontStyleChange}
+                    aria-label="text style"
+                >
+                    <ToggleButton value="italic" aria-label="italic">
+                        <FormatItalicIcon />
+                    </ToggleButton>
+                </ToggleButtonGroup>
+
             </AccordionDetails>
         </Accordion>
     );
