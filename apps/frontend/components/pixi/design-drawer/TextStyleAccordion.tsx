@@ -53,6 +53,11 @@ const TextStyleAccordion = () => {
         handleTextStyleChange(textName, updatedTextStyle);
     }
 
+    const handleFontVariantChange = (textName, newFontVariant) => {
+        const updatedTextStyle = { fontVariant: newFontVariant };
+        handleTextStyleChange(textName, updatedTextStyle);
+    }
+
     const activeCanvasNames = Object.entries(activeCanvases).filter(([canvasName, isActive]) => isActive).map(([canvasName, isActive]) => canvasName);
     const xMinMode = mode(activeCanvasNames.map((canvas) => xRanges[canvas][0]));
     const xMaxMode = mode(activeCanvasNames.map((canvas) => xRanges[canvas][1]));
@@ -140,6 +145,7 @@ const TextStyleAccordion = () => {
                     handleColorChange={handleColorChange}
                     handleFontWeightChange={handleFontWeightChange}
                     handleFontStyleChange={handleFontStyleChange}
+                    handleFontVariantChange={handleFontVariantChange}
                 />
             </AccordionDetails>
         </Accordion>

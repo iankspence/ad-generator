@@ -18,14 +18,16 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
+import KeyboardCapslockIcon from '@mui/icons-material/KeyboardCapslock';
 
-const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeightChange, handleFontStyleChange  }) => {
+const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeightChange, handleFontStyleChange, handleFontVariantChange  }) => {
     const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const [fontFamily, setFontFamily] = useState('Arial');
     const [fill, setFill] = useState('#000000');
     const [fontWeight, setFontWeight] = useState('normal');
     const [fontStyle, setFontStyle] = useState('normal');
+    const [fontVariant, setFontVariant] = useState('normal');
 
     useEffect(() => {
         const activeTextStyles = Object.entries(activeCanvases)
@@ -108,6 +110,15 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeig
         });
     }
 
+    const handleLocalFontVariantChange = (event, newFontVariant) => {
+        if (newFontVariant !== null) {
+            setFontVariant(newFontVariant);
+            handleFontVariantChange('main', newFontVariant);
+        } else {
+            setFontVariant('normal');
+            handleFontVariantChange('main', 'normal');
+        }
+    };
 
     return (
         <Accordion>
@@ -164,6 +175,17 @@ const MainTextAccordion = ({ handleFontChange, handleColorChange, handleFontWeig
                 >
                     <ToggleButton value="italic" aria-label="italic">
                         <FormatItalicIcon />
+                    </ToggleButton>
+                </ToggleButtonGroup>
+
+                <ToggleButtonGroup
+                    value={fontVariant}
+                    exclusive
+                    onChange={handleLocalFontVariantChange}
+                    aria-label="text variant"
+                >
+                    <ToggleButton value="small-caps" aria-label="small-caps">
+                        <KeyboardCapslockIcon />
                     </ToggleButton>
                 </ToggleButtonGroup>
 
