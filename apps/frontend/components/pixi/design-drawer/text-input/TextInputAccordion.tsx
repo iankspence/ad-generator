@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { CampaignContext } from '../../../contexts/CampaignContext';
+import { CampaignContext } from '../../../../contexts/CampaignContext';
 import Viewer from './Viewer';
 import SidebarTextArea from './SidebarTextArea';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';

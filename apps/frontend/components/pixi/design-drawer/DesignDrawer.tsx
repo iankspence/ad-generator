@@ -6,9 +6,9 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import TextureOutlinedIcon from '@mui/icons-material/TextureOutlined';
-import ImageUploadAccordion from './ImageUploadAccordion';
-import TextInputAccordion from './TextInputAccordion';
-import TextStyleAccordion from './TextStyleAccordion';
+import ImageUploadAccordion from './image/ImageUploadAccordion';
+import TextInputAccordion from './text-input/TextInputAccordion';
+import MasterTextStyleAccordion from './text-style/MasterTextStyleAccordion';
 
 const DesignDrawer = ({ onImageUpload, onDrawerStateChange}) => {
     const [open, setOpen] = useState(false);
@@ -63,7 +63,7 @@ const DesignDrawer = ({ onImageUpload, onDrawerStateChange}) => {
 
                     <ImageUploadAccordion onImageUpload={onImageUpload} />
                     <TextInputAccordion />
-                    <TextStyleAccordion />
+                    <MasterTextStyleAccordion />
                 </Box>
             </Drawer>
         </Box>

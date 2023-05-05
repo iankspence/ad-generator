@@ -1,15 +1,15 @@
 import React, { useContext, useState } from 'react';
-import { PixiContext } from '../../../contexts/PixiContext';
+import { PixiContext } from '../../../../contexts/PixiContext';
 import {Accordion, AccordionSummary, AccordionDetails, Slider} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import StyleAccordion from "./StyleAccordion";
+import TextStyleAccordion from "./TextStyleAccordion";
 import {ActiveCanvasButtonGroup} from './ActiveCanvasButtonGroup';
 import * as PIXI from "pixi.js";
-import { mode } from '../utils/mode';
+import { mode } from '../../utils/mode';
 import {DualButtonSlider} from "./DualButtonSlider";
 
-const TextStyleAccordion = () => {
+const MasterTextStyleAccordion = () => {
 
     const { activeCanvases, canvasApps, xRanges, yRanges, updateRange, updateLineHeightMultipliers } = useContext(PixiContext);
     const [lineHeightMultiplier, setLineHeightMultiplier] = useState(133);
@@ -145,7 +145,7 @@ const TextStyleAccordion = () => {
                 />
                 <div className="py-2"></div>
 
-                <StyleAccordion
+                <TextStyleAccordion
                     textName={'main'}
                     handleFontChange={handleFontChange}
                     handleColorChange={handleColorChange}
@@ -154,7 +154,7 @@ const TextStyleAccordion = () => {
                     handleFontVariantChange={handleFontVariantChange}
                     handleLetterSpacingChange={handleLetterSpacingChange}
                 />
-                <StyleAccordion
+                <TextStyleAccordion
                     textName={'author'}
                     handleFontChange={handleFontChange}
                     handleColorChange={handleColorChange}
@@ -168,4 +168,4 @@ const TextStyleAccordion = () => {
     );
 };
 
-export default TextStyleAccordion;
+export default MasterTextStyleAccordion;

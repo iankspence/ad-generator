@@ -12,8 +12,8 @@ import {
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import * as PIXI from 'pixi.js';
-import {PixiContext} from "../../../contexts/PixiContext";
-import {mode} from "../utils/mode";
+import {PixiContext} from "../../../../contexts/PixiContext";
+import {mode} from "../../utils/mode";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
@@ -21,7 +21,7 @@ import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import KeyboardCapslockIcon from '@mui/icons-material/KeyboardCapslock';
 import Grid from '@material-ui/core/Grid';
 
-const StyleAccordion = ({ textName, handleFontChange, handleColorChange, handleFontWeightChange, handleFontStyleChange, handleFontVariantChange, handleLetterSpacingChange }) => {
+const TextStyleAccordion = ({ textName, handleFontChange, handleColorChange, handleFontWeightChange, handleFontStyleChange, handleFontVariantChange, handleLetterSpacingChange }) => {
     const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const [fontFamily, setFontFamily] = useState('Arial');
@@ -219,4 +219,4 @@ const StyleAccordion = ({ textName, handleFontChange, handleColorChange, handleF
     );
 };
 
-export default StyleAccordion;
+export default TextStyleAccordion;
