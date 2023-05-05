@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { PixiContext } from '../../../contexts/PixiContext';
-import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import {Accordion, AccordionSummary, AccordionDetails, Slider} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MainTextAccordion from "./MainTextAccordion";
@@ -11,7 +11,8 @@ import {DualButtonSlider} from "./DualButtonSlider";
 
 const TextStyleAccordion = () => {
 
-    const { activeCanvases, canvasApps, xRanges, yRanges, updateRange } = useContext(PixiContext);
+    const { activeCanvases, canvasApps, xRanges, yRanges, updateRange, updateLineHeightMultipliers } = useContext(PixiContext);
+    const [lineHeightMultiplier, setLineHeightMultiplier] = useState(133);
 
     const handleTextStyleChange = (textName, newTextStyle) => {
         Object.entries(activeCanvases).forEach(([canvasName, isActive]) => {
@@ -30,14 +31,6 @@ const TextStyleAccordion = () => {
     const handleFontChange = (event) => {
         const updatedTextStyle = { fontFamily: event.target.value };
         const textName = event.target.name;
-        handleTextStyleChange(textName, updatedTextStyle);
-    };
-
-    const handleFontSizeChange = (event, newValue) => {
-        const updatedTextStyle = { fontSize: newValue, lineHeight: newValue * 1.33 };
-        const textName = event.target.name;
-
-        console.log('handleFontSizeChange (TextStyleAccordion): ', textName, updatedTextStyle)
         handleTextStyleChange(textName, updatedTextStyle);
     };
 
@@ -83,6 +76,19 @@ const TextStyleAccordion = () => {
         handleTextRangeChange(textName, updatedRange);
     };
 
+    const handleLineHeightChange = (event, newValue) => {
+        const lineHeightMultiplier = newValue;
+        setLineHeightMultiplier(lineHeightMultiplier);
+        Object.entries(activeCanvases).forEach(([canvasName, isActive]) => {
+            if (isActive) {
+                const canvasApp = canvasApps[canvasName];
+                if (canvasApp) {
+                    updateLineHeightMultipliers(canvasName, lineHeightMultiplier/100);
+                }
+            }
+        });
+    }
+
     return (
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -110,9 +116,19 @@ const TextStyleAccordion = () => {
                     onChange={handleYRangeChange}
                 />
 
+                <Typography gutterBottom>Line Height</Typography>
+                <Slider
+                    value={lineHeightMultiplier}
+                    onChange={handleLineHeightChange}
+                    min={100}
+                    max={200}
+                    valueLabelDisplay="auto"
+                    name={'main'}
+                />
+                <div className="py-2"></div>
+
                 <MainTextAccordion
                     handleFontChange={handleFontChange}
-                    handleFontSizeChange={handleFontSizeChange}
                     handleColorChange={handleColorChange}
                 />
             </AccordionDetails>

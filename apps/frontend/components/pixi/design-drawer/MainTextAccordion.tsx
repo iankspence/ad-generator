@@ -15,11 +15,10 @@ import * as PIXI from 'pixi.js';
 import {PixiContext} from "../../../contexts/PixiContext";
 import {mode} from "../utils/mode";
 
-const MainTextAccordion = ({ handleFontChange, handleFontSizeChange, handleColorChange  }) => {
-    const { activeCanvases, canvasApps, updateLineHeightMultipliers } = useContext(PixiContext);
+const MainTextAccordion = ({ handleFontChange, handleColorChange  }) => {
+    const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const [fontFamily, setFontFamily] = useState('Arial');
-    const [lineHeightMultiplier, setLineHeightMultiplier] = useState(1.33);
     const [fill, setFill] = useState('#000000');
 
     useEffect(() => {
@@ -51,25 +50,12 @@ const MainTextAccordion = ({ handleFontChange, handleFontSizeChange, handleColor
         handleFontChange(event);
     };
 
-    const handleLocalLineHeightChange = (event, newValue) => {
-        const lineHeightMultiplier = newValue;
-        setLineHeightMultiplier(lineHeightMultiplier);
-        Object.entries(activeCanvases).forEach(([canvasName, isActive]) => {
-            if (isActive) {
-                const canvasApp = canvasApps[canvasName];
-                if (canvasApp) {
-                    updateLineHeightMultipliers(canvasName, lineHeightMultiplier/100);
-                }
-            }
-        });
-    }
+
 
     const handleLocalColorChange = (event) => {
         setFill(event.target.value);
         handleColorChange(event);
     };
-
-
 
     return (
         <Accordion>
@@ -81,22 +67,21 @@ const MainTextAccordion = ({ handleFontChange, handleFontSizeChange, handleColor
                 <FormControl fullWidth>
                     <InputLabel>Font</InputLabel>
                     <Select value={fontFamily} name={'main'} onChange={handleLocalFontChange}>
+                        <MenuItem value="Arial Narrow">Arial Narrow</MenuItem>
                         <MenuItem value="Arial">Arial</MenuItem>
+                        <MenuItem value="Arial Black">Arial Black</MenuItem>
+                        <MenuItem value="Helvetica">Helvetica</MenuItem>
                         <MenuItem value="Times New Roman">Times New Roman</MenuItem>
                         <MenuItem value="Georgia">Georgia</MenuItem>
-                        {/* Add more fonts here */}
+                        <MenuItem value="Verdana">Verdana</MenuItem>
+                        <MenuItem value="Trebuchet MS">Trebuchet MS</MenuItem>
+                        <MenuItem value="Tahoma">Tahoma</MenuItem>
+                        <MenuItem value="sans-serif">sans-serif</MenuItem>
+                        <MenuItem value="serif">serif</MenuItem>
+                        <MenuItem value="Rockwell">Rockwell</MenuItem>
+                        <MenuItem value="Hoefler Text">Hoefler Text</MenuItem>
                     </Select>
                 </FormControl>
-                <div className="py-2"></div>
-                <Typography gutterBottom>Line Height</Typography>
-                <Slider
-                    value={lineHeightMultiplier}
-                    onChange={handleLocalLineHeightChange}
-                    min={100}
-                    max={200}
-                    valueLabelDisplay="auto"
-                    name={'main'}
-                />
                 <div className="py-2"></div>
 
                 <Typography gutterBottom>Color</Typography>
