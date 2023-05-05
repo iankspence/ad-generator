@@ -44,12 +44,10 @@ const TextStyleAccordion = () => {
     };
 
     const activeCanvasNames = Object.entries(activeCanvases).filter(([canvasName, isActive]) => isActive).map(([canvasName, isActive]) => canvasName);
-
     const xMinMode = mode(activeCanvasNames.map((canvas) => xRanges[canvas][0]));
     const xMaxMode = mode(activeCanvasNames.map((canvas) => xRanges[canvas][1]));
     const yMinMode = mode(activeCanvasNames.map((canvas) => yRanges[canvas][0]));
     const yMaxMode = mode(activeCanvasNames.map((canvas) => yRanges[canvas][1]));
-
 
     const handleTextRangeChange = (textName, newRange) => {
         Object.entries(activeCanvases).forEach(([canvasName, isActive]) => {

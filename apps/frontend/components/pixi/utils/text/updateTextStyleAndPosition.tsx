@@ -32,14 +32,12 @@ export const updateTextStyleAndPosition = (mainContent, authorContent, mainStyle
             totalHeight = mainTextMetrics.height + authorTextMetrics.height + (mainTextMetrics.height * 0.07);
         }
 
-
     } while (totalHeight <= (yRange[1] - yRange[0]));
 
     updatedMainStyle.fontSize -= 0.25;
     updatedMainStyle.lineHeight = updatedMainStyle.fontSize * lineHeightMultiplier;
     mainTextMetrics = PIXI.TextMetrics.measureText(mainContent, new PIXI.TextStyle(updatedMainStyle));
 
-    // Calculate new y positions
     const mainTextHeight = mainTextMetrics.height;
     const authorSpacing = mainTextHeight * 0.03;
 
