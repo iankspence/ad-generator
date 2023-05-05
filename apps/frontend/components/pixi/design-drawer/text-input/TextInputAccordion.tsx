@@ -5,27 +5,20 @@ import SidebarTextArea from './SidebarTextArea';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {getFilteredTextArrays} from "../../utils/text/getFilteredTextArrays";
 
 const TextInputAccordion = () => {
     const {
         hooks,
-        activeHooks,
-        updateActiveHooks,
         hookPosition,
         updateHookPosition,
         claims,
-        activeClaims,
-        updateActiveClaims,
         claimPosition,
         updateClaimPosition,
         closes,
-        activeCloses,
-        updateActiveCloses,
         closePosition,
         updateClosePosition,
         reviews,
-        activeReviews,
-        updateActiveReviews,
         reviewPosition,
         updateReviewPosition,
     } = useContext(CampaignContext);
@@ -34,25 +27,18 @@ const TextInputAccordion = () => {
     const [currentReviewId, setCurrentReviewId] = useState(null);
     const [currentHookId, setCurrentHookId] = useState(null);
 
-    // Filter hooks, claims, and closes based on the current review and hook
-    // const filteredReviews = reviews.filter(review => review._id.toString() === currentReviewId);
-    const filteredHooks = hooks.filter(hook => hook.reviewId === currentReviewId);
-    const filteredClaims = claims.filter(claim => claim.reviewId === currentReviewId && claim.hookId === currentHookId);
-    const filteredCloses = closes.filter(close => close.reviewId === currentReviewId && close.hookId === currentHookId);
+    const { filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes);
 
     // When the review position changes, update the current reviewId and reset the hookId
     useEffect(() => {
         setCurrentReviewId(reviews[reviewPosition - 1]?._id.toString() || null);
-        updateActiveReviews(reviews);
         setCurrentHookId(null);
-        updateActiveHooks(filteredHooks);
     }, [reviewPosition, reviews, filteredHooks]);
 
     // When the hook position changes, update the current hookId
     useEffect(() => {
         setCurrentHookId(filteredHooks[hookPosition - 1]?._id.toString() || null);
-        updateActiveClaims(filteredClaims);
-        updateActiveCloses(filteredCloses);
+
     }, [hookPosition, filteredHooks, filteredClaims, filteredCloses]);
 
     return (
@@ -129,5 +115,3 @@ const TextInputAccordion = () => {
 };
 
 export default TextInputAccordion;
-
-

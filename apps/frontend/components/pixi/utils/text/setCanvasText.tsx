@@ -9,7 +9,7 @@ const setCanvasText = (
     appRef,
     textArray,
     position,
-    activeReviews,
+    reviews,
     reviewPosition,
     mainStyleSettings,
     authorStyleSettings,
@@ -29,7 +29,7 @@ const setCanvasText = (
         case 'hook':
             if (textArray && position > 0 && textArray[position - 1]) {
                 mainText = addQuotesToText(textArray[position - 1]?.hookText);
-                authorText = abbreviateAuthor(activeReviews[reviewPosition - 1]?.author);
+                authorText = abbreviateAuthor(reviews[reviewPosition - 1]?.author);
             }
             break;
         case 'claim':
@@ -38,9 +38,9 @@ const setCanvasText = (
             }
             break;
         case 'review':
-            if (activeReviews && reviewPosition > 0 && activeReviews[reviewPosition - 1]) {
-                mainText = addQuotesToText(activeReviews[reviewPosition - 1]?.reviewText);
-                authorText = abbreviateAuthor(activeReviews[reviewPosition - 1]?.author);
+            if (reviews && reviewPosition > 0 && reviews[reviewPosition - 1]) {
+                mainText = addQuotesToText(reviews[reviewPosition - 1]?.reviewText);
+                authorText = abbreviateAuthor(reviews[reviewPosition - 1]?.author);
             }
             break;
         case 'close':
