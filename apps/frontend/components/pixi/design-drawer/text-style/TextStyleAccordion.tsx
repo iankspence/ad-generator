@@ -4,7 +4,6 @@ import {
     AccordionSummary,
     AccordionDetails,
     FormControl,
-    InputLabel,
     Select,
     MenuItem,
     Slider
@@ -20,6 +19,7 @@ import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import KeyboardCapslockIcon from '@mui/icons-material/KeyboardCapslock';
 import Grid from '@material-ui/core/Grid';
+import {capitalizeFirstLetter} from "../../utils/text/capitalizeFirstLetter";
 
 const TextStyleAccordion = ({ textName, handleFontChange, handleColorChange, handleFontWeightChange, handleFontStyleChange, handleFontVariantChange, handleLetterSpacingChange }) => {
     const { activeCanvases, canvasApps } = useContext(PixiContext);
@@ -130,12 +130,12 @@ const TextStyleAccordion = ({ textName, handleFontChange, handleColorChange, han
     return (
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle1">{textName} Text</Typography>
+                <Typography variant="subtitle1">{capitalizeFirstLetter(textName)} Text</Typography>
             </AccordionSummary>
             <AccordionDetails>
 
                 <FormControl fullWidth>
-                    <InputLabel>Font</InputLabel>
+
                     <Select value={fontFamily} name={textName} onChange={handleLocalFontChange}>
                         <MenuItem value="Arial Narrow">Arial Narrow</MenuItem>
                         <MenuItem value="Arial">Arial</MenuItem>
