@@ -25,13 +25,14 @@ const SidebarTextArea = ({
     };
 
     const handleEditSubmit = () => {
-        console.log('handleEditSubmit: ', editedText, canvasName);
         onEditSubmit(editedText, canvasName);
         setEditMode(false);
     };
 
     const handleEditRestore = () => {
         onEditRestore();
+        onEditSubmit('', canvasName);
+        setEditMode(false);
         setEditedText('');
     };
 
@@ -43,7 +44,10 @@ const SidebarTextArea = ({
                 rows={rows}
                 InputProps={{
                     readOnly: !editMode,
-                    style: { fontSize: '0.8rem' },
+                    style: {
+                        fontSize: '0.8rem',
+                        backgroundColor: editMode ? 'rgba(0, 0, 0, 0.1)' : 'transparent',
+                    },
                 }}
                 variant="outlined"
                 value={editMode ? editedText : text}
