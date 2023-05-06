@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CampaignContext } from '../../../../contexts/CampaignContext';
-import Viewer from './Viewer';
-import SidebarTextArea from './SidebarTextArea';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {getFilteredTextArrays} from "../../utils/text/getFilteredTextArrays";
+import { getFilteredTextArrays } from '../../utils/text/getFilteredTextArrays';
+import ReviewHookAccordion from './ReviewHookAccordion';
+import ClaimCloseAccordion from './ClaimCloseAccordion';
 
 const TextInputAccordion = () => {
     const {
@@ -38,7 +38,6 @@ const TextInputAccordion = () => {
     // When the hook position changes, update the current hookId
     useEffect(() => {
         setCurrentHookId(filteredHooks[hookPosition - 1]?._id.toString() || null);
-
     }, [hookPosition, filteredHooks, filteredClaims, filteredCloses]);
 
     return (
@@ -47,71 +46,25 @@ const TextInputAccordion = () => {
                 <Typography variant="subtitle1">Text Inputs</Typography>
             </AccordionSummary>
             <AccordionDetails>
-
-                <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="subtitle1">Review/Hook (Quotes)</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-
-                        <Viewer
-                            label="Review"
-                            position={reviewPosition}
-                            setPosition={updateReviewPosition}
-                            totalCount={reviews.length}
-                        />
-                        <SidebarTextArea
-                            textArray={reviews.map((review) => review.reviewText)}
-                            position={reviewPosition}
-                            rows={6}
-                        />
-
-                        <Viewer
-                            label="Hook"
-                            position={hookPosition}
-                            setPosition={updateHookPosition}
-                            totalCount={filteredHooks.length}
-                        />
-                        <SidebarTextArea
-                            textArray={filteredHooks.map((hook) => hook.hookText)}
-                            position={hookPosition}
-                            rows={3}
-                        />
-                    </AccordionDetails>
-                </Accordion>
-
-                <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="subtitle1">Claim/Close</Typography>
-                    </AccordionSummary>
-                        <AccordionDetails>
-                            <Viewer
-                                label="Claim"
-                                position={claimPosition}
-                                setPosition={updateClaimPosition}
-                                totalCount={filteredClaims.length}
-                            />
-                            <SidebarTextArea
-                                textArray={filteredClaims.map((claim) => claim.claimText)}
-                                position={claimPosition}
-                                rows={3}
-                            />
-                            <Viewer
-                                label="Close"
-                                position={closePosition}
-                                setPosition={updateClosePosition}
-                                totalCount={filteredCloses.length}
-                            />
-                            <SidebarTextArea
-                                textArray={filteredCloses.map((close) => close.closeText)}
-                                position={closePosition}
-                                rows={3}
-                            />
-                        </AccordionDetails>
-                    </Accordion>
-                </AccordionDetails>
+                <ReviewHookAccordion
+                    reviewPosition={reviewPosition}
+                    updateReviewPosition={updateReviewPosition}
+                    reviews={reviews}
+                    hookPosition={hookPosition}
+                    updateHookPosition={updateHookPosition}
+                    filteredHooks={filteredHooks}
+                />
+                <ClaimCloseAccordion
+                    claimPosition={claimPosition}
+                    updateClaimPosition={updateClaimPosition}
+                    filteredClaims={filteredClaims}
+                    closePosition={closePosition}
+                    updateClosePosition={updateClosePosition}
+                    filteredCloses={filteredCloses}
+                />
+            </AccordionDetails>
         </Accordion>
-);
+    );
 };
 
 export default TextInputAccordion;

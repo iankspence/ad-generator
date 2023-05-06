@@ -6,8 +6,6 @@ export const getFilteredTextArrays = (reviews, reviewPosition, hooks, hookPositi
     const filteredCloses = closes.filter(close => close.reviewId === currentReviewId && close.hookId === currentHookId);
 
     return {
-        currentReviewId,
-        currentHookId,
         filteredHooks,
         filteredClaims,
         filteredCloses,

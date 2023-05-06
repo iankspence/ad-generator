@@ -47,7 +47,6 @@ export const useText = (appRef, canvasName, size) => {
                 review: { array: reviews, position: reviewPosition },
             };
 
-
             const { array, position } = textData[canvasName] || {};
             if (array && position) {
 
