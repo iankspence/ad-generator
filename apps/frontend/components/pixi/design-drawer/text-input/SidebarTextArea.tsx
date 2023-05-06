@@ -18,6 +18,10 @@ const SidebarTextArea = ({
     const [editMode, setEditMode] = useState(false);
     const [editedText, setEditedText] = useState('');
 
+    const handleEditHide = () => {
+        setEditMode(false);
+    };
+
     const handleEditStart = () => {
         onEditStart();
         setEditMode(true);
@@ -55,11 +59,14 @@ const SidebarTextArea = ({
             />
             {!editMode && (
                 <IconButton onClick={handleEditStart}>
-                    <EditIcon />
+                    <EditIcon color={editMode ? 'primary' : 'inherit'} />
                 </IconButton>
             )}
             {editMode && (
                 <>
+                    <IconButton onClick={handleEditHide}>
+                        <EditIcon color={editMode ? 'primary' : 'inherit'} />
+                    </IconButton>
                     <IconButton onClick={handleEditSubmit}>
                         <SaveIcon />
                     </IconButton>
