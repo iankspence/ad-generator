@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Viewer from './Viewer';
 import SidebarTextArea from './SidebarTextArea';
 
-const ClaimCloseAccordion = ({ claimPosition, updateClaimPosition, filteredClaims, closePosition, updateClosePosition, filteredCloses }) => {
+const ClaimCloseAccordion = ({ claimPosition, updateClaimPosition, filteredClaims, closePosition, updateClosePosition, filteredCloses, onEditStart, onEditSubmit, onEditRestore }) => {
     return (
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -18,9 +18,13 @@ const ClaimCloseAccordion = ({ claimPosition, updateClaimPosition, filteredClaim
                     totalCount={filteredClaims.length}
                 />
                 <SidebarTextArea
-                    textArray={filteredClaims.map((claim) => claim.claimText)}
+                    textArray={filteredClaims.map((claim) => claim.claimTextEdited ? claim.claimTextEdited : claim.claimText)}
                     position={claimPosition}
                     rows={3}
+                    onEditStart={onEditStart}
+                    onEditSubmit={onEditSubmit}
+                    onEditRestore={onEditRestore}
+                    canvasName={'claim'}
                 />
                 <Viewer
                     label="Close"
@@ -29,9 +33,13 @@ const ClaimCloseAccordion = ({ claimPosition, updateClaimPosition, filteredClaim
                     totalCount={filteredCloses.length}
                 />
                 <SidebarTextArea
-                    textArray={filteredCloses.map((close) => close.closeText)}
+                    textArray={filteredCloses.map((closes) => closes.closeTextEdited ? closes.closeTextEdited : closes.closeText)}
                     position={closePosition}
                     rows={3}
+                    onEditStart={onEditStart}
+                    onEditSubmit={onEditSubmit}
+                    onEditRestore={onEditRestore}
+                    canvasName={'close'}
                 />
             </AccordionDetails>
         </Accordion>

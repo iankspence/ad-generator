@@ -1,13 +1,13 @@
 import { ReviewService } from './review.service';
-import { Close, Review, ReviewDocument } from '@monorepo/type';
+import { Review, ReviewDocument } from '@monorepo/type';
 import {Get, Controller, Param, Patch, Body, Post, Put} from '@nestjs/common';
 
 @Controller('review')
 export class ReviewController {
     constructor(private readonly reviewService: ReviewService) {}
 
-    @Put('update-text-edit')
-    async updateText(@Body() review: Partial<Review>): Promise<Review> {
+    @Post('update-text-edit')
+    async updateText(@Body() {review}: {review: Partial<ReviewDocument>}): Promise<Review> {
         return await this.reviewService.updateTextEdit(review);
     }
 

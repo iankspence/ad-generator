@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Viewer from './Viewer';
 import SidebarTextArea from './SidebarTextArea';
 
-const ReviewHookAccordion = ({ reviewPosition, updateReviewPosition, reviews, hookPosition, updateHookPosition, filteredHooks }) => {
+const ReviewHookAccordion = ({ reviewPosition, updateReviewPosition, reviews, hookPosition, updateHookPosition, filteredHooks, onEditStart, onEditSubmit, onEditRestore }) => {
     return (
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -18,9 +18,13 @@ const ReviewHookAccordion = ({ reviewPosition, updateReviewPosition, reviews, ho
                     totalCount={reviews.length}
                 />
                 <SidebarTextArea
-                    textArray={reviews.map((review) => review.reviewText)}
+                    textArray={reviews.map((review) => review.reviewTextEdited ? review.reviewTextEdited : review.reviewText)}
                     position={reviewPosition}
                     rows={6}
+                    onEditStart={onEditStart}
+                    onEditSubmit={onEditSubmit}
+                    onEditRestore={onEditRestore}
+                    canvasName={'review'}
                 />
 
                 <Viewer
@@ -30,9 +34,13 @@ const ReviewHookAccordion = ({ reviewPosition, updateReviewPosition, reviews, ho
                     totalCount={filteredHooks.length}
                 />
                 <SidebarTextArea
-                    textArray={filteredHooks.map((hook) => hook.hookText)}
+                    textArray={filteredHooks.map((hook) => hook.hookTextEdited ? hook.hookTextEdited : hook.hookText)}
                     position={hookPosition}
                     rows={3}
+                    onEditStart={onEditStart}
+                    onEditSubmit={onEditSubmit}
+                    onEditRestore={onEditRestore}
+                    canvasName={'hook'}
                 />
             </AccordionDetails>
         </Accordion>

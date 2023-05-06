@@ -21,6 +21,6 @@ export class ClaimService {
     }
 
     async updateTextEdit(claim: Partial<ClaimDocument>): Promise<Claim> {
-        return this.claimModel.findOneAndUpdate({ _id: claim._id }, { claimTextEdited: claim.claimText }, { new: true });
+        return this.claimModel.findOneAndUpdate({ _id: claim._id }, { claimTextEdited: claim.claimTextEdited }, { new: true });
     }
 }

@@ -20,8 +20,8 @@ export class CloseService {
         return this.closeModel.find({ accountId: accountId }).exec();
     }
 
-    async updateTextEdit(close: Partial<CloseDocument>): Promise<Close> {
-        return this.closeModel.findOneAndUpdate({ _id: close._id }, { closeTextEdited: close.closeText }, { new: true });
+    async updateTextEdit(close: Partial<CloseDocument>): Promise<CloseDocument> {
+        return this.closeModel.findOneAndUpdate({ _id: close._id }, { closeTextEdited: close.closeTextEdited }, { new: true });
     }
 
 }

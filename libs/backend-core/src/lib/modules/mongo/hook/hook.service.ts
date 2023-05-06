@@ -20,7 +20,7 @@ export class HookService {
         return this.hookModel.find({ accountId: accountId }).exec();
     }
 
-    async updateTextEdit(hook: Partial<HookDocument>): Promise<Hook> {
-        return this.hookModel.findOneAndUpdate({ _id: hook._id }, { hookTextEdited: hook.hookText }, { new: true });
+    async updateTextEdit(hook: Partial<HookDocument>): Promise<HookDocument> {
+        return this.hookModel.findOneAndUpdate({ _id: hook._id }, { hookTextEdited: hook.hookTextEdited }, { new: true });
     }
 }

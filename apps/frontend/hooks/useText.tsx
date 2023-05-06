@@ -25,13 +25,13 @@ export const useText = (appRef, canvasName, size) => {
     const [currentHookId, setCurrentHookId] = useState(null);
 
     useEffect(() => {
-        setCurrentReviewId(reviews[reviewPosition - 1]?._id.toString() || null);
+        setCurrentReviewId(reviews[reviewPosition - 1]?._id?.toString() || null);
         setCurrentHookId(null);
     }, [reviewPosition, reviews]);
 
     useEffect(() => {
         const filteredHooks = hooks.filter(hook => hook.reviewId === currentReviewId);
-        setCurrentHookId(filteredHooks[hookPosition - 1]?._id.toString() || null);
+        setCurrentHookId(filteredHooks[hookPosition - 1]?._id?.toString() || null);
     }, [hookPosition, hooks, currentReviewId]);
 
     useEffect(() => {

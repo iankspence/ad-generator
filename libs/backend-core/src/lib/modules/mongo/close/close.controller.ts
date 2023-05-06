@@ -1,13 +1,13 @@
 import { CloseService } from './close.service';
-import { Close } from '@monorepo/type';
+import { Close, CloseDocument} from '@monorepo/type';
 import {Body, Controller, Post, Put} from '@nestjs/common';
 
 @Controller('close')
 export class CloseController {
     constructor(private readonly closeService: CloseService) {}
 
-    @Put('update-text-edit')
-    async updateTextEdit(@Body() close: Partial<Close>): Promise<Close> {
+    @Post('update-text-edit')
+    async updateTextEdit(@Body() {close}: { close: Partial<CloseDocument>}): Promise<CloseDocument> {
         return await this.closeService.updateTextEdit(close);
     }
 

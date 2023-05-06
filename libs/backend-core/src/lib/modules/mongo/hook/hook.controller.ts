@@ -1,13 +1,13 @@
 import { HookService } from './hook.service';
-import {Close, Hook} from '@monorepo/type';
-import {Body, Controller, Post, Put} from '@nestjs/common';
+import { Hook, HookDocument} from '@monorepo/type';
+import {Body, Controller, Post} from '@nestjs/common';
 
 @Controller('hook')
 export class HookController {
     constructor(private readonly hookService: HookService) {}
 
-    @Put('update-text-edit')
-    async updateTextEdit(@Body() hook: Partial<Hook>): Promise<Hook> {
+    @Post('update-text-edit')
+    async updateTextEdit(@Body() {hook}: {hook: Partial<HookDocument>}): Promise<Hook> {
         return await this.hookService.updateTextEdit(hook);
     }
 

@@ -109,7 +109,6 @@ export const PixiProvider = ({ children }) => {
     const [xRanges, setXRanges] = useState(initialXRanges);
     const [yRanges, setYRanges] = useState(initialYRanges);
 
-
     const eventEmitter = new EventEmitter();
 
     const updateCanvasApp = (key: string, newApp: PIXI.Application) => {

@@ -28,24 +28,40 @@ const setCanvasText = (
     switch (canvasName) {
         case 'hook':
             if (textArray && position > 0 && textArray[position - 1]) {
-                mainText = addQuotesToText(textArray[position - 1]?.hookText);
+                if (textArray[position - 1]?.hookTextEdited) {
+                    mainText = addQuotesToText(textArray[position - 1]?.hookTextEdited);
+                } else {
+                    mainText = addQuotesToText(textArray[position - 1]?.hookText);
+                }
                 authorText = abbreviateAuthor(reviews[reviewPosition - 1]?.author);
             }
             break;
         case 'claim':
             if (textArray && position > 0 && textArray[position - 1]) {
-                mainText = textArray[position - 1]?.claimText;
+                if (textArray[position - 1]?.claimTextEdited) {
+                    mainText = textArray[position - 1]?.claimTextEdited;
+                } else {
+                    mainText = textArray[position - 1]?.claimText;
+                }
             }
             break;
         case 'review':
             if (reviews && reviewPosition > 0 && reviews[reviewPosition - 1]) {
-                mainText = addQuotesToText(reviews[reviewPosition - 1]?.reviewText);
+                if (reviews[reviewPosition - 1]?.reviewTextEdited) {
+                    mainText = addQuotesToText(reviews[reviewPosition - 1]?.reviewTextEdited);
+                } else {
+                    mainText = addQuotesToText(reviews[reviewPosition - 1]?.reviewText);
+                }
                 authorText = abbreviateAuthor(reviews[reviewPosition - 1]?.author);
             }
             break;
         case 'close':
             if (textArray && position > 0 && textArray[position - 1]) {
-                mainText = textArray[position - 1]?.closeText;
+                if (textArray[position - 1]?.closeTextEdited) {
+                    mainText = textArray[position - 1]?.closeTextEdited;
+                } else {
+                    mainText = textArray[position - 1]?.closeText;
+                }
             }
             break;
         default:
@@ -53,8 +69,6 @@ const setCanvasText = (
     }
 
     if (!app || !app.stage || !mainText ) return;
-
-    console.log('setting text for canvas: ', canvasName, mainText, authorText)
 
     let mainTextObject = findTextObject(app, `${canvasName}-main`);
     if (!mainTextObject) {
@@ -82,8 +96,6 @@ const setCanvasText = (
             authorTextObject.style = authorStyleSettings.style;
         }
     }
-
-    console.log('updating style for canvas: ', canvasName)
 
     const { main: { updatedStyle: mainUpdatedStyle, updatedPosition: mainUpdatedPosition }, author: { updatedStyle: authorUpdatedStyle, updatedPosition: authorUpdatedPosition } } = updateTextStyleAndPosition(mainText, authorText, mainStyleSettings.style, authorStyleSettings?.style, size, xRange, yRange, lineHeightMultipliers[canvasName]);
 

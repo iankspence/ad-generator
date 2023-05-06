@@ -46,6 +46,8 @@ export class ReviewService {
     }
 
     async updateTextEdit(review: Partial<ReviewDocument>): Promise<Review> {
-        return this.reviewModel.findOneAndUpdate({ _id: review._id }, { reviewTextEdited: review.reviewText }, { new: true });
+        return this.reviewModel.findOneAndUpdate({ _id: review._id }, {
+            reviewTextEdited: review.reviewTextEdited
+        }, { new: true });
     }
 }

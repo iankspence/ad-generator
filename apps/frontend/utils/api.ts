@@ -211,15 +211,11 @@ export const getAllTextByAccountId = async (
 
 
 export const updateReviewTextEdit = async (
-    userId: string,
-    reviewId: string,
-    text: string,
+    review
 ) => {
     try {
-        const response = await axios.put(`${API_URL}/review/update-text-edit`, {
-            userId,
-            reviewId,
-            text,
+        const response = await axios.post(`${API_URL}/review/update-text-edit`, {
+            review
         });
         return response.data;
     } catch (error) {
@@ -229,15 +225,11 @@ export const updateReviewTextEdit = async (
 }
 
 export const updateHookTextEdit = async (
-    userId: string,
-    hookId: string,
-    text: string,
+    hook
 ) => {
     try {
-        const response = await axios.put(`${API_URL}/hook/update-text-edit`, {
-            userId,
-            hookId,
-            text,
+        const response = await axios.post(`${API_URL}/hook/update-text-edit`, {
+            hook
         });
         return response.data;
     } catch (error) {
@@ -247,15 +239,11 @@ export const updateHookTextEdit = async (
 }
 
 export const updateClaimTextEdit = async (
-    userId: string,
-    claimId: string,
-    text: string,
+    claim
 ) => {
     try {
-        const response = await axios.put(`${API_URL}/claim/update-text-edit`, {
-            userId,
-            claimId,
-            text,
+        const response = await axios.post(`${API_URL}/claim/update-text-edit`, {
+            claim
         });
         return response.data;
     } catch (error) {
@@ -265,33 +253,11 @@ export const updateClaimTextEdit = async (
 }
 
 export const updateCloseTextEdit = async (
-    userId: string,
-    closeId: string,
-    text: string,
+    close
 ) => {
     try {
-        const response = await axios.put(`${API_URL}/close/update-text-edit`, {
-            userId,
-            closeId,
-            text,
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Error updating review text edit:', error);
-        throw error;
-    }
-}
-
-export const updateCopyTextEdit = async (
-    userId: string,
-    copyId: string,
-    text: string,
-) => {
-    try {
-        const response = await axios.put(`${API_URL}/copy/update-text-edit`, {
-            userId,
-            copyId,
-            text,
+        const response = await axios.post(`${API_URL}/close/update-text-edit`, {
+            close
         });
         return response.data;
     } catch (error) {
