@@ -1,4 +1,4 @@
-import { Account, AccountDocument, Review, ReviewDocument } from '@monorepo/type';
+import {Account, AccountDocument, Hook, HookDocument, Review, ReviewDocument} from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel, Prop } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -43,5 +43,9 @@ export class ReviewService {
 
     async createReview(review: Partial<Review>): Promise<Review> {
         return await this.reviewModel.create(review);
+    }
+
+    async updateTextEdit(review: Partial<ReviewDocument>): Promise<Review> {
+        return this.reviewModel.findOneAndUpdate({ _id: review._id }, { reviewTextEdited: review.reviewText }, { new: true });
     }
 }

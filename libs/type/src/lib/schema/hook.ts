@@ -13,6 +13,9 @@ export class Hook {
 
     @Prop({ required: true })
     hookText!: string;
+
+    @Prop({ required: false })
+    hookTextEdited?: string;
 }
 
 export const HookSchema = SchemaFactory.createForClass(Hook);

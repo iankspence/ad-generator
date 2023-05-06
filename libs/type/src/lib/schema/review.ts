@@ -35,6 +35,9 @@ export class Review {
     @Prop({ required: true })
     reviewText!: string;
 
+    @Prop({ required: false })
+    reviewTextEdited?: string;
+
     @Prop({ required: true })
     reviewDate!: string;
 

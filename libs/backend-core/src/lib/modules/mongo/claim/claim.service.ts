@@ -1,4 +1,4 @@
-import { Claim, ClaimDocument } from '@monorepo/type';
+import {Claim, ClaimDocument, Hook, HookDocument} from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -18,5 +18,9 @@ export class ClaimService {
 
     async getClaimsByAccountId(accountId: string): Promise<ClaimDocument[]> {
         return this.claimModel.find({ accountId: accountId }).exec();
+    }
+
+    async updateTextEdit(claim: Partial<ClaimDocument>): Promise<Claim> {
+        return this.claimModel.findOneAndUpdate({ _id: claim._id }, { claimTextEdited: claim.claimText }, { new: true });
     }
 }

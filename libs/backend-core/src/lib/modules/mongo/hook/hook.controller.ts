@@ -1,14 +1,14 @@
 import { HookService } from './hook.service';
-import { Hook } from '@monorepo/type';
-import { Body, Controller, Post } from '@nestjs/common';
+import {Close, Hook} from '@monorepo/type';
+import {Body, Controller, Post, Put} from '@nestjs/common';
 
 @Controller('hook')
 export class HookController {
     constructor(private readonly hookService: HookService) {}
 
-    @Post('seed')
-    async seedHook(@Body() hook: Partial<Hook>): Promise<Hook> {
-        return await this.hookService.createHook(hook);
+    @Put('update-text-edit')
+    async updateTextEdit(@Body() hook: Partial<Hook>): Promise<Hook> {
+        return await this.hookService.updateTextEdit(hook);
     }
 
     @Post('get-by-review-id')

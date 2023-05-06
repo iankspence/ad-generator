@@ -1,14 +1,13 @@
 import { ClaimService } from './claim.service';
-import { Claim } from '@monorepo/type';
-import { Body, Controller, Post } from '@nestjs/common';
+import {Claim, Close} from '@monorepo/type';
+import {Body, Controller, Post, Put} from '@nestjs/common';
 
 @Controller('claim')
 export class ClaimController {
     constructor(private readonly claimService: ClaimService) {}
-
-    @Post('seed')
-    async seedClaim(@Body() claim: Partial<Claim>): Promise<Claim> {
-        return await this.claimService.createClaim(claim);
+    @Put('update-text-edit')
+    async updateTextEdit(@Body() claim: Partial<Claim>): Promise<Claim> {
+        return await this.claimService.updateTextEdit(claim);
     }
 
     @Post('get-by-review-id')

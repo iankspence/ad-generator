@@ -16,6 +16,9 @@ export class Copy {
 
     @Prop({ required: true })
     copyText!: string;
+
+    @Prop({ required: false })
+    copyTextEdited?: string;
 }
 
 export const CopySchema = SchemaFactory.createForClass(Copy);

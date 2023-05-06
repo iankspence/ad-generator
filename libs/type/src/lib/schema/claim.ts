@@ -16,6 +16,9 @@ export class Claim {
 
     @Prop({ required: true })
     claimText!: string;
+
+    @Prop({ required: false })
+    claimTextEdited?: string;
 }
 
 export const ClaimSchema = SchemaFactory.createForClass(Claim);

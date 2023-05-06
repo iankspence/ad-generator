@@ -16,6 +16,9 @@ export class Close {
 
     @Prop({ required: true })
     closeText!: string;
+
+    @Prop({ required: false })
+    closeTextEdited?: string;
 }
 
 export const CloseSchema = SchemaFactory.createForClass(Close);

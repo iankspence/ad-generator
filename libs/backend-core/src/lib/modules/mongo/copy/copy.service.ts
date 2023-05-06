@@ -13,10 +13,14 @@ export class CopyService {
     }
 
     async getCopiesByReviewId(reviewId: string): Promise<Copy[]> {
-        return await this.copyModel.find({ reviewId }).exec();
+        return this.copyModel.find({ reviewId }).exec();
     }
 
     async getCopiesByAccountId(accountId: string): Promise<CopyDocument[]> {
-        return await this.copyModel.find({ accountId }).exec();
+        return this.copyModel.find({ accountId }).exec();
+    }
+
+    async updateTextEdit(copy: Partial<CopyDocument>): Promise<Copy> {
+        return this.copyModel.findOneAndUpdate({ _id: copy._id }, { copyTextEdited: copy.copyText }, { new: true });
     }
 }
