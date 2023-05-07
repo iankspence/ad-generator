@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 
 const TextPositionAccordion = ({ textName }) => {
-    const { activeCanvases, canvasApps, xRanges, yRanges, updateRange, updateLineHeightMultipliers } = useContext(PixiContext);
+    const { activeCanvases, canvasApps, xRanges, yRanges, updateRange, updateLineHeightMultipliers, updateDisplayTextBox } = useContext(PixiContext);
     const [lineHeightMultiplier, setLineHeightMultiplier] = useState(133);
 
     const handleTextRangeChange = (textName, newRange) => {
@@ -58,6 +58,23 @@ const TextPositionAccordion = ({ textName }) => {
     const yMinMode = mode(activeCanvasNames.map((canvas) => yRanges[canvas][0]));
     const yMaxMode = mode(activeCanvasNames.map((canvas) => yRanges[canvas][1]));
 
+    const handleXRangeStart = () => {
+        updateDisplayTextBox(true);
+    };
+
+    const handleXRangeEnd = () => {
+        updateDisplayTextBox(false);
+    };
+
+    const handleYRangeStart = () => {
+        updateDisplayTextBox(true);
+    };
+
+    const handleYRangeEnd = () => {
+        updateDisplayTextBox(false);
+    };
+
+
     return (
 
         <Accordion>
@@ -74,6 +91,8 @@ const TextPositionAccordion = ({ textName }) => {
                     value1={xMinMode}
                     value2={xMaxMode}
                     onChange={handleXRangeChange}
+                    onStart={handleXRangeStart}
+                    onEnd={handleXRangeEnd}
                 />
                 <DualButtonSlider
                     label="Y Range"
@@ -83,6 +102,8 @@ const TextPositionAccordion = ({ textName }) => {
                     value1={yMinMode}
                     value2={yMaxMode}
                     onChange={handleYRangeChange}
+                    onStart={handleYRangeStart}
+                    onEnd={handleYRangeEnd}
                 />
                 <Typography gutterBottom>Line Height</Typography>
                 <Slider

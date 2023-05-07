@@ -30,6 +30,9 @@ interface PixiContextProps {
 
     lineHeightMultipliers: { [key: string]: number };
     updateLineHeightMultipliers: (canvasName: string, lineHeightMultiplier: number) => void;
+
+    displayTextBox: boolean;
+    updateDisplayTextBox: (value: boolean) => void;
 }
 
 export const PixiContext = createContext<PixiContextProps>({
@@ -70,6 +73,9 @@ export const PixiContext = createContext<PixiContextProps>({
         close: 1.33,
     },
     updateLineHeightMultipliers: () => void 0,
+
+    displayTextBox: false,
+    updateDisplayTextBox: () => void 0,
 });
 
 export const PixiProvider = ({ children }) => {
@@ -87,6 +93,7 @@ export const PixiProvider = ({ children }) => {
         review: 1.33,
         close: 1.33,
     });
+    const [displayTextBox, setDisplayTextBox] = useState(false);
 
     // Find the default theme
     const defaultTheme = themes.find((theme) => theme.id === 'basic-swoosh');
@@ -135,6 +142,8 @@ export const PixiProvider = ({ children }) => {
                     updateLineHeightMultipliers: (canvasName: string, lineHeightMultiplier: number) => {
                     setLineHeightMultipliers((prev) => ({ ...prev, [canvasName]: lineHeightMultiplier }));
                 },
+                displayTextBox,
+                updateDisplayTextBox: setDisplayTextBox,
 
             }}
         >

@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 
-export const DualButtonSlider = ({ label, name, min, max, value1, value2, onChange }) => {
+export const DualButtonSlider = ({ label, name, min, max, value1, value2, onChange, onStart, onEnd }) => {
 
     const handleSliderChange = (event, newValue) => {
         const syntheticEvent = {
@@ -13,6 +13,14 @@ export const DualButtonSlider = ({ label, name, min, max, value1, value2, onChan
             },
         };
         onChange(syntheticEvent, newValue);
+    };
+
+    const handleSliderStart = () => {
+        if (onStart) onStart();
+    };
+
+    const handleSliderEnd = () => {
+        if (onEnd) onEnd();
     };
 
     return (
@@ -26,6 +34,10 @@ export const DualButtonSlider = ({ label, name, min, max, value1, value2, onChan
                         valueLabelDisplay="auto"
                         min={min}
                         max={max}
+                        onMouseDown={handleSliderStart}
+                        onMouseUp={handleSliderEnd}
+                        onTouchStart={handleSliderStart}
+                        onTouchEnd={handleSliderEnd}
                     />
                 </Grid>
             </Grid>

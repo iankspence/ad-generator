@@ -1,4 +1,4 @@
-import { addMaskLayer } from '../components/pixi/utils/pixiUtils';
+import { addMaskLayer } from '../components/pixi/utils/addMaskLayer';
 import { PixiContext } from '../contexts/PixiContext';
 import { getMasksByNames } from '../utils/api';
 import { themes } from '../utils/constants/themes';

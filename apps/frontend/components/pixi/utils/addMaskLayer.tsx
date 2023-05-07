@@ -30,15 +30,3 @@ void main(void)
 
     app.stage.addChild(mask);
 };
-
-export const addTextLayer = (app, textData) => {
-    const { text, style } = textData;
-
-    const textLayer = new PIXI.Text(text, style);
-    textLayer.anchor.set(0.5);
-
-    textLayer.x = app.screen.width / 2;
-    textLayer.y = app.screen.height / 2;
-
-    app.stage.addChild(textLayer);
-};

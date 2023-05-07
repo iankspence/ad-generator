@@ -7,6 +7,7 @@ import useText from '../../../hooks/useText';
 import useZoom from '../../../hooks/useZoom';
 import React, { useContext, useRef } from 'react';
 import useSync from "../../../hooks/useSync";
+import {useRangeBox} from "../../../hooks/useRangeBox";
 
 const CanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     const appRef = useRef(null);
@@ -19,6 +20,7 @@ const CanvasClient = ({ imageUrl, size, selectedThemeId, canvasName }) => {
     useDraggable(appRef, canvasName);
     useZoom(appRef, canvasName);
     useText(appRef, canvasName, size);
+    useRangeBox(appRef, canvasName);
     useSync();
 
     console.log('CanvasClient: ', appRef.current);
