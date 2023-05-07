@@ -13,6 +13,8 @@ import {
     updateHookTextEdit,
     updateReviewTextEdit
 } from "../../../../utils/api";
+import AudienceSelector from "./AudienceSelector";
+import { audiences } from "../../../../utils/constants/audiences";
 
 const TextInputAccordion = () => {
     const {
@@ -32,6 +34,8 @@ const TextInputAccordion = () => {
         updateReviews,
         reviewPosition,
         updateReviewPosition,
+        selectedAudiencePosition,
+        updateSelectedAudiencePosition,
     } = useContext(CampaignContext);
 
     const [currentReviewId, setCurrentReviewId] = useState(null);
@@ -88,12 +92,12 @@ const TextInputAccordion = () => {
         console.log('onEditRestore');
     };
 
-    const { filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes);
+    const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, selectedAudiencePosition);
 
     useEffect(() => {
-        setCurrentReviewId(reviews[reviewPosition - 1]?._id?.toString() || null);
+        setCurrentReviewId(filteredReviews[reviewPosition - 1]?._id?.toString() || null);
         setCurrentHookId(null);
-    }, [reviewPosition, reviews, filteredHooks]);
+    }, [reviewPosition, filteredReviews, filteredHooks]);
 
     useEffect(() => {
         setCurrentHookId(filteredHooks[hookPosition - 1]?._id?.toString() || null);
@@ -117,10 +121,16 @@ const TextInputAccordion = () => {
                 <Typography variant="subtitle1">Text Inputs</Typography>
             </AccordionSummary>
             <AccordionDetails>
+                <AudienceSelector
+                    audiences={audiences}
+                    selectedAudiencePosition={selectedAudiencePosition}
+                    updateSelectedAudiencePosition={updateSelectedAudiencePosition}
+                    reviews={reviews}
+                />
                 <ReviewHookAccordion
                     reviewPosition={reviewPosition}
                     updateReviewPosition={updateReviewPosition}
-                    reviews={reviews}
+                    reviews={filteredReviews}
                     hookPosition={hookPosition}
                     updateHookPosition={updateHookPosition}
                     filteredHooks={filteredHooks}

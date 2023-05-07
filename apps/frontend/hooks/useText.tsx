@@ -16,6 +16,7 @@ export const useText = (appRef, canvasName, size) => {
         reviewPosition,
         closes,
         closePosition,
+        selectedAudiencePosition,
     } = useContext(CampaignContext);
 
     const { selectedThemeId, xRanges, yRanges, lineHeightMultipliers } = useContext(PixiContext);
@@ -38,13 +39,13 @@ export const useText = (appRef, canvasName, size) => {
         if (appRef.current) {
             const app = appRef.current;
 
-            const { filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes);
+            const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, selectedAudiencePosition);
 
             const textData = {
                 hook: { array: filteredHooks, position: hookPosition },
                 claim: { array: filteredClaims, position: claimPosition },
                 close: { array: filteredCloses, position: closePosition },
-                review: { array: reviews, position: reviewPosition },
+                review: { array: filteredReviews, position: reviewPosition },
             };
 
             const { array, position } = textData[canvasName] || {};
@@ -61,7 +62,7 @@ export const useText = (appRef, canvasName, size) => {
                     appRef,
                     array,
                     position,
-                    reviews,
+                    filteredReviews,
                     reviewPosition,
                     mainTextSettings,
                     authorTextSettings,
@@ -91,6 +92,7 @@ export const useText = (appRef, canvasName, size) => {
         closes,
         currentReviewId,
         currentHookId,
+        selectedAudiencePosition,
     ]);
 };
 

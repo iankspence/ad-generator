@@ -34,19 +34,19 @@ const useDownload = (width = 1080, height = 1080) => {
     );
 
     const downloadHookApp = useCallback(() => {
-        downloadCanvas(canvasApps['hook'], 'hook-image.png');
+        downloadCanvas(canvasApps['hook'], '01-hook-image.png');
     }, [canvasApps, downloadCanvas]);
 
     const downloadClaimApp = useCallback(() => {
-        downloadCanvas(canvasApps['claim'], 'claim-image.png');
+        downloadCanvas(canvasApps['claim'], '02-claim-image.png');
     }, [canvasApps, downloadCanvas]);
 
     const downloadReviewApp = useCallback(() => {
-        downloadCanvas(canvasApps['review'], 'review-image.png');
+        downloadCanvas(canvasApps['review'], '03-review-image.png');
     }, [canvasApps, downloadCanvas]);
 
     const downloadCloseApp = useCallback(() => {
-        downloadCanvas(canvasApps['close'], 'close-image.png');
+        downloadCanvas(canvasApps['close'], '04-close-image.png');
     }, [canvasApps, downloadCanvas]);
 
     return { downloadHookApp, downloadClaimApp, downloadReviewApp, downloadCloseApp };

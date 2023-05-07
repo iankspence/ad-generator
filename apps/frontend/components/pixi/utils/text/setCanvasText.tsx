@@ -9,7 +9,7 @@ const setCanvasText = (
     appRef,
     textArray,
     position,
-    reviews,
+    filteredReviews,
     reviewPosition,
     mainStyleSettings,
     authorStyleSettings,
@@ -33,7 +33,7 @@ const setCanvasText = (
                 } else {
                     mainText = addQuotesToText(textArray[position - 1]?.hookText);
                 }
-                authorText = abbreviateAuthor(reviews[reviewPosition - 1]?.author);
+                authorText = abbreviateAuthor(filteredReviews[reviewPosition - 1]?.author);
             }
             break;
         case 'claim':
@@ -46,13 +46,13 @@ const setCanvasText = (
             }
             break;
         case 'review':
-            if (reviews && reviewPosition > 0 && reviews[reviewPosition - 1]) {
-                if (reviews[reviewPosition - 1]?.reviewTextEdited) {
-                    mainText = addQuotesToText(reviews[reviewPosition - 1]?.reviewTextEdited);
+            if (filteredReviews && reviewPosition > 0 && filteredReviews[reviewPosition - 1]) {
+                if (filteredReviews[reviewPosition - 1]?.reviewTextEdited) {
+                    mainText = addQuotesToText(filteredReviews[reviewPosition - 1]?.reviewTextEdited);
                 } else {
-                    mainText = addQuotesToText(reviews[reviewPosition - 1]?.reviewText);
+                    mainText = addQuotesToText(filteredReviews[reviewPosition - 1]?.reviewText);
                 }
-                authorText = abbreviateAuthor(reviews[reviewPosition - 1]?.author);
+                authorText = abbreviateAuthor(filteredReviews[reviewPosition - 1]?.author);
             }
             break;
         case 'close':
