@@ -52,27 +52,30 @@ export function AccountPage() {
                             )}
                         </div>
                     </div>
-                    <div className="flex mt-8">
-                        <div className="w-full">
-                            <p className="font-semibold py-2">Upload Logo:</p>
-                            <LogoUpload onColorsExtracted={handleColorsExtracted} />
-                            {primaryColor && secondaryColor && (
-                                <div className="mt-4">
-                                    <p className="font-semibold py-2">Extracted Colors:</p>
-                                    <div className="flex">
-                                        <div
-                                            className="w-1/2 h-10 rounded"
-                                            style={{ backgroundColor: `rgb(${primaryColor[0]}, ${primaryColor[1]}, ${primaryColor[2]})` }}
-                                        ></div>
-                                        <div
-                                            className="w-1/2 h-10 rounded ml-4"
-                                            style={{ backgroundColor: `rgb(${secondaryColor[0]}, ${secondaryColor[1]}, ${secondaryColor[2]})` }}
-                                        ></div>
+                    {account && (
+
+                        <div className="flex mt-8">
+                            <div className="w-full">
+                                <p className="font-semibold py-2">Upload Logo:</p>
+                                <LogoUpload onColorsExtracted={handleColorsExtracted} accountId={account._id} />
+                                {primaryColor && secondaryColor && (
+                                    <div className="mt-4">
+                                        <p className="font-semibold py-2">Extracted Colors:</p>
+                                        <div className="flex">
+                                            <div
+                                                className="w-1/2 h-10 rounded"
+                                                style={{ backgroundColor: `rgb(${primaryColor[0]}, ${primaryColor[1]}, ${primaryColor[2]})` }}
+                                            ></div>
+                                            <div
+                                                className="w-1/2 h-10 rounded ml-4"
+                                                style={{ backgroundColor: `rgb(${secondaryColor[0]}, ${secondaryColor[1]}, ${secondaryColor[2]})` }}
+                                            ></div>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </>

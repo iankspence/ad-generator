@@ -22,6 +22,15 @@ export class Account {
 
     @Prop({ required: false, default: null })
     facebookAdAccount?: string | null;
+
+    @Prop({ required: false, default: null })
+    logo?: string | null;
+
+    @Prop({ type: [Number], required: false, default: [] })
+    primaryColor?: number[];
+
+    @Prop({ type: [Number], required: false, default: [] })
+    secondaryColor?: number[];
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);

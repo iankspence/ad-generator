@@ -17,8 +17,10 @@ export class AccountController {
 
     @Put(':_id')
     async updateOneById(@Param('_id') _id: string, @Body() update: Partial<Account>): Promise<Account> {
+        console.log('updateOneById', _id, update);
         return this.accountModelService.updateOneById(_id, update);
     }
+
 
     @Delete(':_id')
     @HttpCode(HttpStatus.NO_CONTENT)

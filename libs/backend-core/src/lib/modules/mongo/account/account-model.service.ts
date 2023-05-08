@@ -54,8 +54,9 @@ export class AccountModelService {
         return await this.accountModel.findOne({ id: id }).exec();
     }
 
-    async updateOneById(id: string, update: Partial<Account>): Promise<Account | null> {
-        return this.accountModel.findOneAndUpdate({ id: id }, update, { new: true }).exec();
+    async updateOneById(_id: string, update: Partial<Account>): Promise<Account | null> {
+        console.log('updateOneById (service)', _id, update);
+        return this.accountModel.findOneAndUpdate({ _id: _id }, update, { new: true }).exec();
     }
 
     async deleteOneById(_id: string): Promise<Account | null> {

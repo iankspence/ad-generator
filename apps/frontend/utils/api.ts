@@ -265,3 +265,28 @@ export const updateCloseTextEdit = async (
         throw error;
     }
 }
+
+
+export const updateAccountLogoAndColors = async (
+    accountId,
+    logo,
+    primaryColor,
+    secondaryColor
+) => {
+    try {
+        const response = await axios.put(`${API_URL}/account/${accountId}`, {
+            logo,
+            primaryColor,
+            secondaryColor,
+        });
+        console.log('accountId: ', accountId)
+        console.log('logo: ', logo)
+        console.log('primaryColor: ', primaryColor)
+        console.log('secondaryColor: ', secondaryColor)
+        console.log('updateAccountLogoAndColors response:', response);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating account logo and colors:', error);
+        throw error;
+    }
+};

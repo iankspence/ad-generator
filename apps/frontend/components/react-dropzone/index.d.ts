@@ -3,7 +3,7 @@ declare module 'react-dropzone' {
 
     interface DropzoneProps extends Omit<DropzoneOptions, 'url'> {
         children?: React.ReactNode;
-        accept?: string;
+        accept?: string | string[];
     }
 
     export const useDropzone: (options: DropzoneProps) => any;

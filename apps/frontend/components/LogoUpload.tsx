@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import ColorThief from 'colorthief';
+import { updateAccountLogoAndColors } from '../utils/api';
 
-const LogoUpload = ({ onColorsExtracted }) => {
+const LogoUpload = ({ onColorsExtracted, accountId }) => {
     const [logo, setLogo] = useState(null);
 
     const onDrop = useCallback((acceptedFiles) => {
@@ -19,15 +20,18 @@ const LogoUpload = ({ onColorsExtracted }) => {
         }
     }, []);
 
-    const { getRootProps, getInputProps } = useDropzone({ onDrop, accept: 'image/*' });
+    const { getRootProps, getInputProps } = useDropzone({ onDrop, accept: ['image/png', 'image/svg+xml'] });
 
     const extractColors = (logoData) => {
         const img = new Image();
         const colorThief = new ColorThief();
 
         img.onload = () => {
-            const colors = colorThief.getPalette(img, 5).filter(([r, g, b]) => r !== 0 && g !== 0 && b !== 0 && r !== 255 && g !== 255 && b !== 255);
+            const colors = colorThief
+                .getPalette(img, 5)
+                .filter(([r, g, b]) => r !== 0 && g !== 0 && b !== 0 && r !== 255 && g !== 255 && b !== 255);
             onColorsExtracted(colors[0], colors[1]);
+            updateAccountLogoAndColors(accountId, logoData, colors[0], colors[1]).then((r) => console.log(r));
         };
         img.src = logoData;
     };
