@@ -37,7 +37,7 @@ const LogoUpload = ({ onColorsExtracted, accountId }) => {
     };
 
     return (
-        <div {...getRootProps()} className="logo-upload">
+        <div {...getRootProps()} className="flex justify-center items-center w-full h-48 border-2 border-dashed border-gray-300 rounded cursor-pointer hover:border-gray-400">
             <input {...getInputProps()} />
             {logo ? <img src={logo} alt="Uploaded Logo" /> : <p>Drag and drop a logo or click to select a file</p>}
         </div>
