@@ -26,8 +26,8 @@ export const themes = [
                 hookMainText: {
                     canvasName: 'hook',
                     textName: 'main',
-                    yRange: [270, 310],
-                    xRange: [20, 300],
+                    yRange: [260, 315],
+                    xRange: [15, 305],
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -38,8 +38,8 @@ export const themes = [
                 hookAuthorText: {
                     canvasName: 'hook',
                     textName: 'author',
-                    yRange: [270, 310],
-                    xRange: [20, 300],
+                    yRange: [260, 315],
+                    xRange: [15, 305],
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -52,8 +52,8 @@ export const themes = [
                 claimMainText: {
                     canvasName: 'claim',
                     textName: 'main',
-                    yRange: [270, 310],
-                    xRange: [20, 300],
+                    yRange: [265, 315],
+                    xRange: [15, 305],
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -66,8 +66,8 @@ export const themes = [
                 reviewMainText: {
                     canvasName: 'review',
                     textName: 'main',
-                    yRange: [220, 300],
-                    xRange: [20, 300],
+                    yRange: [225, 315],
+                    xRange: [15, 305],
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -78,8 +78,8 @@ export const themes = [
                 reviewAuthorText: {
                     canvasName: 'review',
                     textName: 'author',
-                    yRange: [220, 300],
-                    xRange: [20, 300],
+                    yRange: [225, 315],
+                    xRange: [15, 305],
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -92,8 +92,8 @@ export const themes = [
                 closeMainText: {
                     canvasName: 'close',
                     textName: 'main',
-                    yRange: [270, 310],
-                    xRange: [20, 300],
+                    yRange: [265, 315],
+                    xRange: [15, 305],
                     style: {
                         fontFamily: "Arial",
                         fill: "white",

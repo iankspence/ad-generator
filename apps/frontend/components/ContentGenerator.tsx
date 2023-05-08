@@ -1,8 +1,5 @@
 import { PixiContext } from '../contexts/PixiContext';
-// import ClaimCanvasClient from './pixi/canvas/ClaimCanvasClient';
-// import CloseCanvasClient from './pixi/canvas/CloseCanvasClient';
 import CanvasClient from './pixi/canvas/CanvasClient';
-// import ReviewCanvasClient from './pixi/canvas/ReviewCanvasClient';
 import DesignDrawer from './pixi/design-drawer/DesignDrawer';
 import CanvasNavigation from './pixi/floating-buttons/CanvasNavigation';
 import CanvasViewToggle from './pixi/floating-buttons/CanvasViewToggle';
@@ -10,7 +7,6 @@ import DownloadButton from './pixi/floating-buttons/DownloadButton';
 import ThemeSelector from './pixi/floating-buttons/ThemeSelector';
 import React, { useContext, useState } from 'react';
 import Button from '@mui/material/Button';
-import * as PIXI from 'pixi.js';
 
 const ContentGenerator = () => {
     const [imageUrl, setImageUrl] = useState(null);

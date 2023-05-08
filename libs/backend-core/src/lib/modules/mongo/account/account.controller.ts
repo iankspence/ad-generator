@@ -5,7 +5,6 @@ import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode, 
 @Controller('account')
 export class AccountController {
     constructor(private readonly accountModelService: AccountModelService) {}
-
     @Post()
     @HttpCode(HttpStatus.CREATED)
     async create(@Body() account: Partial<Account>): Promise<Account> {
