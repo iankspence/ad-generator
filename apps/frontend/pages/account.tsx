@@ -13,7 +13,6 @@ export function AccountPage() {
     const handleColorsExtracted = (primary, secondary) => {
         setPrimaryColor(primary);
         setSecondaryColor(secondary);
-        // Save the colors to the account document as needed
     };
 
     return (
@@ -57,7 +56,13 @@ export function AccountPage() {
                         <div className="flex mt-8">
                             <div className="w-full">
                                 <p className="font-semibold py-2">Upload Logo:</p>
-                                <LogoUpload onColorsExtracted={handleColorsExtracted} accountId={account._id} />
+                                <LogoUpload
+                                    onColorsExtracted={handleColorsExtracted}
+                                    accountId={account._id}
+                                    initialLogo={account?.logo}
+                                    initialPrimaryColor={account?.primaryColor}
+                                    initialSecondaryColor={account?.secondaryColor}
+                                />
                                 {primaryColor && secondaryColor && (
                                     <div className="mt-4">
                                         <p className="font-semibold py-2">Extracted Colors:</p>
