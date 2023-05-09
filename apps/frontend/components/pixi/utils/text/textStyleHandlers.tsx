@@ -20,19 +20,19 @@ export const handleLocalFontWeightChange = (event, newFontWeight, setFontWeight,
     }
 };
 
-export const handleLocalFontStyleChange = (event, newFontStyle, setFontStyle, textName, handleFontStyleChange, handlePaddingChange) => {
+export const handleLocalFontStyleChange = (event, newFontStyle, setFontStyle, textName, handleFontStyleChange, handlePaddingChange, activeCanvases, canvasApps) => {
     if (newFontStyle !== null) {
         setFontStyle(newFontStyle);
         handleFontStyleChange(textName, newFontStyle);
         if (newFontStyle === 'italic') {
-            handlePaddingChange(textName, 5);
+            handlePaddingChange(textName, 5, activeCanvases, canvasApps);
         } else {
-            handlePaddingChange(textName, 0);
+            handlePaddingChange(textName, 0, activeCanvases, canvasApps);
         }
     } else {
         setFontStyle('normal');
         handleFontStyleChange(textName, 'normal');
-        handlePaddingChange(textName, 0);
+        handlePaddingChange(textName, 0, activeCanvases, canvasApps);
     }
 };
 

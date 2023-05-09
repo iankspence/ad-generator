@@ -6,15 +6,13 @@ const useStyles = makeStyles({
     paletteContainer: {
         position: 'absolute',
         zIndex: 10,
-        padding: '1rem',
-        marginTop: '1rem',
         backgroundColor: 'white',
         borderRadius: '4px',
         boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.1)',
     },
     colorSquare: {
-        width: '20px',
-        height: '20px',
+        padding: 'calc(100% / 3)',
+        position: 'relative',
         borderRadius: '4px',
     },
 });
@@ -35,17 +33,18 @@ const ColorPaletteViewer = ({ palettes, handleClose, handleColorChange, name }) 
 
     return (
         <Paper className={classes.paletteContainer}>
-            <Grid container spacing={1} wrap="nowrap">
+            <Grid container spacing={0.05} >
                 {palettes.map((palette, index) => (
                     <Grid key={index} item xs={12}>
-                        <Grid container justifyContent="center" alignItems="center" spacing={1}>
+                        <Grid container justifyContent="center" alignItems="center" spacing={0}>
                             {palette.map((color, colorIndex) => (
                                 <Grid key={colorIndex} item>
                                     <Button
                                         className={classes.colorSquare}
-                                        style={{ backgroundColor: color }}
                                         onClick={() => handleColorSelect(color)}
-                                    ></Button>
+                                    >
+                                        <div style={{ backgroundColor: color, position: 'absolute', height:40, width: 25, paddingLeft: 40, paddingRight: 40, top: 0, left: 0, right: 0, bottom: 0, borderRadius: 'inherit' }}></div>
+                                    </Button>
                                 </Grid>
                             ))}
                         </Grid>

@@ -53,8 +53,8 @@ const TextStyleAccordion = ({
     const [fontStyle, setFontStyle] = useState('normal');
     const [fontVariant, setFontVariant] = useState('normal');
     const [letterSpacing, setLetterSpacing] = useState(0);
-    const [paletteOpen, setPaletteOpen] = useState(false); // Add paletteOpen state variable
-    const [showPaletteViewer, setShowPaletteViewer] = useState(false);
+    const [showPrimaryPaletteViewer, setShowPrimaryPaletteViewer] = useState(false);
+    const [showSecondaryPaletteViewer, setShowSecondaryPaletteViewer] = useState(false);
 
     const { user } = useContext(UserContext);
     const { account } = useAccount(user?._id);
@@ -85,53 +85,42 @@ const TextStyleAccordion = ({
         }
     }, [activeCanvases, canvasApps]);
 
-    const handlePaletteOpen = () => {
-        setPaletteOpen(!paletteOpen);
-    };
-
-    // const generateColorPalettes = (primaryColor, secondaryColor) => {
-    //     // Calculate color palettes based on primary and secondary colors
-    //     // Dummy data is used for now. Replace with actual color palette generation logic
-    //     return [
-    //         ['#111111', '#222222', '#333333', '#444444', '#555555', '#666666'],
-    //         ['#777777', '#888888', '#999999', '#AAAAAA', '#BBBBBB', '#CCCCCC'],
-    //         ['#DDDDDD', '#EEEEEE', '#FFFFFF', '#000000', '#111111', '#222222'],
-    //         ['#333333', '#444444', '#555555', '#666666', '#777777', '#888888'],
-    //         ['#999999', '#AAAAAA', '#BBBBBB', '#CCCCCC', '#DDDDDD', '#EEEEEE'],
-    //         ['#FFFFFF', '#000000', '#111111', '#222222', '#333333', '#444444'],
-    //     ];
-    // };
-
-    const generateColorPalettes = (primaryColor, secondaryColor) => {
+    const generateColorPalettes = (inputColor) => {
         const generateShades = (color, count) => {
-            const scale = chroma.scale([chroma(color).darken(1.5), chroma(color).brighten(1.5)]).mode('lch');
+            const scale = chroma.scale([chroma(color).darken(2.5), chroma(color).brighten(2.5)]).mode('lch');
             return scale.colors(count);
         };
 
-        const primaryShades = generateShades(primaryColor, 6);
-        const secondaryShades = generateShades(secondaryColor, 6);
+        const splitComplementaryColors = (color) => {
+            const hclColor = chroma(color).hcl();
+            const splitComplementaryHue1 = (hclColor[0] + 150) % 360;
+            const splitComplementaryHue2 = (hclColor[0] + 210) % 360;
+            return [
+                chroma.hcl(splitComplementaryHue1, hclColor[1], hclColor[2]),
+                chroma.hcl(splitComplementaryHue2, hclColor[1], hclColor[2]),
+            ];
+        };
 
-        const primaryContrastShades = primaryShades.map((color) => chroma.contrast(color, secondaryColor) > 4.5 ? color : chroma.mix(color, secondaryColor, 0.5));
-        const secondaryContrastShades = secondaryShades.map((color) => chroma.contrast(color, primaryColor) > 4.5 ? color : chroma.mix(color, primaryColor, 0.5));
+        const inputShades = generateShades(inputColor, 8);
 
-        const primaryComplementaryShades = generateShades(chroma(primaryColor).luminance(chroma(secondaryColor).luminance()), 6);
-        const secondaryComplementaryShades = generateShades(chroma(secondaryColor).luminance(chroma(primaryColor).luminance()), 6);
+        const [inputSplit1, inputSplit2] = splitComplementaryColors(inputColor);
+
+        const inputSplit1Shades = generateShades(inputSplit1, 8);
+        const inputSplit2Shades = generateShades(inputSplit2, 8);
 
         return [
-            primaryShades,
-            secondaryShades,
-            primaryContrastShades,
-            secondaryContrastShades,
-            primaryComplementaryShades,
-            secondaryComplementaryShades,
+            inputSplit1Shades,
+            inputSplit2Shades,
+            inputShades,
         ];
     };
 
-    if (!account || !account?.primaryColor || !account?.secondaryColor) {
+    if (!account || !account?.primaryColor  || !account?.secondaryColor ) {
         return null;
     }
 
-    const colorPalettes = generateColorPalettes(account?.primaryColor, account?.secondaryColor);
+    const primaryColorPalettes = generateColorPalettes(account?.primaryColor);
+    const secondaryColorPalettes = generateColorPalettes(account?.secondaryColor);
 
     return (
         <Accordion>
@@ -161,8 +150,8 @@ const TextStyleAccordion = ({
                 </FormControl>
                 <div className="py-2"></div>
 
-                <Grid container justifyContent="space-between" alignItems="center">
 
+                <Grid container justifyContent="space-between" alignItems="center">
                     <Grid item xs={3}>
                         <Grid container direction="column" spacing={1}>
                             <Grid item>
@@ -177,37 +166,73 @@ const TextStyleAccordion = ({
                                 />
                             </Grid>
                             <Grid item>
-                                <Button
-                                    variant="outlined"
-                                    style={{
-                                        minWidth: '100%',
-                                        height: '20px',
-                                        padding: 0,
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                    }}
-                                    onClick={() => setShowPaletteViewer(!showPaletteViewer)}
-                                >
-                                    <PaletteIcon style={{ fontSize: '1rem' }} />
-                                </Button>
-                                {showPaletteViewer && (
-                                    <ColorPaletteViewer
-                                        palettes={colorPalettes}
-                                        handleClose={() => setShowPaletteViewer(false)}
-                                        handleColorChange={(event) =>
-                                            handleLocalColorChange(
-                                                event,
-                                                setFill,
-                                                handleColorChange
-                                            )
-                                        }
-                                        name={textName}
-                                    />
-                                )}
+                                <Grid container spacing={1}>
+                                    <Grid item xs={6}>
+                                        <Button
+                                            variant="outlined"
+                                            style={{
+                                                minWidth: '100%',
+                                                height: '20px',
+                                                padding: 0,
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                            }}
+                                            onClick={() => setShowPrimaryPaletteViewer(!showPrimaryPaletteViewer)}
+                                        >
+                                            <PaletteIcon style={{ fontSize: '1rem' }} />
+                                        </Button>
+                                        {showPrimaryPaletteViewer && (
+                                            <ColorPaletteViewer
+                                                palettes={primaryColorPalettes}
+                                                handleClose={() => setShowPrimaryPaletteViewer(false)}
+                                                handleColorChange={(event) =>
+                                                    handleLocalColorChange(
+                                                        event,
+                                                        setFill,
+                                                        handleColorChange
+                                                    )
+                                                }
+                                                name={textName}
+                                            />
+                                        )}
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Button
+                                            variant="outlined"
+                                            style={{
+                                                minWidth: '100%',
+                                                height: '20px',
+                                                padding: 0,
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                            }}
+                                            onClick={() => setShowSecondaryPaletteViewer(!showSecondaryPaletteViewer)}
+                                        >
+                                            <PaletteIcon style={{ fontSize: '1rem' }} />
+                                        </Button>
+                                        {showSecondaryPaletteViewer && (
+                                            <ColorPaletteViewer
+                                                palettes={secondaryColorPalettes}
+                                                handleClose={() => setShowSecondaryPaletteViewer(false)}
+                                                handleColorChange={(event) =>
+                                                    handleLocalColorChange(
+                                                        event,
+                                                        setFill,
+                                                        handleColorChange
+                                                    )
+                                                }
+                                                name={textName}
+                                            />
+                                        )}
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
+
+
 
                     <Grid item xs={2}>
                         <ToggleButtonGroup
@@ -226,7 +251,7 @@ const TextStyleAccordion = ({
                         <ToggleButtonGroup
                             value={fontStyle}
                             exclusive
-                            onChange={(event, newFontStyle) => handleLocalFontStyleChange(event, newFontStyle, setFontStyle, textName, handleFontStyleChange, handlePaddingChange)}
+                            onChange={(event, newFontStyle) => handleLocalFontStyleChange(event, newFontStyle, setFontStyle, textName, handleFontStyleChange, handlePaddingChange, activeCanvases, canvasApps)}
                             aria-label="text style"
                         >
                             <ToggleButton value="italic" aria-label="italic">
