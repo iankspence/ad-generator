@@ -20,8 +20,31 @@ import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import KeyboardCapslockIcon from '@mui/icons-material/KeyboardCapslock';
 import Grid from '@material-ui/core/Grid';
 import {capitalizeFirstLetter} from "../../utils/text/capitalizeFirstLetter";
+import UserContext from "../../../../contexts/UserContext";
+import useAccount from "../../../../hooks/useAccount";
+import {
+    handleLocalFontChange,
+    handleLocalColorChange,
+    handleLocalFontWeightChange,
+    handleLocalFontStyleChange,
+    handlePaddingChange,
+    handleLocalFontVariantChange,
+    handleLocalLetterSpacingChange
+} from '../../utils/text/textStyleHandlers';
+import ColorPaletteViewer from './ColorPaletteViewer'; // Import the new ColorPaletteViewer component
+import PaletteIcon from '@mui/icons-material/Palette';
+import Button from "@mui/material/Button";
+import chroma from 'chroma-js';
 
-const TextStyleAccordion = ({ textName, handleFontChange, handleColorChange, handleFontWeightChange, handleFontStyleChange, handleFontVariantChange, handleLetterSpacingChange }) => {
+const TextStyleAccordion = ({
+                                textName,
+                                handleFontChange,
+                                handleColorChange,
+                                handleFontWeightChange,
+                                handleFontStyleChange,
+                                handleFontVariantChange,
+                                handleLetterSpacingChange
+                            }) => {
     const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const [fontFamily, setFontFamily] = useState('Arial');
@@ -30,6 +53,11 @@ const TextStyleAccordion = ({ textName, handleFontChange, handleColorChange, han
     const [fontStyle, setFontStyle] = useState('normal');
     const [fontVariant, setFontVariant] = useState('normal');
     const [letterSpacing, setLetterSpacing] = useState(0);
+    const [paletteOpen, setPaletteOpen] = useState(false); // Add paletteOpen state variable
+    const [showPaletteViewer, setShowPaletteViewer] = useState(false);
+
+    const { user } = useContext(UserContext);
+    const { account } = useAccount(user?._id);
 
     useEffect(() => {
         const activeTextStyles = Object.entries(activeCanvases)
@@ -57,75 +85,53 @@ const TextStyleAccordion = ({ textName, handleFontChange, handleColorChange, han
         }
     }, [activeCanvases, canvasApps]);
 
-    const handleLocalFontChange = (event) => {
-        setFontFamily(event.target.value);
-        handleFontChange(event);
-    };
-    const handleLocalColorChange = (event) => {
-        setFill(event.target.value);
-        handleColorChange(event);
+    const handlePaletteOpen = () => {
+        setPaletteOpen(!paletteOpen);
     };
 
-    const handleLocalFontWeightChange = (event, newFontWeight) => {
-        if (newFontWeight !== null) {
-            setFontWeight(newFontWeight);
-            handleFontWeightChange(textName, newFontWeight);
-        } else {
-            setFontWeight('normal');
-            handleFontWeightChange(textName, 'normal');
-        }
+    // const generateColorPalettes = (primaryColor, secondaryColor) => {
+    //     // Calculate color palettes based on primary and secondary colors
+    //     // Dummy data is used for now. Replace with actual color palette generation logic
+    //     return [
+    //         ['#111111', '#222222', '#333333', '#444444', '#555555', '#666666'],
+    //         ['#777777', '#888888', '#999999', '#AAAAAA', '#BBBBBB', '#CCCCCC'],
+    //         ['#DDDDDD', '#EEEEEE', '#FFFFFF', '#000000', '#111111', '#222222'],
+    //         ['#333333', '#444444', '#555555', '#666666', '#777777', '#888888'],
+    //         ['#999999', '#AAAAAA', '#BBBBBB', '#CCCCCC', '#DDDDDD', '#EEEEEE'],
+    //         ['#FFFFFF', '#000000', '#111111', '#222222', '#333333', '#444444'],
+    //     ];
+    // };
+
+    const generateColorPalettes = (primaryColor, secondaryColor) => {
+        const generateShades = (color, count) => {
+            const scale = chroma.scale([chroma(color).darken(1.5), chroma(color).brighten(1.5)]).mode('lch');
+            return scale.colors(count);
+        };
+
+        const primaryShades = generateShades(primaryColor, 6);
+        const secondaryShades = generateShades(secondaryColor, 6);
+
+        const primaryContrastShades = primaryShades.map((color) => chroma.contrast(color, secondaryColor) > 4.5 ? color : chroma.mix(color, secondaryColor, 0.5));
+        const secondaryContrastShades = secondaryShades.map((color) => chroma.contrast(color, primaryColor) > 4.5 ? color : chroma.mix(color, primaryColor, 0.5));
+
+        const primaryComplementaryShades = generateShades(chroma(primaryColor).luminance(chroma(secondaryColor).luminance()), 6);
+        const secondaryComplementaryShades = generateShades(chroma(secondaryColor).luminance(chroma(primaryColor).luminance()), 6);
+
+        return [
+            primaryShades,
+            secondaryShades,
+            primaryContrastShades,
+            secondaryContrastShades,
+            primaryComplementaryShades,
+            secondaryComplementaryShades,
+        ];
     };
 
-    const handleLocalFontStyleChange = (event, newFontStyle) => {
-        if (newFontStyle !== null) {
-            setFontStyle(newFontStyle);
-            handleFontStyleChange(textName, newFontStyle);
-            if (newFontStyle === 'italic') {
-                handlePaddingChange(textName, 5);
-            } else {
-                handlePaddingChange(textName, 0);
-            }
-        } else {
-            setFontStyle('normal');
-            handleFontStyleChange(textName, 'normal');
-            handlePaddingChange(textName, 0);
-        }
-    };
-
-    const handlePaddingChange = (textType, padding) => {
-        const activeTextStyles = Object.entries(activeCanvases)
-            .filter(([canvasName, isActive]) => isActive)
-            .map(([canvasName]) => {
-                const canvasApp = canvasApps[canvasName];
-                if (canvasApp) {
-                    const textObject = canvasApp.stage.getChildByName(`${canvasName}-${textType}`) as PIXI.Text;
-                    if (textObject) {
-                        return textObject.style;
-                    }
-                }
-                return null;
-            })
-            .filter((style) => style !== null);
-
-        activeTextStyles.forEach((style) => {
-            style.padding = padding;
-        });
+    if (!account || !account?.primaryColor || !account?.secondaryColor) {
+        return null;
     }
 
-    const handleLocalFontVariantChange = (event, newFontVariant) => {
-        if (newFontVariant !== null) {
-            setFontVariant(newFontVariant);
-            handleFontVariantChange(textName, newFontVariant);
-        } else {
-            setFontVariant('normal');
-            handleFontVariantChange(textName, 'normal');
-        }
-    };
-
-    const handleLocalLetterSpacingChange = (event, newValue) => {
-        setLetterSpacing(newValue);
-        handleLetterSpacingChange(textName, newValue / 100);
-    };
+    const colorPalettes = generateColorPalettes(account?.primaryColor, account?.secondaryColor);
 
     return (
         <Accordion>
@@ -133,10 +139,12 @@ const TextStyleAccordion = ({ textName, handleFontChange, handleColorChange, han
                 <Typography variant="subtitle1">{capitalizeFirstLetter(textName)} Style</Typography>
             </AccordionSummary>
             <AccordionDetails>
-
                 <FormControl fullWidth>
-
-                    <Select value={fontFamily} name={textName} onChange={handleLocalFontChange}>
+                    <Select
+                        value={fontFamily}
+                        name={textName}
+                        onChange={(event) => handleLocalFontChange(event, setFontFamily, handleFontChange)}
+                    >
                         <MenuItem value="Arial Narrow">Arial Narrow</MenuItem>
                         <MenuItem value="Arial">Arial</MenuItem>
                         <MenuItem value="Arial Black">Arial Black</MenuItem>
@@ -153,23 +161,59 @@ const TextStyleAccordion = ({ textName, handleFontChange, handleColorChange, han
                 </FormControl>
                 <div className="py-2"></div>
 
-
                 <Grid container justifyContent="space-between" alignItems="center">
+
                     <Grid item xs={3}>
-                        <input
-                            style={{height: '30px', width: '100%'}}
-                            type="color"
-                            value={fill}
-                            onChange={handleLocalColorChange}
-                            name={textName}
-                        />
+                        <Grid container direction="column" spacing={1}>
+                            <Grid item>
+                                <input
+                                    style={{ height: '20px', width: '100%' }}
+                                    type="color"
+                                    value={fill}
+                                    onChange={(event) =>
+                                        handleLocalColorChange(event, setFill, handleColorChange)
+                                    }
+                                    name={textName}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <Button
+                                    variant="outlined"
+                                    style={{
+                                        minWidth: '100%',
+                                        height: '20px',
+                                        padding: 0,
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}
+                                    onClick={() => setShowPaletteViewer(!showPaletteViewer)}
+                                >
+                                    <PaletteIcon style={{ fontSize: '1rem' }} />
+                                </Button>
+                                {showPaletteViewer && (
+                                    <ColorPaletteViewer
+                                        palettes={colorPalettes}
+                                        handleClose={() => setShowPaletteViewer(false)}
+                                        handleColorChange={(event) =>
+                                            handleLocalColorChange(
+                                                event,
+                                                setFill,
+                                                handleColorChange
+                                            )
+                                        }
+                                        name={textName}
+                                    />
+                                )}
+                            </Grid>
+                        </Grid>
                     </Grid>
 
                     <Grid item xs={2}>
                         <ToggleButtonGroup
                             value={fontWeight}
                             exclusive
-                            onChange={handleLocalFontWeightChange}
+                            onChange={(event, newFontWeight) => handleLocalFontWeightChange(event, newFontWeight, setFontWeight, textName, handleFontWeightChange)}
                             aria-label="text weight"
                         >
                             <ToggleButton value="bold" aria-label="bold">
@@ -182,7 +226,7 @@ const TextStyleAccordion = ({ textName, handleFontChange, handleColorChange, han
                         <ToggleButtonGroup
                             value={fontStyle}
                             exclusive
-                            onChange={handleLocalFontStyleChange}
+                            onChange={(event, newFontStyle) => handleLocalFontStyleChange(event, newFontStyle, setFontStyle, textName, handleFontStyleChange, handlePaddingChange)}
                             aria-label="text style"
                         >
                             <ToggleButton value="italic" aria-label="italic">
@@ -195,7 +239,7 @@ const TextStyleAccordion = ({ textName, handleFontChange, handleColorChange, han
                         <ToggleButtonGroup
                             value={fontVariant}
                             exclusive
-                            onChange={handleLocalFontVariantChange}
+                            onChange={(event, newFontVariant) => handleLocalFontVariantChange(event, newFontVariant, setFontVariant, textName, handleFontVariantChange)}
                             aria-label="text variant"
                         >
                             <ToggleButton value="small-caps" aria-label="small-caps">
@@ -205,12 +249,15 @@ const TextStyleAccordion = ({ textName, handleFontChange, handleColorChange, han
                     </Grid>
                 </Grid>
 
+                <div className="py-2"></div>
+
+
                 <Typography id="letter-spacing-slider" gutterBottom>
                     Letter Spacing
                 </Typography>
                 <Slider
                     value={letterSpacing}
-                    onChange={handleLocalLetterSpacingChange}
+                    onChange={(event, newValue) => handleLocalLetterSpacingChange(event, newValue, setLetterSpacing, textName, handleLetterSpacingChange )}
                     aria-labelledby="letter-spacing-slider"
                     valueLabelDisplay="auto"
                 />
