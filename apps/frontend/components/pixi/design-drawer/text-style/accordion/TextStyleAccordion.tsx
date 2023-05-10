@@ -17,12 +17,11 @@ import BoldButton from "../button/bold/BoldButton";
 import SmallCapsButton from "../button/small-caps/SmallCapsButton";
 import ItalicButton from "../button/italic/ItalicButton";
 import LetterSpacingSlider from "../slider/LetterSpacingSlider";
-import FontSelector from "../selector/FontSelector";
+import FontFamilySelector from "../selector/FontFamilySelector";
 import ColorSelectionButtonGroup from "../button-group/ColorSelectionButtonGroup";
 
 const TextStyleAccordion = ({
                                 textName,
-                                handleFontFamilyChange,
                                 handleColorChange,
                                 handleLetterSpacingChange
                             }) => {
@@ -78,11 +77,12 @@ const TextStyleAccordion = ({
                 <Typography variant="subtitle1">{capitalizeFirstLetter(textName)} Style</Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <FontSelector
+                <FontFamilySelector
                     fontFamily={fontFamily}
                     setFontFamily={setFontFamily}
-                    handleFontFamilyChange={handleFontFamilyChange}
                     textName={textName}
+                    activeCanvases={activeCanvases}
+                    canvasApps={canvasApps}
                 />
                 <div className="py-2"></div>
 

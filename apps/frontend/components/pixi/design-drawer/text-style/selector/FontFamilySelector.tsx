@@ -1,12 +1,12 @@
 import React from 'react';
 import { FormControl, Select, MenuItem } from '@mui/material';
-import {handleLocalFontFamilyChange } from '../utils/textStyleHandlers';
+import {handleFontFamilyChange} from "./handleFontFamilyChange";
 
-const FontSelector = ({ fontFamily, setFontFamily, handleFontFamilyChange, textName }) => {
+const FontFamilySelector = ({ fontFamily, setFontFamily, textName, activeCanvases, canvasApps }) => {
 
     const handleClick = (event) => {
         const newFontFamily = event.target.value;
-        handleLocalFontFamilyChange(event, newFontFamily, setFontFamily, textName, handleFontFamilyChange);
+        handleFontFamilyChange(event, newFontFamily, setFontFamily, textName, activeCanvases, canvasApps);
     };
 
     return (
@@ -34,4 +34,4 @@ const FontSelector = ({ fontFamily, setFontFamily, handleFontFamilyChange, textN
     );
 };
 
-export default FontSelector;
+export default FontFamilySelector;

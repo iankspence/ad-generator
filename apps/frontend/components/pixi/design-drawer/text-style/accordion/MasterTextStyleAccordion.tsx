@@ -26,10 +26,7 @@ const MasterTextStyleAccordion = () => {
         });
     };
 
-    const handleFontFamilyChange = (textName, newFontFamily) => {
-        const updatedTextStyle = { fontFamily: newFontFamily };
-        handleTextStyleChange(textName, updatedTextStyle);
-    };
+
 
     const handleColorChange = (event) => {
         const hexColor = event.target.value.startsWith('#')
@@ -62,13 +59,11 @@ const MasterTextStyleAccordion = () => {
 
                 <TextStyleAccordion
                     textName={'main'}
-                    handleFontFamilyChange={handleFontFamilyChange}
                     handleColorChange={handleColorChange}
                     handleLetterSpacingChange={handleLetterSpacingChange}
                 />
                 <TextStyleAccordion
                     textName={'author'}
-                    handleFontFamilyChange={handleFontFamilyChange}
                     handleColorChange={handleColorChange}
                     handleLetterSpacingChange={handleLetterSpacingChange}
                 />
