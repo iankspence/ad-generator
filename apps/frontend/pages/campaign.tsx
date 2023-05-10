@@ -1,4 +1,4 @@
-import ContentGenerator from '../components/ContentGenerator';
+import ContentGenerator from '../components/content-generator/ContentGenerator';
 import TopNav from '../components/TopNav';
 import { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';

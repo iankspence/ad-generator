@@ -7,11 +7,11 @@ import React from 'react';
 const CanvasViewToggle = ({ singleCanvasView, onToggle }) => {
     return (
         <div className="" style={{ color: '#000', backgroundColor: '#fff' }}>
-            <ToggleButtonGroup value={singleCanvasView ? 'single' : 'four'} exclusive onChange={onToggle} size="small">
-                <ToggleButton value="four" aria-label="4-canvas view">
+            <ToggleButtonGroup value={singleCanvasView ? 'single-canvas' : 'four-canvas'} exclusive onChange={onToggle} size="small">
+                <ToggleButton value="four-canvas" aria-label="four-canvas">
                     <BorderAllOutlinedIcon />
                 </ToggleButton>
-                <ToggleButton value="single" aria-label="1-canvas view">
+                <ToggleButton value="single-canvas" aria-label="single-canvas">
                     <CropSquareOutlinedIcon />
                 </ToggleButton>
             </ToggleButtonGroup>
