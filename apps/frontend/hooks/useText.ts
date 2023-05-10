@@ -24,6 +24,10 @@ export const useText = (appRef, canvasName, size) => {
 
     const [currentReviewId, setCurrentReviewId] = useState(null);
     const [currentHookId, setCurrentHookId] = useState(null);
+    const [currentClaimId, setCurrentClaimId] = useState(null);
+    const [currentCloseId, setCurrentCloseId] = useState(null);
+
+    const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, selectedAudiencePosition);
 
     useEffect(() => {
         setCurrentReviewId(reviews[reviewPosition - 1]?._id?.toString() || null);
@@ -36,10 +40,16 @@ export const useText = (appRef, canvasName, size) => {
     }, [hookPosition, hooks, currentReviewId]);
 
     useEffect(() => {
+        setCurrentClaimId(filteredClaims[claimPosition - 1]?._id?.toString() || null);
+    }, [claimPosition, filteredClaims]);
+
+    useEffect(() => {
+        setCurrentCloseId(filteredCloses[closePosition - 1]?._id?.toString() || null);
+    }, [closePosition, filteredCloses]);
+
+    useEffect(() => {
         if (appRef.current) {
             const app = appRef.current;
-
-            const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, selectedAudiencePosition);
 
             const textData = {
                 hook: { array: filteredHooks, position: hookPosition },
@@ -76,23 +86,13 @@ export const useText = (appRef, canvasName, size) => {
             }
         }
     }, [
-        hookPosition,
-        claimPosition,
-        closePosition,
-        reviews,
-        reviewPosition,
-        canvasName,
-        appRef,
-        selectedTheme,
+        currentHookId,
+        currentReviewId,
+        currentClaimId,
+        currentCloseId,
         xRanges,
         yRanges,
         lineHeightMultipliers,
-        hooks,
-        claims,
-        closes,
-        currentReviewId,
-        currentHookId,
-        selectedAudiencePosition,
         selectedThemeId
     ]);
 };

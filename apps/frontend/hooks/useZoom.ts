@@ -57,7 +57,7 @@ export const useZoom = (appRef, canvasName: string) => {
                 app.view.removeEventListener('wheel', handleWheel);
             }
         };
-    }, [appRef, handleWheel]);
+    }, [handleWheel]);
 
 };
 

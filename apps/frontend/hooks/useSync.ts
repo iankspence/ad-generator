@@ -47,7 +47,6 @@ const useSync = () => {
         eventEmitter.on('dragmove', syncImageContainers);
         eventEmitter.on('dragend', syncImageContainers);
         eventEmitter.on('zoom', syncImageContainers);
-        // console.log("sync")
 
         return () => {
             eventEmitter.off('dragstart', syncImageContainers);
@@ -55,7 +54,7 @@ const useSync = () => {
             eventEmitter.off('dragend', syncImageContainers);
             eventEmitter.off('zoom', syncImageContainers);
         };
-    }, [imageContainers, eventEmitter]);
+    }, [eventEmitter]);
 };
 
 export default useSync;

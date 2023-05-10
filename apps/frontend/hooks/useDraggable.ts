@@ -30,9 +30,6 @@ const useDraggable = (appRef, canvasName: string) => {
     useEffect(() => {
         if (!appRef?.current || !container) return;
 
-        const app = appRef.current;
-
-        app.stage.sortableChildren = true;
         container.eventMode = 'static';
         container
             .on('pointerdown', handleDragStart)
@@ -46,7 +43,7 @@ const useDraggable = (appRef, canvasName: string) => {
             container.off('pointerupoutside', handleDragEnd);
             container.off('pointermove', handleDragMove);
         };
-    }, [appRef, container, handleDragStart, handleDragEnd, handleDragMove]);
+    }, [container, handleDragStart, handleDragEnd, handleDragMove]);
 
     return container;
 };

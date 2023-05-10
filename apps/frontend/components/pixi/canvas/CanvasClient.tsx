@@ -23,8 +23,6 @@ const CanvasClient = ({ imageUrl, size, canvasName }) => {
     useRangeBox(appRef, canvasName);
     useSync();
 
-    console.log('CanvasClient: ', appRef.current);
-
     return <div id={`${canvasName}-canvas-container`}></div>;
 };
 

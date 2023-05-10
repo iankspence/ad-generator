@@ -29,5 +29,5 @@ export const useRangeBox = (appRef, canvasName) => {
         return () => {
             if (app.stage) app.stage.removeChild(rect);
         };
-    }, [xRange, yRange, appRef, activeCanvases, canvasName, displayTextBox]);
+    }, [displayTextBox, xRange, yRange]);
 };

@@ -9,7 +9,7 @@ import {getSelectedTheme} from "../components/pixi/utils/getSelectedTheme";
 
 const useMask = (appRef, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
-    const { canvasApps, selectedThemeId } = useContext(PixiContext);
+    const { selectedThemeId } = useContext(PixiContext);
     const selectedTheme = getSelectedTheme(selectedThemeId);
 
     const fetchMaskTextures = async (maskNames) => {
@@ -36,10 +36,12 @@ const useMask = (appRef, canvasName, size) => {
                     maskNames = selectedTheme.settings.shortMasks.map((mask) => mask.name);
                 }
                 fetchMaskTextures(maskNames);
-            } else {
-                setMaskTextures([]);
             }
-        }, [canvasName, selectedThemeId]);
+        else {
+            setMaskTextures([]);
+        }
+        },[canvasName, selectedThemeId]);
+
 
 
     useEffect(() => {
@@ -75,7 +77,7 @@ const useMask = (appRef, canvasName, size) => {
             }
         }
 
-    }, [appRef, maskTextures, canvasName, size, selectedThemeId]);
+    }, [maskTextures, selectedThemeId]);
 };
 
 export default useMask;

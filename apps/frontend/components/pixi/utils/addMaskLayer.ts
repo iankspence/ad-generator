@@ -8,7 +8,7 @@ export const addMaskLayer = (app, maskData, size) => {
     mask.x = app.screen.width / 2;
     mask.y = app.screen.height / 2;
 
-    mask.zIndex = 1;
+    mask.zIndex = 2;
 
     const scaleFactor = size / 1080;
     mask.scale.set(scaleFactor);
