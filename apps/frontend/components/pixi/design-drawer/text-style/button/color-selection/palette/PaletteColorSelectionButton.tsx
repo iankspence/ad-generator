@@ -21,7 +21,6 @@ const PaletteColorSelectionButton = ({
     return (
         <Grid item xs={6}>
             <ToggleButtonGroup
-                // width: {minWidth: '100%'}
                 value={showPaletteViewer}
                 exclusive
                 onChange={onClick}
