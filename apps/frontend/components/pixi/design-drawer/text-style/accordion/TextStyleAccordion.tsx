@@ -24,7 +24,6 @@ const TextStyleAccordion = ({
                                 textName,
                                 handleFontFamilyChange,
                                 handleColorChange,
-                                handleFontVariantChange,
                                 handleLetterSpacingChange
                             }) => {
     const { activeCanvases, canvasApps } = useContext(PixiContext);
@@ -122,8 +121,9 @@ const TextStyleAccordion = ({
                         <SmallCapsButton
                             textName={textName}
                             fontVariant={fontVariant}
-                            handleFontVariantChange={handleFontVariantChange}
                             setFontVariant={setFontVariant}
+                            activeCanvases={activeCanvases}
+                            canvasApps={canvasApps}
                         />
                     </Grid>
                 </Grid>

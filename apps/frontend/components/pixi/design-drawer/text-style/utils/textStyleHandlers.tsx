@@ -1,5 +1,3 @@
-import * as PIXI from "pixi.js";
-
 export const handleLocalFontFamilyChange = (event, newFontFamily, setFontFamily, textName, handleFontFamilyChange) => {
     if (newFontFamily !== null) {
         setFontFamily(newFontFamily);
@@ -15,16 +13,6 @@ export const handleLocalColorChange = (event, setFill, handleColorChange) => {
     handleColorChange(event);
 };
 
-
-export const handleLocalFontVariantChange = (event, newFontVariant, setFontVariant, textName, handleFontVariantChange) => {
-    if (newFontVariant !== null) {
-        setFontVariant(newFontVariant);
-        handleFontVariantChange(textName, newFontVariant);
-    } else {
-        setFontVariant('normal');
-        handleFontVariantChange(textName, 'normal');
-    }
-};
 
 export const handleLocalLetterSpacingChange = (event, newValue, setLetterSpacing, textName, handleLetterSpacingChange) => {
     setLetterSpacing(newValue);

@@ -40,10 +40,6 @@ const MasterTextStyleAccordion = () => {
         handleTextStyleChange(textName, updatedTextStyle);
     };
 
-    const handleFontVariantChange = (textName, newFontVariant) => {
-        const updatedTextStyle = { fontVariant: newFontVariant };
-        handleTextStyleChange(textName, updatedTextStyle);
-    }
 
     const handleLetterSpacingChange = (textName, newLetterSpacing) => {
         const updatedTextStyle = { letterSpacing: newLetterSpacing };
@@ -68,14 +64,12 @@ const MasterTextStyleAccordion = () => {
                     textName={'main'}
                     handleFontFamilyChange={handleFontFamilyChange}
                     handleColorChange={handleColorChange}
-                    handleFontVariantChange={handleFontVariantChange}
                     handleLetterSpacingChange={handleLetterSpacingChange}
                 />
                 <TextStyleAccordion
                     textName={'author'}
                     handleFontFamilyChange={handleFontFamilyChange}
                     handleColorChange={handleColorChange}
-                    handleFontVariantChange={handleFontVariantChange}
                     handleLetterSpacingChange={handleLetterSpacingChange}
                 />
             </AccordionDetails>

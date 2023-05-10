@@ -2,11 +2,11 @@ import React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import KeyboardCapslockIcon from '@mui/icons-material/KeyboardCapslock';
-import { handleLocalFontVariantChange } from '../../utils/textStyleHandlers';
+import { handleFontVariantChange } from './handleFontVariantChange';
 
-const SmallCapsButton = ({ textName, fontVariant, handleFontVariantChange, setFontVariant }) => {
+const SmallCapsButton = ({ textName, fontVariant, setFontVariant, activeCanvases, canvasApps }) => {
     const handleClick = (event, newFontVariant) => {
-        handleLocalFontVariantChange(event, newFontVariant, setFontVariant, textName, handleFontVariantChange);
+        handleFontVariantChange(event, newFontVariant, setFontVariant, textName, activeCanvases, canvasApps);
     };
 
     return (
