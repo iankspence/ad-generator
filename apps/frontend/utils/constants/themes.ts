@@ -110,7 +110,7 @@ export const themes = [
             shortMasks: [
                 {
                     name: 'complex-swoosh-short-base-1',
-                    colour: '#146842',
+                    colour: '#123123',
                 },
                 {
                     name: 'complex-swoosh-short-base-2',

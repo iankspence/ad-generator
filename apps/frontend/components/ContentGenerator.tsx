@@ -76,7 +76,6 @@ const ContentGenerator = () => {
                 <CanvasClient
                     imageUrl={imageUrl}
                     size={canvasSize}
-                    selectedThemeId={selectedThemeId}
                     canvasName={'hook'}
                 />
             ),
@@ -88,7 +87,6 @@ const ContentGenerator = () => {
                 <CanvasClient
                     imageUrl={imageUrl}
                     size={canvasSize}
-                    selectedThemeId={selectedThemeId}
                     canvasName={'claim'}
                 />
             ),
@@ -100,7 +98,6 @@ const ContentGenerator = () => {
                 <CanvasClient
                     imageUrl={imageUrl}
                     size={canvasSize}
-                    selectedThemeId={selectedThemeId}
                     canvasName={'review'}
                 />
             ),
@@ -112,7 +109,6 @@ const ContentGenerator = () => {
                 <CanvasClient
                     imageUrl={imageUrl}
                     size={canvasSize}
-                    selectedThemeId={selectedThemeId}
                     canvasName={'close'}
                 />
             ),

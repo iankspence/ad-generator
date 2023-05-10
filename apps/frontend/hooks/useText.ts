@@ -93,6 +93,7 @@ export const useText = (appRef, canvasName, size) => {
         currentReviewId,
         currentHookId,
         selectedAudiencePosition,
+        selectedThemeId
     ]);
 };
 
