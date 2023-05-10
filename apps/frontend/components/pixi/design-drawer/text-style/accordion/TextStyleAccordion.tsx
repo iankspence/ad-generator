@@ -16,14 +16,13 @@ import useAccount from "../../../../../hooks/useAccount";
 import BoldButton from "../button/bold/BoldButton";
 import SmallCapsButton from "../button/small-caps/SmallCapsButton";
 import ItalicButton from "../button/italic/ItalicButton";
-import LetterSpacingSlider from "../slider/LetterSpacingSlider";
+import LetterSpacingSlider from "../slider/letter-spacing/LetterSpacingSlider";
 import FontFamilySelector from "../selector/FontFamilySelector";
 import ColorSelectionButtonGroup from "../button-group/ColorSelectionButtonGroup";
 
 const TextStyleAccordion = ({
                                 textName,
                                 handleColorChange,
-                                handleLetterSpacingChange
                             }) => {
     const { activeCanvases, canvasApps } = useContext(PixiContext);
 
@@ -132,8 +131,9 @@ const TextStyleAccordion = ({
                 <LetterSpacingSlider
                     textName={textName}
                     letterSpacing={letterSpacing}
-                    handleLetterSpacingChange={handleLetterSpacingChange}
                     setLetterSpacing={setLetterSpacing}
+                    activeCanvases={activeCanvases}
+                    canvasApps={canvasApps}
                 />
             </AccordionDetails>
         </Accordion>

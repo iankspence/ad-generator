@@ -6,7 +6,3 @@ export const handleLocalColorChange = (event, setFill, handleColorChange) => {
 };
 
 
-export const handleLocalLetterSpacingChange = (event, newValue, setLetterSpacing, textName, handleLetterSpacingChange) => {
-    setLetterSpacing(newValue);
-    handleLetterSpacingChange(textName, newValue / 100);
-};

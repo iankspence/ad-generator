@@ -26,8 +26,6 @@ const MasterTextStyleAccordion = () => {
         });
     };
 
-
-
     const handleColorChange = (event) => {
         const hexColor = event.target.value.startsWith('#')
             ? event.target.value
@@ -37,11 +35,6 @@ const MasterTextStyleAccordion = () => {
         handleTextStyleChange(textName, updatedTextStyle);
     };
 
-
-    const handleLetterSpacingChange = (textName, newLetterSpacing) => {
-        const updatedTextStyle = { letterSpacing: newLetterSpacing };
-        handleTextStyleChange(textName, updatedTextStyle);
-    }
 
     return (
         <Accordion>
@@ -60,12 +53,10 @@ const MasterTextStyleAccordion = () => {
                 <TextStyleAccordion
                     textName={'main'}
                     handleColorChange={handleColorChange}
-                    handleLetterSpacingChange={handleLetterSpacingChange}
                 />
                 <TextStyleAccordion
                     textName={'author'}
                     handleColorChange={handleColorChange}
-                    handleLetterSpacingChange={handleLetterSpacingChange}
                 />
             </AccordionDetails>
         </Accordion>
