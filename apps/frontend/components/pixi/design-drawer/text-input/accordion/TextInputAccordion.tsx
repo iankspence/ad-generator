@@ -1,20 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { CampaignContext } from '../../../../contexts/CampaignContext';
+import { CampaignContext } from '../../../../../contexts/CampaignContext';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { getFilteredTextArrays } from '../../utils/text/getFilteredTextArrays';
+import { getFilteredTextArrays } from '../../../utils/text/getFilteredTextArrays';
 import ReviewHookAccordion from './ReviewHookAccordion';
 import ClaimCloseAccordion from './ClaimCloseAccordion';
-import UserContext from "../../../../contexts/UserContext";
+import UserContext from "../../../../../contexts/UserContext";
 import {
     updateClaimTextEdit,
     updateCloseTextEdit,
     updateHookTextEdit,
     updateReviewTextEdit
-} from "../../../../utils/api";
-import AudienceSelector from "./AudienceSelector";
-import { audiences } from "../../../../utils/constants/audiences";
+} from "../../../../../utils/api";
+import AudienceSelector from "../selector/AudienceSelector";
+import { audiences } from "../../../../../utils/constants/audiences";
 
 const TextInputAccordion = () => {
     const {

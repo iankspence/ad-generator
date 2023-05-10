@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     },
 });
 
-const ColorPaletteViewer = ({ palettes, handleClose, handleColorChange, name }) => {
+const ColorPaletteButtonGroup = ({ palettes, handleClose, handleColorChange, name }) => {
     const classes = useStyles();
 
     const handleColorSelect = (color) => {
@@ -60,4 +60,4 @@ const ColorPaletteViewer = ({ palettes, handleClose, handleColorChange, name }) 
     );
 };
 
-export default ColorPaletteViewer;
+export default ColorPaletteButtonGroup;

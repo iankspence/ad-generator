@@ -1,4 +1,4 @@
-import { PixiContext } from '../../../../contexts/PixiContext';
+import { PixiContext } from '../../../../../contexts/PixiContext';
 import Button from '@mui/material/Button';
 import React, { useContext, useState } from 'react';
 

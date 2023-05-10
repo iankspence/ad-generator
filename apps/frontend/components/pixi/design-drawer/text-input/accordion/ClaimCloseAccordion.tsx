@@ -1,8 +1,8 @@
 import React from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Viewer from './Viewer';
-import SidebarTextArea from './SidebarTextArea';
+import TextSelector from '../selector/TextSelector';
+import TextAreaWithEdit from '../text-area/TextAreaWithEdit';
 
 const ClaimCloseAccordion = ({ claimPosition, updateClaimPosition, filteredClaims, closePosition, updateClosePosition, filteredCloses, onEditStart, onEditSubmit, onEditRestore }) => {
     return (
@@ -11,13 +11,13 @@ const ClaimCloseAccordion = ({ claimPosition, updateClaimPosition, filteredClaim
                 <Typography variant="subtitle1">Claim/Close</Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <Viewer
+                <TextSelector
                     label="Claim"
                     position={claimPosition}
                     setPosition={updateClaimPosition}
                     totalCount={filteredClaims.length}
                 />
-                <SidebarTextArea
+                <TextAreaWithEdit
                     textArray={filteredClaims.map((claim) => claim.claimTextEdited ? claim.claimTextEdited : claim.claimText)}
                     position={claimPosition}
                     rows={3}
@@ -26,13 +26,13 @@ const ClaimCloseAccordion = ({ claimPosition, updateClaimPosition, filteredClaim
                     onEditRestore={onEditRestore}
                     canvasName={'claim'}
                 />
-                <Viewer
+                <TextSelector
                     label="Close"
                     position={closePosition}
                     setPosition={updateClosePosition}
                     totalCount={filteredCloses.length}
                 />
-                <SidebarTextArea
+                <TextAreaWithEdit
                     textArray={filteredCloses.map((closes) => closes.closeTextEdited ? closes.closeTextEdited : closes.closeText)}
                     position={closePosition}
                     rows={3}

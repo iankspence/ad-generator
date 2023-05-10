@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
-import { PixiContext } from '../../../../contexts/PixiContext';
-import {DualButtonSlider} from "./DualButtonSlider";
-import { mode } from '../../utils/mode';
+import { PixiContext } from '../../../../../contexts/PixiContext';
+import { RangeSlider } from "../slider/RangeSlider";
+import { mode } from '../../../utils/mode';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
     Accordion,
@@ -74,7 +74,6 @@ const TextPositionAccordion = ({ textName }) => {
         updateDisplayTextBox(false);
     };
 
-
     return (
 
         <Accordion>
@@ -82,8 +81,7 @@ const TextPositionAccordion = ({ textName }) => {
                 <Typography variant="subtitle1">{'Text Position'}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-
-                <DualButtonSlider
+                <RangeSlider
                     label="X Range"
                     name={textName}
                     min={0}
@@ -94,7 +92,7 @@ const TextPositionAccordion = ({ textName }) => {
                     onStart={handleXRangeStart}
                     onEnd={handleXRangeEnd}
                 />
-                <DualButtonSlider
+                <RangeSlider
                     label="Y Range"
                     name={textName}
                     min={0}
@@ -114,6 +112,7 @@ const TextPositionAccordion = ({ textName }) => {
                     valueLabelDisplay="auto"
                     name={textName}
                 />
+
             </AccordionDetails>
 
         </Accordion>

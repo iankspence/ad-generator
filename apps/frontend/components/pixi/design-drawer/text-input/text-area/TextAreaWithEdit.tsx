@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import RestoreIcon from '@mui/icons-material/Restore';
 
-const SidebarTextArea = ({
+const TextAreaWithEdit = ({
                              textArray,
                              position,
                              rows,
@@ -79,4 +79,4 @@ const SidebarTextArea = ({
     );
 };
 
-export default SidebarTextArea;
+export default TextAreaWithEdit;

@@ -1,13 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { PixiContext } from '../../../../contexts/PixiContext';
+import React, { useContext } from 'react';
+import { PixiContext } from '../../../../../contexts/PixiContext';
 import {Accordion, AccordionSummary, AccordionDetails, Slider} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextStyleAccordion from "./TextStyleAccordion";
-import {ActiveCanvasButtonGroup} from './ActiveCanvasButtonGroup';
+import {ActiveCanvasButtonGroup} from '../button-group/ActiveCanvasButtonGroup';
 import * as PIXI from "pixi.js";
-import { mode } from '../../utils/mode';
-import {DualButtonSlider} from "./DualButtonSlider";
+import { mode } from '../../../utils/mode';
 import TextPositionAccordion from "./TextPositionAccordion";
 
 const MasterTextStyleAccordion = () => {
@@ -28,9 +27,8 @@ const MasterTextStyleAccordion = () => {
         });
     };
 
-    const handleFontChange = (event) => {
-        const updatedTextStyle = { fontFamily: event.target.value };
-        const textName = event.target.name;
+    const handleFontFamilyChange = (textName, newFontFamily) => {
+        const updatedTextStyle = { fontFamily: newFontFamily };
         handleTextStyleChange(textName, updatedTextStyle);
     };
 
@@ -79,7 +77,7 @@ const MasterTextStyleAccordion = () => {
 
                 <TextStyleAccordion
                     textName={'main'}
-                    handleFontChange={handleFontChange}
+                    handleFontFamilyChange={handleFontFamilyChange}
                     handleColorChange={handleColorChange}
                     handleFontWeightChange={handleFontWeightChange}
                     handleFontStyleChange={handleFontStyleChange}
@@ -88,7 +86,7 @@ const MasterTextStyleAccordion = () => {
                 />
                 <TextStyleAccordion
                     textName={'author'}
-                    handleFontChange={handleFontChange}
+                    handleFontFamilyChange={handleFontFamilyChange}
                     handleColorChange={handleColorChange}
                     handleFontWeightChange={handleFontWeightChange}
                     handleFontStyleChange={handleFontStyleChange}

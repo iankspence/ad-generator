@@ -1,8 +1,13 @@
 import * as PIXI from "pixi.js";
 
-export const handleLocalFontChange = (event, setFontFamily, handleFontChange) => {
-    setFontFamily(event.target.value);
-    handleFontChange(event);
+export const handleLocalFontFamilyChange = (event, newFontFamily, setFontFamily, textName, handleFontFamilyChange) => {
+    if (newFontFamily !== null) {
+        setFontFamily(newFontFamily);
+        handleFontFamilyChange(textName, newFontFamily);
+    } else {
+        setFontFamily('Arial');
+        handleFontFamilyChange(textName, 'Arial');
+    }
 };
 
 export const handleLocalColorChange = (event, setFill, handleColorChange) => {

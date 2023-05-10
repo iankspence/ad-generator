@@ -1,8 +1,8 @@
 import React from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Viewer from './Viewer';
-import SidebarTextArea from './SidebarTextArea';
+import TextSelector from '../selector/TextSelector';
+import TextAreaWithEdit from '../text-area/TextAreaWithEdit';
 
 const ReviewHookAccordion = ({ reviewPosition, updateReviewPosition, reviews, hookPosition, updateHookPosition, filteredHooks, onEditStart, onEditSubmit, onEditRestore }) => {
     return (
@@ -11,13 +11,13 @@ const ReviewHookAccordion = ({ reviewPosition, updateReviewPosition, reviews, ho
                 <Typography variant="subtitle1">Review/Hook (Quotes)</Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <Viewer
+                <TextSelector
                     label="Review"
                     position={reviewPosition}
                     setPosition={updateReviewPosition}
                     totalCount={reviews.length}
                 />
-                <SidebarTextArea
+                <TextAreaWithEdit
                     textArray={reviews.map((review) => review.reviewTextEdited ? review.reviewTextEdited : review.reviewText)}
                     position={reviewPosition}
                     rows={6}
@@ -27,13 +27,13 @@ const ReviewHookAccordion = ({ reviewPosition, updateReviewPosition, reviews, ho
                     canvasName={'review'}
                 />
 
-                <Viewer
+                <TextSelector
                     label="Hook"
                     position={hookPosition}
                     setPosition={updateHookPosition}
                     totalCount={filteredHooks.length}
                 />
-                <SidebarTextArea
+                <TextAreaWithEdit
                     textArray={filteredHooks.map((hook) => hook.hookTextEdited ? hook.hookTextEdited : hook.hookText)}
                     position={hookPosition}
                     rows={3}

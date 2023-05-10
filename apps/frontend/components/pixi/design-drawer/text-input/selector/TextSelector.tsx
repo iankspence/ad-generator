@@ -10,7 +10,7 @@ interface ViewerProps {
     totalCount: number;
 }
 
-const Viewer: React.FC<ViewerProps> = ({ label, position, setPosition, totalCount }) => {
+const TextSelector: React.FC<ViewerProps> = ({ label, position, setPosition, totalCount }) => {
     return (
         <div className="w-full flex justify-between items-center px-4">
             <Typography variant="subtitle1" className="text-reviewDrumMedGray">
@@ -44,4 +44,4 @@ const Viewer: React.FC<ViewerProps> = ({ label, position, setPosition, totalCoun
     );
 };
 
-export default Viewer;
+export default TextSelector;
