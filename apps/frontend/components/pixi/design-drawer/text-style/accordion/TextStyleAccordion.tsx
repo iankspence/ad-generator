@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
     Accordion,
     AccordionSummary,
@@ -7,23 +7,20 @@ import {
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import * as PIXI from 'pixi.js';
-import {PixiContext} from "../../../../../contexts/PixiContext";
-import {mode} from "../../../utils/mode";
+import { PixiContext } from '../../../../../contexts/PixiContext';
+import { mode } from '../../../utils/mode';
 import Grid from '@material-ui/core/Grid';
-import {capitalizeFirstLetter} from "../../../utils/text/capitalizeFirstLetter";
-import UserContext from "../../../../../contexts/UserContext";
-import useAccount from "../../../../../hooks/useAccount";
-import BoldButton from "../button/bold/BoldButton";
-import SmallCapsButton from "../button/small-caps/SmallCapsButton";
-import ItalicButton from "../button/italic/ItalicButton";
-import LetterSpacingSlider from "../slider/letter-spacing/LetterSpacingSlider";
-import FontFamilySelector from "../selector/font-family/FontFamilySelector";
-import ColorSelectionButtonGroup from "../button-group/ColorSelectionButtonGroup";
+import { capitalizeFirstLetter } from '../../../utils/text/capitalizeFirstLetter';
+import UserContext from '../../../../../contexts/UserContext';
+import useAccount from '../../../../../hooks/useAccount';
+import BoldButton from '../button/bold/BoldButton';
+import SmallCapsButton from '../button/small-caps/SmallCapsButton';
+import ItalicButton from '../button/italic/ItalicButton';
+import LetterSpacingSlider from '../slider/letter-spacing/LetterSpacingSlider';
+import FontFamilySelector from '../selector/font-family/FontFamilySelector';
+import ColorSelectionButtonGroup from '../button-group/color-selection/ColorSelectionButtonGroup';
 
-const TextStyleAccordion = ({
-                                textName,
-                                handleColorChange,
-                            }) => {
+const TextStyleAccordion = ({ textName }) => {
     const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const [fontFamily, setFontFamily] = useState('Arial');
@@ -34,26 +31,29 @@ const TextStyleAccordion = ({
     const [letterSpacing, setLetterSpacing] = useState(0);
     const [showPrimaryPaletteViewer, setShowPrimaryPaletteViewer] = useState(false);
     const [showSecondaryPaletteViewer, setShowSecondaryPaletteViewer] = useState(false);
+    const [textObjects, setTextObjects] = useState([]);
 
     const { user } = useContext(UserContext);
     const { account } = useAccount(user?._id);
 
     useEffect(() => {
-        const activeTextStyles = Object.entries(activeCanvases)
+        const activeTextObjects = Object.entries(activeCanvases)
             .filter(([canvasName, isActive]) => isActive)
             .map(([canvasName]) => {
                 const canvasApp = canvasApps[canvasName];
                 if (canvasApp) {
                     const textObject = canvasApp.stage.getChildByName(`${canvasName}-${textName}`) as PIXI.Text;
-                    if (textObject) {
-                        return textObject.style;
-                    }
+                    return textObject;
                 }
                 return null;
             })
-            .filter((style) => style !== null);
+            .filter((textObject) => textObject !== null);
+
+        const activeTextStyles = activeTextObjects.map((textObject) => textObject.style);
+        setTextObjects(activeTextObjects);
 
         if (activeTextStyles.length > 0) {
+
             const mostCommonFontFamily = mode(activeTextStyles.map((style) => style.fontFamily));
             const mostCommonFill = mode(activeTextStyles.map((style) => style.fill));
             const mostCommonFontWeight = mode(activeTextStyles.map((style) => style.fontWeight));
@@ -68,7 +68,8 @@ const TextStyleAccordion = ({
             setFontVariant(mostCommonFontVariant || 'normal');
             setLetterSpacing(mostCommonLetterSpacing || 0);
         }
-    }, [activeCanvases, canvasApps]);
+
+    }, [textObjects]);
 
     return (
         <Accordion>
@@ -89,13 +90,11 @@ const TextStyleAccordion = ({
                     <Grid item xs={3}>
                         <ColorSelectionButtonGroup
                             account={account}
-                            fill={fill}
-                            handleColorChange={handleColorChange}
                             textName={textName}
-                            showPrimaryPaletteViewer={showPrimaryPaletteViewer}
-                            setShowPrimaryPaletteViewer={setShowPrimaryPaletteViewer}
-                            showSecondaryPaletteViewer={showSecondaryPaletteViewer}
-                            setShowSecondaryPaletteViewer={setShowSecondaryPaletteViewer}
+                            fill={fill}
+                            setFill={setFill}
+                            activeCanvases={activeCanvases}
+                            canvasApps={canvasApps}
                         />
                     </Grid>
                     <Grid item xs={3}>
