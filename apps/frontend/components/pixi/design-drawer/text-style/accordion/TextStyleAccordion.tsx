@@ -24,8 +24,6 @@ const TextStyleAccordion = ({
                                 textName,
                                 handleFontFamilyChange,
                                 handleColorChange,
-                                handleFontWeightChange,
-                                handleFontStyleChange,
                                 handleFontVariantChange,
                                 handleLetterSpacingChange
                             }) => {
@@ -106,15 +104,15 @@ const TextStyleAccordion = ({
                         <BoldButton
                             textName={textName}
                             fontWeight={fontWeight}
-                            handleFontWeightChange={handleFontWeightChange}
                             setFontWeight={setFontWeight}
+                            activeCanvases={activeCanvases}
+                            canvasApps={canvasApps}
                         />
                     </Grid>
                     <Grid item xs={3}>
                         <ItalicButton
                             textName={textName}
                             fontStyle={fontStyle}
-                            handleFontStyleChange={handleFontStyleChange}
                             setFontStyle={setFontStyle}
                             activeCanvases={activeCanvases}
                             canvasApps={canvasApps}

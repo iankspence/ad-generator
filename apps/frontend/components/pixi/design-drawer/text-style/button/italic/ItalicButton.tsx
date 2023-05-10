@@ -2,11 +2,11 @@ import React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
-import { handleLocalFontStyleChange, handlePaddingChange } from '../../utils/textStyleHandlers';
+import {handleFontStyleChange} from "./handleFontStyleChange";
 
-const ItalicButton = ({ textName, fontStyle, handleFontStyleChange, setFontStyle, activeCanvases, canvasApps }) => {
+const ItalicButton = ({ textName, fontStyle, setFontStyle, activeCanvases, canvasApps }) => {
     const handleClick = (event, newFontStyle) => {
-        handleLocalFontStyleChange(event, newFontStyle, setFontStyle, textName, handleFontStyleChange, handlePaddingChange, activeCanvases, canvasApps);
+        handleFontStyleChange(event, newFontStyle, setFontStyle, textName, activeCanvases, canvasApps);
     };
 
     return (

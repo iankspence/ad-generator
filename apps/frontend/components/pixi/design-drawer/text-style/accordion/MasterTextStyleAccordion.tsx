@@ -1,17 +1,16 @@
 import React, { useContext } from 'react';
 import { PixiContext } from '../../../../../contexts/PixiContext';
-import {Accordion, AccordionSummary, AccordionDetails, Slider} from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextStyleAccordion from "./TextStyleAccordion";
 import {ActiveCanvasButtonGroup} from '../button-group/ActiveCanvasButtonGroup';
 import * as PIXI from "pixi.js";
-import { mode } from '../../../utils/mode';
 import TextPositionAccordion from "./TextPositionAccordion";
 
 const MasterTextStyleAccordion = () => {
 
-    const { activeCanvases, canvasApps, xRanges, yRanges, updateRange, updateLineHeightMultipliers } = useContext(PixiContext);
+    const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const handleTextStyleChange = (textName, newTextStyle) => {
         Object.entries(activeCanvases).forEach(([canvasName, isActive]) => {
@@ -41,16 +40,6 @@ const MasterTextStyleAccordion = () => {
         handleTextStyleChange(textName, updatedTextStyle);
     };
 
-    const handleFontWeightChange = (textName, newFontWeight) => {
-        const updatedTextStyle = { fontWeight: newFontWeight };
-        handleTextStyleChange(textName, updatedTextStyle);
-    }
-
-    const handleFontStyleChange = (textName, newFontStyle) => {
-        const updatedTextStyle = { fontStyle: newFontStyle };
-        handleTextStyleChange(textName, updatedTextStyle);
-    }
-
     const handleFontVariantChange = (textName, newFontVariant) => {
         const updatedTextStyle = { fontVariant: newFontVariant };
         handleTextStyleChange(textName, updatedTextStyle);
@@ -79,8 +68,6 @@ const MasterTextStyleAccordion = () => {
                     textName={'main'}
                     handleFontFamilyChange={handleFontFamilyChange}
                     handleColorChange={handleColorChange}
-                    handleFontWeightChange={handleFontWeightChange}
-                    handleFontStyleChange={handleFontStyleChange}
                     handleFontVariantChange={handleFontVariantChange}
                     handleLetterSpacingChange={handleLetterSpacingChange}
                 />
@@ -88,8 +75,6 @@ const MasterTextStyleAccordion = () => {
                     textName={'author'}
                     handleFontFamilyChange={handleFontFamilyChange}
                     handleColorChange={handleColorChange}
-                    handleFontWeightChange={handleFontWeightChange}
-                    handleFontStyleChange={handleFontStyleChange}
                     handleFontVariantChange={handleFontVariantChange}
                     handleLetterSpacingChange={handleLetterSpacingChange}
                 />

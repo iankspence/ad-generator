@@ -2,11 +2,11 @@ import React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
-import { handleLocalFontWeightChange } from '../../utils/textStyleHandlers';
+import { handleFontWeightChange } from './handleFontWeightChange';
 
-const BoldButton = ({ textName, fontWeight, handleFontWeightChange, setFontWeight }) => {
+const BoldButton = ({ textName, fontWeight, setFontWeight, activeCanvases, canvasApps }) => {
     const handleClick = (event, newFontWeight) => {
-        handleLocalFontWeightChange(event, newFontWeight, setFontWeight, textName, handleFontWeightChange);
+        handleFontWeightChange(event, newFontWeight, setFontWeight, textName, activeCanvases, canvasApps);
     };
 
     return (
