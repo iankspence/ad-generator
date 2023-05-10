@@ -5,7 +5,7 @@ import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import { handleFontWeightChange } from './handleFontWeightChange';
 
 const BoldButton = ({ textName, fontWeight, setFontWeight, activeCanvases, canvasApps }) => {
-    const handleClick = (event, newFontWeight) => {
+    const onClick = (event, newFontWeight) => {
         handleFontWeightChange(event, newFontWeight, setFontWeight, textName, activeCanvases, canvasApps);
     };
 
@@ -13,7 +13,7 @@ const BoldButton = ({ textName, fontWeight, setFontWeight, activeCanvases, canva
         <ToggleButtonGroup
             value={fontWeight}
             exclusive
-            onChange={handleClick}
+            onChange={onClick}
             aria-label="text weight"
         >
             <ToggleButton value="bold" aria-label="bold">

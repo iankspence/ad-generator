@@ -1,20 +1,15 @@
-import { PixiContext } from '../../../../../contexts/PixiContext';
+import { PixiContext } from '../../../../../../contexts/PixiContext';
 import Button from '@mui/material/Button';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
+import {handleActiveCanvasChange} from "./handleActiveCanvasChange";
 
-export const ActiveCanvasButtonGroup = ({ visible }) => {
+export const ActiveCanvasButtonGroup = () => {
     const { activeCanvases, updateActiveCanvases } = useContext(PixiContext);
 
-    const handleButtonClick = (canvas) => {
-        const newSelectedCanvases = { ...activeCanvases, [canvas]: !activeCanvases[canvas] };
-
-        updateActiveCanvases(newSelectedCanvases);
-    };
-
     return (
-        <div className={`${visible ? 'grid grid-cols-2 gap-1' : 'hidden'} text-lg z-10 pb-4`}>
+        <div className={'grid grid-cols-2 gap-1 text-lg z-10 pb-4'}>
             <Button
-                onClick={() => handleButtonClick('hook')}
+                onClick={() => handleActiveCanvasChange('hook', activeCanvases, updateActiveCanvases)}
                 sx={{
                     borderColor: activeCanvases['hook'] ? 'grey.800' : 'grey.200',
                     color: activeCanvases['hook'] ? 'grey.800' : 'grey.200',
@@ -23,7 +18,7 @@ export const ActiveCanvasButtonGroup = ({ visible }) => {
                 Hook
             </Button>
             <Button
-                onClick={() => handleButtonClick('claim')}
+                onClick={() => handleActiveCanvasChange('claim', activeCanvases, updateActiveCanvases)}
                 sx={{
                     borderColor: activeCanvases['claim'] ? 'grey.800' : 'grey.200',
                     color: activeCanvases['claim'] ? 'grey.800' : 'grey.200',
@@ -32,7 +27,7 @@ export const ActiveCanvasButtonGroup = ({ visible }) => {
                 Claim
             </Button>
             <Button
-                onClick={() => handleButtonClick('review')}
+                onClick={() => handleActiveCanvasChange('review', activeCanvases, updateActiveCanvases)}
                 sx={{
                     borderColor: activeCanvases['review'] ? 'grey.800' : 'grey.200',
                     color: activeCanvases['review'] ? 'grey.800' : 'grey.200',
@@ -41,7 +36,7 @@ export const ActiveCanvasButtonGroup = ({ visible }) => {
                 Review
             </Button>
             <Button
-                onClick={() => handleButtonClick('close')}
+                onClick={() => handleActiveCanvasChange('close', activeCanvases, updateActiveCanvases)}
                 sx={{
                     borderColor: activeCanvases['close'] ? 'grey.800' : 'grey.200',
                     color: activeCanvases['close'] ? 'grey.800' : 'grey.200',

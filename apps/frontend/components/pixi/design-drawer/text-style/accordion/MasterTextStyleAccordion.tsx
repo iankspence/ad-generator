@@ -4,7 +4,7 @@ import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextStyleAccordion from "./TextStyleAccordion";
-import {ActiveCanvasButtonGroup} from '../button-group/ActiveCanvasButtonGroup';
+import {ActiveCanvasButtonGroup} from '../button-group/active-canvas/ActiveCanvasButtonGroup';
 import * as PIXI from "pixi.js";
 import TextPositionAccordion from "./TextPositionAccordion";
 
@@ -42,12 +42,11 @@ const MasterTextStyleAccordion = () => {
                 <Typography variant="subtitle1">Text Style</Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <ActiveCanvasButtonGroup visible={true} />
+                <ActiveCanvasButtonGroup/>
 
                 <TextPositionAccordion
                     textName={'main'}
                 />
-
                 <div className="py-2"></div>
 
                 <TextStyleAccordion

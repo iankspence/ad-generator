@@ -17,7 +17,7 @@ import BoldButton from "../button/bold/BoldButton";
 import SmallCapsButton from "../button/small-caps/SmallCapsButton";
 import ItalicButton from "../button/italic/ItalicButton";
 import LetterSpacingSlider from "../slider/letter-spacing/LetterSpacingSlider";
-import FontFamilySelector from "../selector/FontFamilySelector";
+import FontFamilySelector from "../selector/font-family/FontFamilySelector";
 import ColorSelectionButtonGroup from "../button-group/ColorSelectionButtonGroup";
 
 const TextStyleAccordion = ({

@@ -5,7 +5,7 @@ import { handleLetterSpacingChange } from './handleLetterSpacingChange';
 
 const LetterSpacingSlider = ({ textName, letterSpacing, setLetterSpacing, activeCanvases, canvasApps }) => {
 
-    const handleSlide = (event, newLetterSpacing) => {
+    const onSlide = (event, newLetterSpacing) => {
         handleLetterSpacingChange(event, newLetterSpacing, setLetterSpacing, textName, activeCanvases, canvasApps);
     };
 
@@ -16,7 +16,7 @@ const LetterSpacingSlider = ({ textName, letterSpacing, setLetterSpacing, active
             </Typography>
             <Slider
                 value={letterSpacing}
-                onChange={handleSlide}
+                onChange={onSlide}
                 aria-labelledby="letter-spacing-slider"
                 valueLabelDisplay="auto"
             />

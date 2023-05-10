@@ -4,8 +4,9 @@ import {handleFontFamilyChange} from "./handleFontFamilyChange";
 
 const FontFamilySelector = ({ fontFamily, setFontFamily, textName, activeCanvases, canvasApps }) => {
 
-    const handleClick = (event) => {
+    const onClick = (event) => {
         const newFontFamily = event.target.value;
+        console.log('newFontFamily', newFontFamily)
         handleFontFamilyChange(event, newFontFamily, setFontFamily, textName, activeCanvases, canvasApps);
     };
 
@@ -15,7 +16,7 @@ const FontFamilySelector = ({ fontFamily, setFontFamily, textName, activeCanvase
                 labelId="font-selector-label"
                 id="font-selector"
                 value={fontFamily}
-                onChange={handleClick}
+                onChange={onClick}
             >
                 <MenuItem value="Arial Narrow">Arial Narrow</MenuItem>
                 <MenuItem value="Arial">Arial</MenuItem>

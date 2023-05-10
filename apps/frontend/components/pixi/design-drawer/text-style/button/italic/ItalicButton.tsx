@@ -5,7 +5,7 @@ import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import {handleFontStyleChange} from "./handleFontStyleChange";
 
 const ItalicButton = ({ textName, fontStyle, setFontStyle, activeCanvases, canvasApps }) => {
-    const handleClick = (event, newFontStyle) => {
+    const onClick = (event, newFontStyle) => {
         handleFontStyleChange(event, newFontStyle, setFontStyle, textName, activeCanvases, canvasApps);
     };
 
@@ -13,7 +13,7 @@ const ItalicButton = ({ textName, fontStyle, setFontStyle, activeCanvases, canva
         <ToggleButtonGroup
             value={fontStyle}
             exclusive
-            onChange={handleClick}
+            onChange={onClick}
             aria-label="text style"
         >
             <ToggleButton value="italic" aria-label="italic">

@@ -5,7 +5,7 @@ import KeyboardCapslockIcon from '@mui/icons-material/KeyboardCapslock';
 import { handleFontVariantChange } from './handleFontVariantChange';
 
 const SmallCapsButton = ({ textName, fontVariant, setFontVariant, activeCanvases, canvasApps }) => {
-    const handleClick = (event, newFontVariant) => {
+    const onClick = (event, newFontVariant) => {
         handleFontVariantChange(event, newFontVariant, setFontVariant, textName, activeCanvases, canvasApps);
     };
 
@@ -13,7 +13,7 @@ const SmallCapsButton = ({ textName, fontVariant, setFontVariant, activeCanvases
         <ToggleButtonGroup
             value={fontVariant}
             exclusive
-            onChange={handleClick}
+            onChange={onClick}
             aria-label="text variant"
         >
             <ToggleButton value="small-caps" aria-label="small-caps">
