@@ -20,8 +20,6 @@ const MasterTextStyleAccordion = () => {
                 <TextPositionAccordion
                     textName={'main'}
                 />
-                <div className="py-2"></div>
-
                 <TextStyleAccordion
                     textName={'main'}
                 />

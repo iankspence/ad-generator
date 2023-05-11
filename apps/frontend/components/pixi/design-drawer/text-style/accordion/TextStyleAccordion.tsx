@@ -16,10 +16,10 @@ import useAccount from '../../../../../hooks/useAccount';
 import BoldButton from '../button/bold/BoldButton';
 import SmallCapsButton from '../button/small-caps/SmallCapsButton';
 import ItalicButton from '../button/italic/ItalicButton';
-import LetterSpacingSlider from '../slider/letter-spacing/LetterSpacingSlider';
 import FontFamilySelector from '../selector/font-family/FontFamilySelector';
 import ColorSelectionButtonGroup from '../button-group/color-selection/ColorSelectionButtonGroup';
-import AlignButton from "../button/align/AlignButton";
+import AlignButtonGroup from "../button-group/align/AlignButtonGroup";
+import PaddingSlider from "../slider/padding/PaddingSlider";
 
 const TextStyleAccordion = ({ textName }) => {
     const { activeCanvases, canvasApps } = useContext(PixiContext);
@@ -31,6 +31,7 @@ const TextStyleAccordion = ({ textName }) => {
     const [fontVariant, setFontVariant] = useState('normal');
     const [letterSpacing, setLetterSpacing] = useState(0);
     const [align, setAlign] = useState('left');
+    const [padding, setPadding] = useState(0);
 
     const [textObjects, setTextObjects] = useState([]);
 
@@ -125,8 +126,11 @@ const TextStyleAccordion = ({ textName }) => {
                             canvasApps={canvasApps}
                         />
                     </Grid>
-                    <Grid item xs={3}>
-                        <AlignButton
+                </Grid>
+                <div className="py-2"></div>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <AlignButtonGroup
                             textName={textName}
                             align={align}
                             setAlign={setAlign}
@@ -135,15 +139,15 @@ const TextStyleAccordion = ({ textName }) => {
                         />
                     </Grid>
                 </Grid>
-
-                <div className="py-2"></div>
-                <LetterSpacingSlider
-                    textName={textName}
-                    letterSpacing={letterSpacing}
-                    setLetterSpacing={setLetterSpacing}
-                    activeCanvases={activeCanvases}
-                    canvasApps={canvasApps}
-                />
+                { fontStyle === 'italic' && (
+                    <PaddingSlider
+                        textName={textName}
+                        padding={padding}
+                        setPadding={setPadding}
+                        activeCanvases={activeCanvases}
+                        canvasApps={canvasApps}
+                    />
+                ) }
             </AccordionDetails>
         </Accordion>
     );

@@ -23,28 +23,33 @@ export const useText = (appRef, canvasName, size) => {
     const selectedTheme = getSelectedTheme(selectedThemeId);
 
     const [currentReviewId, setCurrentReviewId] = useState(null);
+    const [currentReviewTexts, setCurrentReviewTexts] = useState(['', '']);
     const [currentHookId, setCurrentHookId] = useState(null);
-    const [currentClaimId, setCurrentClaimId] = useState(null);
-    const [currentCloseId, setCurrentCloseId] = useState(null);
+    const [currentHookTexts, setCurrentHookTexts] = useState(['', '']);
+    const [currentClaimTexts, setCurrentClaimTexts] = useState(['', '']);
+    const [currentCloseTexts, setCurrentCloseTexts] = useState(['', '']);
+
 
     const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, selectedAudiencePosition);
 
     useEffect(() => {
         setCurrentReviewId(reviews[reviewPosition - 1]?._id?.toString() || null);
+        setCurrentReviewTexts([reviews[reviewPosition - 1]?.reviewText, reviews[reviewPosition - 1]?.reviewTextEdited])
         setCurrentHookId(null);
     }, [reviewPosition, reviews]);
 
     useEffect(() => {
         const filteredHooks = hooks.filter(hook => hook.reviewId === currentReviewId);
         setCurrentHookId(filteredHooks[hookPosition - 1]?._id?.toString() || null);
+        setCurrentHookTexts([filteredHooks[hookPosition - 1]?.hookText, filteredHooks[hookPosition - 1]?.hookTextEdited ])
     }, [hookPosition, hooks, currentReviewId]);
 
     useEffect(() => {
-        setCurrentClaimId(filteredClaims[claimPosition - 1]?._id?.toString() || null);
+        setCurrentClaimTexts([filteredClaims[claimPosition - 1]?.claimText, filteredClaims[claimPosition - 1]?.claimTextEdited ])
     }, [claimPosition, filteredClaims]);
 
     useEffect(() => {
-        setCurrentCloseId(filteredCloses[closePosition - 1]?._id?.toString() || null);
+        setCurrentCloseTexts([filteredCloses[closePosition - 1]?.closeText, filteredCloses[closePosition - 1]?.closeTextEdited ])
     }, [closePosition, filteredCloses]);
 
     useEffect(() => {
@@ -87,9 +92,11 @@ export const useText = (appRef, canvasName, size) => {
         }
     }, [
         currentHookId,
+        currentHookTexts,
         currentReviewId,
-        currentClaimId,
-        currentCloseId,
+        currentReviewTexts,
+        currentClaimTexts,
+        currentCloseTexts,
         xRanges,
         yRanges,
         lineHeightMultipliers,

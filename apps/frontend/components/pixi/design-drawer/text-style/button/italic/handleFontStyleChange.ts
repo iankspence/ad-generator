@@ -5,14 +5,8 @@ export const handleFontStyleChange = (event, newFontStyle, setFontStyle, textNam
     if (newFontStyle) {
         setFontStyle(newFontStyle);
         handleTextStyleChange(textName, { fontStyle: newFontStyle }, activeCanvases, canvasApps) ;
-        if (newFontStyle === 'italic') {
-            handlePaddingChange(textName, 3, activeCanvases, canvasApps);
-        } else {
-            handlePaddingChange(textName, 0, activeCanvases, canvasApps);
-        }
     } else {
         setFontStyle('normal');
         handleTextStyleChange(textName, { fontStyle: 'normal' }, activeCanvases, canvasApps);
-        handlePaddingChange(textName, 0, activeCanvases, canvasApps);
     }
 };

@@ -10,10 +10,14 @@ import {
     Typography
 } from '@mui/material';
 import LineHeightSlider from "../slider/line-height/LineHeightSlider";
+import LetterSpacingSlider from "../slider/letter-spacing/LetterSpacingSlider";
+import PaddingSlider from "../slider/padding/PaddingSlider";
 
 const TextPositionAccordion = ({ textName }) => {
     const { activeCanvases, canvasApps, xRanges, yRanges, updateLineHeightMultipliers, updateDisplayTextBox } = useContext(PixiContext);
     const [lineHeightMultiplier, setLineHeightMultiplier] = useState(133);
+    const [letterSpacing, setLetterSpacing] = useState(0);
+    const [padding, setPadding] = useState(0);
 
     return (
         <Accordion>
@@ -33,6 +37,7 @@ const TextPositionAccordion = ({ textName }) => {
                     min={0}
                     max={320}
                 />
+
                 <LineHeightSlider
                     lineHeightMultiplier={lineHeightMultiplier}
                     setLineHeightMultiplier={setLineHeightMultiplier}
@@ -40,6 +45,14 @@ const TextPositionAccordion = ({ textName }) => {
                     canvasApps={canvasApps}
                     updateLineHeightMultipliers={updateLineHeightMultipliers}
                 />
+                <LetterSpacingSlider
+                    textName={textName}
+                    letterSpacing={letterSpacing}
+                    setLetterSpacing={setLetterSpacing}
+                    activeCanvases={activeCanvases}
+                    canvasApps={canvasApps}
+                />
+
 
             </AccordionDetails>
 
