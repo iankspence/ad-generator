@@ -19,6 +19,9 @@ const LetterSpacingSlider = ({ textName, letterSpacing, setLetterSpacing, active
                 onChange={onSlide}
                 aria-labelledby="letter-spacing-slider"
                 valueLabelDisplay="auto"
+                min={0}
+                max={1}
+                step={0.01}
             />
         </>
     );

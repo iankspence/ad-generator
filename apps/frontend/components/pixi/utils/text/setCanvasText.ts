@@ -68,11 +68,13 @@ const setCanvasText = (
             break;
     }
 
+
     if (!app || !app.stage || !mainText ) return;
 
     let mainTextObject = findTextObject(app, `${canvasName}-main`);
+
     if (!mainTextObject) {
-        mainTextObject = new PIXI.Text(mainText, mainStyleSettings.style);
+        mainTextObject = new PIXI.HTMLText(mainText, mainStyleSettings.style);
         mainTextObject.name = `${canvasName}-main`;
         mainTextObject.zIndex = 3;
         mainTextObject.resolution = 1080 / size;
@@ -86,7 +88,7 @@ const setCanvasText = (
     if (authorText) {
         authorTextObject = findTextObject(app, `${canvasName}-author`);
         if (!authorTextObject) {
-            authorTextObject = new PIXI.Text(authorText, authorStyleSettings.style);
+            authorTextObject = new PIXI.HTMLText(authorText, authorStyleSettings.style);
             authorTextObject.name = `${canvasName}-author`;
             authorTextObject.zIndex = 3;
             authorTextObject.resolution = 1080 / size;

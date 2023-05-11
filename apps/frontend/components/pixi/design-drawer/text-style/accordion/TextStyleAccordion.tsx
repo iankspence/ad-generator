@@ -19,6 +19,7 @@ import ItalicButton from '../button/italic/ItalicButton';
 import LetterSpacingSlider from '../slider/letter-spacing/LetterSpacingSlider';
 import FontFamilySelector from '../selector/font-family/FontFamilySelector';
 import ColorSelectionButtonGroup from '../button-group/color-selection/ColorSelectionButtonGroup';
+import AlignButton from "../button/align/AlignButton";
 
 const TextStyleAccordion = ({ textName }) => {
     const { activeCanvases, canvasApps } = useContext(PixiContext);
@@ -29,8 +30,8 @@ const TextStyleAccordion = ({ textName }) => {
     const [fontStyle, setFontStyle] = useState('normal');
     const [fontVariant, setFontVariant] = useState('normal');
     const [letterSpacing, setLetterSpacing] = useState(0);
-    const [showPrimaryPaletteViewer, setShowPrimaryPaletteViewer] = useState(false);
-    const [showSecondaryPaletteViewer, setShowSecondaryPaletteViewer] = useState(false);
+    const [align, setAlign] = useState('left');
+
     const [textObjects, setTextObjects] = useState([]);
 
     const { user } = useContext(UserContext);
@@ -59,16 +60,16 @@ const TextStyleAccordion = ({ textName }) => {
             const mostCommonFontWeight = mode(activeTextStyles.map((style) => style.fontWeight));
             const mostCommonFontStyle = mode(activeTextStyles.map((style) => style.fontStyle));
             const mostCommonFontVariant = mode(activeTextStyles.map((style) => style.fontVariant));
-            const mostCommonLetterSpacing = mode(activeTextStyles.map((style) => style.letterSpacing));
+            const mostCommonAlign = mode(activeTextStyles.map((style) => style.align));
 
             setFontFamily(mostCommonFontFamily || 'Arial');
             setFill(mostCommonFill || '#000000');
             setFontWeight(mostCommonFontWeight || 'normal');
             setFontStyle(mostCommonFontStyle || 'normal');
             setFontVariant(mostCommonFontVariant || 'normal');
-            setLetterSpacing(mostCommonLetterSpacing || 0);
-        }
+            setAlign(mostCommonAlign || 'left');
 
+        }
     }, [textObjects]);
 
     return (
@@ -120,6 +121,15 @@ const TextStyleAccordion = ({ textName }) => {
                             textName={textName}
                             fontVariant={fontVariant}
                             setFontVariant={setFontVariant}
+                            activeCanvases={activeCanvases}
+                            canvasApps={canvasApps}
+                        />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <AlignButton
+                            textName={textName}
+                            align={align}
+                            setAlign={setAlign}
                             activeCanvases={activeCanvases}
                             canvasApps={canvasApps}
                         />

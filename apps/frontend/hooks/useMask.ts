@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import { PixiContext } from '../contexts/PixiContext';
 import { addMaskLayer } from '../components/pixi/utils/addMaskLayer';
 import { getMasksByNames } from '../utils/api';
-import { themes } from '../utils/constants/themes';
 import * as PIXI from 'pixi.js';
 import { findMaskChildren } from '../components/pixi/utils/findMaskChildren';
 import {getSelectedTheme} from "../components/pixi/utils/getSelectedTheme";
@@ -41,7 +40,6 @@ const useMask = (appRef, canvasName, size) => {
             setMaskTextures([]);
         }
         },[canvasName, selectedThemeId]);
-
 
 
     useEffect(() => {
