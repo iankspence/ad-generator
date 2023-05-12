@@ -13,5 +13,4 @@ export * from './lib/schema/claim';
 export * from './lib/schema/copy';
 export * from './lib/schema/close';
 export * from './lib/schema/mask';
-export * from './lib/interface/themes/sky-bubbles-center-text';
-export * from './lib/interface/themes/basic-swoosh';
+

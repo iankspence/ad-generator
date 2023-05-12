@@ -46,16 +46,16 @@ const LogoUpload = ({ onColorsExtracted, accountId, initialLogo, initialPrimaryC
 
     const extractColors = (logoData) => {
         const img = new Image();
-        const colourThief = new ColorThief();
+        const colorThief = new ColorThief();
 
         img.onload = () => {
-            const colours = colourThief
+            const colors = colorThief
                 .getPalette(img, 5)
                 .filter(([r, g, b]) => r !== 0 && g !== 0 && b !== 0 && r !== 255 && g !== 255 && b !== 255);
-            setPrimaryColor(colours[0]);
-            setSecondaryColor(colours[1]);
-            onColorsExtracted(colours[0], colours[1]);
-            updateAccountLogoAndColors(accountId, logoData, colours[0], colours[1]).then((r) => console.log(r));
+            setPrimaryColor(colors[0]);
+            setSecondaryColor(colors[1]);
+            onColorsExtracted(colors[0], colors[1]);
+            updateAccountLogoAndColors(accountId, logoData, colors[0], colors[1]).then((r) => console.log(r));
         };
         img.src = logoData;
     };

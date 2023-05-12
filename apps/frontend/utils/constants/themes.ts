@@ -1,3 +1,6 @@
+
+
+
 export const themes = [
     {
         id: 'basic-swoosh',
@@ -5,21 +8,41 @@ export const themes = [
             shortMasks: [
                 {
                     name: 'basic-swoosh-short-base-1',
-                    colour: '#123123',
+                    autoColor: {
+                        sourceType: 'primary',
+                        autoType: 'adjacent',
+                        minMaxType: 'min',
+                        minMaxDistance: 0,
+                    }
                 },
                 {
                     name: 'basic-swoosh-short-base-2',
-                    colour: '#154345',
+                    autoColor: {
+                        sourceType: 'primary',
+                        autoType: 'split-complementary-1',
+                        minMaxType: 'max',
+                        minMaxDistance: 1,
+                    }
                 },
             ],
             tallMasks: [
                 {
                     name: 'basic-swoosh-tall-base-1',
-                    colour: '#123123',
+                    autoColor: {
+                        sourceType: 'primary',
+                        autoType: 'split-complementary-1',
+                        minMaxType: 'max',
+                        minMaxDistance: 0,
+                    }
                 },
                 {
                     name: 'basic-swoosh-tall-base-2',
-                    colour: '#154345',
+                    autoColor: {
+                        sourceType: 'primary',
+                        autoType: 'split-complementary-1',
+                        minMaxType: 'max',
+                        minMaxDistance: 2,
+                    }
                 },
             ],
             hookTextDefaults: {
@@ -109,22 +132,42 @@ export const themes = [
         settings: {
             shortMasks: [
                 {
-                    name: 'complex-swoosh-short-base-1',
-                    colour: '#123123',
+                    name: 'basic-swoosh-short-base-1',
+                    autoColor: {
+                        sourceType: 'primary',
+                        autoType: 'split-complementary-1',
+                        minMaxType: 'max',
+                        minMaxDistance: 0,
+                    }
                 },
                 {
-                    name: 'complex-swoosh-short-base-2',
-                    colour: '#154345',
+                    name: 'basic-swoosh-short-base-2',
+                    autoColor: {
+                        sourceType: 'primary',
+                        autoType: 'split-complementary-1',
+                        minMaxType: 'max',
+                        minMaxDistance: 2,
+                    }
                 },
             ],
             tallMasks: [
                 {
-                    name: 'complex-swoosh-tall-base-1',
-                    colour: '#123123',
+                    name: 'basic-swoosh-tall-base-1',
+                    autoColor: {
+                        sourceType: 'primary',
+                        autoType: 'split-complementary-1',
+                        minMaxType: 'max',
+                        minMaxDistance: 0,
+                    }
                 },
                 {
-                    name: 'complex-swoosh-tall-base-2',
-                    colour: '#154345',
+                    name: 'basic-swoosh-tall-base-2',
+                    autoColor: {
+                        sourceType: 'primary',
+                        autoType: 'split-complementary-1',
+                        minMaxType: 'max',
+                        minMaxDistance: 2,
+                    }
                 },
             ],
             hookTextDefaults: {

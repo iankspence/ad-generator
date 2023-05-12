@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 
 export const addMaskLayer = (app, maskData, size) => {
-    const { texture, colour } = maskData;
+    const { texture, color } = maskData;
     const mask = new PIXI.Sprite(texture);
     mask.anchor.set(0.5);
 
@@ -25,8 +25,8 @@ void main(void)
     gl_FragColor = mix(vec4(0.0, 0.0, 0.0, 0.0), vec4(uColour.rgb, 1.0), alpha);
 }
 `;
-    const colourFilter = new PIXI.Filter(null, fragment, { uColour: new PIXI.Color(colour).toRgbArray() });
-    mask.filters = [colourFilter];
+    const colorFilter = new PIXI.Filter(null, fragment, { uColour: new PIXI.Color(color).toRgbArray() });
+    mask.filters = [colorFilter];
 
     app.stage.addChild(mask);
 };

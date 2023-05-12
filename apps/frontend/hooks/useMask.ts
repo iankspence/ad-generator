@@ -5,11 +5,17 @@ import { getMasksByNames } from '../utils/api';
 import * as PIXI from 'pixi.js';
 import { findMaskChildren } from '../components/pixi/utils/findMaskChildren';
 import {getSelectedTheme} from "../components/pixi/utils/getSelectedTheme";
+import useAccount from "./useAccount";
+import UserContext from "../contexts/UserContext";
+import {generateAutoColor} from "../utils/generateAutoColor";
 
 const useMask = (appRef, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
     const { selectedThemeId } = useContext(PixiContext);
     const selectedTheme = getSelectedTheme(selectedThemeId);
+
+    const { user } = useContext(UserContext)
+    const {account} = useAccount(user?._id);
 
     const fetchMaskTextures = async (maskNames) => {
         try {
@@ -43,7 +49,7 @@ const useMask = (appRef, canvasName, size) => {
 
 
     useEffect(() => {
-        if (!appRef?.current || !maskTextures) return;
+        if (!appRef?.current || !maskTextures || !account ) return;
 
         const app = appRef.current;
         if (!app || !app.stage) return;
@@ -66,16 +72,17 @@ const useMask = (appRef, canvasName, size) => {
                 }
 
                 maskTextures.forEach((texture, index) => {
+
                     const maskData = {
                         texture,
-                        colour: masks[index].colour,
+                        color: generateAutoColor(masks[index].autoColor, account?.primaryColor, account?.secondaryColor)
                     };
                     addMaskLayer(app, maskData, size);
                 });
             }
         }
 
-    }, [maskTextures, selectedThemeId]);
+    }, [maskTextures, selectedThemeId, account]);
 };
 
 export default useMask;
