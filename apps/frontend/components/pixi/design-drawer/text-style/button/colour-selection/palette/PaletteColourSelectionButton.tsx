@@ -3,13 +3,13 @@ import { Grid } from "@mui/material";
 import PaletteIcon from "@mui/icons-material/Palette";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import ColorPaletteButtonGroup from "../../../button-group/color-selection/palette/ColorPaletteButtonGroup";
+import ColourPaletteButtonGroup from "../../../button-group/colour-selection/palette/ColourPaletteButtonGroup";
 import {PixiContext} from "../../../../../../../contexts/PixiContext";
 
-const PaletteColorSelectionButton = ({
+const PaletteColourSelectionButton = ({
                                          setFill,
                                          textName,
-                                         colorPalettes,
+                                         colourPalettes,
                                      }) => {
 
     const [showPaletteViewer, setShowPaletteViewer] = useState(false);
@@ -32,10 +32,10 @@ const PaletteColorSelectionButton = ({
                 </ToggleButton>
             </ToggleButtonGroup>
             {showPaletteViewer && (
-                <ColorPaletteButtonGroup
+                <ColourPaletteButtonGroup
                     setFill={setFill}
                     textName={textName}
-                    palettes={colorPalettes}
+                    palettes={colourPalettes}
                     setShowPaletteViewer={setShowPaletteViewer}
                     activeCanvases={activeCanvases}
                     canvasApps={canvasApps}
@@ -45,4 +45,4 @@ const PaletteColorSelectionButton = ({
     );
 };
 
-export default PaletteColorSelectionButton;
+export default PaletteColourSelectionButton;

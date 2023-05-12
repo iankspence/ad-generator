@@ -25,7 +25,7 @@ const ColorDisplayButton = styled('button')(
     })
 );
 
-const ColorSelectionButton = ({ fill, setFill, textName, }) => {
+const ColourSelectionButton = ({ fill, setFill, textName, }) => {
     const pickerRef = useRef(null);
 
     const { activeCanvases, canvasApps } = useContext(PixiContext);
@@ -55,4 +55,4 @@ const ColorSelectionButton = ({ fill, setFill, textName, }) => {
     );
 };
 
-export default ColorSelectionButton;
+export default ColourSelectionButton;

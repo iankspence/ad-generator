@@ -17,7 +17,7 @@ import BoldButton from '../button/bold/BoldButton';
 import SmallCapsButton from '../button/small-caps/SmallCapsButton';
 import ItalicButton from '../button/italic/ItalicButton';
 import FontFamilySelector from '../selector/font-family/FontFamilySelector';
-import ColorSelectionButtonGroup from '../button-group/color-selection/ColorSelectionButtonGroup';
+import ColourSelectionButtonGroup from '../button-group/colour-selection/ColourSelectionButtonGroup';
 import AlignButtonGroup from "../button-group/align/AlignButtonGroup";
 import PaddingSlider from "../slider/padding/PaddingSlider";
 import LetterSpacingSlider from "../slider/letter-spacing/LetterSpacingSlider";
@@ -92,7 +92,7 @@ const TextStyleAccordion = ({ textName }) => {
 
                 <Grid container spacing={2}>
                     <Grid item xs={3}>
-                        <ColorSelectionButtonGroup
+                        <ColourSelectionButtonGroup
                             account={account}
                             textName={textName}
                             fill={fill}
@@ -153,9 +153,6 @@ const TextStyleAccordion = ({ textName }) => {
                         />
                     </div>
                 ) }
-
-
-
 
             </AccordionDetails>
         </Accordion>

@@ -11,21 +11,21 @@ const useStyles = makeStyles({
         borderRadius: '4px',
         boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.1)',
     },
-    colorSquare: {
+    colourSquare: {
         padding: 'calc(100% / 3)',
         position: 'relative',
         borderRadius: '4px',
     },
 });
 
-const ColorPaletteButtonGroup = ({ setFill, textName, palettes, setShowPaletteViewer, activeCanvases, canvasApps }) => {
+const ColourPaletteButtonGroup = ({ setFill, textName, palettes, setShowPaletteViewer, activeCanvases, canvasApps }) => {
     const classes = useStyles();
 
-    const handleClick = (event, color) => {
+    const handleClick = (event, colour) => {
         if (!event.target.value) {
             const customEvent = {
                 ...event,
-                target: { ...event.target, value: color },
+                target: { ...event.target, value: colour },
             };
             handleColorChange(customEvent, setFill, textName, activeCanvases, canvasApps);
         } else {
@@ -40,15 +40,15 @@ const ColorPaletteButtonGroup = ({ setFill, textName, palettes, setShowPaletteVi
                 {palettes.map((palette, index) => (
                     <Grid key={index} item xs={12}  >
                         <Grid container justifyContent="center" alignItems="center" padding={0.4}>
-                            {palette.map((color, colorIndex) => (
-                                <Grid key={colorIndex} item padding={0}>
+                            {palette.map((colour, colourIndex) => (
+                                <Grid key={colourIndex} item padding={0}>
                                     <Button
-                                        className={classes.colorSquare}
-                                        onClick={(event) => handleClick(event, color)}
+                                        className={classes.colourSquare}
+                                        onClick={(event) => handleClick(event, colour)}
                                     >
                                         <div
                                             style={{
-                                                backgroundColor: color,
+                                                backgroundColor: colour,
                                                 position: "absolute",
                                                 height: 40,
                                                 top: 0,
@@ -70,4 +70,4 @@ const ColorPaletteButtonGroup = ({ setFill, textName, palettes, setShowPaletteVi
     );
 };
 
-export default ColorPaletteButtonGroup;
+export default ColourPaletteButtonGroup;

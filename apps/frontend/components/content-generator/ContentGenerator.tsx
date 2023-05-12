@@ -6,13 +6,11 @@ import CanvasViewToggle from '../pixi/floating-buttons/CanvasViewToggle';
 import DownloadButton from '../pixi/floating-buttons/DownloadButton';
 import ThemeSelector from '../pixi/floating-buttons/ThemeSelector';
 import React, { useContext, useState } from 'react';
-import Button from '@mui/material/Button';
 import {handleThemeChange} from "./handleThemeChange";
 import {handleToggleView} from "./handleToggleView";
 import {handleImageUpload} from "./handleImageUpload";
 import {handlePreviousCanvas} from "./handlePreviousCanvas";
 import {handleNextCanvas} from "./handleNextCanvas";
-// import {handleActiveButtonClick} from "./handleActiveButtonClick";
 import {handleRightDrawerOpen} from "./handleRightDrawerOpen";
 import renderCanvas from "./renderCanvas";
 
