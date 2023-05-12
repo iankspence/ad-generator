@@ -29,33 +29,37 @@ export const useText = (appRef, canvasName, size) => {
     const [currentClaimTexts, setCurrentClaimTexts] = useState(['', '']);
     const [currentCloseTexts, setCurrentCloseTexts] = useState(['', '']);
 
-
     const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, selectedAudiencePosition);
 
     useEffect(() => {
-        setCurrentReviewId(reviews[reviewPosition - 1]?._id?.toString() || null);
-        setCurrentReviewTexts([reviews[reviewPosition - 1]?.reviewText, reviews[reviewPosition - 1]?.reviewTextEdited])
+        if (!filteredReviews) return;
+        setCurrentReviewId(filteredReviews[reviewPosition - 1]?._id?.toString() || null);
+        setCurrentReviewTexts([filteredReviews[reviewPosition - 1]?.reviewText, filteredReviews[reviewPosition - 1]?.reviewTextEdited])
         setCurrentHookId(null);
-    }, [reviewPosition, reviews]);
+    }, [ selectedAudiencePosition, reviewPosition ]);
 
     useEffect(() => {
-        const filteredHooks = hooks.filter(hook => hook.reviewId === currentReviewId);
+        if (!filteredHooks) return;
         setCurrentHookId(filteredHooks[hookPosition - 1]?._id?.toString() || null);
         setCurrentHookTexts([filteredHooks[hookPosition - 1]?.hookText, filteredHooks[hookPosition - 1]?.hookTextEdited ])
-    }, [hookPosition, hooks, currentReviewId]);
+    }, [ selectedAudiencePosition, hookPosition ]);
 
     useEffect(() => {
+        if (!filteredClaims) return;
         setCurrentClaimTexts([filteredClaims[claimPosition - 1]?.claimText, filteredClaims[claimPosition - 1]?.claimTextEdited ])
-    }, [claimPosition, filteredClaims]);
+    }, [ selectedAudiencePosition, claimPosition ]);
 
     useEffect(() => {
+        if (!filteredCloses) return;
         setCurrentCloseTexts([filteredCloses[closePosition - 1]?.closeText, filteredCloses[closePosition - 1]?.closeTextEdited ])
-    }, [closePosition, filteredCloses]);
+    }, [ selectedAudiencePosition, closePosition ]);
 
     useEffect(() => {
-        if (appRef.current) {
-            const app = appRef.current;
+        if (!appRef.current) return;
 
+        if (appRef.current) {
+
+            const app = appRef.current;
             const textData = {
                 hook: { array: filteredHooks, position: hookPosition },
                 claim: { array: filteredClaims, position: claimPosition },
@@ -103,5 +107,5 @@ export const useText = (appRef, canvasName, size) => {
         selectedThemeId
     ]);
 };
-
+//
 export default useText;

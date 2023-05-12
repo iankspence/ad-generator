@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import { Grid } from "@mui/material";
 import PaletteIcon from "@mui/icons-material/Palette";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ColorPaletteButtonGroup from "../../../button-group/color-selection/palette/ColorPaletteButtonGroup";
+import {PixiContext} from "../../../../../../../contexts/PixiContext";
 
 const PaletteColorSelectionButton = ({
                                          setFill,
                                          textName,
                                          colorPalettes,
-                                         activeCanvases,
-                                         canvasApps,
                                      }) => {
+
     const [showPaletteViewer, setShowPaletteViewer] = useState(false);
+    const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const onClick = () => {
         setShowPaletteViewer(!showPaletteViewer);

@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 
 export const handleTextStyleChange = (textName, newTextStyle, activeCanvases, canvasApps) => {
+
     Object.entries(activeCanvases).forEach(([canvasName, isActive]) => {
         if (isActive) {
             const canvasApp = canvasApps[canvasName];

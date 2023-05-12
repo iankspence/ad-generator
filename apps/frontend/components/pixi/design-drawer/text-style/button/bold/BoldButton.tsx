@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import { handleFontWeightChange } from './handleFontWeightChange';
+import {PixiContext} from "../../../../../../contexts/PixiContext";
 
-const BoldButton = ({ textName, fontWeight, setFontWeight, activeCanvases, canvasApps }) => {
+const BoldButton = ({ textName, fontWeight, setFontWeight }) => {
+
+    const { activeCanvases, canvasApps, lineHeightMultipliers, updateLineHeightMultipliers } = useContext(PixiContext);
+
     const onClick = (event, newFontWeight) => {
         handleFontWeightChange(event, newFontWeight, setFontWeight, textName, activeCanvases, canvasApps);
+
+        updateLineHeightMultipliers('hook',  lineHeightMultipliers['hook']);
     };
 
     return (

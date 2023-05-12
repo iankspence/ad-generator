@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext} from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
 import { handleColorChange } from "../../utils/handleColorChange";
+import {PixiContext} from "../../../../../../contexts/PixiContext";
 
 const ColorSelectionButtonInput = styled('input')({
     position: 'absolute',
@@ -24,8 +25,10 @@ const ColorDisplayButton = styled('button')(
     })
 );
 
-const ColorSelectionButton = ({ fill, setFill, textName, activeCanvases, canvasApps }) => {
+const ColorSelectionButton = ({ fill, setFill, textName, }) => {
     const pickerRef = useRef(null);
+
+    const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const handleChange = (event) => {
         handleColorChange(event, setFill, textName, activeCanvases, canvasApps);

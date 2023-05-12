@@ -1,11 +1,9 @@
-import React, { useContext } from 'react';
-import { PixiContext } from '../../../../../contexts/PixiContext';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextStyleAccordion from "./TextStyleAccordion";
 import {ActiveCanvasButtonGroup} from '../button-group/active-canvas/ActiveCanvasButtonGroup';
-import TextPositionAccordion from "./TextPositionAccordion";
+import {RangeSlider} from "../slider/text-range/RangeSlider";
 
 const MasterTextStyleAccordion = () => {
 
@@ -17,15 +15,27 @@ const MasterTextStyleAccordion = () => {
             <AccordionDetails>
                 <ActiveCanvasButtonGroup/>
 
-                <TextPositionAccordion
-                    textName={'main'}
-                />
+                <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography variant="subtitle1">XY Range</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <RangeSlider
+                            rangeLabel="X Range"
+                        />
+                        <RangeSlider
+                            rangeLabel="Y Range"
+                        />
+                    </AccordionDetails>
+                </Accordion>
+
                 <TextStyleAccordion
                     textName={'main'}
                 />
                 <TextStyleAccordion
                     textName={'author'}
                 />
+
             </AccordionDetails>
         </Accordion>
     );

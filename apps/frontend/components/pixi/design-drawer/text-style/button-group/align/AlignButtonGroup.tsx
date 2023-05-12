@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
@@ -6,8 +6,12 @@ import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
 import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
 import { handleAlignChange } from './handleAlignChange';
+import {PixiContext} from "../../../../../../contexts/PixiContext";
 
-const AlignButtonGroup = ({ textName, align, setAlign, activeCanvases, canvasApps }) => {
+const AlignButtonGroup = ({ textName, align, setAlign }) => {
+
+    const { activeCanvases, canvasApps } = useContext(PixiContext);
+
     const onClick = (event, newAlign) => {
         handleAlignChange(event, newAlign, setAlign, textName, activeCanvases, canvasApps);
     };

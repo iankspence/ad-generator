@@ -20,23 +20,23 @@ import FontFamilySelector from '../selector/font-family/FontFamilySelector';
 import ColorSelectionButtonGroup from '../button-group/color-selection/ColorSelectionButtonGroup';
 import AlignButtonGroup from "../button-group/align/AlignButtonGroup";
 import PaddingSlider from "../slider/padding/PaddingSlider";
+import LetterSpacingSlider from "../slider/letter-spacing/LetterSpacingSlider";
+import LineHeightSlider from "../slider/line-height/LineHeightSlider";
 
 const TextStyleAccordion = ({ textName }) => {
+    const { user } = useContext(UserContext);
+    const { account } = useAccount(user?._id);
     const { activeCanvases, canvasApps } = useContext(PixiContext);
 
+    const [textObjects, setTextObjects] = useState([]);
     const [fontFamily, setFontFamily] = useState('Arial');
     const [fill, setFill] = useState('#000000');
     const [fontWeight, setFontWeight] = useState('normal');
     const [fontStyle, setFontStyle] = useState('normal');
     const [fontVariant, setFontVariant] = useState('normal');
-    const [letterSpacing, setLetterSpacing] = useState(0);
     const [align, setAlign] = useState('left');
     const [padding, setPadding] = useState(0);
-
-    const [textObjects, setTextObjects] = useState([]);
-
-    const { user } = useContext(UserContext);
-    const { account } = useAccount(user?._id);
+    const [letterSpacing, setLetterSpacing] = useState(0);
 
     useEffect(() => {
         const activeTextObjects = Object.entries(activeCanvases)
@@ -62,14 +62,17 @@ const TextStyleAccordion = ({ textName }) => {
             const mostCommonFontStyle = mode(activeTextStyles.map((style) => style.fontStyle));
             const mostCommonFontVariant = mode(activeTextStyles.map((style) => style.fontVariant));
             const mostCommonAlign = mode(activeTextStyles.map((style) => style.align));
+            const mostCommonPadding = mode(activeTextStyles.map((style) => style.padding));
+            const mostCommonLetterSpacing = mode(activeTextStyles.map((style) => style.letterSpacing));
 
-            setFontFamily(mostCommonFontFamily || 'Arial');
+            setFontFamily(mostCommonFontFamily || 'sans-serif');
             setFill(mostCommonFill || '#000000');
             setFontWeight(mostCommonFontWeight || 'normal');
             setFontStyle(mostCommonFontStyle || 'normal');
             setFontVariant(mostCommonFontVariant || 'normal');
             setAlign(mostCommonAlign || 'left');
-
+            setPadding(mostCommonPadding || 0);
+            setLetterSpacing(mostCommonLetterSpacing || 0);
         }
     }, [textObjects]);
 
@@ -79,12 +82,11 @@ const TextStyleAccordion = ({ textName }) => {
                 <Typography variant="subtitle1">{capitalizeFirstLetter(textName)} Style</Typography>
             </AccordionSummary>
             <AccordionDetails>
+
                 <FontFamilySelector
                     fontFamily={fontFamily}
                     setFontFamily={setFontFamily}
                     textName={textName}
-                    activeCanvases={activeCanvases}
-                    canvasApps={canvasApps}
                 />
                 <div className="py-2"></div>
 
@@ -95,8 +97,6 @@ const TextStyleAccordion = ({ textName }) => {
                             textName={textName}
                             fill={fill}
                             setFill={setFill}
-                            activeCanvases={activeCanvases}
-                            canvasApps={canvasApps}
                         />
                     </Grid>
                     <Grid item xs={3}>
@@ -104,8 +104,6 @@ const TextStyleAccordion = ({ textName }) => {
                             textName={textName}
                             fontWeight={fontWeight}
                             setFontWeight={setFontWeight}
-                            activeCanvases={activeCanvases}
-                            canvasApps={canvasApps}
                         />
                     </Grid>
                     <Grid item xs={3}>
@@ -113,8 +111,6 @@ const TextStyleAccordion = ({ textName }) => {
                             textName={textName}
                             fontStyle={fontStyle}
                             setFontStyle={setFontStyle}
-                            activeCanvases={activeCanvases}
-                            canvasApps={canvasApps}
                         />
                     </Grid>
                     <Grid item xs={3}>
@@ -122,11 +118,10 @@ const TextStyleAccordion = ({ textName }) => {
                             textName={textName}
                             fontVariant={fontVariant}
                             setFontVariant={setFontVariant}
-                            activeCanvases={activeCanvases}
-                            canvasApps={canvasApps}
                         />
                     </Grid>
                 </Grid>
+
                 <div className="py-2"></div>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -134,20 +129,34 @@ const TextStyleAccordion = ({ textName }) => {
                             textName={textName}
                             align={align}
                             setAlign={setAlign}
-                            activeCanvases={activeCanvases}
-                            canvasApps={canvasApps}
                         />
                     </Grid>
                 </Grid>
-                { fontStyle === 'italic' && (
-                    <PaddingSlider
-                        textName={textName}
-                        padding={padding}
-                        setPadding={setPadding}
-                        activeCanvases={activeCanvases}
-                        canvasApps={canvasApps}
-                    />
+
+                <div className="py-2"></div>
+                { textName === 'main' && (
+                    <LineHeightSlider/>
                 ) }
+
+                <LetterSpacingSlider
+                    textName={textName}
+                    letterSpacing={letterSpacing}
+                    setLetterSpacing={setLetterSpacing}
+                />
+
+                { fontStyle === 'italic' && (
+                    <div className="py-2">
+                        <PaddingSlider
+                            textName={textName}
+                            padding={padding}
+                            setPadding={setPadding}
+                        />
+                    </div>
+                ) }
+
+
+
+
             </AccordionDetails>
         </Accordion>
     );

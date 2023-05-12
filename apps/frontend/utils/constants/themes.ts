@@ -72,7 +72,7 @@ export const themes = [
                         fontFamily: "Arial",
                         fill: "white",
                         wordWrap: true,
-                        align: "left",
+                        align: "justify",
                     }
                 },
                 reviewAuthorText: {
@@ -84,7 +84,7 @@ export const themes = [
                         fontFamily: "Arial",
                         fill: "white",
                         wordWrap: true,
-                        align: "left",
+                        align: "justify",
                     }
                 },
             },

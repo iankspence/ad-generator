@@ -8,7 +8,7 @@ import {handleRangeChange} from "./handleRangeChange";
 import {getActiveCanvasNames} from "../../utils/getActiveCanvasNames";
 import { getRangeModes } from "./getRangeModes";
 
-export const RangeSlider = ({ rangeLabel, textName, min, max }) => {
+export const RangeSlider = ({ rangeLabel }) => {
     const {
         activeCanvases,
         canvasApps,
@@ -34,8 +34,8 @@ export const RangeSlider = ({ rangeLabel, textName, min, max }) => {
                         value={ rangeLabel === 'X Range' ? [xMinValueMode, xMaxValueMode] : [yMinValueMode, yMaxValueMode]}
                         onChange={onSlide}
                         valueLabelDisplay="auto"
-                        min={min}
-                        max={max}
+                        min={0}
+                        max={canvasApps['hook'] ? canvasApps['hook'].renderer.width : 0}
                         onMouseDown={() => updateDisplayTextBox(true)}
                         onMouseUp={() => updateDisplayTextBox(false)}
                         onTouchStart={() => updateDisplayTextBox(true)}

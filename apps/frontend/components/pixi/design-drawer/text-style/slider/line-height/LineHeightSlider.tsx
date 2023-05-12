@@ -1,20 +1,29 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Typography, Slider } from '@mui/material';
 import { handleLineHeightChange } from './handleLineHeightChange';
+import {getActiveCanvasNames} from "../../utils/getActiveCanvasNames";
+import {mode} from "../../../../utils/mode";
+import {PixiContext} from "../../../../../../contexts/PixiContext";
 
-const LineHeightSlider = ({ lineHeightMultiplier, setLineHeightMultiplier, activeCanvases, canvasApps, updateLineHeightMultipliers }) => {
+const LineHeightSlider = () => {
+
+    const { activeCanvases, canvasApps, lineHeightMultipliers, updateLineHeightMultipliers } = useContext(PixiContext);
+    const activeCanvasNames = getActiveCanvasNames(activeCanvases);
+    const lineHeightMode = mode(activeCanvasNames.map((canvas) => lineHeightMultipliers[canvas]));
+
     const onSlide = (event, newValue) => {
-        handleLineHeightChange(event, newValue, setLineHeightMultiplier, activeCanvases, canvasApps, updateLineHeightMultipliers);
+        handleLineHeightChange(event, newValue, updateLineHeightMultipliers, activeCanvases, canvasApps);
     };
 
     return (
         <>
             <Typography gutterBottom>Line Height</Typography>
             <Slider
-                value={lineHeightMultiplier}
+                value={lineHeightMode ? lineHeightMode : 1}
                 onChange={onSlide}
-                min={100}
-                max={200}
+                min={1}
+                max={2}
+                step={0.01}
                 valueLabelDisplay="auto"
             />
         </>

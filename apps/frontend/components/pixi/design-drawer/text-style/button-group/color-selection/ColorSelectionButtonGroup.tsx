@@ -9,10 +9,7 @@ const ColorSelectionButtonGroup = ({
                                        textName,
                                        fill,
                                        setFill,
-                                       activeCanvases,
-                                       canvasApps,
                                    }) => {
-
 
     if (!account || !account?.primaryColor || !account?.secondaryColor) {
         return null;
@@ -27,8 +24,6 @@ const ColorSelectionButtonGroup = ({
                 fill={fill}
                 setFill={setFill}
                 textName={textName}
-                activeCanvases={activeCanvases}
-                canvasApps={canvasApps}
             />
 
             <Grid item container direction="row">
@@ -36,15 +31,11 @@ const ColorSelectionButtonGroup = ({
                     setFill={setFill}
                     textName={textName}
                     colorPalettes={primaryColorPalettes}
-                    activeCanvases={activeCanvases}
-                    canvasApps={canvasApps}
                 />
                 <PaletteColorSelectionButton
                     setFill={setFill}
                     textName={textName}
                     colorPalettes={secondaryColorPalettes}
-                    activeCanvases={activeCanvases}
-                    canvasApps={canvasApps}
                 />
             </Grid>
         </Grid>

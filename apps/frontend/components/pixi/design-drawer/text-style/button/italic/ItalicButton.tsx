@@ -3,8 +3,13 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import {handleFontStyleChange} from "./handleFontStyleChange";
+import {useContext} from "react";
+import {PixiContext} from "../../../../../../contexts/PixiContext";
 
-const ItalicButton = ({ textName, fontStyle, setFontStyle, activeCanvases, canvasApps }) => {
+const ItalicButton = ({ textName, fontStyle, setFontStyle }) => {
+
+    const { activeCanvases, canvasApps } = useContext(PixiContext);
+
     const onClick = (event, newFontStyle) => {
         handleFontStyleChange(event, newFontStyle, setFontStyle, textName, activeCanvases, canvasApps);
     };

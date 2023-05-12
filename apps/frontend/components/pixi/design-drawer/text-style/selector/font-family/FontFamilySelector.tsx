@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { FormControl, Select, MenuItem } from '@mui/material';
 import {handleFontFamilyChange} from "./handleFontFamilyChange";
+import {PixiContext} from "../../../../../../contexts/PixiContext";
 
-const FontFamilySelector = ({ fontFamily, setFontFamily, textName, activeCanvases, canvasApps }) => {
+const FontFamilySelector = ({ fontFamily, setFontFamily, textName }) => {
+
+    const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const onClick = (event) => {
         const newFontFamily = event.target.value;
@@ -18,17 +21,13 @@ const FontFamilySelector = ({ fontFamily, setFontFamily, textName, activeCanvase
                 value={fontFamily}
                 onChange={onClick}
             >
-                <MenuItem value="Arial Narrow">Arial Narrow</MenuItem>
+                <MenuItem value="sans-serif">sans-serif</MenuItem>
                 <MenuItem value="Arial">Arial</MenuItem>
-                <MenuItem value="Arial Black">Arial Black</MenuItem>
-                <MenuItem value="Helvetica">Helvetica</MenuItem>
-                <MenuItem value="Times New Roman">Times New Roman</MenuItem>
-                <MenuItem value="Georgia">Georgia</MenuItem>
                 <MenuItem value="Verdana">Verdana</MenuItem>
                 <MenuItem value="Trebuchet MS">Trebuchet MS</MenuItem>
                 <MenuItem value="Tahoma">Tahoma</MenuItem>
-                <MenuItem value="sans-serif">sans-serif</MenuItem>
                 <MenuItem value="serif">serif</MenuItem>
+                <MenuItem value="Georgia">Georgia</MenuItem>
                 <MenuItem value="Hoefler Text">Hoefler Text</MenuItem>
             </Select>
         </FormControl>

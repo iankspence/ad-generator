@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Typography, Slider } from '@mui/material';
 import { handlePaddingChange } from './handlePaddingChange';
+import {PixiContext} from "../../../../../../contexts/PixiContext";
 
-const PaddingSlider = ({ textName, padding, setPadding, activeCanvases, canvasApps }) => {
+const PaddingSlider = ({ textName, padding, setPadding }) => {
+
+    const { activeCanvases, canvasApps } = useContext(PixiContext);
+
     const onSlide = (event, newValue) => {
         handlePaddingChange(event, newValue, setPadding, textName, activeCanvases, canvasApps);
     };
