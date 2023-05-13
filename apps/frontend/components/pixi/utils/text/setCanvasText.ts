@@ -4,6 +4,12 @@ import { abbreviateAuthor } from "./abbreviateAuthor";
 import { addQuotesToText } from "./addQuotesToText";
 import { updateTextStyleAndPosition } from "./updateTextStyleAndPosition";
 
+class MyHTMLText extends PIXI.HTMLText {
+    themeId?: string;
+    autoColor?: any
+}
+
+
 const setCanvasText = (
     canvasName,
     appRef,
@@ -75,19 +81,18 @@ const setCanvasText = (
 
     if (!mainTextObject) {
 
-        console.log('mainStyleSettings.style', mainStyleSettings.style);
-
         if (!mainStyleSettings.style.fill) {
             console.error('mainStyleSettings.style.fill is undefined');
             return;
         }
 
-        mainTextObject = new PIXI.HTMLText(mainText, mainStyleSettings.style);
-
-        mainTextObject = new PIXI.HTMLText(mainText, mainStyleSettings.style);
+        mainTextObject = new MyHTMLText(mainText, mainStyleSettings.style);
         mainTextObject.name = `${canvasName}-main`;
         mainTextObject.zIndex = 3;
         mainTextObject.resolution = 1080 / size;
+
+        mainTextObject.themeId = mainStyleSettings.themeId;
+
         app.stage.addChild(mainTextObject);
     } else {
         mainTextObject.text = mainText;
@@ -98,14 +103,17 @@ const setCanvasText = (
     if (authorText) {
         authorTextObject = findTextObject(app, `${canvasName}-author`);
         if (!authorTextObject) {
-            authorTextObject = new PIXI.HTMLText(authorText, authorStyleSettings.style);
+            authorTextObject = new MyHTMLText(authorText, authorStyleSettings.style);
             authorTextObject.name = `${canvasName}-author`;
             authorTextObject.zIndex = 3;
             authorTextObject.resolution = 1080 / size;
+
+            authorTextObject.themeId = authorStyleSettings.themeId;
             app.stage.addChild(authorTextObject);
         } else {
             authorTextObject.text = authorText;
             authorTextObject.style = authorStyleSettings.style;
+
         }
     }
 

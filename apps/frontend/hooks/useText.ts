@@ -77,9 +77,6 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
                 const mainTextSettings = getTextSettings(canvasName, 'main', selectedTheme, app, xRanges, yRanges, primaryColor, secondaryColor);
                 const authorTextSettings = getTextSettings(canvasName, 'author', selectedTheme, app, xRanges, yRanges, primaryColor, secondaryColor);
 
-                console.log('mainTextSettings', mainTextSettings);
-                console.log('authorTextSettings', authorTextSettings);
-
                 setCanvasText(
                     canvasName,
                     appRef,
