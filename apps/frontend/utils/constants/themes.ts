@@ -3,14 +3,14 @@
 
 export const themes = [
     {
-        id: 'basic-swoosh',
+        id: 'basic-swoosh-1',
         settings: {
             shortMasks: [
                 {
                     name: 'basic-swoosh-short-base-1',
                     autoColor: {
                         sourceType: 'primary',
-                        autoType: 'adjacent',
+                        paletteType: 'adjacent',
                         minMaxType: 'min',
                         minMaxDistance: 0,
                     }
@@ -19,8 +19,8 @@ export const themes = [
                     name: 'basic-swoosh-short-base-2',
                     autoColor: {
                         sourceType: 'primary',
-                        autoType: 'split-complementary-1',
-                        minMaxType: 'max',
+                        paletteType: 'adjacent',
+                        minMaxType: 'min',
                         minMaxDistance: 1,
                     }
                 },
@@ -30,8 +30,8 @@ export const themes = [
                     name: 'basic-swoosh-tall-base-1',
                     autoColor: {
                         sourceType: 'primary',
-                        autoType: 'split-complementary-1',
-                        minMaxType: 'max',
+                        paletteType: 'adjacent',
+                        minMaxType: 'min',
                         minMaxDistance: 0,
                     }
                 },
@@ -39,9 +39,9 @@ export const themes = [
                     name: 'basic-swoosh-tall-base-2',
                     autoColor: {
                         sourceType: 'primary',
-                        autoType: 'split-complementary-1',
-                        minMaxType: 'max',
-                        minMaxDistance: 2,
+                        paletteType: 'adjacent',
+                        minMaxType: 'min',
+                        minMaxDistance: 1,
                     }
                 },
             ],
@@ -51,6 +51,12 @@ export const themes = [
                     textName: 'main',
                     yRange: [260, 315],
                     xRange: [15, 305],
+                    autoColor: {
+                        sourceType: 'primary',
+                        paletteType: 'split-complementary-1',
+                        minMaxType: 'max',
+                        minMaxDistance: 1,
+                    },
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -63,6 +69,12 @@ export const themes = [
                     textName: 'author',
                     yRange: [260, 315],
                     xRange: [15, 305],
+                    autoColor: {
+                        sourceType: 'primary',
+                        paletteType: 'split-complementary-1',
+                        minMaxType: 'max',
+                        minMaxDistance: 2,
+                    },
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -77,6 +89,12 @@ export const themes = [
                     textName: 'main',
                     yRange: [265, 315],
                     xRange: [15, 305],
+                    autoColor: {
+                        sourceType: 'primary',
+                        paletteType: 'split-complementary-1',
+                        minMaxType: 'max',
+                        minMaxDistance: 1,
+                    },
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -91,6 +109,12 @@ export const themes = [
                     textName: 'main',
                     yRange: [225, 315],
                     xRange: [15, 305],
+                    autoColor: {
+                        sourceType: 'primary',
+                        paletteType: 'split-complementary-1',
+                        minMaxType: 'max',
+                        minMaxDistance: 1,
+                    },
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -103,6 +127,12 @@ export const themes = [
                     textName: 'author',
                     yRange: [225, 315],
                     xRange: [15, 305],
+                    autoColor: {
+                        sourceType: 'primary',
+                        paletteType: 'split-complementary-1',
+                        minMaxType: 'max',
+                        minMaxDistance: 2,
+                    },
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -117,6 +147,12 @@ export const themes = [
                     textName: 'main',
                     yRange: [265, 315],
                     xRange: [15, 305],
+                    autoColor: {
+                        sourceType: 'primary',
+                        paletteType: 'split-complementary-1',
+                        minMaxType: 'max',
+                        minMaxDistance: 1,
+                    },
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -128,15 +164,15 @@ export const themes = [
         },
     },
     {
-        id: 'complex-swoosh',
+        id: 'basic-swoosh-2',
         settings: {
             shortMasks: [
                 {
                     name: 'basic-swoosh-short-base-1',
                     autoColor: {
                         sourceType: 'primary',
-                        autoType: 'split-complementary-1',
-                        minMaxType: 'max',
+                        paletteType: 'adjacent',
+                        minMaxType: 'min',
                         minMaxDistance: 0,
                     }
                 },
@@ -144,9 +180,9 @@ export const themes = [
                     name: 'basic-swoosh-short-base-2',
                     autoColor: {
                         sourceType: 'primary',
-                        autoType: 'split-complementary-1',
-                        minMaxType: 'max',
-                        minMaxDistance: 2,
+                        paletteType: 'adjacent',
+                        minMaxType: 'min',
+                        minMaxDistance: 1,
                     }
                 },
             ],
@@ -155,8 +191,8 @@ export const themes = [
                     name: 'basic-swoosh-tall-base-1',
                     autoColor: {
                         sourceType: 'primary',
-                        autoType: 'split-complementary-1',
-                        minMaxType: 'max',
+                        paletteType: 'adjacent',
+                        minMaxType: 'min',
                         minMaxDistance: 0,
                     }
                 },
@@ -164,9 +200,9 @@ export const themes = [
                     name: 'basic-swoosh-tall-base-2',
                     autoColor: {
                         sourceType: 'primary',
-                        autoType: 'split-complementary-1',
-                        minMaxType: 'max',
-                        minMaxDistance: 2,
+                        paletteType: 'adjacent',
+                        minMaxType: 'min',
+                        minMaxDistance: 1,
                     }
                 },
             ],
@@ -174,8 +210,14 @@ export const themes = [
                 hookMainText: {
                     canvasName: 'hook',
                     textName: 'main',
-                    yRange: [270, 310],
-                    xRange: [20, 300],
+                    yRange: [260, 315],
+                    xRange: [15, 305],
+                    autoColor: {
+                        sourceType: 'primary',
+                        paletteType: 'split-complementary-2',
+                        minMaxType: 'max',
+                        minMaxDistance: 1,
+                    },
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -186,8 +228,14 @@ export const themes = [
                 hookAuthorText: {
                     canvasName: 'hook',
                     textName: 'author',
-                    yRange: [270, 310],
-                    xRange: [20, 300],
+                    yRange: [260, 315],
+                    xRange: [15, 305],
+                    autoColor: {
+                        sourceType: 'primary',
+                        paletteType: 'split-complementary-2',
+                        minMaxType: 'max',
+                        minMaxDistance: 2,
+                    },
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -200,8 +248,14 @@ export const themes = [
                 claimMainText: {
                     canvasName: 'claim',
                     textName: 'main',
-                    yRange: [270, 310],
-                    xRange: [20, 300],
+                    yRange: [265, 315],
+                    xRange: [15, 305],
+                    autoColor: {
+                        sourceType: 'primary',
+                        paletteType: 'split-complementary-2',
+                        minMaxType: 'max',
+                        minMaxDistance: 1,
+                    },
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
@@ -214,25 +268,37 @@ export const themes = [
                 reviewMainText: {
                     canvasName: 'review',
                     textName: 'main',
-                    yRange: [220, 300],
-                    xRange: [20, 300],
+                    yRange: [225, 315],
+                    xRange: [15, 305],
+                    autoColor: {
+                        sourceType: 'primary',
+                        paletteType: 'split-complementary-2',
+                        minMaxType: 'max',
+                        minMaxDistance: 1,
+                    },
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
                         wordWrap: true,
-                        align: "left",
+                        align: "justify",
                     }
                 },
                 reviewAuthorText: {
                     canvasName: 'review',
                     textName: 'author',
-                    yRange: [220, 300],
-                    xRange: [20, 300],
+                    yRange: [225, 315],
+                    xRange: [15, 305],
+                    autoColor: {
+                        sourceType: 'primary',
+                        paletteType: 'split-complementary-2',
+                        minMaxType: 'max',
+                        minMaxDistance: 2,
+                    },
                     style: {
                         fontFamily: "Arial",
                         fill: "white",
                         wordWrap: true,
-                        align: "left",
+                        align: "justify",
                     }
                 },
             },
@@ -240,8 +306,14 @@ export const themes = [
                 closeMainText: {
                     canvasName: 'close',
                     textName: 'main',
-                    yRange: [270, 310],
-                    xRange: [20, 300],
+                    yRange: [265, 315],
+                    xRange: [15, 305],
+                    autoColor: {
+                        sourceType: 'primary',
+                        paletteType: 'split-complementary-2',
+                        minMaxType: 'max',
+                        minMaxDistance: 1,
+                    },
                     style: {
                         fontFamily: "Arial",
                         fill: "white",

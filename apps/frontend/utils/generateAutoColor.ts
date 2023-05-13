@@ -19,11 +19,11 @@ export const generateAutoColor = (autoColorSettings, primaryColor, secondaryColo
 
     const splitComplementaryColors = generateSplitComplementaryColors(sourceColor);
 
-    if (autoColorSettings.autoType === 'split-complementary-1') {
+    if (autoColorSettings.paletteType === 'split-complementary-1') {
         palette = generateShadeTintPalette(splitComplementaryColors[0], 8);
-    } else if (autoColorSettings.autoType === 'split-complementary-2') {
+    } else if (autoColorSettings.paletteType === 'split-complementary-2') {
         palette = generateShadeTintPalette(splitComplementaryColors[1], 8);
-    } else if (autoColorSettings.autoType === 'adjacent') {
+    } else if (autoColorSettings.paletteType === 'adjacent') {
         palette = generateShadeTintPalette(sourceColor, 8);
     }
 

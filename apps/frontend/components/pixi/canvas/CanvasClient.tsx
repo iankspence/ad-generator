@@ -9,9 +9,11 @@ import useSync from "../../../hooks/useSync";
 import {useRangeBox} from "../../../hooks/useRangeBox";
 import useMask from "../../../hooks/useMask";
 
-const CanvasClient = ({ imageUrl, size, canvasName }) => {
+const CanvasClient = ({ imageUrl, size, canvasName, primaryColor, secondaryColor }) => {
     const appRef = useRef(null);
     const {updateCanvasApp} = useContext(PixiContext);
+
+    console.log("CanvasClient Colors: ", primaryColor, secondaryColor);
 
     useCanvasApp(appRef, size, updateCanvasApp, canvasName);
 
@@ -19,7 +21,7 @@ const CanvasClient = ({ imageUrl, size, canvasName }) => {
     useImage(appRef, imageUrl, canvasName);
     useDraggable(appRef, canvasName);
     useZoom(appRef, canvasName);
-    useText(appRef, canvasName, size);
+    useText(appRef, canvasName, size, primaryColor, secondaryColor);
     useRangeBox(appRef, canvasName);
     useSync();
 

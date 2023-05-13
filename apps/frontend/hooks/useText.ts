@@ -6,7 +6,7 @@ import {getTextSettings} from "../components/pixi/utils/text/getTextSettings";
 import {getSelectedTheme} from "../components/pixi/utils/getSelectedTheme";
 import {getFilteredTextArrays} from "../components/pixi/utils/text/getFilteredTextArrays";
 
-export const useText = (appRef, canvasName, size) => {
+export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) => {
     const {
         hooks,
         hookPosition,
@@ -55,11 +55,12 @@ export const useText = (appRef, canvasName, size) => {
     }, [ selectedAudiencePosition, closePosition ]);
 
     useEffect(() => {
-        if (!appRef.current) return;
+        if (!appRef.current || !primaryColor || !secondaryColor) return;
 
         if (appRef.current) {
 
             const app = appRef.current;
+
             const textData = {
                 hook: { array: filteredHooks, position: hookPosition },
                 claim: { array: filteredClaims, position: claimPosition },
@@ -73,8 +74,11 @@ export const useText = (appRef, canvasName, size) => {
                 const xRange = xRanges[canvasName];
                 const yRange = yRanges[canvasName];
 
-                const mainTextSettings = getTextSettings(canvasName, 'main', selectedTheme, app, xRanges, yRanges);
-                const authorTextSettings = getTextSettings(canvasName, 'author', selectedTheme, app, xRanges, yRanges);
+                const mainTextSettings = getTextSettings(canvasName, 'main', selectedTheme, app, xRanges, yRanges, primaryColor, secondaryColor);
+                const authorTextSettings = getTextSettings(canvasName, 'author', selectedTheme, app, xRanges, yRanges, primaryColor, secondaryColor);
+
+                console.log('mainTextSettings', mainTextSettings);
+                console.log('authorTextSettings', authorTextSettings);
 
                 setCanvasText(
                     canvasName,
@@ -107,5 +111,5 @@ export const useText = (appRef, canvasName, size) => {
         selectedThemeId
     ]);
 };
-//
+
 export default useText;

@@ -1,6 +1,7 @@
 import findTextObject from "./findTextObject";
-
-export const getTextSettings = (canvasName, textName, selectedTheme, canvasApp, xRanges, yRanges) => {
+import {generateAutoColor} from "../../../../utils/generateAutoColor";
+//
+export const getTextSettings = (canvasName, textName, selectedTheme, canvasApp, xRanges, yRanges, primaryColor, secondaryColor) => {
     const existingTextObject = findTextObject(canvasApp, `${canvasName}-${textName}`);
     if (existingTextObject) {
         return {
@@ -12,8 +13,27 @@ export const getTextSettings = (canvasName, textName, selectedTheme, canvasApp, 
         };
     }
 
+    // the first time the text is being added to the canvas, use autoColor
     const textDefaults = Object.values(selectedTheme.settings)
         .flatMap(setting => Object.values(setting))
         .find(text => text.canvasName === canvasName && text.textName === textName);
-    return textDefaults ? { style: textDefaults.style, xRange: textDefaults.xRange, yRange: textDefaults.yRange  } : null;
+    if (textDefaults) {
+
+        console.log('canvasName, textName', canvasName, textName);
+        console.log('textDefaults.autoColor', textDefaults.autoColor);
+        console.log('primaryColor', primaryColor);
+        console.log('secondaryColor', secondaryColor);
+
+        if (!textDefaults.autoColor || !primaryColor || !secondaryColor) return textDefaults;
+
+        const autoColor = generateAutoColor(textDefaults.autoColor, primaryColor, secondaryColor);
+        console.log('autoColor', autoColor);
+        return {
+            style: {...textDefaults.style, fill: autoColor},
+            xRange: textDefaults.xRange,
+            yRange: textDefaults.yRange,
+        };
+    }
+    return null;
 };
+

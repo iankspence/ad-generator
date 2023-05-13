@@ -14,7 +14,7 @@ import {handleNextCanvas} from "./handleNextCanvas";
 import {handleRightDrawerOpen} from "./handleRightDrawerOpen";
 import renderCanvas from "./renderCanvas";
 
-const ContentGenerator = () => {
+const ContentGenerator = ({ primaryColor, secondaryColor }) => {
     const { selectedThemeId, updateSelectedThemeId, activeCanvases, updateActiveCanvases } = useContext(PixiContext);
 
     const [imageUrl, setImageUrl] = useState(null);
@@ -32,6 +32,8 @@ const ContentGenerator = () => {
                     imageUrl={imageUrl}
                     size={canvasSize}
                     canvasName={'hook'}
+                    primaryColor={primaryColor}
+                    secondaryColor={secondaryColor}
                 />
             ),
         },
@@ -43,6 +45,8 @@ const ContentGenerator = () => {
                     imageUrl={imageUrl}
                     size={canvasSize}
                     canvasName={'claim'}
+                    primaryColor={primaryColor}
+                    secondaryColor={secondaryColor}
                 />
             ),
         },
@@ -54,6 +58,8 @@ const ContentGenerator = () => {
                     imageUrl={imageUrl}
                     size={canvasSize}
                     canvasName={'review'}
+                    primaryColor={primaryColor}
+                    secondaryColor={secondaryColor}
                 />
             ),
         },
@@ -65,6 +71,8 @@ const ContentGenerator = () => {
                     imageUrl={imageUrl}
                     size={canvasSize}
                     canvasName={'close'}
+                    primaryColor={primaryColor}
+                    secondaryColor={secondaryColor}
                 />
             ),
         },

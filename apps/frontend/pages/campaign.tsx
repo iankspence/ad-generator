@@ -36,7 +36,7 @@ function CampaignPage() {
                 <div className="bg-black min-h-screen w-full text-white flex flex-col justify-center">
                     <div className="flex flex-col md:flex-row flex-grow">
                         <div className="flex-grow">
-                            <ContentGenerator />
+                            <ContentGenerator primaryColor={account?.primaryColor} secondaryColor={account?.secondaryColor} />
                         </div>
                     </div>
                 </div>

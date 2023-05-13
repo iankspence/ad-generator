@@ -74,6 +74,16 @@ const setCanvasText = (
     let mainTextObject = findTextObject(app, `${canvasName}-main`);
 
     if (!mainTextObject) {
+
+        console.log('mainStyleSettings.style', mainStyleSettings.style);
+
+        if (!mainStyleSettings.style.fill) {
+            console.error('mainStyleSettings.style.fill is undefined');
+            return;
+        }
+
+        mainTextObject = new PIXI.HTMLText(mainText, mainStyleSettings.style);
+
         mainTextObject = new PIXI.HTMLText(mainText, mainStyleSettings.style);
         mainTextObject.name = `${canvasName}-main`;
         mainTextObject.zIndex = 3;

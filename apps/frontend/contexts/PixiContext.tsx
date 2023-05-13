@@ -39,7 +39,7 @@ export const PixiContext = createContext<PixiContextProps>({
     canvasApps: {},
     updateCanvasApp: () => void 0,
 
-    selectedThemeId: 'basic-swoosh',
+    selectedThemeId: 'basic-swoosh-1',
     updateSelectedThemeId: () => void 0,
 
     activeCanvases: {
@@ -80,7 +80,7 @@ export const PixiContext = createContext<PixiContextProps>({
 
 export const PixiProvider = ({ children }) => {
     const [canvasApps, setCanvasApps] = useState({});
-    const [selectedThemeId, setSelectedThemeId] = useState('basic-swoosh');
+    const [selectedThemeId, setSelectedThemeId] = useState('basic-swoosh-1');
     const [activeCanvases, setActiveCanvases] = useState({
         hook: true,
         claim: false,
@@ -96,7 +96,7 @@ export const PixiProvider = ({ children }) => {
     const [displayTextBox, setDisplayTextBox] = useState(false);
 
     // Find the default theme
-    const defaultTheme = themes.find((theme) => theme.id === 'basic-swoosh');
+    const defaultTheme = themes.find((theme) => theme.id === 'basic-swoosh-1');
 
     const initialXRanges: { [key: string]: [number, number] } = {
         hook: defaultTheme.settings.hookTextDefaults.hookMainText.xRange as [number, number],
