@@ -74,7 +74,6 @@ const setCanvasText = (
             break;
     }
 
-
     if (!app || !app.stage || !mainText ) return;
 
     let mainTextObject = findTextObject(app, `${canvasName}-main`);

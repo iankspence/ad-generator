@@ -36,23 +36,23 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
         setCurrentReviewId(filteredReviews[reviewPosition - 1]?._id?.toString() || null);
         setCurrentReviewTexts([filteredReviews[reviewPosition - 1]?.reviewText, filteredReviews[reviewPosition - 1]?.reviewTextEdited])
         setCurrentHookId(null);
-    }, [ selectedAudiencePosition, reviewPosition ]);
+    }, [ selectedAudiencePosition, reviewPosition, reviews ]);
 
     useEffect(() => {
         if (!filteredHooks) return;
         setCurrentHookId(filteredHooks[hookPosition - 1]?._id?.toString() || null);
         setCurrentHookTexts([filteredHooks[hookPosition - 1]?.hookText, filteredHooks[hookPosition - 1]?.hookTextEdited ])
-    }, [ selectedAudiencePosition, hookPosition ]);
+    }, [ selectedAudiencePosition, hookPosition, hooks ]);
 
     useEffect(() => {
         if (!filteredClaims) return;
         setCurrentClaimTexts([filteredClaims[claimPosition - 1]?.claimText, filteredClaims[claimPosition - 1]?.claimTextEdited ])
-    }, [ selectedAudiencePosition, claimPosition ]);
+    }, [ selectedAudiencePosition, claimPosition, claims ]);
 
     useEffect(() => {
         if (!filteredCloses) return;
         setCurrentCloseTexts([filteredCloses[closePosition - 1]?.closeText, filteredCloses[closePosition - 1]?.closeTextEdited ])
-    }, [ selectedAudiencePosition, closePosition ]);
+    }, [ selectedAudiencePosition, closePosition, closes ]);
 
     useEffect(() => {
         if (!appRef.current || !primaryColor || !secondaryColor) return;

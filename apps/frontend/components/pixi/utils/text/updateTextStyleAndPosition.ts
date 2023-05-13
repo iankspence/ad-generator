@@ -54,10 +54,6 @@ export const updateTextStyleAndPosition = (mainContent, authorContent, mainStyle
     // If the total height of the text is less than the yRange, shift the y position down
     const yRangeHeight = yRange[1] - yRange[0];
 
-    console.log('canvasName: ', canvasName);
-    console.log('totalHeight', totalHeight);
-    console.log('yRangeHeight', yRangeHeight);
-
     if (totalHeight < yRangeHeight) {
         const shift = (yRangeHeight - totalHeight) / 2;
         updatedMainPosition.y += shift;

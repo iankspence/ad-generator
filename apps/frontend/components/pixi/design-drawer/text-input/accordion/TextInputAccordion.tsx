@@ -43,9 +43,8 @@ const TextInputAccordion = () => {
     const [currentClaimId, setCurrentClaimId] = useState(null);
     const [currentCloseId, setCurrentCloseId] = useState(null);
 
-    const onEditStart = () => {
-        console.log('onEditStart');
-    };
+    const onEditStart = () => {};
+    const onEditRestore = () => {};
 
     const onEditSubmit = async (text, canvasName) => {
         try {
@@ -86,10 +85,6 @@ const TextInputAccordion = () => {
         } catch (error) {
             console.error('Error updating text edit:', error);
         }
-    };
-
-    const onEditRestore = () => {
-        console.log('onEditRestore');
     };
 
     const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, selectedAudiencePosition);
