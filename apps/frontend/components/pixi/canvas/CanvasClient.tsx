@@ -13,7 +13,7 @@ const CanvasClient = ({ imageUrl, size, canvasName, primaryColor, secondaryColor
     const appRef = useRef(null);
     const {updateCanvasApp} = useContext(PixiContext);
 
-    console.log("CanvasClient Colors: ", primaryColor, secondaryColor);
+    // console.log("CanvasClient Colors: ", primaryColor, secondaryColor);
 
     useCanvasApp(appRef, size, updateCanvasApp, canvasName);
 

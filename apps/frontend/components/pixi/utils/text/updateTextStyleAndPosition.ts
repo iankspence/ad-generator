@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 
-export const updateTextStyleAndPosition = (mainContent, authorContent, mainStyle, authorStyle, canvasSize, xRange, yRange, lineHeightMultiplier) => {
+export const updateTextStyleAndPosition = (mainContent, authorContent, mainStyle, authorStyle, canvasSize, xRange, yRange, lineHeightMultiplier, canvasName) => {
     const wordWrapWidth = (xRange[1] - xRange[0])
     const mainFontSize = 10;
     const updatedMainStyle = { ...mainStyle, fontSize: mainFontSize, lineHeight: mainFontSize * lineHeightMultiplier, wordWrapWidth };
@@ -45,6 +45,25 @@ export const updateTextStyleAndPosition = (mainContent, authorContent, mainStyle
         updatedAuthorStyle.fontSize = updatedMainStyle.fontSize * 0.8;
         updatedAuthorStyle.lineHeight = updatedAuthorStyle.fontSize * lineHeightMultiplier;
         updatedAuthorPosition.y = updatedMainPosition.y + mainTextHeight + authorSpacing;
+        authorTextMetrics = PIXI.TextMetrics.measureText(authorContent, new PIXI.TextStyle(updatedAuthorStyle));
+        totalHeight = mainTextMetrics.height + authorTextMetrics.height + (mainTextMetrics.height * 0.07);
+    } else {
+        totalHeight = mainTextMetrics.height;
+    }
+
+    // If the total height of the text is less than the yRange, shift the y position down
+    const yRangeHeight = yRange[1] - yRange[0];
+
+    console.log('canvasName: ', canvasName);
+    console.log('totalHeight', totalHeight);
+    console.log('yRangeHeight', yRangeHeight);
+
+    if (totalHeight < yRangeHeight) {
+        const shift = (yRangeHeight - totalHeight) / 2;
+        updatedMainPosition.y += shift;
+        if (updatedAuthorPosition) {
+            updatedAuthorPosition.y += shift;
+        }
     }
 
     return { main: { updatedStyle: updatedMainStyle, updatedPosition: updatedMainPosition }, author: { updatedStyle: updatedAuthorStyle, updatedPosition: updatedAuthorPosition } };

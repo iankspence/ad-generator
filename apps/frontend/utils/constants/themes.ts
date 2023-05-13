@@ -87,7 +87,7 @@ export const themes = [
                 claimMainText: {
                     canvasName: 'claim',
                     textName: 'main',
-                    yRange: [265, 315],
+                    yRange: [260, 315],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -145,7 +145,7 @@ export const themes = [
                 closeMainText: {
                     canvasName: 'close',
                     textName: 'main',
-                    yRange: [265, 315],
+                    yRange: [260, 315],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -248,7 +248,7 @@ export const themes = [
                 claimMainText: {
                     canvasName: 'claim',
                     textName: 'main',
-                    yRange: [265, 315],
+                    yRange: [260, 315],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -306,7 +306,7 @@ export const themes = [
                 closeMainText: {
                     canvasName: 'close',
                     textName: 'main',
-                    yRange: [265, 315],
+                    yRange: [260, 315],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
