@@ -11,7 +11,6 @@ import {handleToggleView} from "./handleToggleView";
 import {handleImageUpload} from "./handleImageUpload";
 import {handlePreviousCanvas} from "./handlePreviousCanvas";
 import {handleNextCanvas} from "./handleNextCanvas";
-import {handleRightDrawerOpen} from "./handleRightDrawerOpen";
 import renderCanvas from "./renderCanvas";
 
 const ContentGenerator = ({ primaryColor, secondaryColor }) => {
@@ -95,7 +94,8 @@ const ContentGenerator = ({ primaryColor, secondaryColor }) => {
                 <DownloadButton singleCanvasView={singleCanvasView} />
                 <DesignDrawer
                     onImageUpload={(event) => handleImageUpload(event, setImageUrl)}
-                    onDrawerStateChange={() => handleRightDrawerOpen(rightDrawerOpen, setRightDrawerOpen)}
+                    rightDrawerOpen={rightDrawerOpen}
+                    setRightDrawerOpen={setRightDrawerOpen}
                 />
                 <div
                     className="flex flex-col justify-center items-center w-full"

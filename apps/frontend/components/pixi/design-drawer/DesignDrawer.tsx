@@ -10,21 +10,15 @@ import ImageUploadAccordion from './image-input/accordion/ImageUploadAccordion';
 import TextInputAccordion from './text-input/accordion/TextInputAccordion';
 import MasterTextStyleAccordion from './text-style/accordion/MasterTextStyleAccordion';
 
-const DesignDrawer = ({ onImageUpload, onDrawerStateChange}) => {
-    const [open, setOpen] = useState(false);
+const DesignDrawer = ({ onImageUpload, rightDrawerOpen, setRightDrawerOpen }) => {
+    // const [open, setOpen] = useState(false);
 
     const handleDrawerOpen = () => {
-        setOpen(true);
-        if (onDrawerStateChange) {
-            onDrawerStateChange(true);
-        }
+        setRightDrawerOpen(true);
     };
 
     const handleDrawerClose = () => {
-        setOpen(false);
-        if (onDrawerStateChange) {
-            onDrawerStateChange(false);
-        }
+        setRightDrawerOpen(false);
     };
 
     return (
@@ -40,7 +34,7 @@ const DesignDrawer = ({ onImageUpload, onDrawerStateChange}) => {
             </div>
             <Drawer
                 anchor="right"
-                open={open}
+                open={rightDrawerOpen}
                 onClose={handleDrawerClose}
                 PaperProps={{
                     sx: {
