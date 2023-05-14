@@ -5,7 +5,6 @@ export * from './lib/schema/account';
 export * from './lib/schema/user';
 export * from './lib/schema/browse-ai-job';
 export * from './lib/schema/review';
-export * from './lib/schema/campaign';
 export * from './lib/schema/ad-set';
 export * from './lib/schema/ad';
 export * from './lib/schema/hook';

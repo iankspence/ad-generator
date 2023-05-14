@@ -4,14 +4,18 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as fs from 'fs';
 import { Model } from 'mongoose';
 import * as path from 'path';
-import { extname } from 'path';
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+
+const s3 = new S3Client({
+    region: process.env.S3_REGION,
+});
 
 @Injectable()
 export class MaskService {
     constructor(@InjectModel(Mask.name) private maskModel: Model<MaskDocument>) {}
 
-    async createMask(maskName: string, maskBase64: string): Promise<Mask> {
-        const newMask = new this.maskModel({ maskName, maskBase64 });
+    async createMask(maskName: string, maskLocation: string): Promise<Mask> {
+        const newMask = new this.maskModel({ maskName, maskLocation });
         return newMask.save();
     }
 
@@ -20,12 +24,12 @@ export class MaskService {
 
         for (const file of files) {
             const filePath = path.join(directoryPath, file);
-            const fileExtension = path.extname(file);
+            const fileExtension = path.extname(file).toLowerCase();
             // Check if the file is an SVG or PNG before processing
-            if (['.svg', '.png'].includes(fileExtension.toLowerCase())) {
+            if (this.isFileSupported(fileExtension)) {
                 const maskName = path.basename(file, fileExtension);
-                const maskBase64 = await this.imageToBase64(filePath);
-                await this.createMask(maskName, maskBase64);
+                const maskLocation = await this.uploadFileToS3(filePath, maskName, fileExtension);
+                await this.createMask(maskName, maskLocation);
             }
         }
     }
@@ -34,21 +38,28 @@ export class MaskService {
         return await this.maskModel.find({ maskName: { $in: names } }).exec();
     }
 
-    async imageToBase64(filepath: string): Promise<string> {
-        const binaryData = await fs.promises.readFile(filepath);
-        const mimeType = this.getMimeType(extname(filepath));
-        return `data:${mimeType};base64,${binaryData.toString('base64')}`;
+    private isFileSupported(fileExtension: string): boolean {
+        const supportedExtensions = ['.svg', '.png'];
+        return supportedExtensions.includes(fileExtension);
     }
 
-    getMimeType(extension: string): string {
-        const mimeTypes: { [key: string]: string } = {
-            '.png': 'image/png',
-            '.jpg': 'image/jpeg',
-            '.jpeg': 'image/jpeg',
-            '.gif': 'image/gif',
-            '.svg': 'image/svg+xml', // Add the MIME type for SVG files
-        };
+    private async uploadFileToS3(filePath: string, maskName: string, fileType: string): Promise<string> {
+        const fileStream = fs.createReadStream(filePath);
+        const contentType = fileType === '.svg' ? 'image/svg+xml' : 'image/png';
+        const upload = new PutObjectCommand({
+            Bucket: process.env.S3_BUCKET_NAME,
+            Key: `masks/${maskName}${fileType}`,
+            Body: fileStream,
+            ContentType: contentType
+        });
+        try {
+            await s3.send(upload);
+        } catch (error) {
+            console.error('Error uploading to S3:', error);
+            throw error;
+        }
 
-        return mimeTypes[extension.toLowerCase()] || 'application/octet-stream';
+        return `${process.env.CLOUDFRONT_URL}/masks/${maskName}${fileType}`;
+
     }
 }

@@ -9,7 +9,7 @@ export class Mask {
     maskName!: string;
 
     @Prop({ required: true })
-    maskBase64!: string;
+    maskLocation!: string;
 }
 
 export const MaskSchema = SchemaFactory.createForClass(Mask);

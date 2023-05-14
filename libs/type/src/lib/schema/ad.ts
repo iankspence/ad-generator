@@ -11,23 +11,7 @@ export class Ad {
     @Prop({ required: true, type: String, ref: 'Account' })
     accountId!: string;
 
-    @Prop({ required: true, type: String, ref: 'Campaign' })
-    campaignId!: string;
 
-    @Prop({ required: true, type: String, ref: 'AdSet' })
-    adSetId!: string;
-
-    @Prop({ required: true, type: String, ref: 'Copy' })
-    copyId!: string;
-
-    @Prop({ required: true, type: String, ref: 'Hook' })
-    hookId!: string;
-
-    @Prop({ required: true, type: String, ref: 'Claim' })
-    claimId!: string;
-
-    @Prop({ required: true, type: String, ref: 'Review' })
-    reviewId!: string;
 
     // These are on the review doc but may change
     @Prop({ required: true })

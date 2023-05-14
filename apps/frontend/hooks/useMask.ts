@@ -4,9 +4,9 @@ import { addMaskLayer } from '../components/pixi/utils/addMaskLayer';
 import { getMasksByNames } from '../utils/api';
 import * as PIXI from 'pixi.js';
 import { findMaskChildren } from '../components/pixi/utils/findMaskChildren';
-import {getSelectedTheme} from "../components/pixi/utils/getSelectedTheme";
+import { getSelectedTheme } from "../components/pixi/utils/getSelectedTheme";
 import UserContext from "../contexts/UserContext";
-import {generateAutoColor} from "../utils/generateAutoColor";
+import { generateAutoColor } from "../utils/generateAutoColor";
 
 const useMask = (appRef, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
@@ -17,11 +17,12 @@ const useMask = (appRef, canvasName, size) => {
     const fetchMaskTextures = async (maskNames) => {
         try {
             const masks = await getMasksByNames(maskNames);
-            const textures = masks.map((mask) => {
-                const svgResource = new PIXI.SVGResource(mask.maskBase64);
-                const baseTexture = new PIXI.BaseTexture(svgResource);
+            console.log('masks', masks)
+            const textures = await Promise.all(masks.map(async (mask) => {
+                const resource = await PIXI.autoDetectResource(mask.maskLocation).load();
+                const baseTexture = new PIXI.BaseTexture(resource);
                 return new PIXI.Texture(baseTexture);
-            });
+            }));
             setMaskTextures(textures);
         } catch (error) {
             console.error('Error fetching masks:', error);
@@ -43,7 +44,6 @@ const useMask = (appRef, canvasName, size) => {
             setMaskTextures([]);
         }
         },[canvasName, selectedThemeId]);
-
 
     useEffect(() => {
         if (!appRef?.current || !maskTextures || !account ) return;
@@ -70,11 +70,16 @@ const useMask = (appRef, canvasName, size) => {
 
                 maskTextures.forEach((texture, index) => {
 
-                    const maskData = {
-                        texture,
-                        color: generateAutoColor(masks[index].autoColor, account?.primaryColor, account?.secondaryColor)
-                    };
-                    addMaskLayer(app, maskData, size);
+                    if (masks[index]) {
+                        const maskData = {
+                            texture,
+                            color: generateAutoColor(masks[index].autoColor, account?.primaryColor, account?.secondaryColor)
+                        };
+                        addMaskLayer(app, maskData, size);
+                    } else {
+                        // handle the situation when masks[index] is undefined
+                        console.error(`No mask found at index ${index}`);
+                    }
                 });
             }
         }

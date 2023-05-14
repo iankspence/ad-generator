@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import {AccountDocument} from "@monorepo/type";
+import {AccountDocument, Close, CloseDocument} from "@monorepo/type";
+import {InjectModel} from "@nestjs/mongoose";
+import {Model} from "mongoose";
 
 const s3 = new S3Client({
-    region: 'us-east-2',
+    region: process.env.S3_REGION
 });
 
 @Injectable()
 export class S3Service {
+    // constructor(@InjectModel(Close.name) private readonly closeModel: Model<CloseDocument>) {}
+
     async saveCanvas(canvases: Array<{canvasName: string, dataUrl: string}>, account: AccountDocument) {
-        const folderName = `${account.country}/${account.provinceState}/${account.city}/${account.companyName}`
+        const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}`
         const results = [];
 
         for (const {canvasName, dataUrl} of canvases) {
