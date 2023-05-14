@@ -1,16 +1,13 @@
 import ContentGenerator from '../components/content-generator/ContentGenerator';
-import TopNav from '../components/TopNav';
+import TopNav from '../components/top-nav/TopNav';
 import { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';
-import useAccount from '../hooks/useAccount';
 import { getAllTextByAccountId } from '../utils/api';
 import React, { useContext, useEffect } from 'react';
 
 function CampaignPage() {
-    const { user } = useContext(UserContext);
+    const { account } = useContext(UserContext);
     const { updateReviews, updateHooks, updateCopies, updateClaims, updateCloses } = useContext(CampaignContext);
-
-    const { account } = useAccount(user?._id);
 
     useEffect(() => {
         if (!account) return;

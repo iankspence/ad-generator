@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import TopNav from "../components/TopNav";
+import TopNav from "../components/top-nav/TopNav";
 
 export function PricingPage () {
     const [isAnnual, setIsAnnual] = useState(false);

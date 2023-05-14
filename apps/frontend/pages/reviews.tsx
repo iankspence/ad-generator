@@ -1,6 +1,6 @@
-import ProcessedReviewChart, { data } from '../components/ProcessedReviewChart';
-import ReviewsAudienceTable from '../components/ReviewsAudienceTable';
-import TopNav from '../components/TopNav';
+import ProcessedReviewChart, { data } from '../components/review/ProcessedReviewChart';
+import ReviewsAudienceTable from '../components/review/ReviewsAudienceTable';
+import TopNav from '../components/top-nav/TopNav';
 import SidebarAudienceLabel from '../components/sidebar/SidebarAudienceLabel';
 import SidebarAudienceReasoning from '../components/sidebar/SidebarAudienceReasoning';
 import SidebarChangeAudienceButton from '../components/sidebar/SidebarChangeAudienceButton';
@@ -9,17 +9,14 @@ import SidebarReviewViewer from '../components/sidebar/SidebarReviewViewer';
 import SidebarTextArea from '../components/sidebar/SidebarTextArea';
 import SidebarUpdateFrequency from '../components/sidebar/SidebarUpdateFrequency';
 import UserContext from '../contexts/UserContext';
-import useAccount from '../hooks/useAccount';
 import { getReviewsByAccountId } from '../utils/api';
 import { audiences } from '../utils/constants/audiences';
 import WebsocketHandler from '../utils/websocket/WebsocketHandler';
 import handleProcessedReview from '../utils/websocket/handleProcessedReview';
-import { ReviewDocument } from '@monorepo/type';
 import React, { useContext, useEffect, useState } from 'react';
 
 function ReviewsPage() {
-    const { user } = useContext(UserContext);
-    const { account, setAccount } = useAccount(user?._id);
+    const { user, account, setAccount } = useContext(UserContext);
     const [chartData, setChartData] = useState(data);
     const [showChart, setShowChart] = useState(false);
     const [isLoading, setIsLoading] = useState(false);

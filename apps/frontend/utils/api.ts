@@ -279,14 +279,23 @@ export const updateAccountLogoAndColors = async (
             primaryColor,
             secondaryColor,
         });
-        console.log('accountId: ', accountId)
-        console.log('logo: ', logo)
-        console.log('primaryColor: ', primaryColor)
-        console.log('secondaryColor: ', secondaryColor)
-        console.log('updateAccountLogoAndColors response:', response);
         return response.data;
     } catch (error) {
         console.error('Error updating account logo and colors:', error);
+        throw error;
+    }
+};
+
+
+export const saveCanvasToS3 = async (canvasName, dataUrl) => {
+    try {
+        const response = await axios.post(`${API_URL}/s3`, {
+            canvasName,
+            dataUrl,
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error sending canvas image to backend:', error);
         throw error;
     }
 };

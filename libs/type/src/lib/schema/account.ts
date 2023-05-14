@@ -8,6 +8,18 @@ export class Account {
     @Prop({ type: Types.ObjectId, ref: 'User', required: true })
     userId!: Types.ObjectId;
 
+    @Prop({ required: true })
+    companyName!: string;
+
+    @Prop({ required: true })
+    country!: string;
+
+    @Prop({ required: true })
+    provinceState!: string;
+
+    @Prop({ required: true })
+    city!: string;
+
     @Prop({ required: false, default: null })
     googleQuery?: string | null;
 
@@ -31,6 +43,7 @@ export class Account {
 
     @Prop({ type: [Number], required: false, default: [] })
     secondaryColor?: number[];
+
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);

@@ -1,4 +1,4 @@
-import TopNav from '../components/TopNav';
+import TopNav from '../components/top-nav/TopNav';
 import UserContext from '../contexts/UserContext';
 import { signIn } from '../utils/api';
 import Link from 'next/link';

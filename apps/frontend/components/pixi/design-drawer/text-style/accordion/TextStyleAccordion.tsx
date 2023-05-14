@@ -12,7 +12,6 @@ import { mode } from '../../../utils/mode';
 import Grid from '@material-ui/core/Grid';
 import { capitalizeFirstLetter } from '../../../utils/text/capitalizeFirstLetter';
 import UserContext from '../../../../../contexts/UserContext';
-import useAccount from '../../../../../hooks/useAccount';
 import BoldButton from '../button/bold/BoldButton';
 import SmallCapsButton from '../button/small-caps/SmallCapsButton';
 import ItalicButton from '../button/italic/ItalicButton';
@@ -24,8 +23,7 @@ import LetterSpacingSlider from "../slider/letter-spacing/LetterSpacingSlider";
 import LineHeightSlider from "../slider/line-height/LineHeightSlider";
 
 const TextStyleAccordion = ({ textName }) => {
-    const { user } = useContext(UserContext);
-    const { account } = useAccount(user?._id);
+    const { account } = useContext(UserContext);
     const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const [textObjects, setTextObjects] = useState([]);

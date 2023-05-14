@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import ColorThief from 'colorthief';
-import { updateAccountLogoAndColors } from '../utils/api';
+import { updateAccountLogoAndColors } from '../../utils/api';
 
 const LogoUpload = ({ onColorsExtracted, accountId, initialLogo, initialPrimaryColor, initialSecondaryColor }) => {
     const [logo, setLogo] = useState(null);
@@ -11,14 +11,21 @@ const LogoUpload = ({ onColorsExtracted, accountId, initialLogo, initialPrimaryC
     useEffect(() => {
         if (initialLogo) {
             setLogo(initialLogo);
+        } else if (initialLogo === null) {
+            setLogo(null);
         }
         if (initialPrimaryColor) {
             setPrimaryColor(initialPrimaryColor);
+        } else if (initialPrimaryColor === null) {
+            setPrimaryColor(null);
         }
         if (initialSecondaryColor) {
             setSecondaryColor(initialSecondaryColor);
+        } else if (initialSecondaryColor === null) {
+            setSecondaryColor(null);
         }
     }, [initialLogo, initialPrimaryColor, initialSecondaryColor]);
+
 
     const onDrop = useCallback((acceptedFiles) => {
         const file = acceptedFiles[0];
@@ -33,6 +40,8 @@ const LogoUpload = ({ onColorsExtracted, accountId, initialLogo, initialPrimaryC
             reader.readAsDataURL(file);
         }
     }, []);
+
+
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
@@ -66,7 +75,7 @@ const LogoUpload = ({ onColorsExtracted, accountId, initialLogo, initialPrimaryC
                 <input {...getInputProps()} />
                 {logo ? <img src={logo} alt="Uploaded Logo" /> : <p>Drag and drop a logo or click to select a file</p>}
             </div>
-            {primaryColor && secondaryColor && (
+            {(logo && primaryColor && secondaryColor) && (
                 <div className="mt-4">
                     <p className="font-semibold py-2">Extracted Colors:</p>
                     <div className="flex">

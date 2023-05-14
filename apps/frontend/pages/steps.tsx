@@ -1,4 +1,4 @@
-import TopNav from '../components/TopNav';
+import TopNav from '../components/top-nav/TopNav';
 import React from 'react';
 
 export function StepsPage() {

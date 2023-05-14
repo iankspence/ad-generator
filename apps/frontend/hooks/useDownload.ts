@@ -1,11 +1,12 @@
 import { PixiContext } from '../contexts/PixiContext';
 import { useCallback, useContext } from 'react';
+import { saveCanvasToS3 } from '../utils/api'; // assuming you've created this function
 
 const useDownload = (width = 1080, height = 1080) => {
     const { canvasApps } = useContext(PixiContext);
 
-    const downloadCanvas = useCallback(
-        (app, filename) => {
+    const sendCanvasToBackend = useCallback(
+        async (app, canvasName) => {
             if (app) {
                 const originalWidth = app.screen.width;
                 const originalHeight = app.screen.height;
@@ -24,32 +25,33 @@ const useDownload = (width = 1080, height = 1080) => {
                 app.renderer.resize(originalWidth, originalHeight);
                 app.stage.scale.set(originalScaleX, originalScaleY);
 
-                const link = document.createElement('a');
-                link.download = filename;
-                link.href = dataUrl;
-                link.click();
+                try {
+                    await saveCanvasToS3(canvasName, dataUrl);
+                } catch (error) {
+                    console.error('Error sending image to backend:', error);
+                }
             }
         },
         [width, height],
     );
 
-    const downloadHookApp = useCallback(() => {
-        downloadCanvas(canvasApps['hook'], '01-hook-image.png');
-    }, [canvasApps, downloadCanvas]);
+    const saveHookApp = useCallback(() => {
+        sendCanvasToBackend(canvasApps['hook'], 'hook');
+    }, [canvasApps, sendCanvasToBackend]);
 
-    const downloadClaimApp = useCallback(() => {
-        downloadCanvas(canvasApps['claim'], '02-claim-image.png');
-    }, [canvasApps, downloadCanvas]);
+    const saveClaimApp = useCallback(() => {
+        sendCanvasToBackend(canvasApps['claim'], 'claim');
+    }, [canvasApps, sendCanvasToBackend]);
 
-    const downloadReviewApp = useCallback(() => {
-        downloadCanvas(canvasApps['review'], '03-review-image.png');
-    }, [canvasApps, downloadCanvas]);
+    const saveReviewApp = useCallback(() => {
+        sendCanvasToBackend(canvasApps['review'], 'review');
+    }, [canvasApps, sendCanvasToBackend]);
 
-    const downloadCloseApp = useCallback(() => {
-        downloadCanvas(canvasApps['close'], '04-close-image.png');
-    }, [canvasApps, downloadCanvas]);
+    const saveCloseApp = useCallback(() => {
+        sendCanvasToBackend(canvasApps['close'], 'close');
+    }, [canvasApps, sendCanvasToBackend]);
 
-    return { downloadHookApp, downloadClaimApp, downloadReviewApp, downloadCloseApp };
+    return { saveHookApp, saveClaimApp, saveReviewApp, saveCloseApp };
 };
 
 export default useDownload;

@@ -5,7 +5,6 @@ import { getMasksByNames } from '../utils/api';
 import * as PIXI from 'pixi.js';
 import { findMaskChildren } from '../components/pixi/utils/findMaskChildren';
 import {getSelectedTheme} from "../components/pixi/utils/getSelectedTheme";
-import useAccount from "./useAccount";
 import UserContext from "../contexts/UserContext";
 import {generateAutoColor} from "../utils/generateAutoColor";
 
@@ -13,9 +12,7 @@ const useMask = (appRef, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
     const { selectedThemeId } = useContext(PixiContext);
     const selectedTheme = getSelectedTheme(selectedThemeId);
-
-    const { user } = useContext(UserContext)
-    const {account} = useAccount(user?._id);
+    const { account } = useContext(UserContext)
 
     const fetchMaskTextures = async (maskNames) => {
         try {
