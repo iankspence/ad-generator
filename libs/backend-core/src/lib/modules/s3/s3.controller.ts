@@ -6,12 +6,11 @@ import {AccountDocument} from "@monorepo/type";
 export class S3Controller {
     constructor(private readonly s3Service: S3Service) {}
 
-    @Post('save-canvas')
-    async saveCanvas(
-        @Body('canvasName') canvasName: string,
-        @Body('dataUrl') dataUrl: string,
+    @Post('save-canvases')
+    async saveCanvases(
+        @Body('canvases') canvases: Array<{canvasName: string, dataUrl: string}>,
         @Body('account') account: AccountDocument
-        ) {
-        return this.s3Service.saveCanvas(canvasName, dataUrl, account);
+    ) {
+        return this.s3Service.saveCanvas(canvases, account);
     }
 }

@@ -3,7 +3,7 @@ import CanvasClient from '../pixi/canvas/CanvasClient';
 import DesignDrawer from '../pixi/design-drawer/DesignDrawer';
 import CanvasNavigation from '../pixi/floating-buttons/CanvasNavigation';
 import CanvasViewToggle from '../pixi/floating-buttons/CanvasViewToggle';
-import DownloadButton from '../pixi/floating-buttons/DownloadButton';
+import SaveButton from '../pixi/floating-buttons/SaveButton';
 import ThemeSelector from '../pixi/floating-buttons/ThemeSelector';
 import React, { useContext, useState } from 'react';
 import {handleThemeChange} from "./handleThemeChange";
@@ -91,7 +91,7 @@ const ContentGenerator = ({ primaryColor, secondaryColor }) => {
                     canNavigateLeft={currentCanvasIndex > 0}
                     canNavigateRight={currentCanvasIndex < canvases.length - 1}
                 />
-                <DownloadButton singleCanvasView={singleCanvasView} />
+                <SaveButton singleCanvasView={singleCanvasView} />
                 <DesignDrawer
                     onImageUpload={(event) => handleImageUpload(event, setImageUrl)}
                     rightDrawerOpen={rightDrawerOpen}

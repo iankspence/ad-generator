@@ -287,11 +287,11 @@ export const updateAccountLogoAndColors = async (
 };
 
 
-export const saveCanvasToS3 = async (canvasName, dataUrl, account) => {
+export const saveCanvasesToS3 = async (canvases, account) => {
     try {
-        const response = await axios.post(`${API_URL}/s3/save-canvas`, {
-            canvasName,
-            dataUrl,
+        console.log('saveCanvasesToS3 canvases (api):', canvases);
+        const response = await axios.post(`${API_URL}/s3/save-canvases`, {
+            canvases,
             account,
         }, {
             headers: {
