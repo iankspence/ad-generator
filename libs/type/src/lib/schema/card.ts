@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
-export interface AdDocument extends Card, Document<Types.ObjectId> {}
+export interface CardDocument extends Card, Document<Types.ObjectId> {}
 
 @Schema({ timestamps: true })
 export class Card {
@@ -11,22 +11,22 @@ export class Card {
     @Prop({ required: true, type: String, ref: 'Account' })
     accountId!: string;
 
-    @Prop({ required: true, type: String })
+    @Prop({ required: true })
     cardName!: string;
 
-    @Prop({ required: true, type: String })
-    sourceTextDocumentId!: string;
+    @Prop({ required: true })
+    sourceTextId!: string;
 
-    @Prop({ required: true, type: String })
+    @Prop({ required: true })
     sourceText!: string;
 
-    @Prop({ required: true, type: String })
-    sourceTextEdited!: string;
+    @Prop({ required: false })
+    sourceTextEdited?: string | null;
 
-    @Prop({ required: true, type: String })
+    @Prop({ required: true })
     cardLocation!: string;
 
-    @Prop({ required: true, type: String })
+    @Prop({ required: true })
     backgroundImageLocation!: string;
 
     @Prop({ required: true })
@@ -35,14 +35,14 @@ export class Card {
         maskName: string;
     }[]
 
-    @Prop({ required: true, type: String })
+    @Prop({ required: true })
     themeId!: string;
 
-    @Prop({ required: true, type: String })
-    primaryColor!: string;
+    @Prop({ required: true })
+    primaryColor!: number[];
 
-    @Prop({ required: true, type: String })
-    secondaryColor!: string;
+    @Prop({ required: true})
+    secondaryColor!: number[];
 }
 
-export const AdSchema = SchemaFactory.createForClass(Card);
+export const CardSchema = SchemaFactory.createForClass(Card);

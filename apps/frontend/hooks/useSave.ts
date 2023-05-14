@@ -1,51 +1,85 @@
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { PixiContext } from '../contexts/PixiContext';
-import { useCallback, useContext } from 'react';
-import { saveCanvasesToS3 } from '../utils/api';
 import UserContext from "../contexts/UserContext";
+import { CampaignContext } from "../contexts/CampaignContext";
+import { getFilteredTextArrays } from "../components/pixi/utils/text/getFilteredTextArrays";
+import { saveCanvasesToS3 } from '../utils/api';
 
 const useSave = (width = 1080, height = 1080) => {
-    const { canvasApps } = useContext(PixiContext);
-    const { account } = useContext(UserContext);
+    const [isLoading, setIsLoading] = useState(true);
+    const { canvasApps, selectedThemeId } = useContext(PixiContext);
+    const { user, account } = useContext(UserContext);
+    const { claims, claimPosition, hooks, hookPosition, reviews, reviewPosition, closes, selectedAudiencePosition } = useContext(CampaignContext);
 
-    const getCanvasData = useCallback(
-        async (app) => {
-            if (app) {
-                const originalWidth = app.screen.width;
-                const originalHeight = app.screen.height;
-                const originalScaleX = app.stage.scale.x;
-                const originalScaleY = app.stage.scale.y;
+    const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, selectedAudiencePosition);
 
-                const targetScaleX = width / originalWidth;
-                const targetScaleY = height / originalHeight;
+    useEffect(() => {
+        if (filteredHooks.length > 0 && filteredClaims.length > 0 && filteredReviews.length > 0 && filteredCloses.length > 0) {
+            setIsLoading(false);
+        }
+    }, [filteredHooks, filteredClaims, filteredReviews, filteredCloses]);
 
-                app.renderer.resize(width, height);
-                app.stage.scale.set(originalScaleX * targetScaleX, originalScaleY * targetScaleY);
+    const getSourceData = useCallback((canvasName, filteredData, position) => {
+        const item = filteredData[position - 1] || {};
+        return {
+            sourceText: item[`${canvasName}Text`] || '',
+            sourceTextEdited: item[`${canvasName}TextEdited`] || '',
+            sourceTextId: item._id || '',
+        }
+    }, [hookPosition, claimPosition, reviewPosition]);
 
-                app.renderer.render(app.stage);
-                const dataUrl = app.view.toDataURL('image/png');
+    const getCanvasData = useCallback(async (app) => {
+        if (app) {
+            const originalWidth = app.screen.width;
+            const originalHeight = app.screen.height;
+            const originalScaleX = app.stage.scale.x;
+            const originalScaleY = app.stage.scale.y;
 
-                app.renderer.resize(originalWidth, originalHeight);
-                app.stage.scale.set(originalScaleX, originalScaleY);
+            const targetScaleX = width / originalWidth;
+            const targetScaleY = height / originalHeight;
 
-                return dataUrl;
-            }
-        },
-        [width, height],
-    );
+            app.renderer.resize(width, height);
+            app.stage.scale.set(originalScaleX * targetScaleX, originalScaleY * targetScaleY);
+
+            app.renderer.render(app.stage);
+            const dataUrl = app.view.toDataURL('image/png');
+
+            app.renderer.resize(originalWidth, originalHeight);
+            app.stage.scale.set(originalScaleX, originalScaleY);
+
+            return dataUrl;
+        }
+    }, [width, height]);
 
     const saveAllApps = useCallback(async () => {
-        const canvasNames = ['hook', 'claim', 'review', 'close'];
-        const canvases = await Promise.all(canvasNames.map(async (name) => {
-            const dataUrl = await getCanvasData(canvasApps[name]);
-            return { canvasName: name, dataUrl };
-        }));
+        if (!isLoading) {
+            const canvasNames = ['hook', 'claim', 'review', 'close'];
+            const filteredDataArray = [filteredHooks, filteredClaims, filteredReviews, filteredCloses];
+            const positionArray = [hookPosition, claimPosition, reviewPosition, reviewPosition];
 
-        try {
-            await saveCanvasesToS3(canvases, account);
-        } catch (error) {
-            console.error('Error sending images to backend:', error);
+            const canvases = await Promise.all(canvasNames.map(async (name, index) => {
+                const dataUrl = await getCanvasData(canvasApps[name]);
+                const { sourceText, sourceTextEdited, sourceTextId } = getSourceData(name, filteredDataArray[index], positionArray[index]);
+
+                return { canvasName: name, dataUrl, sourceTextId, sourceText, sourceTextEdited };
+            }));
+
+            try {
+                await saveCanvasesToS3(
+                    canvases,
+                    user?._id,
+                    account,
+                    selectedThemeId,
+                    'test-background-image',
+                    ['test1mask', 'test2mask']
+                );
+            } catch (error) {
+                console.error('Error sending images to backend:', error);
+            }
+        } else {
+            console.log('Data is not ready yet');
         }
-    }, [canvasApps, getCanvasData, account]);
+    }, [canvasApps, getCanvasData, account, isLoading, getSourceData]);
 
     return { saveAllApps };
 };
