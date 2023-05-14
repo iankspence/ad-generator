@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class UserRegisterService {
     constructor(
         @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
-        private readonly accountModelService: AccountModelService,
+        // private readonly accountModelService: AccountModelService,
         private readonly userMailerService: UserMailerService,
     ) {}
 
@@ -24,7 +24,7 @@ export class UserRegisterService {
 
         const user = await this.create(userWithDefaultRoles);
         await this.userMailerService.sendVerificationEmail(user.email, user.emailVerificationToken);
-        await this.accountModelService.create({ userId: user._id });
+        // await this.accountModelService.create({ userId: user._id });
         return user;
     }
 

@@ -63,9 +63,9 @@ export class AccountModelService {
         return this.accountModel.findOneAndDelete({ _id }).exec();
     }
 
-    async findAccountByUserId(userId: string): Promise<Account> {
-        console.log('findAccountByUserId', userId);
-        return this.accountModel.findOne({ userId: new Types.ObjectId(userId) }).exec();
+    async findAccountsByUserId(userId: string): Promise<any> {
+        const accounts = await this.accountModel.find({ }).exec();
+        return accounts.filter((account) => account.userId.toString() === userId);
     }
 
     async addGoogleQuery(accountId: string, googleQuery: string) {

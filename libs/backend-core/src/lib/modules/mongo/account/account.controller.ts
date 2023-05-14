@@ -21,7 +21,6 @@ export class AccountController {
         return this.accountModelService.updateOneById(_id, update);
     }
 
-
     @Delete(':_id')
     @HttpCode(HttpStatus.NO_CONTENT)
     async deleteOneById(@Param('_id') _id: string): Promise<void> {
@@ -29,9 +28,9 @@ export class AccountController {
     }
 
     @Get('user/:userId')
-    async findByUserId(@Param('userId') userId: string): Promise<Account> {
+    async findByUserId(@Param('userId') userId: string): Promise<Account[]> {
         console.log('get account/user/:userId', userId);
-        return await this.accountModelService.findAccountByUserId(userId);
+        return await this.accountModelService.findAccountsByUserId(userId);
     }
 
     @Patch('google-query')
