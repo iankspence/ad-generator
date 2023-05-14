@@ -10,20 +10,28 @@ import { generateAutoColor } from "../utils/generateAutoColor";
 
 const useMask = (appRef, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
-    const { selectedThemeId } = useContext(PixiContext);
+    const { selectedThemeId, updateMaskLocations } = useContext(PixiContext);
     const selectedTheme = getSelectedTheme(selectedThemeId);
     const { account } = useContext(UserContext)
 
     const fetchMaskTextures = async (maskNames) => {
         try {
             const masks = await getMasksByNames(maskNames);
-            console.log('masks', masks)
+            const maskLocations = []
             const textures = await Promise.all(masks.map(async (mask) => {
                 const resource = await PIXI.autoDetectResource(mask.maskLocation).load();
                 const baseTexture = new PIXI.BaseTexture(resource);
+
+                maskLocations.push({
+                    maskName: mask.maskName,
+                    maskLocation: mask.maskLocation,
+                })
                 return new PIXI.Texture(baseTexture);
             }));
             setMaskTextures(textures);
+
+            updateMaskLocations(maskLocations);
+
         } catch (error) {
             console.error('Error fetching masks:', error);
         }

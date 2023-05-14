@@ -31,9 +31,9 @@ export class Card {
 
     @Prop({ required: true })
     maskLocations!: {
-        maskLocation: string;
-        maskName: string;
-    }[]
+        maskName: string,
+        maskLocation: string,
+    }[];
 
     @Prop({ required: true })
     themeId!: string;
@@ -43,6 +43,7 @@ export class Card {
 
     @Prop({ required: true})
     secondaryColor!: number[];
+
 }
 
 export const CardSchema = SchemaFactory.createForClass(Card);

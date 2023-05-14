@@ -33,6 +33,15 @@ interface PixiContextProps {
 
     displayTextBox: boolean;
     updateDisplayTextBox: (value: boolean) => void;
+
+    maskLocations: {
+        maskName: string;
+        maskLocation: string;
+    }[]
+    updateMaskLocations: (maskLocations: {
+        maskName: string;
+        maskLocation: string;
+    } []) => void;
 }
 
 export const PixiContext = createContext<PixiContextProps>({
@@ -76,6 +85,9 @@ export const PixiContext = createContext<PixiContextProps>({
 
     displayTextBox: false,
     updateDisplayTextBox: () => void 0,
+
+    maskLocations: [],
+    updateMaskLocations: () => void 0,
 });
 
 export const PixiProvider = ({ children }) => {
@@ -94,6 +106,8 @@ export const PixiProvider = ({ children }) => {
         close: 1.33,
     });
     const [displayTextBox, setDisplayTextBox] = useState(false);
+    const [maskLocations, setMaskLocations] = useState([]);
+
 
     // Find the default theme
     const defaultTheme = themes.find((theme) => theme.id === 'basic-swoosh-1');
@@ -111,6 +125,8 @@ export const PixiProvider = ({ children }) => {
         review: defaultTheme.settings.reviewTextDefaults.reviewMainText.yRange as [number, number],
         close: defaultTheme.settings.closeTextDefaults.closeMainText.yRange as [number, number],
     };
+
+
 
     // Use initialXRanges and initialYRanges when creating the initial PixiContext state
     const [xRanges, setXRanges] = useState(initialXRanges);
@@ -144,7 +160,8 @@ export const PixiProvider = ({ children }) => {
                 },
                 displayTextBox,
                 updateDisplayTextBox: setDisplayTextBox,
-
+                maskLocations,
+                updateMaskLocations: setMaskLocations,
             }}
         >
             {children}

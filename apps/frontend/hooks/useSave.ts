@@ -7,7 +7,7 @@ import { saveCanvasesToS3 } from '../utils/api';
 
 const useSave = (width = 1080, height = 1080) => {
     const [isLoading, setIsLoading] = useState(true);
-    const { canvasApps, selectedThemeId } = useContext(PixiContext);
+    const { canvasApps, selectedThemeId, maskLocations } = useContext(PixiContext);
     const { user, account } = useContext(UserContext);
     const { claims, claimPosition, hooks, hookPosition, reviews, reviewPosition, closes, selectedAudiencePosition } = useContext(CampaignContext);
 
@@ -71,7 +71,7 @@ const useSave = (width = 1080, height = 1080) => {
                     account,
                     selectedThemeId,
                     'test-background-image',
-                    ['test1mask', 'test2mask']
+                    maskLocations
                 );
             } catch (error) {
                 console.error('Error sending images to backend:', error);
