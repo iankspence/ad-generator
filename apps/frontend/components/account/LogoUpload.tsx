@@ -1,47 +1,44 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import { useDropzone } from 'react-dropzone';
 import ColorThief from 'colorthief';
 import { updateAccountLogoAndColors } from '../../utils/api';
+import UserContext from "../../contexts/UserContext";
 
-const LogoUpload = ({ onColorsExtracted, accountId, initialLogo, initialPrimaryColor, initialSecondaryColor }) => {
-    const [logo, setLogo] = useState(null);
-    const [primaryColor, setPrimaryColor] = useState(null);
-    const [secondaryColor, setSecondaryColor] = useState(null);
+const LogoUpload = () => {
+    const { account, setAccount } = useContext(UserContext);
 
-    useEffect(() => {
-        if (initialLogo) {
-            setLogo(initialLogo);
-        } else if (initialLogo === null) {
-            setLogo(null);
-        }
-        if (initialPrimaryColor) {
-            setPrimaryColor(initialPrimaryColor);
-        } else if (initialPrimaryColor === null) {
-            setPrimaryColor(null);
-        }
-        if (initialSecondaryColor) {
-            setSecondaryColor(initialSecondaryColor);
-        } else if (initialSecondaryColor === null) {
-            setSecondaryColor(null);
-        }
-    }, [initialLogo, initialPrimaryColor, initialSecondaryColor]);
+    const extractColors = (logoData) => {
+        const img = new Image();
+        const colorThief = new ColorThief();
 
+        img.onload = async () => {
+            const colors = colorThief
+                .getPalette(img, 5)
+                .filter(([r, g, b]) => r !== 0 && g !== 0 && b !== 0 && r !== 255 && g !== 255 && b !== 255);
+            const [primaryColor, secondaryColor] = colors;
+            await updateAccountLogoAndColors(account._id, logoData, primaryColor, secondaryColor);
+            setAccount(prevAccount => ({
+                ...prevAccount,
+                logo: logoData,
+                primaryColor,
+                secondaryColor
+            }));
+        };
+        img.src = logoData;
+    };
 
     const onDrop = useCallback((acceptedFiles) => {
         const file = acceptedFiles[0];
         const reader = new FileReader();
 
         reader.onloadend = () => {
-            setLogo(reader.result);
             extractColors(reader.result);
         };
 
         if (file) {
             reader.readAsDataURL(file);
         }
-    }, []);
-
-
+    }, [account]);
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
@@ -53,39 +50,23 @@ const LogoUpload = ({ onColorsExtracted, accountId, initialLogo, initialPrimaryC
         },
     });
 
-    const extractColors = (logoData) => {
-        const img = new Image();
-        const colorThief = new ColorThief();
-
-        img.onload = () => {
-            const colors = colorThief
-                .getPalette(img, 5)
-                .filter(([r, g, b]) => r !== 0 && g !== 0 && b !== 0 && r !== 255 && g !== 255 && b !== 255);
-            setPrimaryColor(colors[0]);
-            setSecondaryColor(colors[1]);
-            onColorsExtracted(colors[0], colors[1]);
-            updateAccountLogoAndColors(accountId, logoData, colors[0], colors[1]).then((r) => console.log(r));
-        };
-        img.src = logoData;
-    };
-
     return (
         <>
             <div {...getRootProps()} className="flex justify-center items-center w-full h-48 border-2 border-dashed border-gray-300 rounded cursor-pointer hover:border-gray-400">
                 <input {...getInputProps()} />
-                {logo ? <img src={logo} alt="Uploaded Logo" /> : <p>Drag and drop a logo or click to select a file</p>}
+                {account?.logo ? <img src={account?.logo} alt="Uploaded Logo" /> : <p>Drag and drop a logo or click to select a file</p>}
             </div>
-            {(logo && primaryColor && secondaryColor) && (
+            {(account?.logo && account?.primaryColor && account?.secondaryColor) && (
                 <div className="mt-4">
                     <p className="font-semibold py-2">Extracted Colors:</p>
                     <div className="flex">
                         <div
                             className="w-1/2 h-10 rounded"
-                            style={{ backgroundColor: `rgb(${primaryColor[0]}, ${primaryColor[1]}, ${primaryColor[2]})` }}
+                            style={{ backgroundColor: `rgb(${account?.primaryColor[0]}, ${account?.primaryColor[1]}, ${account?.primaryColor[2]})` }}
                         ></div>
                         <div
                             className="w-1/2 h-10 rounded ml-4"
-                            style={{ backgroundColor: `rgb(${secondaryColor[0]}, ${secondaryColor[1]}, ${secondaryColor[2]})` }}
+                            style={{ backgroundColor: `rgb(${account?.secondaryColor[0]}, ${account?.secondaryColor[1]}, ${account?.secondaryColor[2]})` }}
                         ></div>
                     </div>
                 </div>

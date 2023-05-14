@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
+import React, {useContext } from 'react';
 import LogoUpload from './LogoUpload';
+import UserContext from "../../contexts/UserContext";
 
-export default function AccountInfo({ account }) {
-    const [primaryColor, setPrimaryColor] = useState(null);
-    const [secondaryColor, setSecondaryColor] = useState(null);
-
-    const handleColorsExtracted = (primary, secondary) => {
-        setPrimaryColor(primary);
-        setSecondaryColor(secondary);
-    };
+export default function AccountInfo() {
+    const { account } = useContext(UserContext);
 
     return (
         <>
@@ -44,31 +39,10 @@ export default function AccountInfo({ account }) {
                 </div>
             </div>
             {account && (
-                <div className="flex mt-8">
+                <div className="flex mt-2">
                     <div className="w-full">
                         <p className="font-semibold py-2">Upload Logo:</p>
-                        <LogoUpload
-                            onColorsExtracted={handleColorsExtracted}
-                            accountId={account._id}
-                            initialLogo={account?.logo}
-                            initialPrimaryColor={account?.primaryColor}
-                            initialSecondaryColor={account?.secondaryColor}
-                        />
-                        {(account?.logo && primaryColor && secondaryColor) && (
-                            <div className="mt-4">
-                                <p className="font-semibold py-2">Extracted Colors:</p>
-                                <div className="flex">
-                                    <div
-                                        className="w-1/2 h-10 rounded"
-                                        style={{ backgroundColor: `rgb(${primaryColor[0]}, ${primaryColor[1]}, ${primaryColor[2]})` }}
-                                    ></div>
-                                    <div
-                                        className="w-1/2 h-10 rounded ml-4"
-                                        style={{ backgroundColor: `rgb(${secondaryColor[0]}, ${secondaryColor[1]}, ${secondaryColor[2]})` }}
-                                    ></div>
-                                </div>
-                            </div>
-                        )}
+                        <LogoUpload />
                     </div>
                 </div>
             )}

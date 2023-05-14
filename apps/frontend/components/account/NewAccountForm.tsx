@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createAccount } from '../../utils/api';
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@material-ui/core';
 
-export default function NewAccountForm({ userId }) {
+export default function NewAccountForm({ userId, accounts, setAccounts }) {
     const [open, setOpen] = useState(false);
     const [newAccount, setNewAccount] = useState({
         companyName: '',
@@ -21,12 +21,14 @@ export default function NewAccountForm({ userId }) {
             userId,
         };
         try {
-            await createAccount(accountData);
+            const newAccount = await createAccount(accountData);
+            setAccounts([...accounts, newAccount]);
             setOpen(false);
         } catch (error) {
             console.error(error);
         }
     };
+
 
     return (
         <>

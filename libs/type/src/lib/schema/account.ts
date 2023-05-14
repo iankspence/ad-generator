@@ -38,12 +38,11 @@ export class Account {
     @Prop({ required: false, default: null })
     logo?: string | null;
 
-    @Prop({ type: [Number], required: false, default: [] })
-    primaryColor?: number[];
+    @Prop({ type: [Number], required: true, default: [100, 100, 100] })
+    primaryColor!: number[];
 
-    @Prop({ type: [Number], required: false, default: [] })
-    secondaryColor?: number[];
-
+    @Prop({ type: [Number], required: true, default: [100, 100, 100] })
+    secondaryColor!: number[];
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);
