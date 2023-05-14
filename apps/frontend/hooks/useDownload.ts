@@ -1,9 +1,11 @@
 import { PixiContext } from '../contexts/PixiContext';
 import { useCallback, useContext } from 'react';
-import { saveCanvasToS3 } from '../utils/api'; // assuming you've created this function
+import { saveCanvasToS3 } from '../utils/api';
+import UserContext from "../contexts/UserContext";
 
 const useDownload = (width = 1080, height = 1080) => {
     const { canvasApps } = useContext(PixiContext);
+    const { account } = useContext(UserContext);
 
     const sendCanvasToBackend = useCallback(
         async (app, canvasName) => {
@@ -26,13 +28,13 @@ const useDownload = (width = 1080, height = 1080) => {
                 app.stage.scale.set(originalScaleX, originalScaleY);
 
                 try {
-                    await saveCanvasToS3(canvasName, dataUrl);
+                    await saveCanvasToS3(canvasName, dataUrl, account);
                 } catch (error) {
                     console.error('Error sending image to backend:', error);
                 }
             }
         },
-        [width, height],
+        [width, height, account],
     );
 
     const saveHookApp = useCallback(() => {

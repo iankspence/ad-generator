@@ -19,7 +19,7 @@ export const UserProvider = ({ children }) => {
     // Fetch account when the user changes
     useEffect(() => {
         fetchAndSetDefaultAccount();
-    }, [user]);
+    }, [user, account]);
 
     const refreshToken = async () => {
         const token = localStorage.getItem('userToken');

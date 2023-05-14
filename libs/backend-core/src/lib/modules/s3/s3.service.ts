@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { createReadStream } from 'streamifier';
+import {AccountDocument} from "@monorepo/type";
 
 const s3 = new S3Client({
     region: 'us-east-2',
@@ -8,8 +8,8 @@ const s3 = new S3Client({
 
 @Injectable()
 export class S3Service {
-    async saveCanvas(canvasName: string, dataUrl: string) {
-        const base64Data = new Buffer(dataUrl.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+    async saveCanvas(canvasName: string, dataUrl: string, account: AccountDocument) {
+        const base64Data = Buffer.from(dataUrl.replace(/^data:image\/\w+;base64,/, ""), 'base64');
 
         let orderedCanvasName;
         switch (canvasName) {
@@ -29,11 +29,12 @@ export class S3Service {
                 orderedCanvasName = canvasName;
         }
 
+        const folderName = `${account.country}/${account.provinceState}/${account.city}/${account.companyName}`
+        const key = `${folderName}/${orderedCanvasName}.png`;
         const params = {
             Bucket: process.env.S3_BUCKET_NAME,
-            Key: `${orderedCanvasName}.png`,
-            Body: createReadStream(base64Data),
-            ContentEncoding: 'base64',
+            Key: key,
+            Body: base64Data,
             ContentType: 'image/png'
         };
 
