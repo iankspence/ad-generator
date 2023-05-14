@@ -13,5 +13,6 @@ export * from './lib/schema/copy';
 export * from './lib/schema/close';
 export * from './lib/schema/mask';
 export * from './lib/schema/card';
+export * from './lib/schema/background-image';
 
 

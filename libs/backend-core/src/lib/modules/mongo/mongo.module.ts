@@ -1,4 +1,5 @@
 import { AccountModule } from './account/account.module';
+import { BackgroundImageModule } from './background-image/background-image.module';
 import { ClaimModule } from './claim/claim.module';
 import { CloseModule } from './close/close.module';
 import { CopyModule } from './copy/copy.module';
@@ -9,6 +10,16 @@ import { UserModule } from './user/user.module';
 import { Module } from '@nestjs/common';
 
 @Module({
-    imports: [UserModule, AccountModule, ReviewModule, ClaimModule, CopyModule, HookModule, CloseModule, MaskModule],
+    imports: [
+        UserModule,
+        AccountModule,
+        ReviewModule,
+        ClaimModule,
+        CopyModule,
+        HookModule,
+        CloseModule,
+        MaskModule,
+        BackgroundImageModule,
+    ],
 })
 export class MongoModule {}
