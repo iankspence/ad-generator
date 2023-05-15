@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { BackgroundImageService } from './background-image.service';
 import { BackgroundImageDocument } from '@monorepo/type';
 
@@ -11,8 +11,8 @@ export class BackgroundImageController {
         await this.backgroundImageService.uploadImagesFromDirectory(directoryPath);
     }
 
-    @Post('find-all-by-names')
-    async findAllByNames(@Body('imageNames') imageNames: string[]): Promise<BackgroundImageDocument[]> {
-        return await this.backgroundImageService.findAllByNames(imageNames);
+    @Get('get-background-image-previews')
+    async getBackgroundImages(): Promise<BackgroundImageDocument[]> {
+        return await this.backgroundImageService.getBackgroundImages();
     }
 }

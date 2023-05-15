@@ -10,6 +10,9 @@ export class BackgroundImage {
 
     @Prop({ required: true })
     backgroundImageLocation!: string;
+
+    @Prop({ required: true })
+    backgroundImagePreviewLocation!: string;
 }
 
 export const BackgroundImageSchema = SchemaFactory.createForClass(BackgroundImage);
