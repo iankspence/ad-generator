@@ -9,7 +9,7 @@ const useSave = (width = 1080, height = 1080) => {
     const [isLoading, setIsLoading] = useState(true);
     const { canvasApps, selectedThemeId, maskLocations, backgroundImageLocation } = useContext(PixiContext);
     const { user, account } = useContext(UserContext);
-    const { claims, claimPosition, hooks, hookPosition, reviews, reviewPosition, closes, selectedAudiencePosition } = useContext(CampaignContext);
+    const { claims, claimPosition, hooks, hookPosition, reviews, reviewPosition, closes, closePosition, selectedAudiencePosition } = useContext(CampaignContext);
 
     const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, selectedAudiencePosition);
 
@@ -55,7 +55,7 @@ const useSave = (width = 1080, height = 1080) => {
         if (!isLoading) {
             const canvasNames = ['hook', 'claim', 'review', 'close'];
             const filteredDataArray = [filteredHooks, filteredClaims, filteredReviews, filteredCloses];
-            const positionArray = [hookPosition, claimPosition, reviewPosition, reviewPosition];
+            const positionArray = [hookPosition, claimPosition, reviewPosition, closePosition];
 
             const canvases = await Promise.all(canvasNames.map(async (name, index) => {
                 const dataUrl = await getCanvasData(canvasApps[name]);
@@ -69,6 +69,7 @@ const useSave = (width = 1080, height = 1080) => {
                     canvases,
                     user?._id,
                     account,
+                    filteredReviews[reviewPosition - 1],
                     selectedThemeId,
                     backgroundImageLocation,
                     maskLocations

@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import {AccountDocument, Card, CardDocument} from "@monorepo/type";
+import {AccountDocument, Card, CardDocument, ReviewDocument} from "@monorepo/type";
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
+import {AdService} from "../ad/ad.service";
 
 const s3 = new S3Client({
     region: process.env.S3_REGION
@@ -10,11 +11,16 @@ const s3 = new S3Client({
 
 @Injectable()
 export class CardService {
-    constructor(@InjectModel(Card.name) private readonly cardModel: Model<CardDocument>) {}
+    constructor(@InjectModel(Card.name) private readonly cardModel: Model<CardDocument>,
+    private readonly adService: AdService, // inject AdService
+) {}
 
-    async saveCanvases(canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>, userId: string, account: AccountDocument, themeId: string, backgroundImageLocation: string, maskLocations: {maskLocation: string, maskName: string}[]) {
+    async saveCanvases(canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>, userId: string, account: AccountDocument, review: ReviewDocument, themeId: string, backgroundImageLocation: string, maskLocations: {maskLocation: string, maskName: string}[]) {
         const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}`
         const results = [];
+
+        const cardIds = {};
+        const cardLocations = {};
 
         for (const {canvasName, dataUrl, sourceTextId, sourceText, sourceTextEdited} of canvases) {
             const base64Data = Buffer.from(dataUrl.replace(/^data:image\/\w+;base64,/, ""), 'base64');
@@ -48,20 +54,6 @@ export class CardService {
             try {
                 const result = await s3.send(new PutObjectCommand(params));
 
-                console.log('userId', userId)
-                console.log('account._id', account._id)
-                console.log('canvasName', canvasName)
-                console.log('sourceTextId', sourceTextId)
-                console.log('sourceText', sourceText)
-                console.log('sourceTextEdited', sourceTextEdited)
-                console.log('key', key)
-                console.log('backgroundImageLocation', backgroundImageLocation)
-                console.log('maskLocations', maskLocations)
-                console.log('themeId', themeId)
-                console.log('account.primaryColor', account.primaryColor)
-                console.log('account.secondaryColor', account.secondaryColor)
-
-                // Create new card document
                 const card = new this.cardModel({
                     userId,
                     accountId: account._id,
@@ -78,6 +70,9 @@ export class CardService {
                 });
 
                 const savedCard = await card.save();
+                cardIds[canvasName] = savedCard._id;
+                cardLocations[canvasName] = savedCard.cardLocation;
+
 
                 results.push({
                     s3Result: result,
@@ -89,6 +84,22 @@ export class CardService {
                 throw error;
             }
         }
+
+        const ad = await this.adService.createAd(
+            userId,
+            account._id.toString(),
+            cardIds['hook'],
+            cardLocations['hook'],
+            cardIds['claim'],
+            cardLocations['claim'],
+            cardIds['review'],
+            cardLocations['review'],
+            cardIds['close'],
+            cardLocations['close'],
+            review.bestFitAudience,
+            review.bestFitReasoning
+        );
+        results.push({ad});
 
         return results;
     }

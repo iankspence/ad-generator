@@ -15,18 +15,30 @@ export class Ad {
     hookCardId!: string;
 
     @Prop({ required: true, type: String, ref: 'Card' })
+    hookCardLocation!: string;
+
+    @Prop({ required: true, type: String, ref: 'Card' })
     claimCardId!: string;
+
+    @Prop({ required: true, type: String, ref: 'Card' })
+    claimCardLocation!: string;
 
     @Prop({ required: true, type: String, ref: 'Card' })
     reviewCardId!: string;
 
     @Prop({ required: true, type: String, ref: 'Card' })
+    reviewCardLocation!: string;
+
+    @Prop({ required: true, type: String, ref: 'Card' })
     closeCardId!: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true, type: String, ref: 'Card' })
+    closeCardLocation!: string;
+
+    @Prop({ required: true, type: String, ref: 'Review' })
     bestFitAudience!: number;
 
-    @Prop({ required: true })
+    @Prop({ required: true, type: String, ref: 'Review' })
     bestFitReasoning!: string;
 }
 
