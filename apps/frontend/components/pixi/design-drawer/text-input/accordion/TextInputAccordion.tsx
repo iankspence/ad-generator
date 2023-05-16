@@ -10,7 +10,8 @@ import {
     updateClaimTextEdit,
     updateCloseTextEdit,
     updateHookTextEdit,
-    updateReviewTextEdit
+    updateReviewTextEdit,
+    updateCopyTextEdit,
 } from "../../../../../utils/api";
 import AudienceSelector from "../selector/AudienceSelector";
 import { audiences } from "../../../../../utils/constants/audiences";
@@ -86,8 +87,9 @@ const TextInputAccordion = () => {
                     ));
                     break;
                 case 'copy':
+                    updatedData = await updateCopyTextEdit({ ...currentCopy, copyTextEdited: text });
                     updateCopies(copies.map((copy) =>
-                        copy._id === currentCopyId ? { ...copy, copyTextEdited: text } : copy
+                        copy._id === currentCopyId ? updatedData : copy
                     ));
                     break;
                 default:
@@ -111,7 +113,7 @@ const TextInputAccordion = () => {
         setCurrentCloseId(null);
         setCurrentCopyId(null);
 
-    }, [hookPosition, filteredHooks, filteredClaims, filteredCloses]);
+    }, [hookPosition, filteredHooks, filteredClaims, filteredCloses, filteredCopies]);
 
     useEffect(() => {
         setCurrentClaimId(filteredClaims[claimPosition - 1]?._id?.toString() || null);

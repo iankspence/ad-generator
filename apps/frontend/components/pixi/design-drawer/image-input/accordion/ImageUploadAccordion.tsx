@@ -20,8 +20,8 @@ const ImageUploadAccordion = () => {
     const handleImageSelect = (image) => {
         updateBackgroundImageLocation(image.backgroundImageLocation);
         handleCloseDialog();
-
     };
+
     return (
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>

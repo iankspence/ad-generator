@@ -67,10 +67,10 @@ const useSave = (width = 1080, height = 1080) => {
             try {
                 await saveCanvasesToS3(
                     canvases,
-                    filteredCopies[copyPosition - 1],
                     user?._id,
                     account,
                     filteredReviews[reviewPosition - 1],
+                    filteredCopies[copyPosition - 1],
                     selectedThemeId,
                     backgroundImageLocation,
                     maskLocations
@@ -81,7 +81,7 @@ const useSave = (width = 1080, height = 1080) => {
         } else {
             console.log('Data is not ready yet');
         }
-    }, [canvasApps, getCanvasData, account, isLoading, getSourceData]);
+    }, [canvasApps, getCanvasData, account, isLoading, getSourceData, backgroundImageLocation]);
 
     return { saveAllApps };
 };

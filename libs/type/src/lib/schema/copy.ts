@@ -14,7 +14,7 @@ export class Copy {
     @Prop({ required: true, type: String, ref: 'Hook' })
     hookId!: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true, type: String })
     copyText!: string;
 
     @Prop({ required: false })

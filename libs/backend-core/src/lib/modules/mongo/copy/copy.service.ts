@@ -1,4 +1,4 @@
-import { Copy, CopyDocument } from '@monorepo/type';
+import { Copy, CopyDocument} from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -20,7 +20,8 @@ export class CopyService {
         return this.copyModel.find({ accountId }).exec();
     }
 
-    async updateTextEdit(copy: Partial<CopyDocument>): Promise<Copy> {
-        return this.copyModel.findOneAndUpdate({ _id: copy._id }, { copyTextEdited: copy.copyText }, { new: true });
+    async updateTextEdit(copy: Partial<CopyDocument>): Promise<CopyDocument> {
+        return this.copyModel.findOneAndUpdate({ _id: copy._id }, { copyTextEdited: copy.copyTextEdited }, { new: true });
     }
+
 }

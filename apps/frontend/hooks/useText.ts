@@ -17,6 +17,7 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
         closes,
         closePosition,
         copies,
+        copyPosition,
         selectedAudiencePosition,
     } = useContext(CampaignContext);
 
@@ -29,8 +30,9 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
     const [currentHookTexts, setCurrentHookTexts] = useState(['', '']);
     const [currentClaimTexts, setCurrentClaimTexts] = useState(['', '']);
     const [currentCloseTexts, setCurrentCloseTexts] = useState(['', '']);
+    const [currentCopyTexts, setCurrentCopyTexts] = useState(['', '']);
 
-    const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
+    const { filteredReviews, filteredHooks, filteredClaims, filteredCloses, filteredCopies } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
 
     useEffect(() => {
         if (!filteredReviews) return;
@@ -54,6 +56,11 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
         if (!filteredCloses) return;
         setCurrentCloseTexts([filteredCloses[closePosition - 1]?.closeText, filteredCloses[closePosition - 1]?.closeTextEdited ])
     }, [ selectedAudiencePosition, closePosition, closes ]);
+
+    useEffect(() => {
+        if (!filteredCopies) return;
+        setCurrentCopyTexts([filteredCopies[copyPosition - 1]?.copyText, filteredCopies[copyPosition - 1]?.copyTextEdited ])
+    }, [ selectedAudiencePosition, copyPosition, copies ]);
 
     useEffect(() => {
         if (!appRef.current || !primaryColor || !secondaryColor) return;
@@ -103,6 +110,7 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
         currentReviewTexts,
         currentClaimTexts,
         currentCloseTexts,
+        currentCopyTexts,
         xRanges,
         yRanges,
         lineHeightMultipliers,

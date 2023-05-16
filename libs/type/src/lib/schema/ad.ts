@@ -35,6 +35,12 @@ export class Ad {
     @Prop({ required: true, type: String, ref: 'Card' })
     closeCardLocation!: string;
 
+    @Prop({ required: true, type: String, ref: 'Copy' })
+    copyText!: string;
+
+    @Prop({ required: false })
+    copyTextEdited?: string | null;
+
     @Prop({ required: true, type: String, ref: 'Review' })
     bestFitAudience!: number;
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import {AccountDocument, Card, CardDocument, ReviewDocument} from "@monorepo/type";
+import {AccountDocument, Card, CardDocument, ReviewDocument, CopyDocument, Copy} from "@monorepo/type";
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import {AdService} from "../ad/ad.service";
@@ -11,11 +11,14 @@ const s3 = new S3Client({
 
 @Injectable()
 export class CardService {
-    constructor(@InjectModel(Card.name) private readonly cardModel: Model<CardDocument>,
-    private readonly adService: AdService, // inject AdService
+    constructor(
+        @InjectModel(Card.name) private readonly cardModel: Model<CardDocument>,
+        @InjectModel(Copy.name) private readonly copyModel: Model<CopyDocument>,
+        private readonly adService: AdService,
+
 ) {}
 
-    async saveCanvases(canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>, userId: string, account: AccountDocument, review: ReviewDocument, themeId: string, backgroundImageLocation: string, maskLocations: {maskLocation: string, maskName: string}[]) {
+    async saveCanvases(canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>, userId: string, account: AccountDocument, review: ReviewDocument, copy: CopyDocument, themeId: string, backgroundImageLocation: string, maskLocations: {maskLocation: string, maskName: string}[]) {
         const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}`
         const results = [];
 
@@ -85,6 +88,8 @@ export class CardService {
             }
         }
 
+        const freshCopy = await this.copyModel.findById(copy._id);
+
         const ad = await this.adService.createAd(
             userId,
             account._id.toString(),
@@ -96,9 +101,12 @@ export class CardService {
             cardLocations['review'],
             cardIds['close'],
             cardLocations['close'],
+            freshCopy.copyText,
+            freshCopy?.copyTextEdited ? freshCopy?.copyTextEdited : '',
             review.bestFitAudience,
             review.bestFitReasoning
         );
+
         results.push({ad});
 
         return results;

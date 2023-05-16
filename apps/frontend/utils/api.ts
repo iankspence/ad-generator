@@ -266,7 +266,19 @@ export const updateCloseTextEdit = async (
     }
 }
 
-
+export const updateCopyTextEdit = async (
+    copy
+) => {
+    try {
+        const response = await axios.post(`${API_URL}/copy/update-text-edit`, {
+            copy
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating review text edit:', error);
+        throw error;
+    }
+}
 export const updateAccountLogoAndColors = async (
     accountId,
     logo,
@@ -289,7 +301,6 @@ export const updateAccountLogoAndColors = async (
 
 export const saveCanvasesToS3 = async (canvases, userId, account, review, copy, themeId, backgroundImageLocation, maskLocations) => {
     try {
-        console.log('saveCanvasesToS3 canvases (api):', canvases);
         const response = await axios.post(`${API_URL}/card/save-canvases`, {
             canvases,
             userId,
@@ -314,7 +325,6 @@ export const saveCanvasesToS3 = async (canvases, userId, account, review, copy, 
 export const getBackgroundImages = async () => {
     try {
         const response = await axios.get(`${API_URL}/background-image/get-background-images`);
-        console.log('getBackgroundImages response:', response);
         return response.data;
     } catch (error) {
         console.error('Error fetching images:', error);
