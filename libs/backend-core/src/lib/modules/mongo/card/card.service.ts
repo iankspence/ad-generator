@@ -63,16 +63,16 @@ export class CardService {
 
                 // Create new card document
                 const card = new this.cardModel({
-                    userId, // assuming this property exists in account document
+                    userId,
                     accountId: account._id,
                     cardName: canvasName,
-                    sourceTextId: sourceTextId,
-                    sourceText: sourceText,
-                    sourceTextEdited: sourceTextEdited,
-                    cardLocation: `${process.env.CLOUDFRONT_URL}/${key}`,
-                    backgroundImageLocation: 'placeholder',
-                    maskLocations: maskLocations,
-                    themeId: themeId,
+                    sourceTextId,
+                    sourceText,
+                    sourceTextEdited,
+                    cardLocation: `${process.env.CF_DOMAIN}/${key}`,
+                    backgroundImageLocation,
+                    maskLocations,
+                    themeId,
                     primaryColor: [account.primaryColor[0], account.primaryColor[1], account.primaryColor[2]],
                     secondaryColor: [account.secondaryColor[0], account.secondaryColor[1], account.secondaryColor[2]],
                 });

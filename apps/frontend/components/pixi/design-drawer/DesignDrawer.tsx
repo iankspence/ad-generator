@@ -11,7 +11,6 @@ import TextInputAccordion from './text-input/accordion/TextInputAccordion';
 import MasterTextStyleAccordion from './text-style/accordion/MasterTextStyleAccordion';
 
 const DesignDrawer = ({ rightDrawerOpen, setRightDrawerOpen }) => {
-    // const [open, setOpen] = useState(false);
 
     const handleDrawerOpen = () => {
         setRightDrawerOpen(true);

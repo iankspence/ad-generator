@@ -59,7 +59,7 @@ export class MaskService {
             throw error;
         }
 
-        return `${process.env.CLOUDFRONT_URL}/masks/${maskName}${fileType}`;
+        return `${process.env.CF_DOMAIN}/masks/${maskName}${fileType}`;
 
     }
 }

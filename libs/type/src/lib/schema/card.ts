@@ -43,7 +43,6 @@ export class Card {
 
     @Prop({ required: true})
     secondaryColor!: number[];
-
 }
 
 export const CardSchema = SchemaFactory.createForClass(Card);

@@ -7,7 +7,7 @@ import { saveCanvasesToS3 } from '../utils/api';
 
 const useSave = (width = 1080, height = 1080) => {
     const [isLoading, setIsLoading] = useState(true);
-    const { canvasApps, selectedThemeId, maskLocations } = useContext(PixiContext);
+    const { canvasApps, selectedThemeId, maskLocations, backgroundImageLocation } = useContext(PixiContext);
     const { user, account } = useContext(UserContext);
     const { claims, claimPosition, hooks, hookPosition, reviews, reviewPosition, closes, selectedAudiencePosition } = useContext(CampaignContext);
 
@@ -70,7 +70,7 @@ const useSave = (width = 1080, height = 1080) => {
                     user?._id,
                     account,
                     selectedThemeId,
-                    'test-background-image',
+                    backgroundImageLocation,
                     maskLocations
                 );
             } catch (error) {
