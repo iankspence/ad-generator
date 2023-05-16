@@ -16,6 +16,7 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
         reviewPosition,
         closes,
         closePosition,
+        copies,
         selectedAudiencePosition,
     } = useContext(CampaignContext);
 
@@ -29,7 +30,7 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
     const [currentClaimTexts, setCurrentClaimTexts] = useState(['', '']);
     const [currentCloseTexts, setCurrentCloseTexts] = useState(['', '']);
 
-    const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, selectedAudiencePosition);
+    const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
 
     useEffect(() => {
         if (!filteredReviews) return;

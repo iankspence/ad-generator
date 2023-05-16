@@ -6,7 +6,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getFilteredTextArrays } from '../../../utils/text/getFilteredTextArrays';
 import ReviewHookAccordion from './ReviewHookAccordion';
 import ClaimCloseAccordion from './ClaimCloseAccordion';
-import UserContext from "../../../../../contexts/UserContext";
 import {
     updateClaimTextEdit,
     updateCloseTextEdit,
@@ -15,6 +14,7 @@ import {
 } from "../../../../../utils/api";
 import AudienceSelector from "../selector/AudienceSelector";
 import { audiences } from "../../../../../utils/constants/audiences";
+import CopyAccordion from "./CopyAccordion";
 
 const TextInputAccordion = () => {
     const {
@@ -34,6 +34,10 @@ const TextInputAccordion = () => {
         updateReviews,
         reviewPosition,
         updateReviewPosition,
+        copies,
+        updateCopies,
+        copyPosition,
+        updateCopyPosition,
         selectedAudiencePosition,
         updateSelectedAudiencePosition,
     } = useContext(CampaignContext);
@@ -42,6 +46,7 @@ const TextInputAccordion = () => {
     const [currentHookId, setCurrentHookId] = useState(null);
     const [currentClaimId, setCurrentClaimId] = useState(null);
     const [currentCloseId, setCurrentCloseId] = useState(null);
+    const [currentCopyId, setCurrentCopyId] = useState(null);
 
     const onEditStart = () => {};
     const onEditRestore = () => {};
@@ -52,6 +57,7 @@ const TextInputAccordion = () => {
             const currentHook = hooks.find((hook) => hook._id === currentHookId);
             const currentClaim = claims.find((claim) => claim._id === currentClaimId);
             const currentClose = closes.find((close) => close._id === currentCloseId);
+            const currentCopy = copies.find((copy) => copy._id === currentCopyId);
 
             let updatedData;
             switch (canvasName) {
@@ -79,6 +85,11 @@ const TextInputAccordion = () => {
                         close._id === currentCloseId ? updatedData : close
                     ));
                     break;
+                case 'copy':
+                    updateCopies(copies.map((copy) =>
+                        copy._id === currentCopyId ? { ...copy, copyTextEdited: text } : copy
+                    ));
+                    break;
                 default:
                     break;
             }
@@ -87,7 +98,7 @@ const TextInputAccordion = () => {
         }
     };
 
-    const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, selectedAudiencePosition);
+    const { filteredReviews, filteredHooks, filteredClaims, filteredCloses, filteredCopies } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
 
     useEffect(() => {
         setCurrentReviewId(filteredReviews[reviewPosition - 1]?._id?.toString() || null);
@@ -98,6 +109,7 @@ const TextInputAccordion = () => {
         setCurrentHookId(filteredHooks[hookPosition - 1]?._id?.toString() || null);
         setCurrentClaimId(null);
         setCurrentCloseId(null);
+        setCurrentCopyId(null);
 
     }, [hookPosition, filteredHooks, filteredClaims, filteredCloses]);
 
@@ -108,6 +120,10 @@ const TextInputAccordion = () => {
     useEffect(() => {
         setCurrentCloseId(filteredCloses[closePosition - 1]?._id?.toString() || null);
     }, [closePosition, filteredCloses]);
+
+    useEffect(() => {
+        setCurrentCopyId(filteredCopies[copyPosition - 1]?._id?.toString() || null);
+    }, [copyPosition, filteredCopies]);
 
 
     return (
@@ -140,6 +156,14 @@ const TextInputAccordion = () => {
                     closePosition={closePosition}
                     updateClosePosition={updateClosePosition}
                     filteredCloses={filteredCloses}
+                    onEditStart={onEditStart}
+                    onEditSubmit={onEditSubmit}
+                    onEditRestore={onEditRestore}
+                />
+                <CopyAccordion
+                    copyPosition={copyPosition}
+                    updateCopyPosition={updateCopyPosition}
+                    filteredCopies={filteredCopies}
                     onEditStart={onEditStart}
                     onEditSubmit={onEditSubmit}
                     onEditRestore={onEditRestore}

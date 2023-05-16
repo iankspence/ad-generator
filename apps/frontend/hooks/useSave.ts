@@ -9,15 +9,15 @@ const useSave = (width = 1080, height = 1080) => {
     const [isLoading, setIsLoading] = useState(true);
     const { canvasApps, selectedThemeId, maskLocations, backgroundImageLocation } = useContext(PixiContext);
     const { user, account } = useContext(UserContext);
-    const { claims, claimPosition, hooks, hookPosition, reviews, reviewPosition, closes, closePosition, selectedAudiencePosition } = useContext(CampaignContext);
+    const { claims, claimPosition, hooks, hookPosition, reviews, reviewPosition, closes, closePosition, copies, copyPosition, selectedAudiencePosition } = useContext(CampaignContext);
 
-    const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, selectedAudiencePosition);
+    const { filteredReviews, filteredHooks, filteredClaims, filteredCloses, filteredCopies } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
 
     useEffect(() => {
         if (filteredHooks.length > 0 && filteredClaims.length > 0 && filteredReviews.length > 0 && filteredCloses.length > 0) {
             setIsLoading(false);
         }
-    }, [filteredHooks, filteredClaims, filteredReviews, filteredCloses]);
+    }, [filteredHooks, filteredClaims, filteredReviews, filteredCloses, filteredCopies]);
 
     const getSourceData = useCallback((canvasName, filteredData, position) => {
         const item = filteredData[position - 1] || {};
@@ -67,6 +67,7 @@ const useSave = (width = 1080, height = 1080) => {
             try {
                 await saveCanvasesToS3(
                     canvases,
+                    filteredCopies[copyPosition - 1],
                     user?._id,
                     account,
                     filteredReviews[reviewPosition - 1],

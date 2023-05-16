@@ -11,8 +11,6 @@ const ImageSelectionDialog = ({ open, onClose, onSelect }) => {
         }
     }, [open]);
 
-    console.log(images);
-
     return (
         <Dialog open={open} onClose={onClose}>
             <DialogTitle>Select an Image</DialogTitle>

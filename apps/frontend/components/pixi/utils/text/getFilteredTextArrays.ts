@@ -5,6 +5,7 @@ export const getFilteredTextArrays = (
     hookPosition,
     claims,
     closes,
+    copies,
     selectedAudiencePosition
 ) => {
 
@@ -28,10 +29,15 @@ export const getFilteredTextArrays = (
         (close) => close.reviewId === currentReviewId && close.hookId === currentHookId
     );
 
+    const filteredCopies = copies.filter(
+        (copy) => copy.reviewId === currentReviewId && copy.hookId === currentHookId
+    );
+
     return {
         filteredReviews,
         filteredHooks,
         filteredClaims,
         filteredCloses,
+        filteredCopies,
     };
 };
