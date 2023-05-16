@@ -10,7 +10,7 @@ import ImageUploadAccordion from './image-input/accordion/ImageUploadAccordion';
 import TextInputAccordion from './text-input/accordion/TextInputAccordion';
 import MasterTextStyleAccordion from './text-style/accordion/MasterTextStyleAccordion';
 
-const DesignDrawer = ({ onImageUpload, rightDrawerOpen, setRightDrawerOpen }) => {
+const DesignDrawer = ({ rightDrawerOpen, setRightDrawerOpen }) => {
     // const [open, setOpen] = useState(false);
 
     const handleDrawerOpen = () => {
@@ -55,7 +55,7 @@ const DesignDrawer = ({ onImageUpload, rightDrawerOpen, setRightDrawerOpen }) =>
                         Design Elements
                     </Typography>
 
-                    <ImageUploadAccordion onImageUpload={onImageUpload} />
+                    <ImageUploadAccordion />
                     <TextInputAccordion />
                     <MasterTextStyleAccordion />
                 </Box>

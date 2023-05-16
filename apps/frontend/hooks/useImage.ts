@@ -1,9 +1,9 @@
 import * as PIXI from 'pixi.js';
 import { useEffect } from 'react';
 
-export const useImage = (appRef, imageUrl, canvasName) => {
+export const useImage = (appRef, backgroundImageLocation, canvasName) => {
     useEffect(() => {
-        if (!appRef?.current || !imageUrl) return;
+        if (!appRef?.current || !backgroundImageLocation) return;
 
         const app = appRef.current;
 
@@ -11,7 +11,8 @@ export const useImage = (appRef, imageUrl, canvasName) => {
         container.name = canvasName;
         app.stage.addChild(container);
 
-        const image = PIXI.Sprite.from(imageUrl);
+        const image = PIXI.Sprite.from(backgroundImageLocation);
+
         image.anchor.set(0.5);
         image.x = app.screen.width / 2;
         image.y = app.screen.height / 2;
@@ -24,5 +25,6 @@ export const useImage = (appRef, imageUrl, canvasName) => {
             if (container) container.removeChild(image);
             if (app.stage) app.stage.removeChild(container);
         };
-    }, [imageUrl, appRef]);
+
+    }, [backgroundImageLocation, appRef]);
 };

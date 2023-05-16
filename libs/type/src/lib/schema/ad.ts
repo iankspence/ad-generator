@@ -11,12 +11,21 @@ export class Ad {
     @Prop({ required: true, type: String, ref: 'Account' })
     accountId!: string;
 
+    @Prop({ required: true, type: String, ref: 'Card' })
+    hookCardId!: string;
 
+    @Prop({ required: true, type: String, ref: 'Card' })
+    claimCardId!: string;
 
-    // These are on the review doc but may change
+    @Prop({ required: true, type: String, ref: 'Card' })
+    reviewCardId!: string;
+
+    @Prop({ required: true, type: String, ref: 'Card' })
+    closeCardId!: string;
+
     @Prop({ required: true })
     bestFitAudience!: number;
-    // These are on the review doc but may change
+
     @Prop({ required: true })
     bestFitReasoning!: string;
 }

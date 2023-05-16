@@ -8,7 +8,6 @@ import ThemeSelector from '../pixi/floating-buttons/ThemeSelector';
 import React, { useContext, useState } from 'react';
 import {handleThemeChange} from "./handleThemeChange";
 import {handleToggleView} from "./handleToggleView";
-import {handleImageUpload} from "./handleImageUpload";
 import {handlePreviousCanvas} from "./handlePreviousCanvas";
 import {handleNextCanvas} from "./handleNextCanvas";
 import renderCanvas from "./renderCanvas";
@@ -16,7 +15,6 @@ import renderCanvas from "./renderCanvas";
 const ContentGenerator = ({ primaryColor, secondaryColor }) => {
     const { selectedThemeId, updateSelectedThemeId, activeCanvases, updateActiveCanvases } = useContext(PixiContext);
 
-    const [imageUrl, setImageUrl] = useState(null);
     const [rightDrawerOpen, setRightDrawerOpen] = useState(false);
     const [currentCanvasIndex, setCurrentCanvasIndex] = useState(0);
     const [singleCanvasView, setSingleCanvasView] = useState(true);
@@ -28,7 +26,6 @@ const ContentGenerator = ({ primaryColor, secondaryColor }) => {
             canvasName: 'hook',
             component: (
                 <CanvasClient
-                    imageUrl={imageUrl}
                     size={canvasSize}
                     canvasName={'hook'}
                     primaryColor={primaryColor}
@@ -41,7 +38,6 @@ const ContentGenerator = ({ primaryColor, secondaryColor }) => {
             canvasName: 'claim',
             component: (
                 <CanvasClient
-                    imageUrl={imageUrl}
                     size={canvasSize}
                     canvasName={'claim'}
                     primaryColor={primaryColor}
@@ -54,7 +50,6 @@ const ContentGenerator = ({ primaryColor, secondaryColor }) => {
             canvasName: 'review',
             component: (
                 <CanvasClient
-                    imageUrl={imageUrl}
                     size={canvasSize}
                     canvasName={'review'}
                     primaryColor={primaryColor}
@@ -67,7 +62,6 @@ const ContentGenerator = ({ primaryColor, secondaryColor }) => {
             canvasName: 'close',
             component: (
                 <CanvasClient
-                    imageUrl={imageUrl}
                     size={canvasSize}
                     canvasName={'close'}
                     primaryColor={primaryColor}
@@ -93,7 +87,6 @@ const ContentGenerator = ({ primaryColor, secondaryColor }) => {
                 />
                 <SaveButton singleCanvasView={singleCanvasView} />
                 <DesignDrawer
-                    onImageUpload={(event) => handleImageUpload(event, setImageUrl)}
                     rightDrawerOpen={rightDrawerOpen}
                     setRightDrawerOpen={setRightDrawerOpen}
                 />

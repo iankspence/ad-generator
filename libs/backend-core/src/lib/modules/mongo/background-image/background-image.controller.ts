@@ -11,7 +11,7 @@ export class BackgroundImageController {
         await this.backgroundImageService.uploadImagesFromDirectory(directoryPath);
     }
 
-    @Get('get-background-image-previews')
+    @Get('get-background-images')
     async getBackgroundImages(): Promise<BackgroundImageDocument[]> {
         return await this.backgroundImageService.getBackgroundImages();
     }

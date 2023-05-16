@@ -29,9 +29,7 @@ export class BackgroundImageService {
             if (this.isFileSupported(fileExtension)) {
                 const imageName = path.basename(file, fileExtension);
                 const fullImageLocation = await this.uploadFileToS3(filePath, `background-images/full/${imageName}${fileExtension}`, fileExtension);
-                // await this.createBackgroundImage(imageName, fullImageLocation);
 
-                // Resize and upload preview image
                 const previewImageBuffer = await sharp(filePath)
                     .resize({
                         height: 140,
@@ -68,6 +66,6 @@ export class BackgroundImageService {
             throw error;
         }
 
-        return `${process.env.CLOUDFRONT_URL}/${key}`;
+        return `${process.env.CF_DOMAIN}/${key}`;
     }
 }

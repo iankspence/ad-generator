@@ -308,3 +308,14 @@ export const saveCanvasesToS3 = async (canvases, userId, account, themeId, backg
         throw error;
     }
 };
+
+export const getBackgroundImages = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/background-image/get-background-images`);
+        console.log('getBackgroundImages response:', response);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching images:', error);
+        throw error;
+    }
+}

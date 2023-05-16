@@ -42,6 +42,9 @@ interface PixiContextProps {
         maskName: string;
         maskLocation: string;
     } []) => void;
+
+    backgroundImageLocation: string;
+    updateBackgroundImageLocation: (backgroundImageLocation: string) => void;
 }
 
 export const PixiContext = createContext<PixiContextProps>({
@@ -88,6 +91,9 @@ export const PixiContext = createContext<PixiContextProps>({
 
     maskLocations: [],
     updateMaskLocations: () => void 0,
+
+    backgroundImageLocation: '',
+    updateBackgroundImageLocation: () => void 0,
 });
 
 export const PixiProvider = ({ children }) => {
@@ -107,6 +113,9 @@ export const PixiProvider = ({ children }) => {
     });
     const [displayTextBox, setDisplayTextBox] = useState(false);
     const [maskLocations, setMaskLocations] = useState([]);
+
+    const [backgroundImageLocation, setBackgroundImageLocation] = useState('');
+
 
 
     // Find the default theme
@@ -162,6 +171,9 @@ export const PixiProvider = ({ children }) => {
                 updateDisplayTextBox: setDisplayTextBox,
                 maskLocations,
                 updateMaskLocations: setMaskLocations,
+
+                backgroundImageLocation,
+                updateBackgroundImageLocation: setBackgroundImageLocation,
             }}
         >
             {children}
