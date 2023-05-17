@@ -12,10 +12,10 @@ const RenderLibraryCards = (ad, width) => {
                 <Grid item key={ad.hookCardId}>
                     <LibraryCard ad={ad} cardLocation={ad.hookCardLocation}/>
                 </Grid>
-                <Grid item key={ad.claimCardId} >
+                <Grid item key={ad.claimCardId}>
                     <LibraryCard ad={ad} cardLocation={ad.claimCardLocation}/>
                 </Grid>
-                <Grid item key={ad.reviewCardId}  >
+                <Grid item key={ad.reviewCardId}>
                     <LibraryCard ad={ad} cardLocation={ad.reviewCardLocation}/>
                 </Grid>
                 <Grid item key={ad.closeCardId}>

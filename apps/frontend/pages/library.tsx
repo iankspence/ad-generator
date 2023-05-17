@@ -44,7 +44,7 @@ const Library = () => {
                         </IconButton>
                         <Typography variant="h6">Ads</Typography>
                         {ads.filter(ad => ad.adStatus === 'fresh').map((ad, index) => (
-                            <div key={index}>{RenderLibraryCards(ad, adsWidth)}</div>
+                            <div style={{paddingTop: "10px"}} key={index}>{RenderLibraryCards(ad, adsWidth)}</div>
                         ))}
                     </Grid>
                     <Grid item xs={activeWidth as GridSize}>
