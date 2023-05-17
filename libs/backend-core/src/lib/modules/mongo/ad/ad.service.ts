@@ -14,11 +14,9 @@ const s3 = new S3Client({
 export class AdService {
     constructor(@InjectModel(Ad.name) private adModel: Model<AdDocument>) {}
 
-    async createAd(userId: string, accountId: string, hookCardId: string, hookCardLocation: string,  claimCardId: string, claimCardLocation: string, reviewCardId: string, reviewCardLocation: string, closeCardId: string, closeCardLocation: string, copyText: string, copyTextEdited: string, bestFitAudience: number, bestFitReasoning: string, source: string, reviewDate: string): Promise<Ad> {
+    async createAd(adNameDateTime: string, userId: string, accountId: string, hookCardId: string, hookCardLocation: string,  claimCardId: string, claimCardLocation: string, reviewCardId: string, reviewCardLocation: string, closeCardId: string, closeCardLocation: string, copyText: string, copyTextEdited: string, bestFitAudience: number, bestFitReasoning: string, source: string, reviewDate: string): Promise<Ad> {
 
-        const newAd = new this.adModel({ userId, accountId, hookCardId, hookCardLocation, claimCardId, claimCardLocation, reviewCardId, reviewCardLocation, closeCardId, closeCardLocation, copyText,  copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate });
-
-
+        const newAd = new this.adModel({ adNameDateTime, userId, accountId, hookCardId, hookCardLocation, claimCardId, claimCardLocation, reviewCardId, reviewCardLocation, closeCardId, closeCardLocation, copyText,  copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate, adStatus: 'fresh', deliveryType: null });
 
         // Generate the PDF after saving the ad
         newAd.save().then(ad => {
@@ -27,6 +25,16 @@ export class AdService {
         });
 
         return newAd;
+    }
+
+
+    async getAdsByAccountId(accountId: string) {
+        try {
+            return this.adModel.find({ accountId }).exec();
+        } catch (error) {
+            console.error('Error fetching ads:', error);
+            throw error;
+        }
     }
 
     async createPdf(ad: AdDocument) {

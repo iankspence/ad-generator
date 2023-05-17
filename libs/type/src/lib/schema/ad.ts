@@ -5,6 +5,10 @@ export interface AdDocument extends Ad, Document<Types.ObjectId> {}
 
 @Schema({ timestamps: true })
 export class Ad {
+
+    @Prop({ required: true })
+    adNameDateTime!: string;
+
     @Prop({ required: true, type: String, ref: 'User' })
     userId!: string;
 
@@ -52,6 +56,12 @@ export class Ad {
 
     @Prop({ required: true, type: String, ref: 'Review' })
     reviewDate!: string;
+
+    @Prop({ required: true, type: String })
+    adStatus!: 'fresh' | 'queue' | 'delivered'
+
+    @Prop({ required: false })
+    deliveryType?: 'pdf' | 'facebook' | null
 }
 
 export const AdSchema = SchemaFactory.createForClass(Ad);

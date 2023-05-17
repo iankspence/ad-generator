@@ -4,6 +4,7 @@ import {AccountDocument, Card, CardDocument, ReviewDocument, CopyDocument, Copy}
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import {AdService} from "../ad/ad.service";
+import { createAdNameDateTime } from '../../../utils/createAdNameDateTime';
 
 const s3 = new S3Client({
     region: process.env.S3_REGION
@@ -24,6 +25,9 @@ export class CardService {
 
         const cardIds = {};
         const cardLocations = {};
+
+        const timeZone = 'America/Edmonton'
+        const adNameDateTime = createAdNameDateTime(timeZone)
 
         for (const {canvasName, dataUrl, sourceTextId, sourceText, sourceTextEdited} of canvases) {
             const base64Data = Buffer.from(dataUrl.replace(/^data:image\/\w+;base64,/, ""), 'base64');
@@ -46,7 +50,7 @@ export class CardService {
                     orderedCanvasName = canvasName;
             }
 
-            const key = `${folderName}/${orderedCanvasName}.png`;
+            const key = `${folderName}/${adNameDateTime}/${orderedCanvasName}.png`;
             const params = {
                 Bucket: process.env.S3_BUCKET_NAME,
                 Key: key,
@@ -76,7 +80,6 @@ export class CardService {
                 cardIds[canvasName] = savedCard._id;
                 cardLocations[canvasName] = savedCard.cardLocation;
 
-
                 results.push({
                     s3Result: result,
                     card: savedCard
@@ -91,6 +94,7 @@ export class CardService {
         const freshCopy = await this.copyModel.findById(copy._id);
 
         const ad = await this.adService.createAd(
+            adNameDateTime,
             userId,
             account._id.toString(),
             cardIds['hook'],
@@ -108,8 +112,6 @@ export class CardService {
             review.source,
             review.reviewDate,
         );
-
-        console.log('ad:', ad);
 
         results.push({ad});
 
