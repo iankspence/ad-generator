@@ -25,33 +25,36 @@ const LibraryCard = ({ ad, cardLocation }) => {
                 image={cardLocation}
                 alt={copyText}
             />
-            <IconButton
-                onClick={handleExpandClick}
-                aria-expanded={isExpanded}
-                aria-label="show more"
-                style={{padding: '0', margin: '0 auto'}}
-            >
-                <ExpandMoreIcon />
-            </IconButton>
-            {isExpanded && (
-                <CardContent>
-                    <Typography variant="body1" component="p" style={{fontSize: "14px"}}>
-                        <strong>Review Source:</strong> {source}
-                    </Typography>
-                    <Typography variant="body1" component="p" style={{fontSize: "14px"}}>
-                        <strong>Review Date:</strong> {reviewDate}
-                    </Typography>
-                    <Typography variant="body1" component="p" style={{fontSize: "14px"}}>
-                        <strong>Ad Created:</strong> {adNameDateTime.split('__')[0]}
-                    </Typography>
-                    <Typography variant="body1" component="p" style={{fontSize: "14px"}}>
-                        <strong>Ad Copy:</strong> {copyText}
-                    </Typography>
-                    <Typography variant="body1" component="p" style={{fontSize: "14px"}}>
-                        <strong>Audience Selection:</strong> {bestFitReasoning}
-                    </Typography>
-                </CardContent>
-            )}
+            <div onClick={handleExpandClick} style={{width: '100%', cursor: 'pointer'}}>
+                <div style={{textAlign: 'center'}}>
+                    <IconButton
+                        aria-expanded={isExpanded}
+                        aria-label="show more"
+                        style={{padding: '0'}}
+                    >
+                        <ExpandMoreIcon style={{ transform: isExpanded ? 'rotate(180deg)' : 'none' }}/>
+                    </IconButton>
+                </div>
+                {isExpanded && (
+                    <CardContent>
+                        <Typography variant="body1" component="p" style={{fontSize: "14px"}}>
+                            <strong>Review Source:</strong> {source}
+                        </Typography>
+                        <Typography variant="body1" component="p" style={{fontSize: "14px"}}>
+                            <strong>Review Date:</strong> {reviewDate}
+                        </Typography>
+                        <Typography variant="body1" component="p" style={{fontSize: "14px"}}>
+                            <strong>Ad Created:</strong> {adNameDateTime.split('__')[0]}
+                        </Typography>
+                        <Typography variant="body1" component="p" style={{fontSize: "14px"}}>
+                            <strong>Ad Copy:</strong> {copyText}
+                        </Typography>
+                        <Typography variant="body1" component="p" style={{fontSize: "14px"}}>
+                            <strong>Audience Selection:</strong> {bestFitReasoning}
+                        </Typography>
+                    </CardContent>
+                )}
+            </div>
         </Card>
     );
 };
