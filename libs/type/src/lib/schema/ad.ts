@@ -46,6 +46,12 @@ export class Ad {
 
     @Prop({ required: true, type: String, ref: 'Review' })
     bestFitReasoning!: string;
+
+    @Prop({ required: true, type: String, ref: 'Review' })
+    source!: string;
+
+    @Prop({ required: true, type: String, ref: 'Review' })
+    reviewDate!: string;
 }
 
 export const AdSchema = SchemaFactory.createForClass(Ad);

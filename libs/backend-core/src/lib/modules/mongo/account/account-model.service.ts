@@ -31,17 +31,11 @@ export class AccountModelService {
     async getAllTextByAccountId(
         accountId: string,
     ): Promise<[ReviewDocument[], HookDocument[], ClaimDocument[], CloseDocument[], CopyDocument[]]> {
-        console.log('accountId', accountId);
         const reviews = await this.reviewService.getReviewsByAccountId(accountId);
-        console.log('reviews', reviews);
         const hooks = await this.hookService.getHooksByAccountId(accountId);
-        console.log('hooks', hooks);
         const claims = await this.claimService.getClaimsByAccountId(accountId);
-        console.log('claims', claims);
         const closes = await this.closeService.getClosesByAccountId(accountId);
-        console.log('closes', closes);
         const copies = await this.copyService.getCopiesByAccountId(accountId);
-        console.log('copies', copies);
 
         return [reviews, hooks, claims, closes, copies];
     }
@@ -55,7 +49,6 @@ export class AccountModelService {
     }
 
     async updateOneById(_id: string, update: Partial<Account>): Promise<Account | null> {
-        console.log('updateOneById (service)', _id, update);
         return this.accountModel.findOneAndUpdate({ _id: _id }, update, { new: true }).exec();
     }
 
@@ -80,7 +73,6 @@ export class AccountModelService {
 
     async addRateMdsLink(accountId: string, rateMdsLink: string) {
         const account = await this.accountModel.findOne({ _id: new Types.ObjectId(accountId) }).exec();
-        console.log('account model service ---', account);
         return this.accountModel
             .findOneAndUpdate(
                 { _id: new Types.ObjectId(accountId) },
@@ -92,10 +84,6 @@ export class AccountModelService {
 
     async addRateMDsHeader(accountId: string, originUrl: string, capturedText: any) {
         const account = await this.accountModel.findOne({ _id: new Types.ObjectId(accountId) }).exec();
-
-        console.log('account', account);
-        console.log('originUrl', originUrl);
-        console.log('capturedText', capturedText);
 
         const rateMdsHeader = {
             name: capturedText['Name'],

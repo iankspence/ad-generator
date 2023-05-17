@@ -104,8 +104,12 @@ export class CardService {
             freshCopy.copyText,
             freshCopy?.copyTextEdited ? freshCopy?.copyTextEdited : '',
             review.bestFitAudience,
-            review.bestFitReasoning
+            review.bestFitReasoning,
+            review.source,
+            review.reviewDate,
         );
+
+        console.log('ad:', ad);
 
         results.push({ad});
 

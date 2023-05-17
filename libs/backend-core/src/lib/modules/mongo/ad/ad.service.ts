@@ -2,13 +2,101 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Ad, AdDocument } from '@monorepo/type';
+import PDFDocument from 'pdfkit';
+import axios from 'axios';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+
+const s3 = new S3Client({
+    region: process.env.S3_REGION
+});
 
 @Injectable()
 export class AdService {
     constructor(@InjectModel(Ad.name) private adModel: Model<AdDocument>) {}
-    async createAd(userId: string, accountId: string, hookCardId: string, hookCardLocation: string,  claimCardId: string, claimCardLocation: string, reviewCardId: string, reviewCardLocation: string, closeCardId: string, closeCardLocation: string, copyText: string, copyTextEdited: string, bestFitAudience: number, bestFitReasoning: string): Promise<Ad> {
 
-        const newAd = new this.adModel({ userId, accountId, hookCardId, hookCardLocation, claimCardId, claimCardLocation, reviewCardId, reviewCardLocation, closeCardId, closeCardLocation, copyText,  copyTextEdited, bestFitAudience, bestFitReasoning });
-        return newAd.save();
+    async createAd(userId: string, accountId: string, hookCardId: string, hookCardLocation: string,  claimCardId: string, claimCardLocation: string, reviewCardId: string, reviewCardLocation: string, closeCardId: string, closeCardLocation: string, copyText: string, copyTextEdited: string, bestFitAudience: number, bestFitReasoning: string, source: string, reviewDate: string): Promise<Ad> {
+
+        const newAd = new this.adModel({ userId, accountId, hookCardId, hookCardLocation, claimCardId, claimCardLocation, reviewCardId, reviewCardLocation, closeCardId, closeCardLocation, copyText,  copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate });
+
+
+
+        // Generate the PDF after saving the ad
+        newAd.save().then(ad => {
+            console.log('Ad saved to MongoDB:', ad)
+            // this.createPdf(ad);
+        });
+
+        return newAd;
+    }
+
+    async createPdf(ad: AdDocument) {
+        const doc = new PDFDocument;
+        const buffers = [];
+
+        doc.on('data', buffers.push.bind(buffers));
+        doc.on('end', async () => {
+            const pdfData = Buffer.concat(buffers);
+
+            // Define the S3 key and parameters
+            const key = `ads/ad_${ad._id}.pdf`;
+            const params = {
+                Bucket: process.env.S3_BUCKET_NAME,
+                Key: key,
+                Body: pdfData,
+                ContentType: 'application/pdf'
+            };
+
+            // Upload the PDF to S3
+            try {
+                const result = await s3.send(new PutObjectCommand(params));
+                console.log('PDF uploaded to S3:', result);
+            } catch (error) {
+                console.error('Error uploading PDF to S3:', error);
+                throw error;
+            }
+        });
+
+        const imageLocations = [ad.hookCardLocation, ad.claimCardLocation, ad.reviewCardLocation, ad.closeCardLocation];
+        const promises = imageLocations.map(location => axios.get(location, { responseType: 'arraybuffer' }).then(res => res.data));
+
+        const images = await Promise.all(promises);
+
+        const pageWidth = doc.page.width;
+        const pageHeight = doc.page.height;
+        const border = 30;
+        const imageSpace = 15;
+        const imageWidth = (pageWidth - 2 * border - imageSpace) / 2;
+        const imageHeight = imageWidth;
+        const textSpace = 35;
+
+        // Add the ad copy and audience
+        const adCopy = ad.copyTextEdited ? ad.copyTextEdited : ad.copyText;
+        const audience = ad.bestFitReasoning;
+        const source = ad.source;
+        const reviewDate = ad.reviewDate;
+
+        doc.fontSize(10)
+            .text("Review Date: ", border, border, { underline: false, continued: true })
+            .text(reviewDate, { underline: false, align: 'left' })
+            .moveDown()
+            .text("Review Source: ", { underline: false, continued: true })
+            .text(source, { underline: false, align: 'left' })
+            .moveDown()
+            .text("Ad Copy: ", { underline: false, continued: true })
+            .text(adCopy, { underline: false, align: 'left' })
+            .moveDown()
+            .text("Ad Audience: ", { underline: false, continued: true })
+            .text(audience, { underline: false, align: 'left' });
+
+        const textHeight = doc.y + textSpace;
+
+        // Draw the 2x2 images
+        for (let i = 0; i < images.length; i++) {
+            const x = border + (i % 2) * (imageWidth + imageSpace);
+            const y = textHeight + Math.floor(i / 2) * (imageHeight + imageSpace);
+            doc.image(images[i], x, y, { width: imageWidth });
+        }
+
+        doc.end();
     }
 }
