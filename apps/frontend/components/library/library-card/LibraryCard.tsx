@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import { Card, CardContent, Typography, CardMedia, IconButton } from '@material-ui/core';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {CampaignContext} from "../../../contexts/CampaignContext";
 
 const LibraryCard = ({ ad, cardLocation }) => {
 
@@ -12,15 +13,36 @@ const LibraryCard = ({ ad, cardLocation }) => {
     const bestFitReasoning = ad?.bestFitReasoning || null;
     const adNameDateTime = ad?.adNameDateTime || null;
 
-    const handleExpandClick = () => {
+    const handleExpandClick = (event) => {
+        event.stopPropagation();
         setIsExpanded(!isExpanded);
+    };
+
+    const { selectedAds, updateSelectedAds } = useContext(CampaignContext);
+
+    const handleCardClick = () => {
+        if (isSelected(ad)) {
+            updateSelectedAds(selectedAds.filter(selectedAd => selectedAd._id !== ad._id));
+        } else {
+            updateSelectedAds([...selectedAds, ad]);
+        }
+    };
+
+    const isSelected = (ad) => {
+        return selectedAds.some(selectedAd => selectedAd._id === ad._id);
     };
 
     return (
         <Card
-            style={{maxWidth: "99%", maxHeight: "700px", objectFit: "contain"}}
+            style={{
+                maxWidth: "99%",
+                maxHeight: "700px",
+                objectFit: "contain",
+                outline: isSelected(ad) ? '5px solid green' : 'none'
+            }}
         >
             <CardMedia
+                onClick={handleCardClick}
                 component="img"
                 image={cardLocation}
                 alt={copyText}

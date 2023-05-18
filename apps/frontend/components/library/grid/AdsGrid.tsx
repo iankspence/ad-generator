@@ -1,11 +1,11 @@
 import React from 'react';
-import { Grid, Typography, FormControlLabel, Checkbox } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import AudienceSelector from "../../pixi/design-drawer/text-input/selector/AudienceSelector";
 import RenderLibraryCards from '../library-card/RenderLibraryCards';
 import { getGridItemStyle } from './getGridItemStyle';
 
-const AdsGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, selectAdsByAudience, setSelectAdsByAudience, ads, adsWidth }) => {
+const AdsGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, ads, adsWidth }) => {
     return (
         <Grid container item xs={adsWidth} style={getGridItemStyle(adsWidth)}>
             <Grid item xs={adsWidth === 8 ? 12 : 11}>

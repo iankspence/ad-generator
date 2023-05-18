@@ -14,7 +14,6 @@ const Library = () => {
     const [adsWidth, setAdsWidth] = useState(2);
     const [queueWidth, setQueueWidth] = useState(8);
     const [deliveryWidth, setDeliveryWidth] = useState(2);
-    const [selectAdsByAudience, setSelectAdsByAudience] = useState(false);
 
     const handleResize = (
         setterToExpand,
@@ -35,6 +34,8 @@ const Library = () => {
         fetchAds();
     }, [account]);
 
+
+
     return (
         <>
             <TopNav />
@@ -46,8 +47,6 @@ const Library = () => {
                         setAdsWidth={setAdsWidth}
                         setQueueWidth={setQueueWidth}
                         setDeliveryWidth={setDeliveryWidth}
-                        selectAdsByAudience={selectAdsByAudience}
-                        setSelectAdsByAudience={setSelectAdsByAudience}
                         ads={ads}
                         adsWidth={adsWidth}
                     />

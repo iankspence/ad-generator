@@ -29,6 +29,8 @@ interface CampaignContextProps {
 
     ads: AdDocument[] | Partial<AdDocument>[];
     updateAds: (newAds: AdDocument[] | Partial<AdDocument>[]) => void;
+    selectedAds: AdDocument[] | Partial<AdDocument>[];
+    updateSelectedAds: (newSelectedAds: AdDocument[] | Partial<AdDocument>[]) => void;
 
     selectedAudiencePosition: number;
     updateSelectedAudiencePosition: (newPosition: number) => void;
@@ -57,6 +59,8 @@ const CampaignContext = createContext<CampaignContextProps>({
     updateClosePosition: () => void 0,
     ads: [],
     updateAds: () => void 0,
+    selectedAds: [],
+    updateSelectedAds: () => void 0,
     selectedAudiencePosition: 1,
     updateSelectedAudiencePosition: () => void 0,
 });
@@ -73,6 +77,7 @@ const CampaignProvider = ({ children }) => {
     const [closes, setCloses] = useState([]);
     const [closePosition, setClosePosition] = useState(1);
     const [ads, setAds] = useState([]);
+    const [selectedAds, setSelectedAds] = useState([]);
     const [selectedAudiencePosition, setSelectedAudiencePosition] = useState(1);
 
     return (
@@ -100,6 +105,9 @@ const CampaignProvider = ({ children }) => {
                 updateClosePosition: setClosePosition,
                 ads,
                 updateAds: setAds,
+                selectedAds,
+                updateSelectedAds: setSelectedAds,
+
                 selectedAudiencePosition,
                 updateSelectedAudiencePosition: setSelectedAudiencePosition,
             }}
