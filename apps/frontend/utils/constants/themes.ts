@@ -1,6 +1,3 @@
-
-
-
 export const themes = [
     {
         id: 'basic-swoosh-1',
@@ -119,7 +116,7 @@ export const themes = [
                         fontFamily: "Arial",
                         fill: "white",
                         wordWrap: true,
-                        align: "justify",
+                        align: "left",
                     }
                 },
                 reviewAuthorText: {
@@ -137,7 +134,7 @@ export const themes = [
                         fontFamily: "Arial",
                         fill: "white",
                         wordWrap: true,
-                        align: "justify",
+                        align: "left",
                     }
                 },
             },
@@ -280,7 +277,7 @@ export const themes = [
                         fontFamily: "Arial",
                         fill: "white",
                         wordWrap: true,
-                        align: "justify",
+                        align: "left",
                     }
                 },
                 reviewAuthorText: {
@@ -298,7 +295,7 @@ export const themes = [
                         fontFamily: "Arial",
                         fill: "white",
                         wordWrap: true,
-                        align: "justify",
+                        align: "left",
                     }
                 },
             },

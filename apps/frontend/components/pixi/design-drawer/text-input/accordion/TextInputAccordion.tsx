@@ -134,12 +134,7 @@ const TextInputAccordion = () => {
                 <Typography variant="subtitle1">Text Inputs</Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <AudienceSelector
-                    audiences={audiences}
-                    selectedAudiencePosition={selectedAudiencePosition}
-                    updateSelectedAudiencePosition={updateSelectedAudiencePosition}
-                    reviews={reviews}
-                />
+                <AudienceSelector countTarget={'reviews'}/>
                 <ReviewHookAccordion
                     reviewPosition={reviewPosition}
                     updateReviewPosition={updateReviewPosition}

@@ -18,7 +18,7 @@ const LibraryCard = ({ ad, cardLocation }) => {
 
     return (
         <Card
-            style={{maxWidth: "280px", maxHeight: "700px", objectFit: "contain"}}
+            style={{maxWidth: "99%", maxHeight: "700px", objectFit: "contain"}}
         >
             <CardMedia
                 component="img"

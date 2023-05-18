@@ -1,22 +1,25 @@
 import React, {useContext, useEffect, useState} from "react";
-import { Grid, IconButton, Typography, GridSize } from "@material-ui/core";
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
+import { Grid } from "@material-ui/core";
 import TopNav from "../components/top-nav/TopNav";
 import { getAdsByAccountId } from "../utils/api";
 import UserContext from "../contexts/UserContext";
-import RenderLibraryCards from '../components/library/libarary-card/RenderLibraryCards';
+import {CampaignContext} from "../contexts/CampaignContext";
+import AdsGrid from "../components/library/grid/AdsGrid";
+import QueueGrid from "../components/library/grid/QueueGrid";
+import DeliveredGrid from "../components/library/grid/DeliveredGrid";
 
 const Library = () => {
     const { account } = useContext(UserContext);
-    const [adsWidth, setAdsWidth] = useState<GridSize>(2);
-    const [activeWidth, setActiveWidth] = useState<GridSize>(8);
-    const [deliveryWidth, setDeliveryWidth] = useState<GridSize>(2);
-    const [ads, setAds] = useState([]);
+    const { ads, updateAds } = useContext(CampaignContext);
+    const [adsWidth, setAdsWidth] = useState(2);
+    const [activeWidth, setActiveWidth] = useState(8);
+    const [deliveryWidth, setDeliveryWidth] = useState(2);
+    const [selectAdsByAudience, setSelectAdsByAudience] = useState(false);
 
     const handleResize = (
-        setterToExpand: (value: GridSize) => void,
-        setterToShrink1: (value: GridSize) => void,
-        setterToShrink2: (value: GridSize) => void
+        setterToExpand,
+        setterToShrink1,
+        setterToShrink2
     ) => {
         setterToExpand(8);
         setterToShrink1(2);
@@ -26,7 +29,7 @@ const Library = () => {
     useEffect(() => {
         const fetchAds = async () => {
             const ads = await getAdsByAccountId(account?._id);
-            setAds(ads);
+            updateAds(ads);
         };
 
         fetchAds();
@@ -36,35 +39,34 @@ const Library = () => {
         <>
             <TopNav />
 
-            <div style={{ flexGrow: 1, padding: 8 }}>
-                <Grid container spacing={3}>
-                    <Grid item xs={adsWidth as GridSize}>
-                        <IconButton onClick={() => handleResize(setAdsWidth, setActiveWidth, setDeliveryWidth)}>
-                            <UnfoldMoreIcon style={{ transform: "rotate(90deg)", color: adsWidth === 8 ? 'lightgrey' : 'inherit' }} />
-                        </IconButton>
-                        <Typography variant="h6">Ads</Typography>
-                        {ads.filter(ad => ad.adStatus === 'fresh').map((ad, index) => (
-                            <div style={{paddingTop: "10px"}} key={index}>{RenderLibraryCards(ad, adsWidth)}</div>
-                        ))}
-                    </Grid>
-                    <Grid item xs={activeWidth as GridSize}>
-                        <IconButton onClick={() => handleResize(setActiveWidth, setAdsWidth, setDeliveryWidth)}>
-                            <UnfoldMoreIcon style={{ transform: "rotate(90deg)", color: activeWidth === 8 ? 'lightgrey' : 'inherit' }} />
-                        </IconButton>
-                        <Typography variant="h6">Queue</Typography>
-                        {ads.filter(ad => ad.adStatus === 'queue').map((ad, index) => (
-                            <div key={index}>{RenderLibraryCards(ad, activeWidth)}</div>
-                        ))}
-                    </Grid>
-                    <Grid item xs={deliveryWidth as GridSize}>
-                        <IconButton onClick={() => handleResize(setDeliveryWidth, setAdsWidth, setActiveWidth)}>
-                            <UnfoldMoreIcon style={{ transform: "rotate(90deg)", color: deliveryWidth === 8 ? 'lightgrey' : 'inherit' }} />
-                        </IconButton>
-                        <Typography variant="h6">Delivered</Typography>
-                        {ads.filter(ad => ad.adStatus === 'delivered').map((ad, index) => (
-                            <div key={index}>{RenderLibraryCards(ad, deliveryWidth)}</div>
-                        ))}
-                    </Grid>
+            <div style={{ flexGrow: 1, paddingTop: 8, paddingBottom: 8, paddingLeft: 8 }}>
+                <Grid container spacing={0}>
+                    <AdsGrid
+                        handleResize={handleResize}
+                        setAdsWidth={setAdsWidth}
+                        setActiveWidth={setActiveWidth}
+                        setDeliveryWidth={setDeliveryWidth}
+                        selectAdsByAudience={selectAdsByAudience}
+                        setSelectAdsByAudience={setSelectAdsByAudience}
+                        ads={ads}
+                        adsWidth={adsWidth}
+                    />
+                    <QueueGrid
+                        handleResize={handleResize}
+                        setAdsWidth={setAdsWidth}
+                        setActiveWidth={setActiveWidth}
+                        setDeliveryWidth={setDeliveryWidth}
+                        ads={ads}
+                        activeWidth={activeWidth}
+                    />
+                    <DeliveredGrid
+                        handleResize={handleResize}
+                        setAdsWidth={setAdsWidth}
+                        setActiveWidth={setActiveWidth}
+                        setDeliveryWidth={setDeliveryWidth}
+                        ads={ads}
+                        deliveryWidth={deliveryWidth}
+                    />
                 </Grid>
             </div>
         </>

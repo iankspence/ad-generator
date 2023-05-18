@@ -1,4 +1,4 @@
-import { ClaimDocument, CloseDocument, CopyDocument, HookDocument, ReviewDocument } from '@monorepo/type';
+import {AdDocument, ClaimDocument, CloseDocument, CopyDocument, HookDocument, ReviewDocument} from '@monorepo/type';
 import { createContext, useState } from 'react';
 
 interface CampaignContextProps {
@@ -27,6 +27,9 @@ interface CampaignContextProps {
     closePosition: number;
     updateClosePosition: (newClose: number) => void;
 
+    ads: AdDocument[] | Partial<AdDocument>[];
+    updateAds: (newAds: AdDocument[] | Partial<AdDocument>[]) => void;
+
     selectedAudiencePosition: number;
     updateSelectedAudiencePosition: (newPosition: number) => void;
 }
@@ -52,6 +55,8 @@ const CampaignContext = createContext<CampaignContextProps>({
     updateCloses: () => void 0,
     closePosition: 1,
     updateClosePosition: () => void 0,
+    ads: [],
+    updateAds: () => void 0,
     selectedAudiencePosition: 1,
     updateSelectedAudiencePosition: () => void 0,
 });
@@ -67,6 +72,7 @@ const CampaignProvider = ({ children }) => {
     const [reviewPosition, setReviewPosition] = useState(1);
     const [closes, setCloses] = useState([]);
     const [closePosition, setClosePosition] = useState(1);
+    const [ads, setAds] = useState([]);
     const [selectedAudiencePosition, setSelectedAudiencePosition] = useState(1);
 
     return (
@@ -92,6 +98,8 @@ const CampaignProvider = ({ children }) => {
                 updateCloses: setCloses,
                 closePosition: closePosition,
                 updateClosePosition: setClosePosition,
+                ads,
+                updateAds: setAds,
                 selectedAudiencePosition,
                 updateSelectedAudiencePosition: setSelectedAudiencePosition,
             }}

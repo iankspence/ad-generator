@@ -9,16 +9,16 @@ const RenderLibraryCards = (ad, width) => {
     } else {
         return (
             <Grid container direction="row" justifyContent="space-between">
-                <Grid item key={ad.hookCardId}>
-                    <LibraryCard ad={ad} cardLocation={ad.hookCardLocation}/>
+                <Grid item  xs={3}>
+                    <LibraryCard ad={ad} cardLocation={ad.hookCardLocation} />
                 </Grid>
-                <Grid item key={ad.claimCardId}>
+                <Grid item key={ad.claimCardId} xs={3}>
                     <LibraryCard ad={ad} cardLocation={ad.claimCardLocation}/>
                 </Grid>
-                <Grid item key={ad.reviewCardId}>
+                <Grid item key={ad.reviewCardId} xs={3}>
                     <LibraryCard ad={ad} cardLocation={ad.reviewCardLocation}/>
                 </Grid>
-                <Grid item key={ad.closeCardId}>
+                <Grid item key={ad.closeCardId} xs={3}>
                     <LibraryCard ad={ad} cardLocation={ad.closeCardLocation}/>
                 </Grid>
             </Grid>
