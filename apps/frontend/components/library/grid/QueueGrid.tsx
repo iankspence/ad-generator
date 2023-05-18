@@ -1,19 +1,61 @@
 import React from 'react';
-import { Grid, IconButton, Typography } from "@material-ui/core";
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
+import { Grid, Typography } from "@material-ui/core";
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import RenderLibraryCards from '../library-card/RenderLibraryCards';
 import { getGridItemStyle } from './getGridItemStyle';
 
-const QueueGrid = ({ handleResize, setAdsWidth, setActiveWidth, setDeliveryWidth, ads, activeWidth }) => {
+const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, ads, queueWidth, deliveryWidth }) => {
     return (
-        <Grid item xs={activeWidth} style={getGridItemStyle(activeWidth)}>
-            <IconButton onClick={() => handleResize(setActiveWidth, setAdsWidth, setDeliveryWidth)}>
-                <UnfoldMoreIcon style={{ transform: "rotate(90deg)", color: activeWidth === 8 ? 'lightgrey' : 'inherit' }} />
-            </IconButton>
-            <Typography variant="h6">Queue</Typography>
-            {ads.filter(ad => ad.adStatus === 'queue').map((ad, index) => (
-                <div key={index}>{RenderLibraryCards(ad, activeWidth)}</div>
-            ))}
+        <Grid container item xs={queueWidth} style={getGridItemStyle(queueWidth)}>
+            {
+                queueWidth === 2 && deliveryWidth === 2 &&
+                <Grid
+                    item
+                    xs={1}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        backgroundColor: '#f2f2f2',
+                    }}
+                    onClick={() => handleResize(setQueueWidth, setAdsWidth, setDeliveryWidth)}
+                >
+                    <KeyboardArrowLeftIcon
+                        style={{
+                            color: 'inherit'
+                        }}
+                    />
+                </Grid>
+            }
+            <Grid item xs={queueWidth === 8 ? 12 : 11}>
+                <Typography variant="h6">Queue</Typography>
+                {ads.filter(ad => ad.adStatus === 'queue').map((ad, index) => (
+                    <div style={{padding: "16px"}} key={index}>{RenderLibraryCards(ad, queueWidth)}</div>
+                ))}
+            </Grid>
+            {
+                queueWidth === 2 && deliveryWidth === 8 &&
+                <Grid
+                    item
+                    xs={1}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        backgroundColor: '#f2f2f2',
+                    }}
+                    onClick={() => handleResize(setQueueWidth, setAdsWidth, setDeliveryWidth)}
+                >
+                    <KeyboardArrowRightIcon
+                        style={{
+                            color: 'inherit'
+                        }}
+                    />
+                </Grid>
+            }
         </Grid>
     );
 };

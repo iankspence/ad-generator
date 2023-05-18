@@ -12,7 +12,7 @@ const Library = () => {
     const { account } = useContext(UserContext);
     const { ads, updateAds } = useContext(CampaignContext);
     const [adsWidth, setAdsWidth] = useState(2);
-    const [activeWidth, setActiveWidth] = useState(8);
+    const [queueWidth, setQueueWidth] = useState(8);
     const [deliveryWidth, setDeliveryWidth] = useState(2);
     const [selectAdsByAudience, setSelectAdsByAudience] = useState(false);
 
@@ -44,7 +44,7 @@ const Library = () => {
                     <AdsGrid
                         handleResize={handleResize}
                         setAdsWidth={setAdsWidth}
-                        setActiveWidth={setActiveWidth}
+                        setQueueWidth={setQueueWidth}
                         setDeliveryWidth={setDeliveryWidth}
                         selectAdsByAudience={selectAdsByAudience}
                         setSelectAdsByAudience={setSelectAdsByAudience}
@@ -54,15 +54,16 @@ const Library = () => {
                     <QueueGrid
                         handleResize={handleResize}
                         setAdsWidth={setAdsWidth}
-                        setActiveWidth={setActiveWidth}
+                        setQueueWidth={setQueueWidth}
                         setDeliveryWidth={setDeliveryWidth}
                         ads={ads}
-                        activeWidth={activeWidth}
+                        queueWidth={queueWidth}
+                        deliveryWidth={deliveryWidth}
                     />
                     <DeliveredGrid
                         handleResize={handleResize}
                         setAdsWidth={setAdsWidth}
-                        setActiveWidth={setActiveWidth}
+                        setQueueWidth={setQueueWidth}
                         setDeliveryWidth={setDeliveryWidth}
                         ads={ads}
                         deliveryWidth={deliveryWidth}

@@ -5,7 +5,7 @@ import AudienceSelector from "../../pixi/design-drawer/text-input/selector/Audie
 import RenderLibraryCards from '../library-card/RenderLibraryCards';
 import { getGridItemStyle } from './getGridItemStyle';
 
-const AdsGrid = ({ handleResize, setAdsWidth, setActiveWidth, setDeliveryWidth, selectAdsByAudience, setSelectAdsByAudience, ads, adsWidth }) => {
+const AdsGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, selectAdsByAudience, setSelectAdsByAudience, ads, adsWidth }) => {
     return (
         <Grid container item xs={adsWidth} style={getGridItemStyle(adsWidth)}>
             <Grid item xs={adsWidth === 8 ? 12 : 11}>
@@ -27,7 +27,7 @@ const AdsGrid = ({ handleResize, setAdsWidth, setActiveWidth, setDeliveryWidth, 
                     cursor: 'pointer',
                     backgroundColor: '#f2f2f2',
                 }}
-                onClick={() => handleResize(setAdsWidth, setActiveWidth, setDeliveryWidth)}
+                onClick={() => handleResize(setAdsWidth, setQueueWidth, setDeliveryWidth)}
             >{
                 adsWidth === 2 &&
                 <Grid
@@ -40,7 +40,7 @@ const AdsGrid = ({ handleResize, setAdsWidth, setActiveWidth, setDeliveryWidth, 
                         cursor: 'pointer',
                         backgroundColor: '#f2f2f2',
                     }}
-                    onClick={() => handleResize(setAdsWidth, setActiveWidth, setDeliveryWidth)}
+                    onClick={() => handleResize(setAdsWidth, setQueueWidth, setDeliveryWidth)}
                 >
 
                 </Grid>
