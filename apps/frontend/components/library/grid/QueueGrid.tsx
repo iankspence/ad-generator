@@ -18,7 +18,8 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
                         alignItems: 'center',
                         justifyContent: 'center',
                         cursor: 'pointer',
-                        backgroundColor: '#f2f2f2',
+                        backgroundColor: '#fff',
+                        borderRadius: '5px 0 0 5px',
                     }}
                     onClick={() => handleResize(setQueueWidth, setAdsWidth, setDeliveryWidth)}
                 >
@@ -45,7 +46,8 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
                         alignItems: 'center',
                         justifyContent: 'center',
                         cursor: 'pointer',
-                        backgroundColor: '#f2f2f2',
+                        backgroundColor: '#fff',
+                        borderRadius: '0 5px 5px 0',
                     }}
                     onClick={() => handleResize(setQueueWidth, setAdsWidth, setDeliveryWidth)}
                 >

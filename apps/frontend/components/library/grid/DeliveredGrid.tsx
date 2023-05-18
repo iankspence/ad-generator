@@ -17,7 +17,8 @@ const DeliveredGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWi
                         alignItems: 'center',
                         justifyContent: 'center',
                         cursor: 'pointer',
-                        backgroundColor: '#f2f2f2',
+                        backgroundColor: '#fff',
+                        borderRadius: '5px 0 0 5px',
                     }}
                     onClick={() => handleResize(setDeliveryWidth, setAdsWidth, setQueueWidth)}
                 >

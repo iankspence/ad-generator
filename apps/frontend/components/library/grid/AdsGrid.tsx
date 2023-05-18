@@ -25,7 +25,8 @@ const AdsGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, s
                     alignItems: 'center',
                     justifyContent: 'center',
                     cursor: 'pointer',
-                    backgroundColor: '#f2f2f2',
+                    backgroundColor: '#fff',
+                    borderRadius: '0 5px 5px 0',
                 }}
                 onClick={() => handleResize(setAdsWidth, setQueueWidth, setDeliveryWidth)}
             >{
@@ -38,7 +39,8 @@ const AdsGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, s
                         alignItems: 'center',
                         justifyContent: 'center',
                         cursor: 'pointer',
-                        backgroundColor: '#f2f2f2',
+                        backgroundColor: '#fff',
+                        borderRadius: '0 5px 5px 0',
                     }}
                     onClick={() => handleResize(setAdsWidth, setQueueWidth, setDeliveryWidth)}
                 >
