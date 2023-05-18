@@ -36,7 +36,7 @@ const LibraryCard = ({ ad, cardLocation }) => {
         <Card
             style={{
                 maxWidth: "99%",
-                maxHeight: "700px",
+                maxHeight: "1000px",
                 objectFit: "contain",
                 outline: isSelected(ad) ? '5px solid green' : 'none'
             }}
