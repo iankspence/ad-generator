@@ -5,9 +5,38 @@ import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import { CampaignContext } from "../../../contexts/CampaignContext";
 import LibraryCardButtonGroup from "./LibraryCardButtonGroup";
+import {copyAd, deleteAd} from '../../../utils/api'
+import UserContext from "../../../contexts/UserContext";
 
-const LibraryCard = ({ ad, cardLocation }) => {
+const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
     const { selectedAds, updateSelectedAds } = useContext(CampaignContext);
+    const { account } = useContext(UserContext);
+
+    const handleCopyClick = async (event) => {
+        event.stopPropagation();
+
+        if (window.confirm("Are you sure you want to copy this ad?")) {
+            try {
+                await copyAd(ad._id);
+                refreshAds();
+            } catch (error) {
+                alert("Failed to copy ad. Please try again later.");
+            }
+        }
+    };
+
+    const handleDeleteClick = async (event) => {
+        event.stopPropagation();
+
+        if (window.confirm("Are you sure you want to delete this ad? This can't be undone!")) {
+            try {
+                await deleteAd(ad._id);
+                refreshAds();
+            } catch (error) {
+                alert("Failed to delete ad. Please try again later.");
+            }
+        }
+    };
 
     const handleCardClick = () => {
         if (isSelected(ad)) {
@@ -48,12 +77,14 @@ const LibraryCard = ({ ad, cardLocation }) => {
                         <EditIcon />
                     </IconButton>
                     <IconButton
+                        onClick={handleDeleteClick}
                         style={{padding: '0', position: 'absolute', top: '2%', right: '2%', opacity: '30%'}}
                         aria-label="delete"
                     >
                         <HighlightOffOutlinedIcon />
                     </IconButton>
                     <IconButton
+                        onClick={handleCopyClick}
                         style={{padding: '0', position: 'absolute', top: '2%', right: '17%', opacity: '30%'}}
                         aria-label="copy"
                     >

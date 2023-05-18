@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Ad, AdDocument } from '@monorepo/type';
 import PDFDocument from 'pdfkit';
 import axios from 'axios';
@@ -26,8 +26,6 @@ export class AdService {
 
         return newAd;
     }
-
-
     async getAdsByAccountId(accountId: string) {
         try {
             return this.adModel.find({ accountId }).exec();
@@ -35,6 +33,27 @@ export class AdService {
             console.error('Error fetching ads:', error);
             throw error;
         }
+    }
+
+    async copyAd(adId: string): Promise<Ad> {
+        const adToCopy = await this.adModel.findById(adId);
+
+        const newAd = new this.adModel({
+            ...adToCopy.toObject(),
+            _id: new Types.ObjectId()
+        });
+
+        await newAd.save();
+        console.log('Ad copied to MongoDB:', newAd)
+        return newAd;
+    }
+
+    async deleteAd(adId: string): Promise<void> {
+        const ad = await this.adModel.findById(adId);
+        if (!ad) {
+            throw new NotFoundException('Ad not found');
+        }
+        await this.adModel.deleteOne({ _id: adId });
     }
 
     async createPdf(ad: AdDocument) {

@@ -33,6 +33,11 @@ const Library = () => {
         fetchAds();
     }, [account]);
 
+    const refreshAds = async () => {
+        const newAds = await getAdsByAccountId(account?._id.toString());
+        updateAds(newAds);
+    };
+
     return (
         <>
             <TopNav />
@@ -46,6 +51,7 @@ const Library = () => {
                         setDeliveryWidth={setDeliveryWidth}
                         ads={ads}
                         adsWidth={adsWidth}
+                        refreshAds={refreshAds}
                     />
                     <QueueGrid
                         handleResize={handleResize}
@@ -55,6 +61,7 @@ const Library = () => {
                         ads={ads}
                         queueWidth={queueWidth}
                         deliveryWidth={deliveryWidth}
+                        refreshAds={refreshAds}
                     />
                     <DeliveredGrid
                         handleResize={handleResize}
@@ -63,6 +70,7 @@ const Library = () => {
                         setDeliveryWidth={setDeliveryWidth}
                         ads={ads}
                         deliveryWidth={deliveryWidth}
+                        refreshAds={refreshAds}
                     />
                 </Grid>
             </div>

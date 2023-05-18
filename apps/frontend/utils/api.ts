@@ -341,3 +341,20 @@ export const getAdsByAccountId = async (accountId) => {
         throw error;
     }
 }
+
+export const copyAd = async (adId) => {
+    try {
+        const response = await axios.post(`${API_URL}/ad/copy`, { adId });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const deleteAd = async (adId) => {
+    try {
+        await axios.delete(`${API_URL}/ad/delete/${adId}`);
+    } catch (error) {
+        console.error(error);
+    }
+}

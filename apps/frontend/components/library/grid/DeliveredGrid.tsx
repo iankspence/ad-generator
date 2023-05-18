@@ -4,7 +4,7 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import RenderLibraryCards from '../library-card/RenderLibraryCards';
 import { getGridItemStyle } from './getGridItemStyle';
 
-const DeliveredGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, ads, deliveryWidth }) => {
+const DeliveredGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, ads, deliveryWidth, refreshAds }) => {
     return (
         <Grid container item xs={deliveryWidth} style={getGridItemStyle(deliveryWidth)}>
             {
@@ -32,7 +32,7 @@ const DeliveredGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWi
             <Grid item xs={deliveryWidth === 8 ? 12 : 11}>
                 <Typography variant="h6">Delivered</Typography>
                 {ads.filter(ad => ad.adStatus === 'delivered').map((ad, index) => (
-                    <div style={{padding: "16px"}} key={index}>{RenderLibraryCards(ad, deliveryWidth)}</div>
+                    <div style={{padding: "16px"}} key={index}>{RenderLibraryCards(ad, deliveryWidth, refreshAds)}</div>
                 ))}
             </Grid>
         </Grid>
