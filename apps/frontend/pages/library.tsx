@@ -30,11 +30,8 @@ const Library = () => {
             const ads = await getAdsByAccountId(account?._id);
             updateAds(ads);
         };
-
         fetchAds();
     }, [account]);
-
-
 
     return (
         <>
