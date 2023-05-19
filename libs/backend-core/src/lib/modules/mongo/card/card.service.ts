@@ -19,7 +19,7 @@ export class CardService {
 
 ) {}
 
-    async saveCanvases(canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>, userId: string, account: AccountDocument, review: ReviewDocument, copy: CopyDocument, themeId: string, backgroundImageLocation: string, maskLocations: {maskLocation: string, maskName: string}[], canvasApps: Ad["canvasAppStages"], xRanges: Ad["xRanges"], yRanges: Ad["yRanges"], lineHeightMultipliers: Ad["lineHeightMultipliers"]) {
+    async saveCanvases(canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>, userId: string, account: AccountDocument, review: ReviewDocument, copy: CopyDocument, themeId: string, backgroundImageLocation: string, maskLocations: {maskLocation: string, maskName: string}[], userControlledAttributes: Ad["userControlledAttributes"], xRanges: Ad["xRanges"], yRanges: Ad["yRanges"], lineHeightMultipliers: Ad["lineHeightMultipliers"]) {
         const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}`
         const results = [];
 
@@ -93,6 +93,8 @@ export class CardService {
 
         const freshCopy = await this.copyModel.findById(copy._id);
 
+        console.log('creating an ad with userControlledAttributes:', userControlledAttributes)
+
         const ad = await this.adService.createAd(
             adNameDateTime,
             userId,
@@ -111,7 +113,7 @@ export class CardService {
             review.bestFitReasoning,
             review.source,
             review.reviewDate,
-            // canvasAppStages,
+            userControlledAttributes,
             xRanges,
             yRanges,
             lineHeightMultipliers,

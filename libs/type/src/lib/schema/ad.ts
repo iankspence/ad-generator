@@ -65,9 +65,9 @@ export class Ad {
     deliveryType?: 'pdf' | 'facebook' | null
 
     @Prop({ required: true })
-    canvasAppStages!: {
+    userControlledAttributes!: {
         canvasName: string,
-        canvasAppStage: PIXI.Container,
+        childrenNames: string[],
     }[];
 
     @Prop({ required: true })

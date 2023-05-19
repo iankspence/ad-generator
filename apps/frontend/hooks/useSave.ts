@@ -4,8 +4,12 @@ import UserContext from "../contexts/UserContext";
 import { CampaignContext } from "../contexts/CampaignContext";
 import { getFilteredTextArrays } from "../components/pixi/utils/text/getFilteredTextArrays";
 import { saveCanvasesToS3 } from '../utils/api';
+import * as PIXI from 'pixi.js';
 
-
+class MyHTMLText extends PIXI.HTMLText {
+    themeId?: string;
+    autoColor?: any
+}
 
 const useSave = (width = 1080, height = 1080) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -15,18 +19,28 @@ const useSave = (width = 1080, height = 1080) => {
 
     const { filteredReviews, filteredHooks, filteredClaims, filteredCloses, filteredCopies } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
 
-    const formatCanvasAppStages = useCallback((canvasApps) => {
+    const extractUserControlledAttributes = useCallback((app) => {
+        const childrenNames = [];
+        app.stage.children.forEach(child => {
+            childrenNames.push(child.name);
+        });
+        return childrenNames;
+    }, []);
+
+    const formatUserControlledAttributes = useCallback((canvasApps) => {
         const formattedApps = [];
         for(const key in canvasApps) {
             if(canvasApps[key] !== null) {
+                const childrenNames = extractUserControlledAttributes(canvasApps[key]);
                 formattedApps.push({
                     canvasName: key,
-                    canvasAppStage: canvasApps[key].stage
+                    // canvasAppStage: canvasApps[key].stage,
+                    childrenNames: childrenNames
                 });
             }
         }
         return formattedApps;
-    }, []);
+    }, [extractUserControlledAttributes]);
 
     const formatXRanges = useCallback((xRanges) => {
         const formattedRanges = [];
@@ -122,7 +136,7 @@ const useSave = (width = 1080, height = 1080) => {
                     selectedThemeId,
                     backgroundImageLocation,
                     maskLocations,
-                    // formatCanvasAppStages(canvasApps),
+                    formatUserControlledAttributes(canvasApps),
                     formatXRanges(xRanges),
                     formatYRanges(yRanges),
                     formatLineHeightMultipliers(lineHeightMultipliers)

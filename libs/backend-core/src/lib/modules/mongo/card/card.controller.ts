@@ -17,11 +17,11 @@ export class CardController {
         @Body('themeId') themeId: string,
         @Body('backgroundImageLocation') backgroundImageLocation: string,
         @Body('maskLocations') maskLocations: {maskLocation: string, maskName: string}[],
-        @Body('canvasAppStages') canvasApps: Ad["canvasAppStages"],
+        @Body('userControlledAttributes') userControlledAttributes: Ad["userControlledAttributes"],
         @Body('xRanges') xRanges: Ad["xRanges"],
         @Body('yRanges') yRanges: Ad["yRanges"],
         @Body('lineHeightMultipliers') lineHeightMultipliers: Ad["lineHeightMultipliers"],
     ) {
-        return this.cardService.saveCanvases(canvases, userId, account, review, copy, themeId, backgroundImageLocation, maskLocations, canvasApps, xRanges, yRanges, lineHeightMultipliers);
+        return this.cardService.saveCanvases(canvases, userId, account, review, copy, themeId, backgroundImageLocation, maskLocations, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers);
     }
 }

@@ -11,7 +11,7 @@ const useSync = () => {
             if (activeCanvases[key]) {
                 const canvasApp = canvasApps[key];
                 if (canvasApp) {
-                    imageContainers[key] = findImageContainer(canvasApps, key);
+                    imageContainers[`image-${key}`] = findImageContainer(canvasApps, key);
                 }
             }
         }
