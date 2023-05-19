@@ -8,7 +8,7 @@ export const useImage = (appRef, backgroundImageLocation, canvasName) => {
         const app = appRef.current;
 
         const container = new PIXI.Container();
-        container.name = canvasName;
+        container.name = `image-${canvasName}`;
         app.stage.addChild(container);
 
         const image = PIXI.Sprite.from(backgroundImageLocation);

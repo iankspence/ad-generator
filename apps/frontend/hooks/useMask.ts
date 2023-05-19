@@ -80,6 +80,8 @@ const useMask = (appRef, canvasName, size) => {
 
                     if (masks[index]) {
                         const maskData = {
+                            name: masks[index].name,
+                            canvasName,
                             texture,
                             color: generateAutoColor(masks[index].autoColor, account?.primaryColor, account?.secondaryColor)
                         };

@@ -5,13 +5,61 @@ import { CampaignContext } from "../contexts/CampaignContext";
 import { getFilteredTextArrays } from "../components/pixi/utils/text/getFilteredTextArrays";
 import { saveCanvasesToS3 } from '../utils/api';
 
+
+
 const useSave = (width = 1080, height = 1080) => {
     const [isLoading, setIsLoading] = useState(true);
-    const { canvasApps, selectedThemeId, maskLocations, backgroundImageLocation } = useContext(PixiContext);
+    const { canvasApps, selectedThemeId, maskLocations, backgroundImageLocation, xRanges, yRanges, lineHeightMultipliers } = useContext(PixiContext);
     const { user, account } = useContext(UserContext);
     const { claims, claimPosition, hooks, hookPosition, reviews, reviewPosition, closes, closePosition, copies, copyPosition, selectedAudiencePosition } = useContext(CampaignContext);
 
     const { filteredReviews, filteredHooks, filteredClaims, filteredCloses, filteredCopies } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
+
+    const formatCanvasAppStages = useCallback((canvasApps) => {
+        const formattedApps = [];
+        for(const key in canvasApps) {
+            if(canvasApps[key] !== null) {
+                formattedApps.push({
+                    canvasName: key,
+                    canvasAppStage: canvasApps[key].stage
+                });
+            }
+        }
+        return formattedApps;
+    }, []);
+
+    const formatXRanges = useCallback((xRanges) => {
+        const formattedRanges = [];
+        for(const key in xRanges) {
+            formattedRanges.push({
+                canvasName: key,
+                xRange: xRanges[key]
+            });
+        }
+        return formattedRanges;
+    }, []);
+
+    const formatYRanges = useCallback((yRanges) => {
+        const formattedRanges = [];
+        for(const key in yRanges) {
+            formattedRanges.push({
+                canvasName: key,
+                yRange: yRanges[key]
+            });
+        }
+        return formattedRanges;
+    }, []);
+
+    const formatLineHeightMultipliers = useCallback((lineHeightMultipliers) => {
+        const formattedMultipliers = [];
+        for(const key in lineHeightMultipliers) {
+            formattedMultipliers.push({
+                canvasName: key,
+                lineHeightMultiplier: lineHeightMultipliers[key]
+            });
+        }
+        return formattedMultipliers;
+    }, []);
 
     useEffect(() => {
         if (filteredHooks.length > 0 && filteredClaims.length > 0 && filteredReviews.length > 0 && filteredCloses.length > 0) {
@@ -73,7 +121,11 @@ const useSave = (width = 1080, height = 1080) => {
                     filteredCopies[copyPosition - 1],
                     selectedThemeId,
                     backgroundImageLocation,
-                    maskLocations
+                    maskLocations,
+                    // formatCanvasAppStages(canvasApps),
+                    formatXRanges(xRanges),
+                    formatYRanges(yRanges),
+                    formatLineHeightMultipliers(lineHeightMultipliers)
                 );
             } catch (error) {
                 console.error('Error sending images to backend:', error);

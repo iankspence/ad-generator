@@ -45,6 +45,9 @@ interface PixiContextProps {
 
     backgroundImageLocation: string;
     updateBackgroundImageLocation: (backgroundImageLocation: string) => void;
+
+    editAdId: string;
+    updateEditAdId: (editAdId: string) => void;
 }
 
 export const PixiContext = createContext<PixiContextProps>({
@@ -94,6 +97,9 @@ export const PixiContext = createContext<PixiContextProps>({
 
     backgroundImageLocation: '',
     updateBackgroundImageLocation: () => void 0,
+
+    editAdId: '',
+    updateEditAdId: () => void 0,
 });
 
 export const PixiProvider = ({ children }) => {
@@ -116,7 +122,7 @@ export const PixiProvider = ({ children }) => {
 
     const [backgroundImageLocation, setBackgroundImageLocation] = useState('');
 
-
+    const [editAdId, setEditAdId] = useState('');
 
     // Find the default theme
     const defaultTheme = themes.find((theme) => theme.id === 'basic-swoosh-1');
@@ -134,8 +140,6 @@ export const PixiProvider = ({ children }) => {
         review: defaultTheme.settings.reviewTextDefaults.reviewMainText.yRange as [number, number],
         close: defaultTheme.settings.closeTextDefaults.closeMainText.yRange as [number, number],
     };
-
-
 
     // Use initialXRanges and initialYRanges when creating the initial PixiContext state
     const [xRanges, setXRanges] = useState(initialXRanges);
@@ -174,6 +178,9 @@ export const PixiProvider = ({ children }) => {
 
                 backgroundImageLocation,
                 updateBackgroundImageLocation: setBackgroundImageLocation,
+
+                editAdId,
+                updateEditAdId: setEditAdId,
             }}
         >
             {children}

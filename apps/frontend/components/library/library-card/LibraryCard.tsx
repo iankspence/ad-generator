@@ -6,11 +6,14 @@ import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import { CampaignContext } from "../../../contexts/CampaignContext";
 import LibraryCardButtonGroup from "./LibraryCardButtonGroup";
 import {copyAd, deleteAd} from '../../../utils/api'
-import UserContext from "../../../contexts/UserContext";
+import {PixiContext} from "../../../contexts/PixiContext";
+import {useRouter} from "next/router";
 
 const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
     const { selectedAds, updateSelectedAds } = useContext(CampaignContext);
-    const { account } = useContext(UserContext);
+    const { updateEditAdId } = useContext(PixiContext)
+    const router = useRouter();
+
 
     const handleCopyClick = async (event) => {
         event.stopPropagation();
@@ -32,6 +35,18 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
             try {
                 await deleteAd(ad._id);
                 refreshAds();
+            } catch (error) {
+                alert("Failed to delete ad. Please try again later.");
+            }
+        }
+    };
+
+    const handleEditClick = (event) => {
+        event.stopPropagation();
+        if (window.confirm("Are you sure you want to edit this ad?")) {
+            try {
+                updateEditAdId(ad._id);
+                router.push('/campaign');
             } catch (error) {
                 alert("Failed to delete ad. Please try again later.");
             }
@@ -71,6 +86,7 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
 
                 <>
                     <IconButton
+                        onClick={handleEditClick}
                         style={{padding: '0', position: 'absolute', top: '2%', right: '33%', opacity: '30%'}}
                         aria-label="edit"
                     >

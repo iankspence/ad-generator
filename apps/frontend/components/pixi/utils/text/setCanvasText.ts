@@ -9,7 +9,6 @@ class MyHTMLText extends PIXI.HTMLText {
     autoColor?: any
 }
 
-
 const setCanvasText = (
     canvasName,
     appRef,
@@ -86,7 +85,7 @@ const setCanvasText = (
         }
 
         mainTextObject = new MyHTMLText(mainText, mainStyleSettings.style);
-        mainTextObject.name = `${canvasName}-main`;
+        mainTextObject.name = `text-${canvasName}-main`;
         mainTextObject.zIndex = 3;
         mainTextObject.resolution = 1080 / size;
 
@@ -100,10 +99,10 @@ const setCanvasText = (
 
     let authorTextObject;
     if (authorText) {
-        authorTextObject = findTextObject(app, `${canvasName}-author`);
+        authorTextObject = findTextObject(app, `text-${canvasName}-author`);
         if (!authorTextObject) {
             authorTextObject = new MyHTMLText(authorText, authorStyleSettings.style);
-            authorTextObject.name = `${canvasName}-author`;
+            authorTextObject.name = `text-${canvasName}-author`;
             authorTextObject.zIndex = 3;
             authorTextObject.resolution = 1080 / size;
 

@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import * as PIXI from "pixi.js";
 
 export interface AdDocument extends Ad, Document<Types.ObjectId> {}
 
@@ -62,6 +63,30 @@ export class Ad {
 
     @Prop({ required: false })
     deliveryType?: 'pdf' | 'facebook' | null
+
+    @Prop({ required: true })
+    canvasAppStages!: {
+        canvasName: string,
+        canvasAppStage: PIXI.Container,
+    }[];
+
+    @Prop({ required: true })
+    xRanges!: {
+        canvasName: string,
+        xRange: [number, number],
+    }[];
+
+    @Prop({ required: true })
+    yRanges!: {
+        canvasName: string,
+        yRange: [number, number],
+    }[];
+
+    @Prop({ required: true })
+    lineHeightMultipliers!: {
+        canvasName: string,
+        lineHeightMultiplier: number,
+    }[];
 }
 
 export const AdSchema = SchemaFactory.createForClass(Ad);

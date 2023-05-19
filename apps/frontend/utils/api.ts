@@ -299,7 +299,8 @@ export const updateAccountLogoAndColors = async (
 };
 
 
-export const saveCanvasesToS3 = async (canvases, userId, account, review, copy, themeId, backgroundImageLocation, maskLocations) => {
+// export const saveCanvasesToS3 = async (canvases, userId, account, review, copy, themeId, backgroundImageLocation, maskLocations, canvasAppStages, xRanges, yRanges, lineHeightMultipliers ) => {
+export const saveCanvasesToS3 = async (canvases, userId, account, review, copy, themeId, backgroundImageLocation, maskLocations, xRanges, yRanges, lineHeightMultipliers ) => {
     try {
         const response = await axios.post(`${API_URL}/card/save-canvases`, {
             canvases,
@@ -309,7 +310,11 @@ export const saveCanvasesToS3 = async (canvases, userId, account, review, copy, 
             copy,
             themeId,
             backgroundImageLocation,
-            maskLocations
+            maskLocations,
+            // canvasAppStages,
+            xRanges,
+            yRanges,
+            lineHeightMultipliers
         }, {
             headers: {
                 'Content-Type': 'application/json',

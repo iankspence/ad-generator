@@ -1,6 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { CardService } from './card.service';
-import {AccountDocument, ReviewDocument, CopyDocument} from "@monorepo/type";
+import {AccountDocument, ReviewDocument, CopyDocument, Ad} from "@monorepo/type";
+import * as PIXI from "pixi.js";
 
 @Controller('card')
 export class CardController {
@@ -16,7 +17,11 @@ export class CardController {
         @Body('themeId') themeId: string,
         @Body('backgroundImageLocation') backgroundImageLocation: string,
         @Body('maskLocations') maskLocations: {maskLocation: string, maskName: string}[],
+        @Body('canvasAppStages') canvasApps: Ad["canvasAppStages"],
+        @Body('xRanges') xRanges: Ad["xRanges"],
+        @Body('yRanges') yRanges: Ad["yRanges"],
+        @Body('lineHeightMultipliers') lineHeightMultipliers: Ad["lineHeightMultipliers"],
     ) {
-        return this.cardService.saveCanvases(canvases, userId, account, review, copy, themeId, backgroundImageLocation, maskLocations);
+        return this.cardService.saveCanvases(canvases, userId, account, review, copy, themeId, backgroundImageLocation, maskLocations, canvasApps, xRanges, yRanges, lineHeightMultipliers);
     }
 }

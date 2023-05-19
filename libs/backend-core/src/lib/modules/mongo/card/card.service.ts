@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import {AccountDocument, Card, CardDocument, ReviewDocument, CopyDocument, Copy} from "@monorepo/type";
+import {AccountDocument, Card, CardDocument, ReviewDocument, CopyDocument, Copy, Ad} from "@monorepo/type";
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import {AdService} from "../ad/ad.service";
@@ -19,7 +19,7 @@ export class CardService {
 
 ) {}
 
-    async saveCanvases(canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>, userId: string, account: AccountDocument, review: ReviewDocument, copy: CopyDocument, themeId: string, backgroundImageLocation: string, maskLocations: {maskLocation: string, maskName: string}[]) {
+    async saveCanvases(canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>, userId: string, account: AccountDocument, review: ReviewDocument, copy: CopyDocument, themeId: string, backgroundImageLocation: string, maskLocations: {maskLocation: string, maskName: string}[], canvasApps: Ad["canvasAppStages"], xRanges: Ad["xRanges"], yRanges: Ad["yRanges"], lineHeightMultipliers: Ad["lineHeightMultipliers"]) {
         const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}`
         const results = [];
 
@@ -111,6 +111,10 @@ export class CardService {
             review.bestFitReasoning,
             review.source,
             review.reviewDate,
+            // canvasAppStages,
+            xRanges,
+            yRanges,
+            lineHeightMultipliers,
         );
 
         results.push({ad});

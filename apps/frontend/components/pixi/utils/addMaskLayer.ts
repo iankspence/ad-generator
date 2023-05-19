@@ -28,5 +28,7 @@ void main(void)
     const colorFilter = new PIXI.Filter(null, fragment, { uColour: new PIXI.Color(color).toRgbArray() });
     mask.filters = [colorFilter];
 
+    mask.name = `mask-${maskData.canvasName}-${maskData.name}`
+
     app.stage.addChild(mask);
 };
