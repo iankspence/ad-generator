@@ -67,7 +67,21 @@ export class Ad {
     @Prop({ required: true })
     userControlledAttributes!: {
         canvasName: string,
-        childrenNames: string[],
+        // childrenNames: string[],
+        imageControls: {
+            x: number,
+            y: number,
+            scaleX: number,
+            scaleY: number,
+            location: string,
+        },
+        textControls: {
+            name: string,
+            x: number,
+            y: number,
+            text: string,
+            style: PIXI.HTMLTextStyle,
+        }[],
     }[];
 
     @Prop({ required: true })

@@ -48,6 +48,43 @@ interface PixiContextProps {
 
     editAdId: string;
     updateEditAdId: (editAdId: string) => void;
+
+    userControlledAttributes: {
+        canvasName: string,
+        // childrenNames: string[],
+        imageControls: {
+            x: number,
+            y: number,
+            scaleX: number,
+            scaleY: number,
+            location: string,
+        },
+        textControls: {
+            name: string,
+            x: number,
+            y: number,
+            text: string,
+            style: PIXI.HTMLTextStyle,
+        }[],
+    }[],
+    updateUserControlledAttributes: (userControlledAttributes: {
+        canvasName: string,
+        // childrenNames: string[],
+        imageControls: {
+            x: number,
+            y: number,
+            scaleX: number,
+            scaleY: number,
+            location: string,
+        },
+        textControls: {
+            name: string,
+            x: number,
+            y: number,
+            text: string,
+            style: PIXI.HTMLTextStyle,
+        } [],
+    } []) => void;
 }
 
 export const PixiContext = createContext<PixiContextProps>({
@@ -100,6 +137,9 @@ export const PixiContext = createContext<PixiContextProps>({
 
     editAdId: '',
     updateEditAdId: () => void 0,
+
+    userControlledAttributes: [],
+    updateUserControlledAttributes: () => void 0,
 });
 
 export const PixiProvider = ({ children }) => {
@@ -119,10 +159,9 @@ export const PixiProvider = ({ children }) => {
     });
     const [displayTextBox, setDisplayTextBox] = useState(false);
     const [maskLocations, setMaskLocations] = useState([]);
-
     const [backgroundImageLocation, setBackgroundImageLocation] = useState('');
-
     const [editAdId, setEditAdId] = useState('');
+    const [userControlledAttributes, setUserControlledAttributes] = useState([]);
 
     // Find the default theme
     const defaultTheme = themes.find((theme) => theme.id === 'basic-swoosh-1');
@@ -150,6 +189,8 @@ export const PixiProvider = ({ children }) => {
     const updateCanvasApp = (key: string, newApp: PIXI.Application) => {
         setCanvasApps((prev) => ({ ...prev, [key]: newApp }));
     }
+
+
 
     return (
         <PixiContext.Provider
@@ -181,6 +222,9 @@ export const PixiProvider = ({ children }) => {
 
                 editAdId,
                 updateEditAdId: setEditAdId,
+
+                userControlledAttributes,
+                updateUserControlledAttributes: setUserControlledAttributes,
             }}
         >
             {children}

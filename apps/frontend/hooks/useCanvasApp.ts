@@ -1,7 +1,10 @@
 import * as PIXI from 'pixi.js';
-import { useEffect } from 'react';
+import {useContext, useEffect } from 'react';
+import { PixiContext } from '../contexts/PixiContext';
 
-const useCanvasApp = (appRef, size, updateCanvasApp, canvasName) => {
+const useCanvasApp = (appRef, size, canvasName) => {
+    const { updateCanvasApp } = useContext(PixiContext);
+
     useEffect(() => {
         appRef.current = new PIXI.Application({
             antialias: true,
@@ -20,7 +23,7 @@ const useCanvasApp = (appRef, size, updateCanvasApp, canvasName) => {
         return () => {
             appRef.current.destroy(true, { children: true });
             appRef.current = null;
-            updateCanvasApp(null);
+            updateCanvasApp(canvasName, null);
         };
     }, [size]);
 

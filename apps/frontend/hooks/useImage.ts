@@ -1,9 +1,20 @@
 import * as PIXI from 'pixi.js';
-import { useEffect } from 'react';
+import {useContext, useEffect } from 'react';
+import { PixiContext } from '../contexts/PixiContext';
 
-export const useImage = (appRef, backgroundImageLocation, canvasName) => {
+export const useImage = (appRef, canvasName) => {
+    const { backgroundImageLocation, userControlledAttributes } = useContext(PixiContext);
+
+
     useEffect(() => {
+
         if (!appRef?.current || !backgroundImageLocation) return;
+
+        console.log("useImage ", backgroundImageLocation);
+
+
+        let localUserControlledAttributes;
+
 
         const app = appRef.current;
 
@@ -20,6 +31,16 @@ export const useImage = (appRef, backgroundImageLocation, canvasName) => {
         image.cursor = 'pointer';
         image.zIndex = 0;
         container.addChild(image);
+
+        // if (userControlledAttributes[canvasName].imageControls) {
+        //     localUserControlledAttributes = userControlledAttributes.find(attribute => attribute.canvasName === canvasName);
+        //     container.x = localUserControlledAttributes?.imageControls?.x || 0;
+        //     container.y = localUserControlledAttributes?.imageControls?.y || 0;
+        //     container.scale.x = localUserControlledAttributes?.imageControls?.scaleX || 1;
+        //     container.scale.y = localUserControlledAttributes?.imageControls?.scaleY || 1;
+        //
+        //     userControlledAttributes[canvasName].imageControls = null;
+        // }
 
         return () => {
             if (container) container.removeChild(image);

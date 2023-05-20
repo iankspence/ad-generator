@@ -6,7 +6,6 @@ import {useEffect, useCallback, useContext} from 'react';
 import {PixiContext} from "../contexts/PixiContext";
 import {findImageContainer} from "../components/pixi/utils/findImageContainer";
 
-
 export interface DraggableContainer extends PIXI.Container {
     dragging: boolean;
     dragData: PIXI.FederatedPointerEvent | null;

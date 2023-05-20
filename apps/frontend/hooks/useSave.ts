@@ -4,12 +4,6 @@ import UserContext from "../contexts/UserContext";
 import { CampaignContext } from "../contexts/CampaignContext";
 import { getFilteredTextArrays } from "../components/pixi/utils/text/getFilteredTextArrays";
 import { saveCanvasesToS3 } from '../utils/api';
-import * as PIXI from 'pixi.js';
-
-class MyHTMLText extends PIXI.HTMLText {
-    themeId?: string;
-    autoColor?: any
-}
 
 const useSave = (width = 1080, height = 1080) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -19,23 +13,46 @@ const useSave = (width = 1080, height = 1080) => {
 
     const { filteredReviews, filteredHooks, filteredClaims, filteredCloses, filteredCopies } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
 
-    const extractUserControlledAttributes = useCallback((app) => {
+    const extractUserControlledAttributes = useCallback((app, backgroundImageLocation) => {
         const childrenNames = [];
+        let imageControls;
+        const textControls = [];
         app.stage.children.forEach(child => {
             childrenNames.push(child.name);
+            if (child.name.split('-')[0] === 'image') {
+                imageControls= {
+                    x: child.x,
+                    y: child.y,
+                    scaleX: child.scale.x,
+                    scaleY: child.scale.y,
+                    location: backgroundImageLocation
+                }
+            } else if (child.name.split('-')[0] === 'text') {
+                const textControl = {
+                    name: child.name,
+                    x: child.x,
+                    y: child.y,
+                    text: child.text,
+                    style: child.style
+                }
+                textControls.push(textControl);
+            }
+
         });
-        return childrenNames;
+        return {childrenNames, imageControls, textControls};
     }, []);
 
-    const formatUserControlledAttributes = useCallback((canvasApps) => {
+    const formatUserControlledAttributes = useCallback((canvasApps, backgroundImageLocation) => {
         const formattedApps = [];
         for(const key in canvasApps) {
             if(canvasApps[key] !== null) {
-                const childrenNames = extractUserControlledAttributes(canvasApps[key]);
+                const { childrenNames, imageControls, textControls } = extractUserControlledAttributes(canvasApps[key], backgroundImageLocation);
                 formattedApps.push({
                     canvasName: key,
                     // canvasAppStage: canvasApps[key].stage,
-                    childrenNames: childrenNames
+                    childrenNames: childrenNames,
+                    imageControls: imageControls,
+                    textControls: textControls
                 });
             }
         }
@@ -79,7 +96,7 @@ const useSave = (width = 1080, height = 1080) => {
         if (filteredHooks.length > 0 && filteredClaims.length > 0 && filteredReviews.length > 0 && filteredCloses.length > 0) {
             setIsLoading(false);
         }
-    }, [filteredHooks, filteredClaims, filteredReviews, filteredCloses, filteredCopies]);
+    }, [filteredHooks, filteredClaims, filteredReviews, filteredCloses, filteredCopies, backgroundImageLocation]);
 
     const getSourceData = useCallback((canvasName, filteredData, position) => {
         const item = filteredData[position - 1] || {};
@@ -120,12 +137,16 @@ const useSave = (width = 1080, height = 1080) => {
             const positionArray = [hookPosition, claimPosition, reviewPosition, closePosition];
 
             const canvases = await Promise.all(canvasNames.map(async (name, index) => {
+                if (!canvasApps[name]) return;
                 const dataUrl = await getCanvasData(canvasApps[name]);
                 const { sourceText, sourceTextEdited, sourceTextId } = getSourceData(name, filteredDataArray[index], positionArray[index]);
 
                 return { canvasName: name, dataUrl, sourceTextId, sourceText, sourceTextEdited };
             }));
 
+            const formattedUserControlledAttributes = formatUserControlledAttributes(canvasApps, backgroundImageLocation);
+            console.log('formattedUserControlledAttributes (useSave)', formattedUserControlledAttributes);
+            console.log('backgroundImageLocation (useSave)', backgroundImageLocation);
             try {
                 await saveCanvasesToS3(
                     canvases,
@@ -136,7 +157,7 @@ const useSave = (width = 1080, height = 1080) => {
                     selectedThemeId,
                     backgroundImageLocation,
                     maskLocations,
-                    formatUserControlledAttributes(canvasApps),
+                    formattedUserControlledAttributes,
                     formatXRanges(xRanges),
                     formatYRanges(yRanges),
                     formatLineHeightMultipliers(lineHeightMultipliers)
