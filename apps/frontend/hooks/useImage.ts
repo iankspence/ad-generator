@@ -12,9 +12,7 @@ export const useImage = (appRef, canvasName) => {
 
         console.log("useImage ", backgroundImageLocation);
 
-
         let localUserControlledAttributes;
-
 
         const app = appRef.current;
 
@@ -32,15 +30,17 @@ export const useImage = (appRef, canvasName) => {
         image.zIndex = 0;
         container.addChild(image);
 
-        // if (userControlledAttributes[canvasName].imageControls) {
-        //     localUserControlledAttributes = userControlledAttributes.find(attribute => attribute.canvasName === canvasName);
-        //     container.x = localUserControlledAttributes?.imageControls?.x || 0;
-        //     container.y = localUserControlledAttributes?.imageControls?.y || 0;
-        //     container.scale.x = localUserControlledAttributes?.imageControls?.scaleX || 1;
-        //     container.scale.y = localUserControlledAttributes?.imageControls?.scaleY || 1;
-        //
-        //     userControlledAttributes[canvasName].imageControls = null;
-        // }
+        console.log("useImage ", userControlledAttributes, canvasName)
+
+        if (userControlledAttributes.length) {
+            localUserControlledAttributes = userControlledAttributes.find(attribute => attribute.canvasName === canvasName);
+            console.log('localUserControlledAttributes', localUserControlledAttributes)
+
+            container.x = localUserControlledAttributes?.imageControls?.x || 0;
+            container.y = localUserControlledAttributes?.imageControls?.y || 0;
+            container.scale.x = localUserControlledAttributes?.imageControls?.scaleX || 1;
+            container.scale.y = localUserControlledAttributes?.imageControls?.scaleY || 1;
+        }
 
         return () => {
             if (container) container.removeChild(image);

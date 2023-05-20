@@ -11,7 +11,7 @@ import {useRouter} from "next/router";
 
 const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
     const { selectedAds, updateSelectedAds } = useContext(CampaignContext);
-    const { updateEditAdId } = useContext(PixiContext)
+    const { updateEditAdId, updateBackgroundImageLocation } = useContext(PixiContext)
     const router = useRouter();
 
 
@@ -46,6 +46,7 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
         if (window.confirm("Are you sure you want to edit this ad?")) {
             try {
                 updateEditAdId(ad._id);
+                updateBackgroundImageLocation('');
                 router.push('/campaign');
             } catch (error) {
                 alert("Failed to delete ad. Please try again later.");

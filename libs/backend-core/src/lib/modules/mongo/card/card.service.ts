@@ -23,8 +23,8 @@ export class CardService {
         const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}`
         const results = [];
 
-        const cardIds = {};
-        const cardLocations = {};
+        const cardIds = [];
+        const cardLocations = [];
 
         const timeZone = 'America/Edmonton'
         const adNameDateTime = createAdNameDateTime(timeZone)
@@ -77,8 +77,15 @@ export class CardService {
                 });
 
                 const savedCard = await card.save();
-                cardIds[canvasName] = savedCard._id;
-                cardLocations[canvasName] = savedCard.cardLocation;
+                cardIds.push({
+                    canvasName: savedCard.cardName,
+                    cardId: savedCard._id
+                });
+
+                cardLocations.push({
+                    canvasName: savedCard.cardName,
+                    cardLocation: savedCard.cardLocation
+                });
 
                 results.push({
                     s3Result: result,
@@ -99,14 +106,8 @@ export class CardService {
             adNameDateTime,
             userId,
             account._id.toString(),
-            cardIds['hook'],
-            cardLocations['hook'],
-            cardIds['claim'],
-            cardLocations['claim'],
-            cardIds['review'],
-            cardLocations['review'],
-            cardIds['close'],
-            cardLocations['close'],
+            cardIds,
+            cardLocations,
             freshCopy.copyText,
             freshCopy?.copyTextEdited ? freshCopy?.copyTextEdited : '',
             review.bestFitAudience,

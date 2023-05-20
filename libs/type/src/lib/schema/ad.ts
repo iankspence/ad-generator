@@ -4,6 +4,25 @@ import * as PIXI from "pixi.js";
 
 export interface AdDocument extends Ad, Document<Types.ObjectId> {}
 
+export interface UserControlledAttribute {
+    canvasName: string,
+    // childrenNames: string[],
+    imageControls: {
+        location: string,
+        x: number,
+        y: number,
+        scaleX: number,
+        scaleY: number,
+    },
+    textControls: {
+        name: string,
+        x: number,
+        y: number,
+        text: string,
+        style: PIXI.HTMLTextStyle,
+    } [],
+}
+
 @Schema({ timestamps: true })
 export class Ad {
 
@@ -16,29 +35,38 @@ export class Ad {
     @Prop({ required: true, type: String, ref: 'Account' })
     accountId!: string;
 
-    @Prop({ required: true, type: String, ref: 'Card' })
-    hookCardId!: string;
+    @Prop({ required: true })
+    cardIds!: {
+        canvasName: string,
+        cardId: string,
+    } [];
 
-    @Prop({ required: true, type: String, ref: 'Card' })
-    hookCardLocation!: string;
+    @Prop({ required: true })
+    cardLocations!: {
+        canvasName: string,
+        cardLocation: string,
+    } [];
 
-    @Prop({ required: true, type: String, ref: 'Card' })
-    claimCardId!: string;
+    @Prop({ required: true })
+    userControlledAttributes!: UserControlledAttribute[];
 
-    @Prop({ required: true, type: String, ref: 'Card' })
-    claimCardLocation!: string;
+    @Prop({ required: true })
+    xRanges!: {
+        canvasName: string,
+        xRange: [number, number],
+    }[];
 
-    @Prop({ required: true, type: String, ref: 'Card' })
-    reviewCardId!: string;
+    @Prop({ required: true })
+    yRanges!: {
+        canvasName: string,
+        yRange: [number, number],
+    }[];
 
-    @Prop({ required: true, type: String, ref: 'Card' })
-    reviewCardLocation!: string;
-
-    @Prop({ required: true, type: String, ref: 'Card' })
-    closeCardId!: string;
-
-    @Prop({ required: true, type: String, ref: 'Card' })
-    closeCardLocation!: string;
+    @Prop({ required: true })
+    lineHeightMultipliers!: {
+        canvasName: string,
+        lineHeightMultiplier: number,
+    }[];
 
     @Prop({ required: true, type: String, ref: 'Copy' })
     copyText!: string;
@@ -64,43 +92,6 @@ export class Ad {
     @Prop({ required: false })
     deliveryType?: 'pdf' | 'facebook' | null
 
-    @Prop({ required: true })
-    userControlledAttributes!: {
-        canvasName: string,
-        // childrenNames: string[],
-        imageControls: {
-            x: number,
-            y: number,
-            scaleX: number,
-            scaleY: number,
-            location: string,
-        },
-        textControls: {
-            name: string,
-            x: number,
-            y: number,
-            text: string,
-            style: PIXI.HTMLTextStyle,
-        }[],
-    }[];
-
-    @Prop({ required: true })
-    xRanges!: {
-        canvasName: string,
-        xRange: [number, number],
-    }[];
-
-    @Prop({ required: true })
-    yRanges!: {
-        canvasName: string,
-        yRange: [number, number],
-    }[];
-
-    @Prop({ required: true })
-    lineHeightMultipliers!: {
-        canvasName: string,
-        lineHeightMultiplier: number,
-    }[];
 }
 
 export const AdSchema = SchemaFactory.createForClass(Ad);

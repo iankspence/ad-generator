@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import { createContext, useEffect, useState } from 'react';
 import EventEmitter from 'eventemitter3';
 import {themes} from "../utils/constants/themes";
+import { UserControlledAttribute } from '@monorepo/type'
 
 interface ActiveCanvases {
     hook: boolean;
@@ -49,42 +50,8 @@ interface PixiContextProps {
     editAdId: string;
     updateEditAdId: (editAdId: string) => void;
 
-    userControlledAttributes: {
-        canvasName: string,
-        // childrenNames: string[],
-        imageControls: {
-            x: number,
-            y: number,
-            scaleX: number,
-            scaleY: number,
-            location: string,
-        },
-        textControls: {
-            name: string,
-            x: number,
-            y: number,
-            text: string,
-            style: PIXI.HTMLTextStyle,
-        }[],
-    }[],
-    updateUserControlledAttributes: (userControlledAttributes: {
-        canvasName: string,
-        // childrenNames: string[],
-        imageControls: {
-            x: number,
-            y: number,
-            scaleX: number,
-            scaleY: number,
-            location: string,
-        },
-        textControls: {
-            name: string,
-            x: number,
-            y: number,
-            text: string,
-            style: PIXI.HTMLTextStyle,
-        } [],
-    } []) => void;
+    userControlledAttributes: UserControlledAttribute[];
+    updateUserControlledAttributes: (callback: (prevAttributes: UserControlledAttribute[]) => UserControlledAttribute[]) => void;
 }
 
 export const PixiContext = createContext<PixiContextProps>({

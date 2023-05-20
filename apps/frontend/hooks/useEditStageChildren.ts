@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { PixiContext } from "../contexts/PixiContext";
 import { getAdsByAccountId } from "../utils/api";
 import UserContext from "../contexts/UserContext";
-import {CampaignContext} from '../contexts/CampaignContext';
+import { UserControlledAttribute} from "@monorepo/type";
 
 const useEditStageChildren = (appRef, canvasName) => {
     const { editAdId, updateBackgroundImageLocation, updateUserControlledAttributes } = useContext(PixiContext);
@@ -11,9 +11,7 @@ const useEditStageChildren = (appRef, canvasName) => {
     const router = useRouter();
     const [ads, setAds] = useState([]);
 
-    const { hooks, updateHooks, hookPosition, updateHookPosition } = useContext(CampaignContext);
-
-    const getUserControlledAttributes = (ads, editAdId, canvasName) => {
+    const getUserControlledAttributes = (ads, editAdId, canvasName): null | UserControlledAttribute => {
         const ad = ads.find(ad => ad._id.toString() === editAdId);
         if (!ad) return null;
 
@@ -32,15 +30,31 @@ const useEditStageChildren = (appRef, canvasName) => {
     useEffect(() => {
         if (!appRef.current || !editAdId || !ads) return;
 
-        const userControlledAttributes = getUserControlledAttributes(ads, editAdId, canvasName);
-        if (!userControlledAttributes) return;
+        const canvasUserControlledAttributes = getUserControlledAttributes(ads, editAdId, canvasName);
+        if (!canvasUserControlledAttributes) return;
 
-        updateUserControlledAttributes(userControlledAttributes);
-        updateBackgroundImageLocation(userControlledAttributes.imageControls.location); // trigger useImage
+        updateUserControlledAttributes(prevUserControlledAttributes => {
+            let updatedAttributes: UserControlledAttribute[];
 
+            const existingIndex = prevUserControlledAttributes.findIndex(attribute => attribute.canvasName === canvasName);
+            if (existingIndex > -1) {
+                // Replace existing attributes for this canvas
+                updatedAttributes = [...prevUserControlledAttributes];
+                updatedAttributes[existingIndex] = canvasUserControlledAttributes;
+            } else {
+                // Append new attributes for this canvas
+                updatedAttributes = [...prevUserControlledAttributes, canvasUserControlledAttributes];
+            }
 
+            // Only update the background image location if there are 4 userControlledAttributes
+            if (updatedAttributes.length === 4) {
+                updateBackgroundImageLocation(canvasUserControlledAttributes.imageControls.location); // trigger useImage
+            }
 
+            return updatedAttributes;
+        });
     }, [router.pathname, editAdId, ads]);
+
 };
 
 export default useEditStageChildren;
