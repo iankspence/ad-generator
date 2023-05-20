@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { CardService } from './card.service';
 import {AccountDocument, ReviewDocument, CopyDocument, Ad} from "@monorepo/type";
 import * as PIXI from "pixi.js";
@@ -21,7 +21,15 @@ export class CardController {
         @Body('xRanges') xRanges: Ad["xRanges"],
         @Body('yRanges') yRanges: Ad["yRanges"],
         @Body('lineHeightMultipliers') lineHeightMultipliers: Ad["lineHeightMultipliers"],
+        @Body('filteredTextPositions') filteredTextPositions: Ad["filteredTextPositions"],
     ) {
-        return this.cardService.saveCanvases(canvases, userId, account, review, copy, themeId, backgroundImageLocation, maskLocations, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers);
+        return this.cardService.saveCanvases(canvases, userId, account, review, copy, themeId, backgroundImageLocation, maskLocations, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions);
+    }
+
+    @Post('get-cards-by-account-id')
+    async getCardsByAccountId(
+        @Body('accountId') accountId: string,
+    ) {
+    return this.cardService.getCardsByAccountId(accountId);
     }
 }

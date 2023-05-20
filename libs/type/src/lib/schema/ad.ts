@@ -6,7 +6,7 @@ export interface AdDocument extends Ad, Document<Types.ObjectId> {}
 
 export interface UserControlledAttribute {
     canvasName: string,
-    // childrenNames: string[],
+    childrenNames: string[],
     imageControls: {
         location: string,
         x: number,
@@ -45,6 +45,12 @@ export class Ad {
     cardLocations!: {
         canvasName: string,
         cardLocation: string,
+    } [];
+
+    @Prop({ required: true })
+    filteredTextPositions!: {
+        canvasName: string,
+        position: number
     } [];
 
     @Prop({ required: true })

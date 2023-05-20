@@ -92,6 +92,29 @@ const useSave = (width = 1080, height = 1080) => {
         return formattedMultipliers;
     }, []);
 
+
+    const formatFilteredTextPositions = useCallback(() => {
+        const formattedFilteredTextPositions = [];
+        formattedFilteredTextPositions.push({
+            canvasName: 'hook',
+            position: hookPosition
+        });
+        formattedFilteredTextPositions.push({
+            canvasName: 'claim',
+            position: claimPosition
+        });
+        formattedFilteredTextPositions.push({
+            canvasName: 'review',
+            position: reviewPosition
+        });
+        formattedFilteredTextPositions.push({
+            canvasName: 'close',
+            position: closePosition
+        });
+        return formattedFilteredTextPositions;
+    }, [hookPosition, claimPosition, reviewPosition, closePosition]);
+
+
     useEffect(() => {
         if (filteredHooks.length > 0 && filteredClaims.length > 0 && filteredReviews.length > 0 && filteredCloses.length > 0) {
             setIsLoading(false);
@@ -145,8 +168,7 @@ const useSave = (width = 1080, height = 1080) => {
             }));
 
             const formattedUserControlledAttributes = formatUserControlledAttributes(canvasApps, backgroundImageLocation);
-            console.log('formattedUserControlledAttributes (useSave)', formattedUserControlledAttributes);
-            console.log('backgroundImageLocation (useSave)', backgroundImageLocation);
+
             try {
                 await saveCanvasesToS3(
                     canvases,
@@ -160,7 +182,8 @@ const useSave = (width = 1080, height = 1080) => {
                     formattedUserControlledAttributes,
                     formatXRanges(xRanges),
                     formatYRanges(yRanges),
-                    formatLineHeightMultipliers(lineHeightMultipliers)
+                    formatLineHeightMultipliers(lineHeightMultipliers),
+                    formatFilteredTextPositions()
                 );
             } catch (error) {
                 console.error('Error sending images to backend:', error);

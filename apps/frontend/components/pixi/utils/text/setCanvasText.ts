@@ -14,7 +14,6 @@ const setCanvasText = (
     appRef,
     textArray,
     position,
-    filteredReviews,
     reviewPosition,
     mainStyleSettings,
     authorStyleSettings,
@@ -22,6 +21,7 @@ const setCanvasText = (
     xRange,
     yRange,
     lineHeightMultipliers,
+    filteredReviews,
 ) => {
     if (!canvasName || !textArray || !position || !appRef?.current ) return;
 
@@ -75,7 +75,7 @@ const setCanvasText = (
 
     if (!app || !app.stage || !mainText ) return;
 
-    let mainTextObject = findTextObject(app, `${canvasName}-main`);
+    let mainTextObject = findTextObject(app, `text-${canvasName}-main`);
 
     if (!mainTextObject) {
 

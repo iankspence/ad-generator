@@ -32,9 +32,11 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
     const [currentCloseTexts, setCurrentCloseTexts] = useState(['', '']);
     const [currentCopyTexts, setCurrentCopyTexts] = useState(['', '']);
 
-    const { filteredReviews, filteredHooks, filteredClaims, filteredCloses, filteredCopies } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
-
     useEffect(() => {
+        if ( !appRef.current || !reviews || !reviewPosition || !hooks || !hookPosition || !claims || !closes || !copies || !selectedAudiencePosition ) return;
+
+        const { filteredReviews } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
+
         if (!filteredReviews) return;
         setCurrentReviewId(filteredReviews[reviewPosition - 1]?._id?.toString() || null);
         setCurrentReviewTexts([filteredReviews[reviewPosition - 1]?.reviewText, filteredReviews[reviewPosition - 1]?.reviewTextEdited])
@@ -42,29 +44,49 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
     }, [ selectedAudiencePosition, reviewPosition, reviews ]);
 
     useEffect(() => {
+        if ( !appRef.current || !reviews || !reviewPosition || !hooks || !hookPosition || !claims || !closes || !copies || !selectedAudiencePosition ) return;
+
+        const {filteredHooks } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
+
         if (!filteredHooks) return;
         setCurrentHookId(filteredHooks[hookPosition - 1]?._id?.toString() || null);
         setCurrentHookTexts([filteredHooks[hookPosition - 1]?.hookText, filteredHooks[hookPosition - 1]?.hookTextEdited ])
     }, [ selectedAudiencePosition, hookPosition, hooks ]);
 
     useEffect(() => {
+        if ( !appRef.current || !reviews || !reviewPosition || !hooks || !hookPosition || !claims || !closes || !copies || !selectedAudiencePosition ) return;
+
+        const { filteredClaims } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
+
         if (!filteredClaims) return;
         setCurrentClaimTexts([filteredClaims[claimPosition - 1]?.claimText, filteredClaims[claimPosition - 1]?.claimTextEdited ])
     }, [ selectedAudiencePosition, claimPosition, claims ]);
 
     useEffect(() => {
+        if ( !appRef.current || !reviews || !reviewPosition || !hooks || !hookPosition || !claims || !closes || !copies || !selectedAudiencePosition ) return;
+
+        const { filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
+
         if (!filteredCloses) return;
         setCurrentCloseTexts([filteredCloses[closePosition - 1]?.closeText, filteredCloses[closePosition - 1]?.closeTextEdited ])
     }, [ selectedAudiencePosition, closePosition, closes ]);
 
     useEffect(() => {
+        if ( !appRef.current || !reviews || !reviewPosition || !hooks || !hookPosition || !claims || !closes || !copies || !selectedAudiencePosition ) return;
+
+        const { filteredCopies } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
+
         if (!filteredCopies) return;
         setCurrentCopyTexts([filteredCopies[copyPosition - 1]?.copyText, filteredCopies[copyPosition - 1]?.copyTextEdited ])
     }, [ selectedAudiencePosition, copyPosition, copies ]);
 
     useEffect(() => {
-        if (!appRef.current || !primaryColor || !secondaryColor) return;
+        // console.log('checking use effect before')
+        if (!appRef.current || !primaryColor || !secondaryColor || !hooks || !hookPosition || !claims || !claimPosition || !reviews || !reviewPosition || !closes || !closePosition || !copies || !copyPosition  ) return;
+        // console.log('checking use effect after')
+        const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
 
+        // console.log('useText after check', appRef.current)
         if (appRef.current) {
 
             const app = appRef.current;
@@ -90,7 +112,6 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
                     appRef,
                     array,
                     position,
-                    filteredReviews,
                     reviewPosition,
                     mainTextSettings,
                     authorTextSettings,
@@ -98,6 +119,7 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
                     xRange,
                     yRange,
                     lineHeightMultipliers,
+                    filteredReviews,
                 );
             } else {
                 console.warn(`No default text settings found for canvasName=${canvasName}`);
@@ -106,11 +128,16 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
     }, [
         currentHookId,
         currentHookTexts,
+        hookPosition,
         currentReviewId,
         currentReviewTexts,
+        reviewPosition,
         currentClaimTexts,
+        claimPosition,
         currentCloseTexts,
+        closePosition,
         currentCopyTexts,
+        copyPosition,
         xRanges,
         yRanges,
         lineHeightMultipliers,
