@@ -90,7 +90,7 @@ const useSave = (width = 1080, height = 1080) => {
             });
         }
         return formattedMultipliers;
-    }, []);
+    }, [lineHeightMultipliers]);
 
 
     const formatFilteredTextPositions = useCallback(() => {
@@ -119,7 +119,7 @@ const useSave = (width = 1080, height = 1080) => {
         if (filteredHooks.length > 0 && filteredClaims.length > 0 && filteredReviews.length > 0 && filteredCloses.length > 0) {
             setIsLoading(false);
         }
-    }, [filteredHooks, filteredClaims, filteredReviews, filteredCloses, filteredCopies, backgroundImageLocation, xRanges, yRanges]);
+    }, [filteredHooks, filteredClaims, filteredReviews, filteredCloses, filteredCopies, backgroundImageLocation, xRanges, yRanges, lineHeightMultipliers]);
 
     const getSourceData = useCallback((canvasName, filteredData, position) => {
         const item = filteredData[position - 1] || {};
@@ -191,7 +191,7 @@ const useSave = (width = 1080, height = 1080) => {
         } else {
             console.log('Data is not ready yet');
         }
-    }, [canvasApps, getCanvasData, account, isLoading, getSourceData, backgroundImageLocation]);
+    }, [canvasApps, getCanvasData, account, isLoading, getSourceData, backgroundImageLocation, xRanges, yRanges, lineHeightMultipliers]);
 
     return { saveAllApps };
 };

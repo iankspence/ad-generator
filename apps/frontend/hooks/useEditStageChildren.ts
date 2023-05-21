@@ -7,7 +7,7 @@ import { UserControlledAttribute} from "@monorepo/type";
 import {CampaignContext} from "../contexts/CampaignContext";
 
 const useEditStageChildren = (appRef, canvasName) => {
-    const { editAdId, updateBackgroundImageLocation, updateUserControlledAttributes, updateRange } = useContext(PixiContext);
+    const { editAdId, updateBackgroundImageLocation, updateUserControlledAttributes, updateRange, updateLineHeightMultipliers } = useContext(PixiContext);
     const {updateSelectedAudiencePosition, updateReviewPosition, updateHookPosition, updateClaimPosition, updateClosePosition } = useContext(CampaignContext)
     const { account } = useContext(UserContext);
     const router = useRouter();
@@ -29,7 +29,7 @@ const useEditStageChildren = (appRef, canvasName) => {
         return ad.bestFitAudience
     };
 
-    const updateTextPositions = (ads, editAdId) => {
+    const updateTextPositionsFromAd = (ads, editAdId) => {
         const ad = ads.find(ad => ad._id.toString() === editAdId);
         if (!ad) return null;
 
@@ -46,13 +46,9 @@ const useEditStageChildren = (appRef, canvasName) => {
         updateClosePosition(closePosition);
     }
 
-    const updateRanges = (ads, editAdId) => {
-
-        console.log('updateRanges 1', ads, editAdId)
+    const updateRangesFromAd = (ads, editAdId) => {
         const ad = ads.find(ad => ad._id.toString() === editAdId);
         if (!ad) return;
-
-        console.log('updateRanges 2', ad.xRanges, ad.yRanges)
 
         ad.xRanges.forEach((xRangeObj) => {
             const { canvasName, xRange } = xRangeObj;
@@ -61,6 +57,16 @@ const useEditStageChildren = (appRef, canvasName) => {
             const { yRange } = yRangeObj;
 
             updateRange(canvasName, xRange, yRange);
+        });
+    };
+
+    const updateLineHeightMultipliersFromAd = (ads, editAdId) => {
+        const ad = ads.find(ad => ad._id.toString() === editAdId);
+        if (!ad) return;
+
+        ad.lineHeightMultipliers.forEach((lineHeightMultiplierObj) => {
+            const { canvasName, lineHeightMultiplier } = lineHeightMultiplierObj;
+            updateLineHeightMultipliers(canvasName, lineHeightMultiplier);
         });
     };
 
@@ -104,17 +110,17 @@ const useEditStageChildren = (appRef, canvasName) => {
             // Only update the background image location if there are 4 userControlledAttributes (prevents early triggering of useImage on a canvas without imageControl attributes)
             if (updatedAttributes.length === 4) {
                 updateBackgroundImageLocation(canvasUserControlledAttributes.imageControls.location); // trigger useImage
-                updateRanges(ads, editAdId);
+                updateRangesFromAd(ads, editAdId);
+                updateLineHeightMultipliersFromAd(ads, editAdId);
             }
 
             return updatedAttributes;
         });
 
-        updateTextPositions(ads, editAdId)
+        updateTextPositionsFromAd(ads, editAdId)
         updateSelectedAudiencePosition(Number(getBestFitAudience(ads, editAdId)));
 
     }, [router.pathname, editAdId, ads, ]);
-
 };
 
 export default useEditStageChildren;
