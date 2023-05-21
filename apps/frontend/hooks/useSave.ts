@@ -119,7 +119,7 @@ const useSave = (width = 1080, height = 1080) => {
         if (filteredHooks.length > 0 && filteredClaims.length > 0 && filteredReviews.length > 0 && filteredCloses.length > 0) {
             setIsLoading(false);
         }
-    }, [filteredHooks, filteredClaims, filteredReviews, filteredCloses, filteredCopies, backgroundImageLocation]);
+    }, [filteredHooks, filteredClaims, filteredReviews, filteredCloses, filteredCopies, backgroundImageLocation, xRanges, yRanges]);
 
     const getSourceData = useCallback((canvasName, filteredData, position) => {
         const item = filteredData[position - 1] || {};

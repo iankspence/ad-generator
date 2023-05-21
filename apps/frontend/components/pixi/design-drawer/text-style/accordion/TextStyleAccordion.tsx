@@ -42,7 +42,7 @@ const TextStyleAccordion = ({ textName }) => {
             .map(([canvasName]) => {
                 const canvasApp = canvasApps[canvasName];
                 if (canvasApp) {
-                    const textObject = canvasApp.stage.getChildByName(`${canvasName}-${textName}`) as PIXI.Text;
+                    const textObject = canvasApp.stage.getChildByName(`text-${canvasName}-${textName}`) as PIXI.HTMLText;
                     return textObject;
                 }
                 return null;

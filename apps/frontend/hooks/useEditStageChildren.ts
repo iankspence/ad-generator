@@ -7,7 +7,7 @@ import { UserControlledAttribute} from "@monorepo/type";
 import {CampaignContext} from "../contexts/CampaignContext";
 
 const useEditStageChildren = (appRef, canvasName) => {
-    const { editAdId, updateBackgroundImageLocation, updateUserControlledAttributes,  } = useContext(PixiContext);
+    const { editAdId, updateBackgroundImageLocation, updateUserControlledAttributes, updateRange } = useContext(PixiContext);
     const {updateSelectedAudiencePosition, updateReviewPosition, updateHookPosition, updateClaimPosition, updateClosePosition } = useContext(CampaignContext)
     const { account } = useContext(UserContext);
     const router = useRouter();
@@ -46,6 +46,24 @@ const useEditStageChildren = (appRef, canvasName) => {
         updateClosePosition(closePosition);
     }
 
+    const updateRanges = (ads, editAdId) => {
+
+        console.log('updateRanges 1', ads, editAdId)
+        const ad = ads.find(ad => ad._id.toString() === editAdId);
+        if (!ad) return;
+
+        console.log('updateRanges 2', ad.xRanges, ad.yRanges)
+
+        ad.xRanges.forEach((xRangeObj) => {
+            const { canvasName, xRange } = xRangeObj;
+            const yRangeObj = ad.yRanges.find(yRangeObj => yRangeObj.canvasName === canvasName);
+            if (!yRangeObj) return;
+            const { yRange } = yRangeObj;
+
+            updateRange(canvasName, xRange, yRange);
+        });
+    };
+
     useEffect(() => {
         if (!account?._id) return;
         const fetchAds = async () => {
@@ -83,9 +101,10 @@ const useEditStageChildren = (appRef, canvasName) => {
                 updatedAttributes = [...prevUserControlledAttributes, canvasUserControlledAttributes];
             }
 
-            // Only update the background image location if there are 4 userControlledAttributes
+            // Only update the background image location if there are 4 userControlledAttributes (prevents early triggering of useImage on a canvas without imageControl attributes)
             if (updatedAttributes.length === 4) {
                 updateBackgroundImageLocation(canvasUserControlledAttributes.imageControls.location); // trigger useImage
+                updateRanges(ads, editAdId);
             }
 
             return updatedAttributes;
@@ -95,6 +114,7 @@ const useEditStageChildren = (appRef, canvasName) => {
         updateSelectedAudiencePosition(Number(getBestFitAudience(ads, editAdId)));
 
     }, [router.pathname, editAdId, ads, ]);
+
 };
 
 export default useEditStageChildren;

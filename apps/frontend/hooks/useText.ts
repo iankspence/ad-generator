@@ -107,6 +107,8 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
                 const mainTextSettings = getTextSettings(canvasName, 'main', selectedTheme, app, xRanges, yRanges, primaryColor, secondaryColor);
                 const authorTextSettings = getTextSettings(canvasName, 'author', selectedTheme, app, xRanges, yRanges, primaryColor, secondaryColor);
 
+                // override the default if editAdId is truthy
+
                 setCanvasText(
                     canvasName,
                     appRef,
