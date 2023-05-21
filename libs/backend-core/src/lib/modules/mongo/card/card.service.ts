@@ -19,7 +19,7 @@ export class CardService {
 
 ) {}
 
-    async saveCanvases(canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>, userId: string, account: AccountDocument, review: ReviewDocument, copy: CopyDocument, themeId: string, backgroundImageLocation: string, maskLocations: {maskLocation: string, maskName: string}[], userControlledAttributes: Ad["userControlledAttributes"], xRanges: Ad["xRanges"], yRanges: Ad["yRanges"], lineHeightMultipliers: Ad["lineHeightMultipliers"], filteredTextPositions: Ad["filteredTextPositions"]) {
+    async saveCanvases(canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>, userId: string, account: AccountDocument, review: ReviewDocument, copy: CopyDocument, themeId: string, backgroundImageLocation: string, maskLocations: {maskLocation: string, maskName: string}[], userControlledAttributes: Ad["userControlledAttributes"], xRanges: Ad["xRanges"], yRanges: Ad["yRanges"], lineHeightMultipliers: Ad["lineHeightMultipliers"], filteredTextPositions: Ad["filteredTextPositions"], editAdId) {
         const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}`
         const results = [];
 
@@ -99,6 +99,36 @@ export class CardService {
         }
 
         const freshCopy = await this.copyModel.findById(copy._id);
+
+
+
+        if (editAdId) {
+            console.log('updating an existing ad:', userControlledAttributes)
+
+            const updatedAd = await this.adService.updateAd(
+                editAdId,
+                adNameDateTime,
+                userId,
+                account._id.toString(),
+                cardIds,
+                cardLocations,
+                freshCopy.copyText,
+                freshCopy?.copyTextEdited ? freshCopy?.copyTextEdited : '',
+                review.bestFitAudience,
+                review.bestFitReasoning,
+                review.source,
+                review.reviewDate,
+                userControlledAttributes,
+                xRanges,
+                yRanges,
+                lineHeightMultipliers,
+                filteredTextPositions,
+            );
+
+            results.push({ad: updatedAd});
+
+            return results;
+        }
 
         console.log('creating an ad with userControlledAttributes:', userControlledAttributes)
 

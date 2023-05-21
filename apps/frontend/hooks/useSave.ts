@@ -7,7 +7,7 @@ import { saveCanvasesToS3 } from '../utils/api';
 
 const useSave = (width = 1080, height = 1080) => {
     const [isLoading, setIsLoading] = useState(true);
-    const { canvasApps, selectedThemeId, maskLocations, backgroundImageLocation, xRanges, yRanges, lineHeightMultipliers } = useContext(PixiContext);
+    const { canvasApps, selectedThemeId, maskLocations, backgroundImageLocation, xRanges, yRanges, lineHeightMultipliers, editAdId } = useContext(PixiContext);
     const { user, account } = useContext(UserContext);
     const { claims, claimPosition, hooks, hookPosition, reviews, reviewPosition, closes, closePosition, copies, copyPosition, selectedAudiencePosition } = useContext(CampaignContext);
 
@@ -183,7 +183,8 @@ const useSave = (width = 1080, height = 1080) => {
                     formatXRanges(xRanges),
                     formatYRanges(yRanges),
                     formatLineHeightMultipliers(lineHeightMultipliers),
-                    formatFilteredTextPositions()
+                    formatFilteredTextPositions(),
+                    editAdId
                 );
             } catch (error) {
                 console.error('Error sending images to backend:', error);

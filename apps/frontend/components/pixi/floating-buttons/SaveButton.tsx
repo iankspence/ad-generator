@@ -1,8 +1,13 @@
 import useSave from '../../../hooks/useSave';
 import SaveIcon from '@mui/icons-material/Save';
 import IconButton from '@mui/material/IconButton';
+import BuildIcon from '@mui/icons-material/Build';
+import { useContext } from 'react';
+import { PixiContext } from '../../../contexts/PixiContext';
 
 const SaveButton = ({singleCanvasView}) => {
+    const { editAdId } = useContext(PixiContext);
+
     const { saveAllApps } = useSave();
     const handleSaveButtonClick = () => {
         saveAllApps();
@@ -22,7 +27,7 @@ const SaveButton = ({singleCanvasView}) => {
                     color: 'black',
                 }}
             >
-                <SaveIcon fontSize="medium" color="inherit" />
+                {editAdId ? <BuildIcon fontSize="medium" color="inherit" /> : <SaveIcon fontSize="medium" color="inherit" />}
             </IconButton>
         </div>
     );

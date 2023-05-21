@@ -27,7 +27,7 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
     const router = useRouter();
 
 
-    const { selectedThemeId, xRanges, yRanges, lineHeightMultipliers, updateLineHeightMultipliers, canvasApps, editAdId } = useContext(PixiContext);
+    const { selectedThemeId, xRanges, yRanges, lineHeightMultipliers, updateLineHeightMultipliers, canvasApps, editAdId, backgroundImageLocation } = useContext(PixiContext);
     const selectedTheme = getSelectedTheme(selectedThemeId);
 
     const [currentReviewId, setCurrentReviewId] = useState(null);
@@ -179,6 +179,9 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
         yRanges,
         lineHeightMultipliers,
         selectedThemeId,
+        backgroundImageLocation,
+
+        editAdId,
     ]);
 };
 

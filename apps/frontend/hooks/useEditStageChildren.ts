@@ -139,7 +139,10 @@ const useEditStageChildren = (appRef, canvasName) => {
 
             // Only update the background image location if there are 4 userControlledAttributes (prevents early triggering of useImage on a canvas without imageControl attributes)
             if (updatedAttributes.length === 4) {
-                updateBackgroundImageLocation(canvasUserControlledAttributes.imageControls.location); // trigger useImage
+                setTimeout(() => {
+                    updateBackgroundImageLocation(canvasUserControlledAttributes.imageControls.location); // trigger useImage
+                }, 250);
+
                 updateRangesFromAd(ads, editAdId);
                 updateLineHeightMultipliersFromAd(ads, editAdId);
 
@@ -147,9 +150,11 @@ const useEditStageChildren = (appRef, canvasName) => {
 
             return updatedAttributes;
         });
+
         updateTextPositionsFromAd(ads, editAdId)
         updateTextStylesFromAd(ads, editAdId);
         updateSelectedAudiencePosition(Number(getBestFitAudience(ads, editAdId)));
+
 
     }, [router.pathname, editAdId, ads, ]);
 };

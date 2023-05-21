@@ -22,8 +22,9 @@ export class CardController {
         @Body('yRanges') yRanges: Ad["yRanges"],
         @Body('lineHeightMultipliers') lineHeightMultipliers: Ad["lineHeightMultipliers"],
         @Body('filteredTextPositions') filteredTextPositions: Ad["filteredTextPositions"],
+        @Body('editAdId') editAdId: string,
     ) {
-        return this.cardService.saveCanvases(canvases, userId, account, review, copy, themeId, backgroundImageLocation, maskLocations, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions);
+        return this.cardService.saveCanvases(canvases, userId, account, review, copy, themeId, backgroundImageLocation, maskLocations, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions, editAdId);
     }
 
     @Post('get-cards-by-account-id')

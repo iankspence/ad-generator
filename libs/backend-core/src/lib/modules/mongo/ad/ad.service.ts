@@ -27,6 +27,34 @@ export class AdService {
 
         return newAd;
     }
+
+    async updateAd(editAdId, adNameDateTime, userId, accountId, cardIds, cardLocations, copyText, copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions: Ad["filteredTextPositions"],): Promise<Ad> {
+        const adToUpdate = await this.adModel.findById(editAdId);
+        if (!adToUpdate) throw new Error('Ad not found');
+
+        // comment fields which should not be updated
+        // adToUpdate.adNameDateTime = adNameDateTime;
+        // adToUpdate.userId = userId;
+        // adToUpdate.accountId = accountId;
+        adToUpdate.cardIds = cardIds;
+        adToUpdate.cardLocations = cardLocations;
+        adToUpdate.copyText = copyText;
+        adToUpdate.copyTextEdited = copyTextEdited;
+        adToUpdate.bestFitAudience = bestFitAudience;
+        adToUpdate.bestFitReasoning = bestFitReasoning;
+        adToUpdate.source = source;
+        adToUpdate.reviewDate = reviewDate;
+        adToUpdate.userControlledAttributes = userControlledAttributes;
+        adToUpdate.xRanges = xRanges;
+        adToUpdate.yRanges = yRanges;
+        adToUpdate.lineHeightMultipliers = lineHeightMultipliers;
+        adToUpdate.filteredTextPositions = filteredTextPositions;
+
+        await adToUpdate.save();
+
+        return adToUpdate;
+    }
+
     async getAdsByAccountId(accountId: string) {
         try {
             return this.adModel.find({ accountId }).exec();
