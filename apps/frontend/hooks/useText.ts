@@ -5,6 +5,9 @@ import setCanvasText from "../components/pixi/utils/text/setCanvasText";
 import {getTextSettings} from "../components/pixi/utils/text/getTextSettings";
 import {getSelectedTheme} from "../components/pixi/utils/getSelectedTheme";
 import {getFilteredTextArrays} from "../components/pixi/utils/text/getFilteredTextArrays";
+import {getAdsByAccountId} from "../utils/api";
+import UserContext from '../contexts/UserContext';
+import {useRouter} from "next/router";
 
 export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) => {
     const {
@@ -21,7 +24,10 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
         selectedAudiencePosition,
     } = useContext(CampaignContext);
 
-    const { selectedThemeId, xRanges, yRanges, lineHeightMultipliers } = useContext(PixiContext);
+    const router = useRouter();
+
+
+    const { selectedThemeId, xRanges, yRanges, lineHeightMultipliers, updateLineHeightMultipliers, canvasApps, editAdId } = useContext(PixiContext);
     const selectedTheme = getSelectedTheme(selectedThemeId);
 
     const [currentReviewId, setCurrentReviewId] = useState(null);
@@ -31,6 +37,9 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
     const [currentClaimTexts, setCurrentClaimTexts] = useState(['', '']);
     const [currentCloseTexts, setCurrentCloseTexts] = useState(['', '']);
     const [currentCopyTexts, setCurrentCopyTexts] = useState(['', '']);
+
+    const [ads, setAds] = useState(null);
+    const { account } = useContext(UserContext);
 
     useEffect(() => {
         if ( !appRef.current || !reviews || !reviewPosition || !hooks || !hookPosition || !claims || !closes || !copies || !selectedAudiencePosition ) return;
@@ -81,6 +90,15 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
     }, [ selectedAudiencePosition, copyPosition, copies ]);
 
     useEffect(() => {
+        if (!account?._id) return;
+        const fetchAds = async () => {
+            const ads = await getAdsByAccountId(account._id);
+            setAds(ads);
+        };
+        fetchAds();
+    }, [account?._id, editAdId, router.pathname]);
+
+    useEffect(() => {
         // console.log('checking use effect before')
         if (!appRef.current || !primaryColor || !secondaryColor || !hooks || !hookPosition || !claims || !claimPosition || !reviews || !reviewPosition || !closes || !closePosition || !copies || !copyPosition  ) return;
         // console.log('checking use effect after')
@@ -104,10 +122,27 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
                 const xRange = xRanges[canvasName];
                 const yRange = yRanges[canvasName];
 
-                const mainTextSettings = getTextSettings(canvasName, 'main', selectedTheme, app, xRanges, yRanges, primaryColor, secondaryColor);
-                const authorTextSettings = getTextSettings(canvasName, 'author', selectedTheme, app, xRanges, yRanges, primaryColor, secondaryColor);
+                let mainTextSettings = getTextSettings(canvasName, 'main', selectedTheme, app, xRanges, yRanges, primaryColor, secondaryColor);
+                let authorTextSettings = getTextSettings(canvasName, 'author', selectedTheme, app, xRanges, yRanges, primaryColor, secondaryColor);
 
-                // override the default if editAdId is truthy
+                // If an ad is currently being edited, override the text settings with those stored in the ad
+                if (editAdId && ads) {
+                    const ad = ads.find(ad => ad._id.toString() === editAdId);
+                    if (ad) {
+
+                        const attribute = ad.userControlledAttributes.find(attribute => attribute.canvasName === canvasName);
+                        if (attribute) {
+                            attribute.textControls.forEach(tc => {
+                                if (tc.name === 'main') {
+                                    mainTextSettings = { ...mainTextSettings, style: tc.style };
+                                }
+                                if (tc.name === 'author') {
+                                    authorTextSettings = { ...authorTextSettings, style: tc.style };
+                                }
+                            });
+                        }
+                    }
+                }
 
                 setCanvasText(
                     canvasName,
@@ -143,7 +178,7 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
         xRanges,
         yRanges,
         lineHeightMultipliers,
-        selectedThemeId
+        selectedThemeId,
     ]);
 };
 

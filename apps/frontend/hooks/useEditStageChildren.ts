@@ -5,9 +5,10 @@ import {getAdsByAccountId, getCardsByAccountId} from "../utils/api";
 import UserContext from "../contexts/UserContext";
 import { UserControlledAttribute} from "@monorepo/type";
 import {CampaignContext} from "../contexts/CampaignContext";
+import * as PIXI from "pixi.js";
 
 const useEditStageChildren = (appRef, canvasName) => {
-    const { editAdId, updateBackgroundImageLocation, updateUserControlledAttributes, updateRange, updateLineHeightMultipliers } = useContext(PixiContext);
+    const { editAdId, updateBackgroundImageLocation, updateUserControlledAttributes, updateRange, updateLineHeightMultipliers, lineHeightMultipliers, updateCanvasApp, canvasApps } = useContext(PixiContext);
     const {updateSelectedAudiencePosition, updateReviewPosition, updateHookPosition, updateClaimPosition, updateClosePosition } = useContext(CampaignContext)
     const { account } = useContext(UserContext);
     const router = useRouter();
@@ -70,6 +71,35 @@ const useEditStageChildren = (appRef, canvasName) => {
         });
     };
 
+    const updateTextStylesFromAd = (ads, editAdId) => {
+        const ad = ads.find(ad => ad._id.toString() === editAdId);
+        if (!ad) return;
+
+        ad.userControlledAttributes.forEach((attribute) => {
+            const { canvasName, textControls } = attribute;
+
+            // Retrieve current application
+            const currentApp = canvasApps[canvasName];
+            if (!currentApp) return;
+
+            // Update each textControl in the canvas app
+            textControls.forEach((textControl) => {
+                const { name, text, style } = textControl;
+
+                // Find the child with the corresponding name
+                const child = currentApp?.stage?.children.find(child => child.name === name);
+                if (child instanceof PIXI.HTMLText || child instanceof PIXI.Text) {
+                    // Update the child's text and style
+                    child.text = text;
+                    child.style = style;
+
+                    // Update the canvas app in the context
+                    updateCanvasApp(canvasName, currentApp);
+                }
+            });
+        });
+    };
+
     useEffect(() => {
         if (!account?._id) return;
         const fetchAds = async () => {
@@ -112,12 +142,13 @@ const useEditStageChildren = (appRef, canvasName) => {
                 updateBackgroundImageLocation(canvasUserControlledAttributes.imageControls.location); // trigger useImage
                 updateRangesFromAd(ads, editAdId);
                 updateLineHeightMultipliersFromAd(ads, editAdId);
+
             }
 
             return updatedAttributes;
         });
-
         updateTextPositionsFromAd(ads, editAdId)
+        updateTextStylesFromAd(ads, editAdId);
         updateSelectedAudiencePosition(Number(getBestFitAudience(ads, editAdId)));
 
     }, [router.pathname, editAdId, ads, ]);

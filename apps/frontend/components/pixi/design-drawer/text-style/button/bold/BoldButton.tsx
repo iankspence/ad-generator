@@ -12,7 +12,7 @@ const BoldButton = ({ textName, fontWeight, setFontWeight }) => {
     const onClick = (event, newFontWeight) => {
         handleFontWeightChange(event, newFontWeight, setFontWeight, textName, activeCanvases, canvasApps);
 
-        updateLineHeightMultipliers('hook',  lineHeightMultipliers['hook']);
+        updateLineHeightMultipliers('hook',  lineHeightMultipliers['hook']); // triggers re-render
     };
 
     return (

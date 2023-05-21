@@ -13,7 +13,7 @@ export const getTextSettings = (
 ) => {
     const existingTextObject = findTextObject(
         canvasApp,
-        `${canvasName}-${textName}`
+        `text-${canvasName}-${textName}`
     );
 
     if (existingTextObject) {
