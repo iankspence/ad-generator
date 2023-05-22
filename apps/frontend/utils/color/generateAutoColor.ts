@@ -1,9 +1,9 @@
 import {
     generateSplitComplementaryColors
-} from "../components/pixi/design-drawer/text-style/button-group/color-selection/palette/generateSplitComplementaryColors";
+} from "./generateSplitComplementaryColors";
 import {
     generateShadeTintPalette
-} from "../components/pixi/design-drawer/text-style/button-group/color-selection/palette/generateShadeTintPalette";
+} from "./generateShadeTintPalette";
 import * as Chroma from 'chroma-js';
 
 export const generateAutoColor = (autoColorSettings, primaryColor, secondaryColor) => {

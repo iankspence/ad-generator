@@ -1,5 +1,5 @@
 import findTextObject from "./findTextObject";
-import {generateAutoColor} from "../../../../utils/generateAutoColor";
+import {generateAutoColor} from "../../../../utils/color/generateAutoColor";
 import {getSelectedTheme} from "../getSelectedTheme";
 
 export const getTextSettings = (

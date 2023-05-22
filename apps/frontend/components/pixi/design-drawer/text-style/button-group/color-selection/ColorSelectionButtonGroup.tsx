@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import { generateColorPalettes } from './palette/generateColorPalettes';
+import { generateColorPalettes } from '../../../../../../utils/color/generateColorPalettes';
 import PaletteColorSelectionButton from '../../button/colour-selection/palette/PaletteColorSelectionButton';
 import ColorSelectionButton from '../../button/colour-selection/ColorSelectionButton';
 

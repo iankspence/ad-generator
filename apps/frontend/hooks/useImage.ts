@@ -3,19 +3,12 @@ import {useContext, useEffect } from 'react';
 import { PixiContext } from '../contexts/PixiContext';
 
 export const useImage = (appRef, canvasName) => {
-    const { backgroundImageLocation, userControlledAttributes } = useContext(PixiContext);
-
+    const { backgroundImageLocation, editAd } = useContext(PixiContext);
 
     useEffect(() => {
-
         if (!appRef?.current || !backgroundImageLocation) return;
 
-        console.log("useImage ", backgroundImageLocation);
-
-        let localUserControlledAttributes;
-
         const app = appRef.current;
-
         const container = new PIXI.Container();
         container.name = `image-${canvasName}`;
         app.stage.addChild(container);
@@ -30,16 +23,12 @@ export const useImage = (appRef, canvasName) => {
         image.zIndex = 0;
         container.addChild(image);
 
-        console.log("useImage ", userControlledAttributes, canvasName)
-
-        if (userControlledAttributes.length) {
-            localUserControlledAttributes = userControlledAttributes.find(attribute => attribute.canvasName === canvasName);
-            console.log('localUserControlledAttributes', localUserControlledAttributes)
-
-            container.x = localUserControlledAttributes?.imageControls?.x || 0;
-            container.y = localUserControlledAttributes?.imageControls?.y || 0;
-            container.scale.x = localUserControlledAttributes?.imageControls?.scaleX || 1;
-            container.scale.y = localUserControlledAttributes?.imageControls?.scaleY || 1;
+        if (editAd) {
+            const canvasUserControlledAttribute = editAd.userControlledAttributes.find(attribute => attribute.canvasName === canvasName)
+            container.x = canvasUserControlledAttribute?.imageControls?.x || 0;
+            container.y = canvasUserControlledAttribute?.imageControls?.y || 0;
+            container.scale.x = canvasUserControlledAttribute?.imageControls?.scaleX || 1;
+            container.scale.y = canvasUserControlledAttribute?.imageControls?.scaleY || 1;
         }
 
         return () => {

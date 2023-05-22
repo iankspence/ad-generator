@@ -6,7 +6,7 @@ import * as PIXI from 'pixi.js';
 import { findMaskChildren } from '../components/pixi/utils/findMaskChildren';
 import { getSelectedTheme } from "../components/pixi/utils/getSelectedTheme";
 import UserContext from "../contexts/UserContext";
-import { generateAutoColor } from "../utils/generateAutoColor";
+import { generateAutoColor } from "../utils/color/generateAutoColor";
 
 const useMask = (appRef, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
