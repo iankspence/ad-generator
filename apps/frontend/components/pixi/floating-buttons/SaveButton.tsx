@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { PixiContext } from '../../../contexts/PixiContext';
 
 const SaveButton = ({singleCanvasView}) => {
-    const { editAdId } = useContext(PixiContext);
+    const { editAd } = useContext(PixiContext);
 
     const { saveAllApps } = useSave();
     const handleSaveButtonClick = () => {
@@ -27,7 +27,7 @@ const SaveButton = ({singleCanvasView}) => {
                     color: 'black',
                 }}
             >
-                {editAdId ? <BuildIcon fontSize="medium" color="inherit" /> : <SaveIcon fontSize="medium" color="inherit" />}
+                {editAd ? <BuildIcon fontSize="medium" color="inherit" /> : <SaveIcon fontSize="medium" color="inherit" />}
             </IconButton>
         </div>
     );

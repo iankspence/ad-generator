@@ -8,52 +8,42 @@ import {CampaignContext} from "../contexts/CampaignContext";
 import * as PIXI from "pixi.js";
 
 const useEditStageChildren = (appRef, canvasName) => {
-    const { editAdId, updateBackgroundImageLocation, updateUserControlledAttributes, updateRange, updateLineHeightMultipliers, lineHeightMultipliers, updateCanvasApp, canvasApps, updateSelectedThemeId } = useContext(PixiContext);
+    const { editAd, updateBackgroundImageLocation, updateUserControlledAttributes, updateRange, updateLineHeightMultipliers, lineHeightMultipliers, updateCanvasApp, canvasApps, selectedThemeId, updateSelectedThemeId, xRanges, yRanges, userControlledAttributes } = useContext(PixiContext);
     const {updateSelectedAudiencePosition, updateReviewPosition, updateHookPosition, updateClaimPosition, updateClosePosition } = useContext(CampaignContext)
     const { account } = useContext(UserContext);
     const router = useRouter();
-    const [ads, setAds] = useState([]);
+    // const [ads, setAds] = useState([]);
     const [cards, setCards] = useState([]);
 
-    const getUserControlledAttributes = (ads, editAdId, canvasName): null | UserControlledAttribute => {
-        const ad = ads.find(ad => ad._id.toString() === editAdId);
-        if (!ad) return null;
+    const getUserControlledAttributes = (editAd, canvasName): null | UserControlledAttribute => {
+        if (!editAd) return null;
 
-        return ad.userControlledAttributes.find(attribute => attribute.canvasName === canvasName);
+        return editAd.userControlledAttributes.find(attribute => attribute.canvasName === canvasName);
     };
 
-    const getBestFitAudience = (ads, editAdId) => {
-        if (!editAdId || !ads) return null;
-        const ad = ads.find(ad => ad._id.toString() === editAdId);
-        if (!ad) return null;
 
-        return ad.bestFitAudience
-    };
+    const updateTextPositionsFromAd = (editAd) => {
+        if (!editAd) return null;
 
-    const updateTextPositionsFromAd = (ads, editAdId) => {
-        const ad = ads.find(ad => ad._id.toString() === editAdId);
-        if (!ad) return null;
-
-        const hookPosition = ad.filteredTextPositions.find(position => position.canvasName === 'hook').position;
+        const hookPosition = editAd.filteredTextPositions.find(position => position.canvasName === 'hook').position;
         updateHookPosition(hookPosition);
 
-        const claimPosition = ad.filteredTextPositions.find(position => position.canvasName === 'claim').position;
+        const claimPosition = editAd.filteredTextPositions.find(position => position.canvasName === 'claim').position;
         updateClaimPosition(claimPosition);
 
-        const reviewPosition = ad.filteredTextPositions.find(position => position.canvasName === 'review').position;
+        const reviewPosition = editAd.filteredTextPositions.find(position => position.canvasName === 'review').position;
         updateReviewPosition(reviewPosition);
 
-        const closePosition = ad.filteredTextPositions.find(position => position.canvasName === 'close').position;
+        const closePosition = editAd.filteredTextPositions.find(position => position.canvasName === 'close').position;
         updateClosePosition(closePosition);
     }
 
-    const updateRangesFromAd = (ads, editAdId) => {
-        const ad = ads.find(ad => ad._id.toString() === editAdId);
-        if (!ad) return;
+    const updateRangesFromAd = (editAd) => {
+        if (!editAd) return null;
 
-        ad.xRanges.forEach((xRangeObj) => {
+        editAd.xRanges.forEach((xRangeObj) => {
             const { canvasName, xRange } = xRangeObj;
-            const yRangeObj = ad.yRanges.find(yRangeObj => yRangeObj.canvasName === canvasName);
+            const yRangeObj = editAd.yRanges.find(yRangeObj => yRangeObj.canvasName === canvasName);
             if (!yRangeObj) return;
             const { yRange } = yRangeObj;
 
@@ -61,60 +51,47 @@ const useEditStageChildren = (appRef, canvasName) => {
         });
     };
 
-    const updateLineHeightMultipliersFromAd = (ads, editAdId) => {
-        const ad = ads.find(ad => ad._id.toString() === editAdId);
-        if (!ad) return;
+    const updateLineHeightMultipliersFromAd = (editAd) => {
+        if (!editAd) return null;
 
-        ad.lineHeightMultipliers.forEach((lineHeightMultiplierObj) => {
+        editAd.lineHeightMultipliers.forEach((lineHeightMultiplierObj) => {
             const { canvasName, lineHeightMultiplier } = lineHeightMultiplierObj;
             updateLineHeightMultipliers(canvasName, lineHeightMultiplier);
         });
     };
 
-    const updateThemeSelectionFromAd = (ads, editAdId) => {
-        const ad = ads.find(ad => ad._id.toString() === editAdId);
-        if (!ad) return;
-
-        updateSelectedThemeId(ad.themeId);
+    const updateThemeSelectionFromAd = (editAd) => {
+        if (!editAd) return null;
+        updateSelectedThemeId(editAd.themeId);
     }
 
-    const updateTextStylesFromAd = (ads, editAdId) => {
-        const ad = ads.find(ad => ad._id.toString() === editAdId);
-        if (!ad) return;
+    const updateTextStylesFromAd = (editAd) => {
+        if (!editAd) return null;
 
-        ad.userControlledAttributes.forEach((attribute) => {
+        if (!appRef.current) return;
+
+        const app = appRef.current;
+
+        editAd.userControlledAttributes.forEach((attribute) => {
             const { canvasName, textControls } = attribute;
-
-            // Retrieve current application
-            const currentApp = canvasApps[canvasName];
-            if (!currentApp) return;
 
             // Update each textControl in the canvas app
             textControls.forEach((textControl) => {
                 const { name, text, style } = textControl;
 
                 // Find the child with the corresponding name
-                const child = currentApp?.stage?.children.find(child => child.name === name);
+                const child = app?.stage?.children.find(child => child.name === name);
                 if (child instanceof PIXI.HTMLText || child instanceof PIXI.Text) {
                     // Update the child's text and style
                     child.text = text;
                     child.style = style;
 
                     // Update the canvas app in the context
-                    updateCanvasApp(canvasName, currentApp);
+                    updateCanvasApp(canvasName, app);
                 }
             });
         });
     };
-
-    useEffect(() => {
-        if (!account?._id) return;
-        const fetchAds = async () => {
-            const ads = await getAdsByAccountId(account._id);
-            setAds(ads);
-        };
-        fetchAds();
-    }, [router.pathname, account?._id]);
 
     useEffect(() => {
         if (!account?._id) return;
@@ -126,17 +103,40 @@ const useEditStageChildren = (appRef, canvasName) => {
     }, [router.pathname, account?._id]);
 
     useEffect(() => {
-        if (!appRef.current || !editAdId || !ads) return;
+        if (!editAd) return;
+        updateThemeSelectionFromAd(editAd);
+    }, [editAd]);
 
-        const canvasUserControlledAttributes = getUserControlledAttributes(ads, editAdId, canvasName);
+    useEffect(() => {
+        if (!editAd) return;
+        // Check if the necessary fields exist and have values
+        if (!xRanges || !yRanges || !lineHeightMultipliers || !userControlledAttributes) return;
+
+        if (!appRef.current) return;
+
+        const app = appRef.current;
+
+        // Check if there are 4 userControlledAttributes (prevents early triggering of useImage on a canvas without imageControl attributes)
+        if (userControlledAttributes.length !== 4) return;
+
+        const canvasUserControlledAttributes = getUserControlledAttributes(editAd, canvasName);
+        if (!canvasUserControlledAttributes) return;
+
+        // Trigger useImage
+        setTimeout(() => {
+            updateBackgroundImageLocation(canvasUserControlledAttributes.imageControls.location);
+            app.renderer.render(app.stage);
+        }, 400);
+    }, [xRanges, yRanges, lineHeightMultipliers, userControlledAttributes, selectedThemeId, editAd]);
+
+    useEffect(() => {
+        if (!appRef.current || !editAd) return;
+
+        const canvasUserControlledAttributes = getUserControlledAttributes(editAd, canvasName);
         if (!canvasUserControlledAttributes) return;
 
         updateUserControlledAttributes(prevUserControlledAttributes => {
             let updatedAttributes: UserControlledAttribute[];
-
-            if (!updatedAttributes) {
-                updateThemeSelectionFromAd(ads, editAdId);
-            }
 
             const existingIndex = prevUserControlledAttributes.findIndex(attribute => attribute.canvasName === canvasName);
             if (existingIndex > -1) {
@@ -148,24 +148,26 @@ const useEditStageChildren = (appRef, canvasName) => {
                 updatedAttributes = [...prevUserControlledAttributes, canvasUserControlledAttributes];
             }
 
-            // Only update the background image location if there are 4 userControlledAttributes (prevents early triggering of useImage on a canvas without imageControl attributes)
             if (updatedAttributes.length === 4) {
-                setTimeout(() => {
-                    updateBackgroundImageLocation(canvasUserControlledAttributes.imageControls.location); // trigger useImage
-                }, 250); // this delay seems to allow the text style to be set before the image is loaded and the canvas is redrawn
-
-                updateRangesFromAd(ads, editAdId);
-                updateLineHeightMultipliersFromAd(ads, editAdId);
+                updateRangesFromAd(editAd);
+                updateLineHeightMultipliersFromAd(editAd);
+                updateTextPositionsFromAd(editAd)
+                updateSelectedAudiencePosition(Number(editAd.bestFitAudience));
             }
 
             return updatedAttributes;
         });
 
-        updateTextPositionsFromAd(ads, editAdId)
-        updateTextStylesFromAd(ads, editAdId);
-        updateSelectedAudiencePosition(Number(getBestFitAudience(ads, editAdId)));
+    }, [router.pathname, editAd, cards, selectedThemeId]);
 
-    }, [router.pathname, editAdId, ads, ]);
+    useEffect(() => {
+        if (!appRef.current || !editAd) return;
+        updateTextStylesFromAd(editAd);
+    }, [router.pathname, editAd, cards, selectedThemeId, xRanges, yRanges]
+    );
+
 };
+
+
 
 export default useEditStageChildren;

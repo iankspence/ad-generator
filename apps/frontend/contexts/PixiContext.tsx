@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import { createContext, useEffect, useState } from 'react';
 import EventEmitter from 'eventemitter3';
 import {themes} from "../utils/constants/themes";
-import { UserControlledAttribute } from '@monorepo/type'
+import { AdDocument, UserControlledAttribute } from '@monorepo/type';
 
 interface ActiveCanvases {
     hook: boolean;
@@ -47,8 +47,8 @@ interface PixiContextProps {
     backgroundImageLocation: string;
     updateBackgroundImageLocation: (backgroundImageLocation: string) => void;
 
-    editAdId: string;
-    updateEditAdId: (editAdId: string) => void;
+    editAd: AdDocument;
+    updateEditAd: (editAd: AdDocument) => void;
 
     userControlledAttributes: UserControlledAttribute[];
     updateUserControlledAttributes: (callback: (prevAttributes: UserControlledAttribute[]) => UserControlledAttribute[]) => void;
@@ -102,8 +102,8 @@ export const PixiContext = createContext<PixiContextProps>({
     backgroundImageLocation: '',
     updateBackgroundImageLocation: () => void 0,
 
-    editAdId: '',
-    updateEditAdId: () => void 0,
+    editAd: null,
+    updateEditAd: () => void 0,
 
     userControlledAttributes: [],
     updateUserControlledAttributes: () => void 0,
@@ -127,8 +127,8 @@ export const PixiProvider = ({ children }) => {
     const [displayTextBox, setDisplayTextBox] = useState(false);
     const [maskLocations, setMaskLocations] = useState([]);
     const [backgroundImageLocation, setBackgroundImageLocation] = useState('');
-    const [editAdId, setEditAdId] = useState('');
     const [userControlledAttributes, setUserControlledAttributes] = useState([]);
+    const [ editAd, setEditAd ] = useState<AdDocument>(null);
 
     // Find the default theme
     const defaultTheme = themes.find((theme) => theme.id === 'basic-swoosh-1');
@@ -153,10 +153,10 @@ export const PixiProvider = ({ children }) => {
 
     const eventEmitter = new EventEmitter();
 
+
     const updateCanvasApp = (key: string, newApp: PIXI.Application) => {
         setCanvasApps((prev) => ({ ...prev, [key]: newApp }));
     }
-
 
 
     return (
@@ -187,8 +187,10 @@ export const PixiProvider = ({ children }) => {
                 backgroundImageLocation,
                 updateBackgroundImageLocation: setBackgroundImageLocation,
 
-                editAdId,
-                updateEditAdId: setEditAdId,
+                editAd,
+                updateEditAd: (editAd: AdDocument) => {
+                    setEditAd(editAd);
+                },
 
                 userControlledAttributes,
                 updateUserControlledAttributes: setUserControlledAttributes,

@@ -27,7 +27,7 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
     const router = useRouter();
 
 
-    const { selectedThemeId, xRanges, yRanges, lineHeightMultipliers, updateLineHeightMultipliers, canvasApps, editAdId, backgroundImageLocation } = useContext(PixiContext);
+    const { selectedThemeId, xRanges, yRanges, lineHeightMultipliers, updateLineHeightMultipliers, canvasApps, editAd, backgroundImageLocation } = useContext(PixiContext);
 
     const [currentReviewId, setCurrentReviewId] = useState(null);
     const [currentReviewTexts, setCurrentReviewTexts] = useState(['', '']);
@@ -95,7 +95,7 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
             setAds(ads);
         };
         fetchAds();
-    }, [account?._id, editAdId, router.pathname]);
+    }, [account?._id, editAd, router.pathname]);
 
     useEffect(() => {
         // console.log('checking use effect before')
@@ -126,8 +126,8 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
                 let authorTextSettings = getTextSettings(canvasName, 'author', selectedThemeId, app, xRanges, yRanges, primaryColor, secondaryColor);
 
                 // If an ad is currently being edited, override the text settings with those stored in the ad
-                if (editAdId && ads) {
-                    const ad = ads.find(ad => ad._id.toString() === editAdId);
+                if (editAd && ads) {
+                    const ad = ads.find(ad => ad._id.toString() === editAd);
                     if (ad) {
 
                         const attribute = ad.userControlledAttributes.find(attribute => attribute.canvasName === canvasName);
@@ -180,7 +180,7 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
         lineHeightMultipliers,
         selectedThemeId,
         backgroundImageLocation,
-        editAdId,
+        editAd,
     ]);
 };
 

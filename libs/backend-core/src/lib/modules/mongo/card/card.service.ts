@@ -19,7 +19,7 @@ export class CardService {
 
 ) {}
 
-    async saveCanvases(canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>, userId: string, account: AccountDocument, review: ReviewDocument, copy: CopyDocument, themeId: string, backgroundImageLocation: string, maskLocations: {maskLocation: string, maskName: string}[], userControlledAttributes: Ad["userControlledAttributes"], xRanges: Ad["xRanges"], yRanges: Ad["yRanges"], lineHeightMultipliers: Ad["lineHeightMultipliers"], filteredTextPositions: Ad["filteredTextPositions"], editAdId) {
+    async saveCanvases(canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>, userId: string, account: AccountDocument, review: ReviewDocument, copy: CopyDocument, themeId: string, backgroundImageLocation: string, maskLocations: {maskLocation: string, maskName: string}[], userControlledAttributes: Ad["userControlledAttributes"], xRanges: Ad["xRanges"], yRanges: Ad["yRanges"], lineHeightMultipliers: Ad["lineHeightMultipliers"], filteredTextPositions: Ad["filteredTextPositions"], editAd) {
         const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}`
         const results = [];
 
@@ -100,13 +100,11 @@ export class CardService {
 
         const freshCopy = await this.copyModel.findById(copy._id);
 
-
-
-        if (editAdId) {
+        if (editAd) {
             console.log('updating an existing ad:', userControlledAttributes)
 
             const updatedAd = await this.adService.updateAd(
-                editAdId,
+                editAd,
                 adNameDateTime,
                 userId,
                 account._id.toString(),

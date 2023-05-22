@@ -28,32 +28,31 @@ export class AdService {
         return newAd;
     }
 
-    async updateAd(editAdId, adNameDateTime, userId, accountId, cardIds, cardLocations, copyText, copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions: Ad["filteredTextPositions"], themeId: Ad["themeId"]): Promise<Ad> {
-        const adToUpdate = await this.adModel.findById(editAdId);
-        if (!adToUpdate) throw new Error('Ad not found');
+    async updateAd(editAd, adNameDateTime, userId, accountId, cardIds, cardLocations, copyText, copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions: Ad["filteredTextPositions"], themeId: Ad["themeId"]): Promise<Ad> {
+        if (!editAd) throw new Error('Ad not found');
 
         // comment fields which should not be updated
         // adToUpdate.adNameDateTime = adNameDateTime;
         // adToUpdate.userId = userId;
         // adToUpdate.accountId = accountId;
-        adToUpdate.cardIds = cardIds;
-        adToUpdate.cardLocations = cardLocations;
-        adToUpdate.copyText = copyText;
-        adToUpdate.copyTextEdited = copyTextEdited;
-        adToUpdate.bestFitAudience = bestFitAudience;
-        adToUpdate.bestFitReasoning = bestFitReasoning;
-        adToUpdate.source = source;
-        adToUpdate.reviewDate = reviewDate;
-        adToUpdate.userControlledAttributes = userControlledAttributes;
-        adToUpdate.xRanges = xRanges;
-        adToUpdate.yRanges = yRanges;
-        adToUpdate.lineHeightMultipliers = lineHeightMultipliers;
-        adToUpdate.filteredTextPositions = filteredTextPositions;
-        adToUpdate.themeId = themeId;
+        editAd.cardIds = cardIds;
+        editAd.cardLocations = cardLocations;
+        editAd.copyText = copyText;
+        editAd.copyTextEdited = copyTextEdited;
+        editAd.bestFitAudience = bestFitAudience;
+        editAd.bestFitReasoning = bestFitReasoning;
+        editAd.source = source;
+        editAd.reviewDate = reviewDate;
+        editAd.userControlledAttributes = userControlledAttributes;
+        editAd.xRanges = xRanges;
+        editAd.yRanges = yRanges;
+        editAd.lineHeightMultipliers = lineHeightMultipliers;
+        editAd.filteredTextPositions = filteredTextPositions;
+        editAd.themeId = themeId;
 
-        await adToUpdate.save();
+        await editAd.save();
 
-        return adToUpdate;
+        return editAd;
     }
 
     async getAdsByAccountId(accountId: string) {

@@ -11,7 +11,7 @@ import {useRouter} from "next/router";
 
 const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
     const { selectedAds, updateSelectedAds } = useContext(CampaignContext);
-    const { updateEditAdId, updateBackgroundImageLocation } = useContext(PixiContext)
+    const { updateEditAd, updateBackgroundImageLocation } = useContext(PixiContext)
     const router = useRouter();
 
 
@@ -45,7 +45,7 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
         event.stopPropagation();
         if (window.confirm("Are you sure you want to edit this ad?")) {
             try {
-                updateEditAdId(ad._id);
+                updateEditAd(ad);
                 updateBackgroundImageLocation('');
                 router.push('/campaign');
             } catch (error) {

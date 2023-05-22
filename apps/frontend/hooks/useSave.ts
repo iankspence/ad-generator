@@ -7,7 +7,7 @@ import { saveCanvasesToS3 } from '../utils/api';
 
 const useSave = (width = 1080, height = 1080) => {
     const [isLoading, setIsLoading] = useState(true);
-    const { canvasApps, selectedThemeId, maskLocations, backgroundImageLocation, xRanges, yRanges, lineHeightMultipliers, editAdId } = useContext(PixiContext);
+    const { canvasApps, selectedThemeId, maskLocations, backgroundImageLocation, xRanges, yRanges, lineHeightMultipliers, editAd } = useContext(PixiContext);
     const { user, account } = useContext(UserContext);
     const { claims, claimPosition, hooks, hookPosition, reviews, reviewPosition, closes, closePosition, copies, copyPosition, selectedAudiencePosition } = useContext(CampaignContext);
 
@@ -114,7 +114,6 @@ const useSave = (width = 1080, height = 1080) => {
         return formattedFilteredTextPositions;
     }, [hookPosition, claimPosition, reviewPosition, closePosition]);
 
-
     useEffect(() => {
         if (filteredHooks.length > 0 && filteredClaims.length > 0 && filteredReviews.length > 0 && filteredCloses.length > 0) {
             setIsLoading(false);
@@ -184,7 +183,7 @@ const useSave = (width = 1080, height = 1080) => {
                     formatYRanges(yRanges),
                     formatLineHeightMultipliers(lineHeightMultipliers),
                     formatFilteredTextPositions(),
-                    editAdId
+                    editAd
                 );
             } catch (error) {
                 console.error('Error sending images to backend:', error);
