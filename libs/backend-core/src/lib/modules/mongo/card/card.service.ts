@@ -123,6 +123,7 @@ export class CardService {
                 yRanges,
                 lineHeightMultipliers,
                 filteredTextPositions,
+                themeId,
             );
 
             results.push({ad: updatedAd});
@@ -149,6 +150,7 @@ export class CardService {
             yRanges,
             lineHeightMultipliers,
             filteredTextPositions,
+            themeId,
         );
 
         results.push({ad});

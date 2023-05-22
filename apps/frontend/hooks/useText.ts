@@ -28,7 +28,6 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
 
 
     const { selectedThemeId, xRanges, yRanges, lineHeightMultipliers, updateLineHeightMultipliers, canvasApps, editAdId, backgroundImageLocation } = useContext(PixiContext);
-    const selectedTheme = getSelectedTheme(selectedThemeId);
 
     const [currentReviewId, setCurrentReviewId] = useState(null);
     const [currentReviewTexts, setCurrentReviewTexts] = useState(['', '']);
@@ -100,10 +99,11 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
 
     useEffect(() => {
         // console.log('checking use effect before')
-        if (!appRef.current || !primaryColor || !secondaryColor || !hooks || !hookPosition || !claims || !claimPosition || !reviews || !reviewPosition || !closes || !closePosition || !copies || !copyPosition  ) return;
+        if (!appRef.current || !primaryColor || !secondaryColor || !hooks || !hookPosition || !claims || !claimPosition || !reviews || !reviewPosition || !closes || !closePosition || !copies || !copyPosition || !selectedThemeId  ) return;
         // console.log('checking use effect after')
         const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
 
+        console.log('selectedThemeId: ', selectedThemeId)
         // console.log('useText after check', appRef.current)
         if (appRef.current) {
 
@@ -122,8 +122,8 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
                 const xRange = xRanges[canvasName];
                 const yRange = yRanges[canvasName];
 
-                let mainTextSettings = getTextSettings(canvasName, 'main', selectedTheme, app, xRanges, yRanges, primaryColor, secondaryColor);
-                let authorTextSettings = getTextSettings(canvasName, 'author', selectedTheme, app, xRanges, yRanges, primaryColor, secondaryColor);
+                let mainTextSettings = getTextSettings(canvasName, 'main', selectedThemeId, app, xRanges, yRanges, primaryColor, secondaryColor);
+                let authorTextSettings = getTextSettings(canvasName, 'author', selectedThemeId, app, xRanges, yRanges, primaryColor, secondaryColor);
 
                 // If an ad is currently being edited, override the text settings with those stored in the ad
                 if (editAdId && ads) {
@@ -180,7 +180,6 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
         lineHeightMultipliers,
         selectedThemeId,
         backgroundImageLocation,
-
         editAdId,
     ]);
 };

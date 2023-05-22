@@ -74,6 +74,9 @@ export class Ad {
         lineHeightMultiplier: number,
     }[];
 
+    @Prop({ required: true })
+    themeId!: string;
+
     @Prop({ required: true, type: String, ref: 'Copy' })
     copyText!: string;
 

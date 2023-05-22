@@ -1,10 +1,11 @@
 import findTextObject from "./findTextObject";
 import {generateAutoColor} from "../../../../utils/generateAutoColor";
+import {getSelectedTheme} from "../getSelectedTheme";
 
 export const getTextSettings = (
     canvasName,
     textName,
-    selectedTheme,
+    selectedThemeId,
     canvasApp,
     xRanges,
     yRanges,
@@ -16,7 +17,16 @@ export const getTextSettings = (
         `text-${canvasName}-${textName}`
     );
 
-    if (existingTextObject) {
+    const selectedTheme = getSelectedTheme(selectedThemeId);
+
+
+    console.log('existingTextObject', existingTextObject);
+    console.log('selectedTheme', selectedTheme);
+
+
+    if (existingTextObject && selectedTheme ) {
+
+
 
         if (existingTextObject.themeId !== selectedTheme.id) {
             // Theme has changed, generate new color

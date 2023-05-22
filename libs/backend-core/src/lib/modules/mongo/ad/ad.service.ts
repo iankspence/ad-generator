@@ -15,9 +15,9 @@ export class AdService {
     constructor(@InjectModel(Ad.name) private adModel: Model<AdDocument>) {}
 
     // async createAd(adNameDateTime: string, userId: string, accountId: string, hookCardId: string, hookCardLocation: string,  claimCardId: string, claimCardLocation: string, reviewCardId: string, reviewCardLocation: string, closeCardId: string, closeCardLocation: string, copyText: string, copyTextEdited: string, bestFitAudience: number, bestFitReasoning: string, source: string, reviewDate: string, canvasApps, xRanges, yRanges, lineHeightMultipliers): Promise<Ad> {
-    async createAd(adNameDateTime: string, userId: string, accountId: string, cardIds: Ad["cardIds"], cardLocations: Ad["cardLocations"], copyText: string, copyTextEdited: string, bestFitAudience: number, bestFitReasoning: string, source: string, reviewDate: string, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions: Ad["filteredTextPositions"],): Promise<Ad> {
+    async createAd(adNameDateTime: string, userId: string, accountId: string, cardIds: Ad["cardIds"], cardLocations: Ad["cardLocations"], copyText: string, copyTextEdited: string, bestFitAudience: number, bestFitReasoning: string, source: string, reviewDate: string, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions: Ad["filteredTextPositions"], themeId: Ad["themeId"]): Promise<Ad> {
 
-        const newAd = new this.adModel({ adNameDateTime, userId, accountId, cardIds, cardLocations, copyText,  copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate, adStatus: 'fresh', deliveryType: null, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions });
+        const newAd = new this.adModel({ adNameDateTime, userId, accountId, cardIds, cardLocations, copyText,  copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate, adStatus: 'fresh', deliveryType: null, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions, themeId});
 
         // Generate the PDF after saving the ad
         newAd.save().then(ad => {
@@ -28,7 +28,7 @@ export class AdService {
         return newAd;
     }
 
-    async updateAd(editAdId, adNameDateTime, userId, accountId, cardIds, cardLocations, copyText, copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions: Ad["filteredTextPositions"],): Promise<Ad> {
+    async updateAd(editAdId, adNameDateTime, userId, accountId, cardIds, cardLocations, copyText, copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions: Ad["filteredTextPositions"], themeId: Ad["themeId"]): Promise<Ad> {
         const adToUpdate = await this.adModel.findById(editAdId);
         if (!adToUpdate) throw new Error('Ad not found');
 
@@ -49,6 +49,7 @@ export class AdService {
         adToUpdate.yRanges = yRanges;
         adToUpdate.lineHeightMultipliers = lineHeightMultipliers;
         adToUpdate.filteredTextPositions = filteredTextPositions;
+        adToUpdate.themeId = themeId;
 
         await adToUpdate.save();
 

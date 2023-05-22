@@ -8,7 +8,7 @@ import {CampaignContext} from "../contexts/CampaignContext";
 import * as PIXI from "pixi.js";
 
 const useEditStageChildren = (appRef, canvasName) => {
-    const { editAdId, updateBackgroundImageLocation, updateUserControlledAttributes, updateRange, updateLineHeightMultipliers, lineHeightMultipliers, updateCanvasApp, canvasApps } = useContext(PixiContext);
+    const { editAdId, updateBackgroundImageLocation, updateUserControlledAttributes, updateRange, updateLineHeightMultipliers, lineHeightMultipliers, updateCanvasApp, canvasApps, updateSelectedThemeId } = useContext(PixiContext);
     const {updateSelectedAudiencePosition, updateReviewPosition, updateHookPosition, updateClaimPosition, updateClosePosition } = useContext(CampaignContext)
     const { account } = useContext(UserContext);
     const router = useRouter();
@@ -71,6 +71,13 @@ const useEditStageChildren = (appRef, canvasName) => {
         });
     };
 
+    const updateThemeSelectionFromAd = (ads, editAdId) => {
+        const ad = ads.find(ad => ad._id.toString() === editAdId);
+        if (!ad) return;
+
+        updateSelectedThemeId(ad.themeId);
+    }
+
     const updateTextStylesFromAd = (ads, editAdId) => {
         const ad = ads.find(ad => ad._id.toString() === editAdId);
         if (!ad) return;
@@ -127,6 +134,10 @@ const useEditStageChildren = (appRef, canvasName) => {
         updateUserControlledAttributes(prevUserControlledAttributes => {
             let updatedAttributes: UserControlledAttribute[];
 
+            if (!updatedAttributes) {
+                updateThemeSelectionFromAd(ads, editAdId);
+            }
+
             const existingIndex = prevUserControlledAttributes.findIndex(attribute => attribute.canvasName === canvasName);
             if (existingIndex > -1) {
                 // Replace existing attributes for this canvas
@@ -141,11 +152,10 @@ const useEditStageChildren = (appRef, canvasName) => {
             if (updatedAttributes.length === 4) {
                 setTimeout(() => {
                     updateBackgroundImageLocation(canvasUserControlledAttributes.imageControls.location); // trigger useImage
-                }, 250);
+                }, 250); // this delay seems to allow the text style to be set before the image is loaded and the canvas is redrawn
 
                 updateRangesFromAd(ads, editAdId);
                 updateLineHeightMultipliersFromAd(ads, editAdId);
-
             }
 
             return updatedAttributes;
@@ -154,7 +164,6 @@ const useEditStageChildren = (appRef, canvasName) => {
         updateTextPositionsFromAd(ads, editAdId)
         updateTextStylesFromAd(ads, editAdId);
         updateSelectedAudiencePosition(Number(getBestFitAudience(ads, editAdId)));
-
 
     }, [router.pathname, editAdId, ads, ]);
 };
