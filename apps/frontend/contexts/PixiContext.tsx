@@ -50,6 +50,9 @@ interface PixiContextProps {
     editAd: AdDocument;
     updateEditAd: (editAd: AdDocument) => void;
 
+    freezeEditAdAttributes: boolean;
+    updateFreezeEditAdAttributes: (freezeEditAdAttributes: boolean) => void;
+
     userControlledAttributes: UserControlledAttribute[];
     updateUserControlledAttributes: (callback: (prevAttributes: UserControlledAttribute[]) => UserControlledAttribute[]) => void;
 }
@@ -105,6 +108,9 @@ export const PixiContext = createContext<PixiContextProps>({
     editAd: null,
     updateEditAd: () => void 0,
 
+    freezeEditAdAttributes: false,
+    updateFreezeEditAdAttributes: () => void 0,
+
     userControlledAttributes: [],
     updateUserControlledAttributes: () => void 0,
 });
@@ -129,6 +135,7 @@ export const PixiProvider = ({ children }) => {
     const [backgroundImageLocation, setBackgroundImageLocation] = useState('');
     const [userControlledAttributes, setUserControlledAttributes] = useState([]);
     const [ editAd, setEditAd ] = useState<AdDocument>(null);
+    const [ freezeEditAdAttributes, setFreezeEditAdAttributes ] = useState(false);
 
     // Find the default theme
     const defaultTheme = themes.find((theme) => theme.id === 'basic-swoosh-1');
@@ -191,6 +198,9 @@ export const PixiProvider = ({ children }) => {
                 updateEditAd: (editAd: AdDocument) => {
                     setEditAd(editAd);
                 },
+
+                freezeEditAdAttributes,
+                updateFreezeEditAdAttributes: setFreezeEditAdAttributes,
 
                 userControlledAttributes,
                 updateUserControlledAttributes: setUserControlledAttributes,

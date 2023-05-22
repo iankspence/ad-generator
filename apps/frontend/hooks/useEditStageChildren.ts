@@ -7,7 +7,7 @@ import {CampaignContext} from "../contexts/CampaignContext";
 import * as PIXI from "pixi.js";
 
 const useEditStageChildren = (appRef, canvasName) => {
-    const { editAd, updateBackgroundImageLocation, updateRange, updateLineHeightMultipliers, lineHeightMultipliers, updateCanvasApp, selectedThemeId, updateSelectedThemeId, xRanges, yRanges, userControlledAttributes } = useContext(PixiContext);
+    const { editAd, updateBackgroundImageLocation, updateRange, updateLineHeightMultipliers, lineHeightMultipliers, updateCanvasApp, selectedThemeId, updateSelectedThemeId, xRanges, yRanges, userControlledAttributes, freezeEditAdAttributes } = useContext(PixiContext);
     const {updateSelectedAudiencePosition, updateReviewPosition, updateHookPosition, updateClaimPosition, updateClosePosition } = useContext(CampaignContext)
     const { account } = useContext(UserContext);
     const router = useRouter();
@@ -89,13 +89,13 @@ const useEditStageChildren = (appRef, canvasName) => {
 
 
     useEffect(() => {
-        if (!editAd) return;
+        if (!editAd || !freezeEditAdAttributes ) return;
         updateThemeSelectionFromAd(editAd);
     }, [editAd]);
 
 
     useEffect(() => {
-        if (!editAd || !xRanges || !yRanges || !lineHeightMultipliers || !userControlledAttributes || !appRef.current) return;
+        if (!editAd || !xRanges || !yRanges || !lineHeightMultipliers || !userControlledAttributes || !appRef.current || !freezeEditAdAttributes ) return;
 
         const app = appRef.current;
         const canvasUserControlledAttribute = editAd.userControlledAttributes.find(attribute => attribute.canvasName === canvasName)
@@ -109,7 +109,7 @@ const useEditStageChildren = (appRef, canvasName) => {
 
 
     useEffect(() => {
-        if (!appRef.current || !editAd) return;
+        if (!appRef.current || !editAd || !freezeEditAdAttributes) return;
 
         updateRangesFromAd(editAd);
         updateLineHeightMultipliersFromAd(editAd);
@@ -119,7 +119,7 @@ const useEditStageChildren = (appRef, canvasName) => {
     }, [router.pathname, editAd, cards, selectedThemeId]);
 
     useEffect(() => {
-        if (!appRef.current || !editAd) return;
+        if (!appRef.current || !editAd || !freezeEditAdAttributes) return;
         updateTextStylesFromAd(editAd);
 
     }, [router.pathname, editAd, cards, selectedThemeId, xRanges, yRanges]);

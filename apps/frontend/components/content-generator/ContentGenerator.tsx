@@ -11,6 +11,7 @@ import {handleToggleView} from "./handleToggleView";
 import {handlePreviousCanvas} from "./handlePreviousCanvas";
 import {handleNextCanvas} from "./handleNextCanvas";
 import renderCanvas from "./renderCanvas";
+import FreezeEditAttributesButton from '../pixi/floating-buttons/FreezeEditAttributesButton';
 
 const ContentGenerator = ({ primaryColor, secondaryColor }) => {
     const { selectedThemeId, updateSelectedThemeId, activeCanvases, updateActiveCanvases } = useContext(PixiContext);
@@ -86,6 +87,7 @@ const ContentGenerator = ({ primaryColor, secondaryColor }) => {
                     canNavigateRight={currentCanvasIndex < canvases.length - 1}
                 />
                 <SaveButton singleCanvasView={singleCanvasView} />
+                <FreezeEditAttributesButton singleCanvasView={singleCanvasView} />
                 <DesignDrawer
                     rightDrawerOpen={rightDrawerOpen}
                     setRightDrawerOpen={setRightDrawerOpen}
