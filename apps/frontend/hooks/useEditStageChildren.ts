@@ -121,7 +121,9 @@ const useEditStageChildren = (appRef, canvasName) => {
     useEffect(() => {
         if (!appRef.current || !editAd) return;
         updateTextStylesFromAd(editAd);
+
     }, [router.pathname, editAd, cards, selectedThemeId, xRanges, yRanges]);
+
 };
 
 export default useEditStageChildren;

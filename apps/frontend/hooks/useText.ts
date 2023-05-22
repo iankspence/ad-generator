@@ -26,7 +26,6 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
 
     const router = useRouter();
 
-
     const { selectedThemeId, xRanges, yRanges, lineHeightMultipliers, updateLineHeightMultipliers, canvasApps, editAd, backgroundImageLocation } = useContext(PixiContext);
 
     const [currentReviewId, setCurrentReviewId] = useState(null);
@@ -37,7 +36,6 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
     const [currentCloseTexts, setCurrentCloseTexts] = useState(['', '']);
     const [currentCopyTexts, setCurrentCopyTexts] = useState(['', '']);
 
-    const [ads, setAds] = useState(null);
     const { account } = useContext(UserContext);
 
     useEffect(() => {
@@ -83,32 +81,18 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
         if ( !appRef.current || !reviews || !reviewPosition || !hooks || !hookPosition || !claims || !closes || !copies || !selectedAudiencePosition ) return;
 
         const { filteredCopies } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
-
         if (!filteredCopies) return;
         setCurrentCopyTexts([filteredCopies[copyPosition - 1]?.copyText, filteredCopies[copyPosition - 1]?.copyTextEdited ])
     }, [ selectedAudiencePosition, copyPosition, copies ]);
 
-    useEffect(() => {
-        if (!account?._id) return;
-        const fetchAds = async () => {
-            const ads = await getAdsByAccountId(account._id);
-            setAds(ads);
-        };
-        fetchAds();
-    }, [account?._id, editAd, router.pathname]);
 
     useEffect(() => {
-        // console.log('checking use effect before')
         if (!appRef.current || !primaryColor || !secondaryColor || !hooks || !hookPosition || !claims || !claimPosition || !reviews || !reviewPosition || !closes || !closePosition || !copies || !copyPosition || !selectedThemeId  ) return;
-        // console.log('checking use effect after')
+
         const { filteredReviews, filteredHooks, filteredClaims, filteredCloses } = getFilteredTextArrays(reviews, reviewPosition, hooks, hookPosition, claims, closes, copies, selectedAudiencePosition);
 
-        console.log('selectedThemeId: ', selectedThemeId)
-        // console.log('useText after check', appRef.current)
         if (appRef.current) {
-
             const app = appRef.current;
-
             const textData = {
                 hook: { array: filteredHooks, position: hookPosition },
                 claim: { array: filteredClaims, position: claimPosition },
@@ -122,27 +106,8 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
                 const xRange = xRanges[canvasName];
                 const yRange = yRanges[canvasName];
 
-                let mainTextSettings = getTextSettings(canvasName, 'main', selectedThemeId, app, xRanges, yRanges, primaryColor, secondaryColor);
-                let authorTextSettings = getTextSettings(canvasName, 'author', selectedThemeId, app, xRanges, yRanges, primaryColor, secondaryColor);
-
-                // If an ad is currently being edited, override the text settings with those stored in the ad
-                if (editAd && ads) {
-                    const ad = ads.find(ad => ad._id.toString() === editAd);
-                    if (ad) {
-
-                        const attribute = ad.userControlledAttributes.find(attribute => attribute.canvasName === canvasName);
-                        if (attribute) {
-                            attribute.textControls.forEach(tc => {
-                                if (tc.name === 'main') {
-                                    mainTextSettings = { ...mainTextSettings, style: tc.style };
-                                }
-                                if (tc.name === 'author') {
-                                    authorTextSettings = { ...authorTextSettings, style: tc.style };
-                                }
-                            });
-                        }
-                    }
-                }
+                const mainTextSettings = getTextSettings(canvasName, 'main', selectedThemeId, app, xRanges, yRanges, primaryColor, secondaryColor);
+                const authorTextSettings = getTextSettings(canvasName, 'author', selectedThemeId, app, xRanges, yRanges, primaryColor, secondaryColor);
 
                 setCanvasText(
                     canvasName,
