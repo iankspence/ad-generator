@@ -29,30 +29,33 @@ export class AdService {
     }
 
     async updateAd(editAd, adNameDateTime, userId, accountId, cardIds, cardLocations, copyText, copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions: Ad["filteredTextPositions"], themeId: Ad["themeId"]): Promise<Ad> {
-        if (!editAd) throw new Error('Ad not found');
+        if (!editAd) return null;
+
+        const updateAd = await this.adModel.findById({ _id: editAd._id })
+        if (!updateAd) throw new Error('Ad not found');
 
         // comment fields which should not be updated
         // adToUpdate.adNameDateTime = adNameDateTime;
         // adToUpdate.userId = userId;
         // adToUpdate.accountId = accountId;
-        editAd.cardIds = cardIds;
-        editAd.cardLocations = cardLocations;
-        editAd.copyText = copyText;
-        editAd.copyTextEdited = copyTextEdited;
-        editAd.bestFitAudience = bestFitAudience;
-        editAd.bestFitReasoning = bestFitReasoning;
-        editAd.source = source;
-        editAd.reviewDate = reviewDate;
-        editAd.userControlledAttributes = userControlledAttributes;
-        editAd.xRanges = xRanges;
-        editAd.yRanges = yRanges;
-        editAd.lineHeightMultipliers = lineHeightMultipliers;
-        editAd.filteredTextPositions = filteredTextPositions;
-        editAd.themeId = themeId;
+        updateAd.cardIds = cardIds;
+        updateAd.cardLocations = cardLocations;
+        updateAd.copyText = copyText;
+        updateAd.copyTextEdited = copyTextEdited;
+        updateAd.bestFitAudience = bestFitAudience;
+        updateAd.bestFitReasoning = bestFitReasoning;
+        updateAd.source = source;
+        updateAd.reviewDate = reviewDate;
+        updateAd.userControlledAttributes = userControlledAttributes;
+        updateAd.xRanges = xRanges;
+        updateAd.yRanges = yRanges;
+        updateAd.lineHeightMultipliers = lineHeightMultipliers;
+        updateAd.filteredTextPositions = filteredTextPositions;
+        updateAd.themeId = themeId;
 
-        await editAd.save();
+        await updateAd.save();
 
-        return editAd;
+        return updateAd;
     }
 
     async getAdsByAccountId(accountId: string) {
