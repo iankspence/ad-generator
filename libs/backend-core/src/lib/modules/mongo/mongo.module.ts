@@ -1,4 +1,5 @@
 import { AccountModule } from './account/account.module';
+import { AdSetModule } from './ad-set/ad-set.module';
 import { AdModule } from './ad/ad.module';
 import { BackgroundImageModule } from './background-image/background-image.module';
 import { ClaimModule } from './claim/claim.module';
@@ -22,6 +23,7 @@ import { Module } from '@nestjs/common';
         MaskModule,
         BackgroundImageModule,
         AdModule,
+        AdSetModule,
     ],
 })
 export class MongoModule {}

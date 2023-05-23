@@ -11,8 +11,14 @@ export class AdSet {
     @Prop({ required: true, type: String, ref: 'Account' })
     accountId!: string;
 
-    @Prop({ required: true, type: String, ref: 'Campaign' })
-    campaignId!: string;
+    @Prop({ required: true })
+    adIds!: string[];
+
+    @Prop({ required: true })
+    bestFitAudience!: number;
+
+    @Prop({ required: true })
+    bestFitAudienceName!: string;
 
     @Prop({ required: true })
     ageRange!: [number, number];
@@ -20,8 +26,7 @@ export class AdSet {
     @Prop({ required: true })
     interests!: string[];
 
-    @Prop({ required: true })
-    bestFitAudience!: number;
+
 }
 
 export const AdSetSchema = SchemaFactory.createForClass(AdSet);

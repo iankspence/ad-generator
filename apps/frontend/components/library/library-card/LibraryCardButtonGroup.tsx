@@ -1,10 +1,34 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { IconButton, CardContent, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
+import { CampaignContext } from '../../../contexts/CampaignContext';
+import UserContext from '../../../contexts/UserContext';
+import { audiences } from '../../../utils/constants/audiences'
+import { createAdSetForPdfDelivery } from '../../../utils/api';
 
 const LibraryCardButtonGroup = ({ ad, isSelected }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const { selectedAds, updateSelectedAds } = useContext(CampaignContext);
+    const { user, account } = useContext(UserContext);
+
+    const getBestFitAudienceNameAgeRangeAndInterests = (bestFitAudience) => {
+
+        if (ad.bestFitAudience) {
+            const bestFitAudience = audiences[ad.bestFitAudience - 1];
+            const bestFitAudienceName = bestFitAudience.name;
+            const ageRange = bestFitAudience.ageRange;
+            const interests = bestFitAudience.interests;
+            return { bestFitAudienceName, ageRange, interests };
+        }
+
+    }
+    const userId = user?._id;
+    const accountId = account?._id;
+    const bestFitAudience = ad?.bestFitAudience || null;
+    const { bestFitAudienceName, ageRange, interests } = getBestFitAudienceNameAgeRangeAndInterests(bestFitAudience);
+
+
 
     const handleExpandClick = (event) => {
         event.stopPropagation();
@@ -17,6 +41,18 @@ const LibraryCardButtonGroup = ({ ad, isSelected }) => {
     const bestFitReasoning = ad?.bestFitReasoning || null;
     const adNameDateTime = ad?.adNameDateTime || null;
 
+    const handleCreateAdSetFromSelectedAds = (event) => {
+        event.stopPropagation();
+        console.log('create ad set from selected ads');
+        try {
+            const adIds = selectedAds.map((ad) => ad._id);
+            const newAdSet = createAdSetForPdfDelivery(userId, accountId, adIds, bestFitAudience, bestFitAudienceName, ageRange, interests);
+            console.log(newAdSet); // log new AdSet
+        } catch (error) {
+            console.error('Error creating AdSet:', error);
+        }
+    }
+
     return (
         <div
             onClick={handleExpandClick}
@@ -25,6 +61,7 @@ const LibraryCardButtonGroup = ({ ad, isSelected }) => {
             <div style={{textAlign: 'left'}}>
                 {isSelected(ad) && (
                     <IconButton
+                        onClick={handleCreateAdSetFromSelectedAds}
                         style={{padding: '0', position: 'absolute', right: '2%'}}
                         aria-label="add to library"
                     >

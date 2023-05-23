@@ -101,6 +101,8 @@ export class Ad {
     @Prop({ required: false })
     deliveryType?: 'pdf' | 'facebook' | null
 
+    @Prop({ required: false })
+    adSetId?: string;
 }
 
 export const AdSchema = SchemaFactory.createForClass(Ad);
