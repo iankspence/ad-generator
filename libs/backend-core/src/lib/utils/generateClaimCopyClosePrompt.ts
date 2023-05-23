@@ -19,12 +19,12 @@ Some more information about the audience of this content you are generating:
     Audience Name: ${audienceNamePrompt}
     Age Group: ${ageGroupPrompt}
 
-Claims: 1-3 sentences each describing the benefits of the product or service.
-Copies: 2-6 sentences each describing the features of the product or service. This will exist at the top of facebook ads so something that converts well there.
-Closes: 1-2 sentences that describe the call to action or an enthymeme to get the reader to fill in the cta on their own. This will exist at the bottom of facebook ads so something that converts well there.
+Claims: 1 sentence describing the benefits of the product or service - this should be a claim that is backed up by the review.
+Copies: 3 sentences each describing the features of the product or service. This will exist at the top of facebook ads so something that converts well there.
+Closes: 2 sentences of an enthymeme - related to their audience, to get the reader to fill in the cta on their own - the goal here is to avoid having a pushy 'book now' close.
 
 I want the response to be formatted like this with the response only including the text for each section.
-Each section should be on its own line without any other text or numbers.  It should not have quotation marks, just the text.
+Each section should be on its own line without any other text or numbers. It should not have quotation marks, just the text.
 
 Claims:
 This is a claim.
