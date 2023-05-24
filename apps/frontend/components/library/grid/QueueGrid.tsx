@@ -23,7 +23,7 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
         }, {});
     };
 
-    if (!ads) return null;
+    if (!ads.length) return null;
     const { bestFitAudienceName, ageRange, interests } = getBestFitAudienceNameAgeRangeAndInterests(ads[0]);
 
     return (

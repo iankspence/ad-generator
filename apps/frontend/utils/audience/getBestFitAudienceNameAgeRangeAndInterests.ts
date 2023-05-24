@@ -1,6 +1,7 @@
+import { AdDocument } from '@monorepo/type';
 import { audiences } from '../constants/audiences';
 
-export const getBestFitAudienceNameAgeRangeAndInterests = (ad) => {
+export const getBestFitAudienceNameAgeRangeAndInterests = (ad: AdDocument) => {
 
     if (ad.bestFitAudience) {
         const bestFitAudience = audiences[ad.bestFitAudience - 1];

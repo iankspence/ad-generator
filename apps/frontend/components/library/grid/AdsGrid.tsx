@@ -8,10 +8,11 @@ import { audiences } from "../../../utils/constants/audiences";
 import {CampaignContext} from "../../../contexts/CampaignContext";
 import { getAdsByAccountId } from '../../../utils/api';
 import UserContext from "../../../contexts/UserContext";
+import AudienceSelector from '../../pixi/design-drawer/text-input/selector/AudienceSelector';
 
 const AdsGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, ads, adsWidth, refreshAds }) => {
-    const [selectedAudiences, setSelectedAudiences] = useState([]);
-    const { updateAds } = useContext(CampaignContext);
+
+    const { updateAds, selectedAudiencePosition } = useContext(CampaignContext);
     const { account } = useContext(UserContext);
 
     useEffect(() => {
@@ -23,16 +24,14 @@ const AdsGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, a
         fetchAds();
     }, []);
 
+    console.log('selectedAudiencePosition: ', selectedAudiencePosition)
+
     return (
         <Grid container item xs={adsWidth} style={getGridItemStyle(adsWidth)}>
             <Grid item xs={adsWidth === 8 ? 12 : 11}>
-                <MultiAudienceSelector
-                    audiences={audiences}
-                    selectedAudiences={selectedAudiences}
-                    setSelectedAudiences={setSelectedAudiences}
-                />
+                <AudienceSelector countTarget={'ads-fresh'} />
                 <Typography variant="h6">Ads</Typography>
-                {ads.filter(ad => ad.adStatus === 'fresh').map((ad, index) => (
+                {ads.filter(ad => (ad.adStatus === 'fresh') && (Number(ad.bestFitAudience) === selectedAudiencePosition)).map((ad, index) => (
                     <div style={{padding: "16px"}} key={index}>{RenderLibraryCards(ad, adsWidth, refreshAds)}</div>
                 ))}
             </Grid>

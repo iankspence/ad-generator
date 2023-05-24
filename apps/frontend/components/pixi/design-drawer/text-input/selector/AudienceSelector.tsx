@@ -11,20 +11,12 @@ const AudienceSelector = ({countTarget}) => {
         updateSelectedAudiencePosition(event.target.value);
     };
 
-    const getReviewCountByAudience = (reviews, audiencePosition) => {
-        return reviews.filter(review => review.bestFitAudience === audiencePosition).length;
-    };
-
-    const getAdCountByAudience = (ads, audiencePosition) => {
-        return ads.filter(ad => Number(ad.bestFitAudience) === Number(audiencePosition)).length;
-    }
-
     const getAudienceCount = (countTarget, reviews, ads, audiencePosition) => {
         if (countTarget === 'reviews') {
-            return getReviewCountByAudience(reviews, audiencePosition);
+            return reviews.filter(review => Number(review.bestFitAudience) === Number(audiencePosition)).length;
         }
-        if (countTarget === 'ads') {
-            return getAdCountByAudience(ads, audiencePosition);
+        if (countTarget === 'ads-fresh') {
+            return ads.filter(ad => (Number(ad.bestFitAudience) === Number(audiencePosition) && (ad.adStatus === 'fresh'))).length;
         }
     }
 
