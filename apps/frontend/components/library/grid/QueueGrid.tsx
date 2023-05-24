@@ -5,12 +5,16 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import RenderLibraryCards from '../library-card/RenderLibraryCards';
 import { getGridItemStyle } from './getGridItemStyle';
+import { Ad } from '@monorepo/type';
+import {
+    getBestFitAudienceNameAgeRangeAndInterests
+} from '../../../utils/audience/getBestFitAudienceNameAgeRangeAndInterests';
 
 const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, ads, queueWidth, deliveryWidth, refreshAds }) => {
 
     const groupAdsByAdSet = (ads) => {
         return ads.reduce((groups, ad) => {
-            const groupId = ad.adSetId;
+            const groupId = ad.adSetNameDateTime;
             if (!groups[groupId]) {
                 groups[groupId] = [];
             }
@@ -18,6 +22,9 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
             return groups;
         }, {});
     };
+
+    if (!ads) return null;
+    const { bestFitAudienceName, ageRange, interests } = getBestFitAudienceNameAgeRangeAndInterests(ads[0]);
 
     return (
         <Grid container item xs={queueWidth} style={getGridItemStyle(queueWidth)}>
@@ -47,14 +54,14 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
                 <Typography variant="h6">Queue</Typography>
                 {
                     Object.entries(groupAdsByAdSet(ads.filter(ad => ad.adStatus === 'queue')))
-                        .map(([adSetId, ads]: [string, any[]], index) => (
+                        .map(([adSetId, ads]: [string, Ad[]], index) => (
                             <Accordion key={index}>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="panel1a-content"
                                     id="panel1a-header"
                                 >
-                                    <Typography>AdSet {ads[0]?.adSetId}</Typography>
+                                    <Typography>{adSetId} - {bestFitAudienceName}</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <div style={{display: "flex", flexDirection: "column"}}>

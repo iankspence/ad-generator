@@ -58,6 +58,7 @@ interface PixiContextProps {
 
     userControlledAttributes: UserControlledAttribute[];
     updateUserControlledAttributes: (callback: (prevAttributes: UserControlledAttribute[]) => UserControlledAttribute[]) => void;
+
 }
 
 export const PixiContext = createContext<PixiContextProps>({
@@ -119,6 +120,7 @@ export const PixiContext = createContext<PixiContextProps>({
 
     userControlledAttributes: [],
     updateUserControlledAttributes: () => void 0,
+
 });
 
 export const PixiProvider = ({ children }) => {

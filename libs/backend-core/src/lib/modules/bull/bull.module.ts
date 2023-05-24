@@ -9,6 +9,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AdModule } from '../mongo/ad/ad.module';
 import { PdfQueueProducerService } from './pdf-queue-producer.service';
 import { PdfQueueConsumerService } from './pdf-queue-consumer.service';
+import { HttpModule } from '@nestjs/axios';
+import { AdSetModule } from '../mongo/ad-set/ad-set.module';
+import { PdfModule } from '../pdf/pdf.module';
 
 @Module({
     imports: [
@@ -26,10 +29,10 @@ import { PdfQueueConsumerService } from './pdf-queue-consumer.service';
             name: 'pdf-queue',
         }),
         MongooseModule.forFeature([{ name: Review.name, schema: ReviewSchema }]),
-        MongooseModule.forFeature([{ name: AdSet.name, schema: AdSetSchema }]),
-        AdModule,
+        PdfModule,
         OpenAiModule,
         WebsocketModule,
+        HttpModule,
     ],
     providers: [ReviewQueueConsumerService, ReviewQueueProducerService, PdfQueueConsumerService, PdfQueueProducerService],
     exports: [BullModule, ReviewQueueProducerService, PdfQueueProducerService],

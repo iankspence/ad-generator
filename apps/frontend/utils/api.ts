@@ -383,3 +383,14 @@ export const createAdSetForPdfDelivery = async (userId, accountId, adIds, bestFi
         throw error;
     }
 }
+
+
+export const getAdSetById = async (adSetId: string) => {
+    try {
+        const response = await axios.post(`${API_URL}/ad-set/get-ad-set-by-id`, { adSetId });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching ad sets:', error);
+        throw error;
+    }
+}

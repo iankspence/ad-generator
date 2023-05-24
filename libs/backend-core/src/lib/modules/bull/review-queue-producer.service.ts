@@ -1,4 +1,3 @@
-import { audiences } from '../../utils/constants/audiences';
 import { HookDocument, ReviewDocument } from '@monorepo/type';
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';

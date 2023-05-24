@@ -44,8 +44,8 @@ export class AccountModelService {
         const createdAccount = new this.accountModel(account);
         return createdAccount.save();
     }
-    async findOneById(id: string): Promise<Account> {
-        return await this.accountModel.findOne({ id: id }).exec();
+    async findOneById(_id: string): Promise<Account> {
+        return await this.accountModel.findOne({ _id: _id }).exec();
     }
 
     async updateOneById(_id: string, update: Partial<Account>): Promise<Account | null> {

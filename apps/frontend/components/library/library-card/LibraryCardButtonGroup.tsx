@@ -6,29 +6,18 @@ import { CampaignContext } from '../../../contexts/CampaignContext';
 import UserContext from '../../../contexts/UserContext';
 import { audiences } from '../../../utils/constants/audiences'
 import { createAdSetForPdfDelivery } from '../../../utils/api';
+import { getBestFitAudienceNameAgeRangeAndInterests } from '../../../utils/audience/getBestFitAudienceNameAgeRangeAndInterests';
 
 const LibraryCardButtonGroup = ({ ad, isSelected }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const { selectedAds, updateSelectedAds } = useContext(CampaignContext);
     const { user, account } = useContext(UserContext);
 
-    const getBestFitAudienceNameAgeRangeAndInterests = (bestFitAudience) => {
-
-        if (ad.bestFitAudience) {
-            const bestFitAudience = audiences[ad.bestFitAudience - 1];
-            const bestFitAudienceName = bestFitAudience.name;
-            const ageRange = bestFitAudience.ageRange;
-            const interests = bestFitAudience.interests;
-            return { bestFitAudienceName, ageRange, interests };
-        }
-
-    }
     const userId = user?._id;
     const accountId = account?._id;
     const bestFitAudience = ad?.bestFitAudience || null;
-    const { bestFitAudienceName, ageRange, interests } = getBestFitAudienceNameAgeRangeAndInterests(bestFitAudience);
 
-
+    const { bestFitAudienceName, ageRange, interests } = getBestFitAudienceNameAgeRangeAndInterests(ad);
 
     const handleExpandClick = (event) => {
         event.stopPropagation();

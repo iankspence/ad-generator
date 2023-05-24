@@ -4,7 +4,7 @@ import {AccountDocument, Card, CardDocument, ReviewDocument, CopyDocument, Copy,
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import {AdService} from "../ad/ad.service";
-import { createAdNameDateTime } from '../../../utils/createAdNameDateTime';
+import { createNameDateTime } from '../../../utils/createNameDateTime';
 
 const s3 = new S3Client({
     region: process.env.S3_REGION
@@ -27,7 +27,7 @@ export class CardService {
         const cardLocations = [];
 
         const timeZone = 'America/Edmonton'
-        const adNameDateTime = createAdNameDateTime(timeZone)
+        const adNameDateTime = createNameDateTime(timeZone)
 
         for (const {canvasName, dataUrl, sourceTextId, sourceText, sourceTextEdited} of canvases) {
             const base64Data = Buffer.from(dataUrl.replace(/^data:image\/\w+;base64,/, ""), 'base64');

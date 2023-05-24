@@ -1,4 +1,4 @@
-export const createAdNameDateTime = (timeZone: string) => {
+export const createNameDateTime = (timeZone: string) => {
     let day = new Date().toLocaleString("en-US",{timeZone, hour12: false})
         .slice(0,10)
         .replace('/', '-')
@@ -15,7 +15,7 @@ export const createAdNameDateTime = (timeZone: string) => {
 
     let time = new Date().toLocaleString("en-US", {timeZone, hour12: false})
         .slice(11,19)
-        .replace(' ', '') + `____${timeZone}`
+        .replace(' ', '')
         .replace('/', '-')
 
     if (time.split(':')[0].length < 2) {

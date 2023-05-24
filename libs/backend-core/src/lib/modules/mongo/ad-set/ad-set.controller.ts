@@ -10,4 +10,10 @@ export class AdSetController {
     createAdSetForPdfDelivery(@Body() adSetData: CreateAdSetForPdfDeliveryDto) {
         return this.adSetService.createAdSetForPdfDelivery(adSetData);
     }
+
+    @Post('get-ad-set-by-id')
+    getAdSetById(@Body() adSetId: string) {
+        console.log('adSetId (controller): ', adSetId)
+        return this.adSetService.findById(adSetId);
+    }
 }

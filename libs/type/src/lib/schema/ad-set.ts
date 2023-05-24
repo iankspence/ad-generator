@@ -12,6 +12,9 @@ export class AdSet {
     accountId!: string;
 
     @Prop({ required: true })
+    nameDateTime!: string;
+
+    @Prop({ required: true })
     adIds!: string[];
 
     @Prop({ required: true })
@@ -26,6 +29,8 @@ export class AdSet {
     @Prop({ required: true })
     interests!: string[];
 
+    @Prop({ required: false })
+    pdfLocation?: string;
 
 }
 

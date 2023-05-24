@@ -103,6 +103,9 @@ export class Ad {
 
     @Prop({ required: false })
     adSetId?: string;
+
+    @Prop({ required: false })
+    adSetNameDateTime?: string;
 }
 
 export const AdSchema = SchemaFactory.createForClass(Ad);
