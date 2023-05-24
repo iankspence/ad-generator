@@ -34,7 +34,7 @@ export class OutscraperService {
                     // region: region,
                     // reviewsLimit: reviewsLimit,
                     ignoreEmpty: true,
-                    reviewsLimit: 2,
+                    reviewsLimit: 200,
                     async: true,
                 },
                 headers: {

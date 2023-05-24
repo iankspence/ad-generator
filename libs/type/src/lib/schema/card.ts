@@ -39,10 +39,10 @@ export class Card {
     themeId!: string;
 
     @Prop({ required: true })
-    primaryColor!: number[];
+    primaryColor!: string;
 
     @Prop({ required: true})
-    secondaryColor!: number[];
+    secondaryColor!: string;
 }
 
 export const CardSchema = SchemaFactory.createForClass(Card);

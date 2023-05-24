@@ -72,8 +72,8 @@ export class CardService {
                     backgroundImageLocation,
                     maskLocations,
                     themeId,
-                    primaryColor: [account.primaryColor[0], account.primaryColor[1], account.primaryColor[2]],
-                    secondaryColor: [account.secondaryColor[0], account.secondaryColor[1], account.secondaryColor[2]],
+                    primaryColor: account?.primaryColor,
+                    secondaryColor: account?.secondaryColor
                 });
 
                 const savedCard = await card.save();

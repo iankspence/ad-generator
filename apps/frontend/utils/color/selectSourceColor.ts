@@ -14,10 +14,6 @@ export const selectSourceColor = (autoColorSettings, primaryColor, secondaryColo
         return undefined;
     }
 
-    console.log('autoColorSettings (selectSourceColor): ', autoColorSettings)
-    console.log('primaryColor (selectSourceColor): ', primaryColor)
-    console.log('secondaryColor (selectSourceColor): ', secondaryColor)
-
     if (autoColorSettings.sourceType === 'primary') {
         return primaryColor;
     } else if (autoColorSettings.sourceType === 'secondary') {

@@ -38,8 +38,6 @@ describe('generateSplitComplementaryColors', () => {
         expect(() => generateSplitComplementaryColors(color)).toThrow();
     });
 
-
-
     it('should handle grayscale colors correctly', () => {
         const color = '#808080'; // a mid-gray color
         const splitComplementaryColors = generateSplitComplementaryColors(color);
