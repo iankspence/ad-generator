@@ -1,22 +1,34 @@
 import { userAccount, getAccounts } from '../utils/api';
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, ReactNode } from 'react';
+import { AccountDocument, UserDocument } from '@monorepo/type';
 
-const UserContext = createContext(null);
+interface UserContextProps {
+    user: UserDocument | null;
+    setUser: (user: UserDocument) => void;
 
-export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [account, setAccount] = useState(null);
+    account: AccountDocument | Partial<AccountDocument> | null;
+    setAccount: (account: AccountDocument | Partial<AccountDocument>) => void;
+
+    refreshToken: () => Promise<void>;
+}
+
+// Removed default values
+const UserContext = createContext<UserContextProps | undefined>(undefined);
+
+export const UserProvider = ({ children }: { children: ReactNode }) => {
+    const [user, setUser] = useState<UserDocument | null>(null);
+    const [account, setAccount] = useState<AccountDocument | Partial<AccountDocument> | null>(null);
 
     const fetchAndSetDefaultAccount = async () => {
         if (!account && user) {
             const accounts = await getAccounts(user._id);
             if (accounts.length > 0) {
                 setAccount(accounts[0]);
+                console.log('Setting default account: ', accounts[0])
             }
         }
     };
 
-    // Fetch account when the user changes
     useEffect(() => {
         fetchAndSetDefaultAccount();
     }, [user, account]);

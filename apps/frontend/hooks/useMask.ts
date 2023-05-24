@@ -14,6 +14,8 @@ const useMask = (appRef, canvasName, size) => {
     const selectedTheme = getSelectedTheme(selectedThemeId);
     const { account } = useContext(UserContext)
 
+    console.log('account: ', account)
+
     const fetchMaskTextures = async (maskNames) => {
         try {
             const masks = await getMasksByNames(maskNames);
@@ -77,6 +79,8 @@ const useMask = (appRef, canvasName, size) => {
                 }
 
                 maskTextures.forEach((texture, index) => {
+
+                    console.log('generating auto color for mask: ', masks[index].autoColor, account?.primaryColor, account?.secondaryColor)
 
                     if (masks[index]) {
                         const maskData = {

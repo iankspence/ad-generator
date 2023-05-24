@@ -11,6 +11,8 @@ export const selectPalette = (autoColorSettings, sourceColor) => {
         throw new Error('Expected autoColorSettings.paletteType to be a non-empty string');
     }
 
+    console.log('autoColorSettings.paletteType', autoColorSettings.paletteType);
+    console.log('sourceColor', sourceColor);
     if (!chroma.valid(sourceColor)) {
         throw new Error('Invalid color provided');
     }

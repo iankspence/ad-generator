@@ -1,5 +1,5 @@
 import { AccountModelService } from './account-model.service';
-import { Account } from '@monorepo/type';
+import { Account, AccountDocument } from '@monorepo/type';
 import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode, Patch } from '@nestjs/common';
 
 @Controller('account')
@@ -27,10 +27,12 @@ export class AccountController {
         await this.accountModelService.deleteOneById(_id);
     }
 
-    @Get('user/:userId')
-    async findByUserId(@Param('userId') userId: string): Promise<Account[]> {
-        console.log('get account/user/:userId', userId);
-        return await this.accountModelService.findAccountsByUserId(userId);
+    @Post('user')
+    async findByUserId(@Body() dto: { userId: string }): Promise<AccountDocument[]> {
+        console.log('get account/user/:userId', dto.userId);
+        const filteredAccounts = await this.accountModelService.findAccountsByUserId(dto.userId);
+        console.log('filteredAccounts', filteredAccounts);
+        return filteredAccounts;
     }
 
     @Patch('google-query')

@@ -3,6 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import ColorThief from 'colorthief';
 import { updateAccountLogoAndColors } from '../../utils/api';
 import UserContext from "../../contexts/UserContext";
+import { convertRgbToHex } from '../../utils/color/convertRgbToHex';
 
 const LogoUpload = () => {
     const { account, setAccount } = useContext(UserContext);
@@ -12,17 +13,16 @@ const LogoUpload = () => {
         const colorThief = new ColorThief();
 
         img.onload = async () => {
-            const colors = colorThief
+            const colorsRgb = colorThief
                 .getPalette(img, 5)
                 .filter(([r, g, b]) => r !== 0 && g !== 0 && b !== 0 && r !== 255 && g !== 255 && b !== 255);
-            const [primaryColor, secondaryColor] = colors;
+            const [primaryColorRgb, secondaryColorRgb] = colorsRgb;
+            const primaryColor = convertRgbToHex(primaryColorRgb);
+            const secondaryColor = convertRgbToHex(secondaryColorRgb);
+
             await updateAccountLogoAndColors(account._id, logoData, primaryColor, secondaryColor);
-            setAccount(prevAccount => ({
-                ...prevAccount,
-                logo: logoData,
-                primaryColor,
-                secondaryColor
-            }));
+
+            setAccount({ ...account, logo: logoData, primaryColor, secondaryColor });
         };
         img.src = logoData;
     };
@@ -62,11 +62,11 @@ const LogoUpload = () => {
                     <div className="flex">
                         <div
                             className="w-1/2 h-10 rounded"
-                            style={{ backgroundColor: `rgb(${account?.primaryColor[0]}, ${account?.primaryColor[1]}, ${account?.primaryColor[2]})` }}
+                            style={{ backgroundColor: `${account?.primaryColor}` }}
                         ></div>
                         <div
                             className="w-1/2 h-10 rounded ml-4"
-                            style={{ backgroundColor: `rgb(${account?.secondaryColor[0]}, ${account?.secondaryColor[1]}, ${account?.secondaryColor[2]})` }}
+                            style={{ backgroundColor: `${account?.secondaryColor}` }}
                         ></div>
                     </div>
                 </div>

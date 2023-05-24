@@ -23,6 +23,10 @@ export const selectFinalColor = (autoColorSettings, palette, sourceColor) => {
     // Exclude sourceColor from the sortedPalette
     sortedPalette = sortedPalette.filter(color => color !== sourceColor);
 
+    console.log('sortedPalette', sortedPalette)
+
+    console.log()
+
     if (autoColorSettings.minMaxType === 'min') {
         return autoColorSettings.minMaxDistance === 0 ? sourceColor : sortedPalette[autoColorSettings.minMaxDistance - 1];
     }

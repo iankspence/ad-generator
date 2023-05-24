@@ -9,7 +9,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 0,
+                        minMaxDistance: 2,
                     }
                 },
                 {
@@ -18,7 +18,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     }
                 },
             ],
@@ -29,7 +29,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 0,
+                        minMaxDistance: 2,
                     }
                 },
                 {
@@ -38,7 +38,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     }
                 },
             ],
@@ -52,7 +52,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'split-complementary-1',
                         minMaxType: 'max',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     },
                     style: {
                         fontFamily: "Arial",
@@ -70,7 +70,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'split-complementary-1',
                         minMaxType: 'max',
-                        minMaxDistance: 2,
+                        minMaxDistance: 0,
                     },
                     style: {
                         fontFamily: "Arial",
@@ -90,7 +90,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'split-complementary-1',
                         minMaxType: 'max',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     },
                     style: {
                         fontFamily: "Arial",
@@ -110,7 +110,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'split-complementary-1',
                         minMaxType: 'max',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     },
                     style: {
                         fontFamily: "Arial",
@@ -128,7 +128,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'split-complementary-1',
                         minMaxType: 'max',
-                        minMaxDistance: 2,
+                        minMaxDistance: 0,
                     },
                     style: {
                         fontFamily: "Arial",
@@ -148,7 +148,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'split-complementary-1',
                         minMaxType: 'max',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     },
                     style: {
                         fontFamily: "Arial",
@@ -170,7 +170,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 0,
+                        minMaxDistance: 2,
                     }
                 },
                 {
@@ -179,7 +179,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     }
                 },
             ],
@@ -190,7 +190,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 0,
+                        minMaxDistance: 2,
                     }
                 },
                 {
@@ -199,7 +199,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     }
                 },
             ],
@@ -213,7 +213,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'split-complementary-2',
                         minMaxType: 'max',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     },
                     style: {
                         fontFamily: "Arial",
@@ -231,7 +231,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'split-complementary-2',
                         minMaxType: 'max',
-                        minMaxDistance: 2,
+                        minMaxDistance: 0,
                     },
                     style: {
                         fontFamily: "Arial",
@@ -251,7 +251,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'split-complementary-2',
                         minMaxType: 'max',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     },
                     style: {
                         fontFamily: "Arial",
@@ -271,7 +271,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'split-complementary-2',
                         minMaxType: 'max',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     },
                     style: {
                         fontFamily: "Arial",
@@ -289,7 +289,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'split-complementary-2',
                         minMaxType: 'max',
-                        minMaxDistance: 2,
+                        minMaxDistance: 0,
                     },
                     style: {
                         fontFamily: "Arial",
@@ -309,7 +309,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'split-complementary-2',
                         minMaxType: 'max',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     },
                     style: {
                         fontFamily: "Arial",
