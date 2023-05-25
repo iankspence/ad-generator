@@ -36,5 +36,5 @@ export const useImage = (appRef, canvasName) => {
             if (app.stage) app.stage.removeChild(container);
         };
 
-    }, [backgroundImageLocation, appRef]);
+    }, [backgroundImageLocation, appRef, ]);
 };

@@ -9,6 +9,7 @@ export const getTextSettings = (
     canvasApp,
     xRanges,
     yRanges,
+    updateRange,
     primaryColor,
     secondaryColor
 ) => {
@@ -26,10 +27,13 @@ export const getTextSettings = (
 
     if (existingTextObject && selectedTheme ) {
 
-
+        console.log('existingTextObject.themeId (getTextSettings): ', existingTextObject.themeId);
+        console.log('selectedTheme.id (getTextSettings): ', selectedTheme.id);
 
         if (existingTextObject.themeId !== selectedTheme.id) {
             // Theme has changed, generate new color
+
+            console.log('theme has changed, generating new color (getTextSettings):')
 
             if ( !primaryColor || !secondaryColor)
                 return existingTextObject;
@@ -41,9 +45,18 @@ export const getTextSettings = (
             existingTextObject.style.fill = generateAutoColor(
                 newThemeSettings.autoColor,
                 primaryColor,
-                secondaryColor
+                secondaryColor,
             );
             existingTextObject.themeId = selectedTheme.id;
+
+            console.log('getting xRange and yRange for canvasName: ', canvasName)
+            console.log('xRange: ', xRanges[canvasName])
+            console.log('yRange: ', yRanges[canvasName])
+
+            const newXRange = newThemeSettings.xRange;
+            const newYRange = newThemeSettings.yRange;
+
+            updateRange(canvasName, newXRange, newYRange);
 
             return existingTextObject;
         }
@@ -73,6 +86,9 @@ export const getTextSettings = (
             primaryColor,
             secondaryColor
         );
+
+        console.log('xRangeDefaults: canvasName: ', textDefaults.xRange, canvasName)
+        console.log('yRangeDefaults: canvasName: ', textDefaults.yRange, canvasName)
 
         return {
             style: { ...textDefaults.style, fill: autoColor },

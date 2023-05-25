@@ -80,9 +80,9 @@ const useMask = (appRef, canvasName, size) => {
 
                 maskTextures.forEach((texture, index) => {
 
-                    console.log('generating auto color for mask: ', masks[index].autoColor, account?.primaryColor, account?.secondaryColor)
-
                     if (masks[index]) {
+                        console.log('generating auto color for mask: ', masks[index].autoColor, account?.primaryColor, account?.secondaryColor)
+
                         const maskData = {
                             name: masks[index].name,
                             canvasName,

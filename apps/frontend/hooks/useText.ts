@@ -26,7 +26,7 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
 
     const router = useRouter();
 
-    const { selectedThemeId, xRanges, yRanges, lineHeightMultipliers, updateLineHeightMultipliers, canvasApps, editAd, backgroundImageLocation } = useContext(PixiContext);
+    const { selectedThemeId, xRanges, yRanges, lineHeightMultipliers, updateLineHeightMultipliers, canvasApps, editAd, backgroundImageLocation, updateRange } = useContext(PixiContext);
 
     const [currentReviewId, setCurrentReviewId] = useState(null);
     const [currentReviewTexts, setCurrentReviewTexts] = useState(['', '']);
@@ -106,8 +106,8 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
                 const xRange = xRanges[canvasName];
                 const yRange = yRanges[canvasName];
 
-                const mainTextSettings = getTextSettings(canvasName, 'main', selectedThemeId, app, xRanges, yRanges, primaryColor, secondaryColor);
-                const authorTextSettings = getTextSettings(canvasName, 'author', selectedThemeId, app, xRanges, yRanges, primaryColor, secondaryColor);
+                const mainTextSettings = getTextSettings(canvasName, 'main', selectedThemeId, app, xRanges, yRanges, updateRange, primaryColor, secondaryColor);
+                const authorTextSettings = getTextSettings(canvasName, 'author', selectedThemeId, app, xRanges, yRanges, updateRange, primaryColor, secondaryColor);
 
                 setCanvasText(
                     canvasName,
