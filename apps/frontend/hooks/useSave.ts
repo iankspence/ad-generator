@@ -169,7 +169,7 @@ const useSave = (width = 1080, height = 1080) => {
             const formattedUserControlledAttributes = formatUserControlledAttributes(canvasApps, backgroundImageLocation);
 
             try {
-                await saveCanvasesToS3(
+                const savedCanvases = await saveCanvasesToS3(
                     canvases,
                     user?._id,
                     account,
@@ -188,6 +188,9 @@ const useSave = (width = 1080, height = 1080) => {
 
                 updateShowFreezeEditAttributeButton(false);
                 updateEditAd(null);
+
+                console.log('Saved canvases:', savedCanvases)
+
                 // reset ranges and lineHeightMultipliers?
 
             } catch (error) {

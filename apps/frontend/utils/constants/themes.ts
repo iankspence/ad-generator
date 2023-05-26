@@ -122,7 +122,6 @@ export const themes = [
                         wordWrap: true,
                         align: "left",
                         fontStyle: "italic",
-                        padding: 2,
                     }
                 },
                 reviewAuthorText: {
@@ -291,8 +290,6 @@ export const themes = [
                         wordWrap: true,
                         align: "left",
                         fontStyle: "italic",
-                        padding: 2,
-
                     }
                 },
                 reviewAuthorText: {
@@ -497,7 +494,6 @@ export const themes = [
                         wordWrap: true,
                         align: "left",
                         fontStyle: "italic",
-                        padding: 2,
                     }
                 },
                 reviewAuthorText: {
@@ -702,7 +698,6 @@ export const themes = [
                         wordWrap: true,
                         align: "left",
                         fontStyle: "italic",
-                        padding: 2,
                     }
                 },
                 reviewAuthorText: {

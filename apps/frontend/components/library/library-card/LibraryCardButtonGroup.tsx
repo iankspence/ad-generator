@@ -13,6 +13,7 @@ const LibraryCardButtonGroup = ({ ad, isSelected }) => {
     const { selectedAds, updateSelectedAds } = useContext(CampaignContext);
     const { user, account } = useContext(UserContext);
 
+
     const userId = user?._id;
     const accountId = account?._id;
     const bestFitAudience = ad?.bestFitAudience || null;
@@ -35,8 +36,8 @@ const LibraryCardButtonGroup = ({ ad, isSelected }) => {
         console.log('create ad set from selected ads');
         try {
             const adIds = selectedAds.map((ad) => ad._id);
-            const newAdSet = createAdSetForPdfDelivery(userId, accountId, adIds, bestFitAudience, bestFitAudienceName, ageRange, interests);
-            console.log(newAdSet); // log new AdSet
+            createAdSetForPdfDelivery(userId, accountId, adIds, bestFitAudience, bestFitAudienceName, ageRange, interests);
+            updateSelectedAds([]);
         } catch (error) {
             console.error('Error creating AdSet:', error);
         }
