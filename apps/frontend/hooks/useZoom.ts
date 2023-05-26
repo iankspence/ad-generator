@@ -38,7 +38,6 @@ export const useZoom = (appRef, canvasName: string) => {
 
             eventEmitter.emit("zoom", container);
 
-            console.log("zoom", container.name)
         },
     [appRef, container, scaleFactor, eventEmitter],
     );

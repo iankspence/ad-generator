@@ -22,8 +22,8 @@ const CanvasClient = ({ size, canvasName, primaryColor, secondaryColor }) => {
     useSync();
 
     useEditStageChildren(appRef, canvasName);
-
-    console.log("CanvasClient: ", appRef);
+    //
+    // console.log("CanvasClient: ", appRef);
 
     return <div id={`${canvasName}-canvas-container`}></div>;
 };
