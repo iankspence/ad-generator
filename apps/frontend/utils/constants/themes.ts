@@ -357,7 +357,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 1,
+                        minMaxDistance: 3,
                     }
                 },
                 {
@@ -366,7 +366,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 0,
+                        minMaxDistance: 1,
                     }
                 },
                 {
@@ -375,7 +375,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 0,
+                        minMaxDistance: 1,
                     }
                 },
             ],
@@ -395,7 +395,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 1,
+                        minMaxDistance: 3,
                     }
                 },
                 {
@@ -404,7 +404,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 0,
+                        minMaxDistance: 1,
                     }
                 },
                 {
@@ -413,7 +413,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 0,
+                        minMaxDistance: 1,
                     }
                 },
             ],
@@ -421,7 +421,7 @@ export const themes = [
                 hookMainText: {
                     canvasName: 'hook',
                     textName: 'main',
-                    yRange: [15, 90],
+                    yRange: [10, 75],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -441,7 +441,7 @@ export const themes = [
                 hookAuthorText: {
                     canvasName: 'hook',
                     textName: 'author',
-                    yRange: [15, 90],
+                    yRange: [10, 75],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -463,7 +463,7 @@ export const themes = [
                 claimMainText: {
                     canvasName: 'claim',
                     textName: 'main',
-                    yRange: [15, 85],
+                    yRange: [10, 75],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -483,7 +483,7 @@ export const themes = [
                 reviewMainText: {
                     canvasName: 'review',
                     textName: 'main',
-                    yRange: [15, 200],
+                    yRange: [15, 115],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -503,7 +503,7 @@ export const themes = [
                 reviewAuthorText: {
                     canvasName: 'review',
                     textName: 'author',
-                    yRange: [15, 200],
+                    yRange: [15, 115],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -525,7 +525,7 @@ export const themes = [
                 closeMainText: {
                     canvasName: 'close',
                     textName: 'main',
-                    yRange: [15, 85],
+                    yRange: [10, 75],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -562,7 +562,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 1,
+                        minMaxDistance: 3,
                     }
                 },
                 {
@@ -571,7 +571,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 0,
+                        minMaxDistance: 1,
                     }
                 },
                 {
@@ -580,7 +580,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 0,
+                        minMaxDistance: 1,
                     }
                 },
             ],
@@ -600,7 +600,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 1,
+                        minMaxDistance: 3,
                     }
                 },
                 {
@@ -609,7 +609,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 0,
+                        minMaxDistance: 1,
                     }
                 },
                 {
@@ -618,7 +618,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 0,
+                        minMaxDistance: 1,
                     }
                 },
             ],
@@ -626,7 +626,7 @@ export const themes = [
                 hookMainText: {
                     canvasName: 'hook',
                     textName: 'main',
-                    yRange: [15, 90],
+                    yRange: [10, 75],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -646,7 +646,7 @@ export const themes = [
                 hookAuthorText: {
                     canvasName: 'hook',
                     textName: 'author',
-                    yRange: [15, 90],
+                    yRange: [10, 75],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -668,7 +668,7 @@ export const themes = [
                 claimMainText: {
                     canvasName: 'claim',
                     textName: 'main',
-                    yRange: [15, 85],
+                    yRange: [10, 75],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -688,7 +688,7 @@ export const themes = [
                 reviewMainText: {
                     canvasName: 'review',
                     textName: 'main',
-                    yRange: [15, 200],
+                    yRange: [15, 115],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -708,7 +708,7 @@ export const themes = [
                 reviewAuthorText: {
                     canvasName: 'review',
                     textName: 'author',
-                    yRange: [15, 200],
+                    yRange: [15, 115],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
@@ -730,7 +730,7 @@ export const themes = [
                 closeMainText: {
                     canvasName: 'close',
                     textName: 'main',
-                    yRange: [15, 85],
+                    yRange: [10, 75],
                     xRange: [15, 305],
                     autoColor: {
                         sourceType: 'primary',
