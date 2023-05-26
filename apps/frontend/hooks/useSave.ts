@@ -6,7 +6,7 @@ import { getFilteredTextArrays } from "../components/pixi/utils/text/getFiltered
 import { saveCanvasesToS3 } from '../utils/api';
 
 const useSave = (width = 1080, height = 1080) => {
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const { canvasApps, selectedThemeId, maskLocations, backgroundImageLocation, xRanges, yRanges, lineHeightMultipliers, editAd, updateShowFreezeEditAttributeButton, updateEditAd } = useContext(PixiContext);
     const { user, account } = useContext(UserContext);
     const { claims, claimPosition, hooks, hookPosition, reviews, reviewPosition, closes, closePosition, copies, copyPosition, selectedAudiencePosition } = useContext(CampaignContext);
@@ -116,7 +116,7 @@ const useSave = (width = 1080, height = 1080) => {
 
     useEffect(() => {
         if (filteredHooks.length > 0 && filteredClaims.length > 0 && filteredReviews.length > 0 && filteredCloses.length > 0) {
-            setIsLoading(false);
+            // setIsLoading(false);
         }
     }, [filteredHooks, filteredClaims, filteredReviews, filteredCloses, filteredCopies, backgroundImageLocation, xRanges, yRanges, lineHeightMultipliers]);
 
@@ -154,6 +154,7 @@ const useSave = (width = 1080, height = 1080) => {
 
     const saveAllApps = useCallback(async () => {
         if (!isLoading) {
+            setIsLoading(true);
             const canvasNames = ['hook', 'claim', 'review', 'close'];
             const filteredDataArray = [filteredHooks, filteredClaims, filteredReviews, filteredCloses];
             const positionArray = [hookPosition, claimPosition, reviewPosition, closePosition];
@@ -189,6 +190,10 @@ const useSave = (width = 1080, height = 1080) => {
                 updateShowFreezeEditAttributeButton(false);
                 updateEditAd(null);
 
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 4000);
+
                 console.log('Saved canvases:', savedCanvases)
 
                 // reset ranges and lineHeightMultipliers?
@@ -201,7 +206,7 @@ const useSave = (width = 1080, height = 1080) => {
         }
     }, [canvasApps, getCanvasData, account, isLoading, getSourceData, backgroundImageLocation, xRanges, yRanges, lineHeightMultipliers]);
 
-    return { saveAllApps };
+    return { saveAllApps, isLoading };
 };
 
 export default useSave;

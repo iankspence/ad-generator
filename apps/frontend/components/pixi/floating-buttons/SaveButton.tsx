@@ -7,25 +7,25 @@ import { PixiContext } from '../../../contexts/PixiContext';
 
 const SaveButton = ({singleCanvasView}) => {
     const { editAd } = useContext(PixiContext);
-
-    const { saveAllApps } = useSave();
+    const { saveAllApps, isLoading } = useSave();
     const handleSaveButtonClick = () => {
         saveAllApps();
     };
 
     return (
         <div
-            className="fixed bottom-8 right-8 z-10 bg-white hover:bg-gray-300 text-black rounded-full "
+            className={`fixed bottom-8 right-8 z-10 text-black rounded-full ${isLoading ? "bg-gray-400" : "bg-white hover:bg-gray-300"}`}
             style={{
                 zIndex: singleCanvasView ? 10 : 20,
             }}
         >
             <IconButton
                 onClick={handleSaveButtonClick}
-                className="bg-white hover:bg-gray-300 text-black p-2 rounded-full"
+                className="p-2 rounded-full"
                 style={{
                     color: 'black',
                 }}
+                disabled={isLoading}
             >
                 {editAd ? <BuildIcon fontSize="medium" color="inherit" /> : <SaveIcon fontSize="medium" color="inherit" />}
             </IconButton>

@@ -11,6 +11,7 @@ export class AdService {
         const newAd = new this.adModel({ adNameDateTime, userId, accountId, cardIds, cardLocations, copyText,  copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate, adStatus: 'fresh', deliveryType: null, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions, themeId});
 
         console.log('newAd', newAd)
+
         return newAd.save();
     }
 
