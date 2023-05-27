@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
 import findTextObject from './findTextObject';
-import { abbreviateAuthor } from "./abbreviateAuthor";
 import { addQuotesToText } from "./addQuotesToText";
 import { updateTextStyleAndPosition } from "./updateTextStyleAndPosition";
+import { formatAuthor } from './author/formatAuthor';
 
 class MyHTMLText extends PIXI.HTMLText {
     themeId?: string;
@@ -38,7 +38,7 @@ const setCanvasText = (
                 } else {
                     mainText = addQuotesToText(textArray[position - 1]?.hookText);
                 }
-                authorText = abbreviateAuthor(filteredReviews[reviewPosition - 1]?.author);
+                authorText = formatAuthor(filteredReviews[reviewPosition - 1]?.author);
             }
             break;
         case 'claim':
@@ -57,7 +57,7 @@ const setCanvasText = (
                 } else {
                     mainText = addQuotesToText(filteredReviews[reviewPosition - 1]?.reviewText);
                 }
-                authorText = abbreviateAuthor(filteredReviews[reviewPosition - 1]?.author);
+                authorText = formatAuthor(filteredReviews[reviewPosition - 1]?.author);
             }
             break;
         case 'close':
