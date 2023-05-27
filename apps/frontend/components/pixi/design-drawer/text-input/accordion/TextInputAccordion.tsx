@@ -40,7 +40,6 @@ const TextInputAccordion = () => {
         copyPosition,
         updateCopyPosition,
         selectedAudiencePosition,
-        updateSelectedAudiencePosition,
     } = useContext(CampaignContext);
 
     const [currentReviewId, setCurrentReviewId] = useState(null);
@@ -49,8 +48,12 @@ const TextInputAccordion = () => {
     const [currentCloseId, setCurrentCloseId] = useState(null);
     const [currentCopyId, setCurrentCopyId] = useState(null);
 
-    const onEditStart = () => {};
-    const onEditRestore = () => {};
+    const onEditStart = () => {
+        console.log('edit start');
+    };
+    const onEditRestore = () => {
+        console.log('edit restore');
+    };
 
     const onEditSubmit = async (text, canvasName) => {
         try {

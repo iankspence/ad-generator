@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -6,9 +6,8 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import RenderLibraryCards from '../library-card/RenderLibraryCards';
 import { getGridItemStyle } from './getGridItemStyle';
 import { Ad } from '@monorepo/type';
-import {
-    getBestFitAudienceNameAgeRangeAndInterests
-} from '../../../utils/audience/getBestFitAudienceNameAgeRangeAndInterests';
+import { CampaignContext } from '../../../contexts/CampaignContext'
+import { audiences } from '../../../utils/constants/audiences';
 
 const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, ads, queueWidth, deliveryWidth, refreshAds }) => {
 
@@ -23,8 +22,30 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
         }, {});
     };
 
+    const getMostCommonAudienceName = (ads) => {
+        const audienceCounts = ads.reduce((counts, ad) => {
+            const audience = Number(ad.bestFitAudience);
+            if (!counts[audience]) {
+                counts[audience] = 0;
+            }
+            counts[audience]++;
+            return counts;
+        }, {});
+
+        let maxCount = 0;
+        let mostCommonAudience = null;
+        for (const audience in audienceCounts) {
+            if (audienceCounts[audience] > maxCount) {
+                maxCount = audienceCounts[audience];
+                mostCommonAudience = audience;
+            }
+        }
+
+        // Return the name of the most common audience, or null if no audience was found
+        return mostCommonAudience ? audiences[mostCommonAudience-1].name : null;
+    };
+
     if (!ads.length) return null;
-    const { bestFitAudienceName, ageRange, interests } = getBestFitAudienceNameAgeRangeAndInterests(ads[0]);
 
     return (
         <Grid container item xs={queueWidth} style={getGridItemStyle(queueWidth)}>
@@ -54,24 +75,27 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
                 <Typography variant="h6">Queue</Typography>
                 {
                     Object.entries(groupAdsByAdSet(ads.filter(ad => ad.adStatus === 'queue')))
-                        .map(([adSetId, ads]: [string, Ad[]], index) => (
-                            <Accordion key={index}>
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1a-content"
-                                    id="panel1a-header"
-                                >
-                                    <Typography>{adSetId} - {bestFitAudienceName}</Typography>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <div style={{display: "flex", flexDirection: "column"}}>
-                                        {ads.map((ad, index) => (
-                                            <div style={{padding: "16px"}} key={index}>{RenderLibraryCards(ad, queueWidth, refreshAds)}</div>
-                                        ))}
-                                    </div>
-                                </AccordionDetails>
-                            </Accordion>
-                        ))
+                        .map(([adSetId, ads]: [string, Ad[]], index) => {
+                            const mostCommonAudienceName = getMostCommonAudienceName(ads);
+                            return (
+                                <Accordion key={index}>
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1a-content"
+                                        id="panel1a-header"
+                                    >
+                                        <Typography>{adSetId} - {mostCommonAudienceName}</Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <div style={{display: "flex", flexDirection: "column"}}>
+                                            {ads.map((ad, index) => (
+                                                <div style={{padding: "16px"}} key={index}>{RenderLibraryCards(ad, queueWidth, refreshAds)}</div>
+                                            ))}
+                                        </div>
+                                    </AccordionDetails>
+                                </Accordion>
+                            );
+                        })
                 }
             </Grid>
             {

@@ -35,8 +35,6 @@ export const saveAllApps = async (
     updateShowFreezeEditAttributeButton,
     updateEditAd) => {
 
-    console.log('copy position in saveAllApps: ', copyPosition)
-
     if (!isLoading) {
         setIsLoading(true);
         const canvasNames = ['hook', 'claim', 'review', 'close'];
@@ -53,10 +51,8 @@ export const saveAllApps = async (
 
         const formattedUserControlledAttributes = formatUserControlledAttributes(canvasApps, backgroundImageLocation);
 
-        console.log('the copy right before sending to backend:', filteredCopies[copyPosition - 1])
-
         try {
-            const savedCanvases = await saveCanvasesToS3(
+            await saveCanvasesToS3(
                 canvases,
                 user?._id,
                 account,
