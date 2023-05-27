@@ -31,10 +31,10 @@ describe('abbreviateNamesAfterFirst function', () => {
         expect(result).toEqual(['John', 'D.', 'S.', 'J.']);
     });
 
-    test('should not abbreviate the first name even if it is a single letter', () => {
+    test('should abbreviate the first name if it is a single letter', () => {
         const nameParts = ['J', 'Doe', 'Smith', 'Jones'];
         const result = abbreviateNamesAfterFirst(nameParts);
-        expect(result).toEqual(['J', 'D.', 'S.', 'J.']);
+        expect(result).toEqual(['J.', 'D.', 'S.', 'J.']);
     });
 
     test('should handle long names correctly', () => {
@@ -58,6 +58,6 @@ describe('abbreviateNamesAfterFirst function', () => {
     test('should correctly handle single letter name parts', () => {
         const nameParts = ['T', 'S'];
         const result = abbreviateNamesAfterFirst(nameParts);
-        expect(result).toEqual(['T', 'S.']);
+        expect(result).toEqual(['T.', 'S.']);
     });
 });

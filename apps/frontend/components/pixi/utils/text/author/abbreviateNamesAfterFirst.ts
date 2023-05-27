@@ -16,6 +16,12 @@
  */
 export const abbreviateNamesAfterFirst = (nameParts) => {
     for (let i = 1; i < nameParts.length; i++) {
+
+        // if first name is just a single letter, add a period after it
+        if (i === 1 && nameParts[0].length === 1) {
+            nameParts[0] += ".";
+        }
+
         if (nameParts[i] !== '') {
             nameParts[i] = nameParts[i].charAt(0) + ".";
         }
