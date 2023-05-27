@@ -1,10 +1,10 @@
-import { onDragEnd } from '../callbacks/onDragEnd';
-import { onDragMove } from '../callbacks/onDragMove';
-import { onDragStart } from '../callbacks/onDragStart';
+import { onDragEnd } from './onDragEnd';
+import { onDragMove } from './onDragMove';
+import { onDragStart } from './onDragStart';
 import * as PIXI from 'pixi.js';
 import {useEffect, useCallback, useContext} from 'react';
-import {PixiContext} from "../contexts/PixiContext";
-import {findImageContainer} from "../components/pixi/utils/findImageContainer";
+import {PixiContext} from "../../contexts/PixiContext";
+import {findImageContainer} from "../../components/pixi/utils/findImageContainer";
 
 export interface DraggableContainer extends PIXI.Container {
     dragging: boolean;

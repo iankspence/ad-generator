@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import {useEffect, useCallback, useContext} from 'react';
 import {PixiContext} from "../contexts/PixiContext";
 import {findImageContainer} from "../components/pixi/utils/findImageContainer";
-import {DraggableContainer} from "./useDraggable";
+import {DraggableContainer} from "./useDraggable/useDraggable";
 
 export const useZoom = (appRef, canvasName: string) => {
     const { canvasApps, eventEmitter } = useContext(PixiContext);

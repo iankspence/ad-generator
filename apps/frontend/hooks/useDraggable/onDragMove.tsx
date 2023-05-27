@@ -1,4 +1,4 @@
-import { DraggableContainer } from '../hooks/useDraggable';
+import { DraggableContainer } from './useDraggable';
 import * as PIXI from 'pixi.js';
 import { MutableRefObject } from 'react';
 

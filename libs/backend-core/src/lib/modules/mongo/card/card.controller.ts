@@ -24,6 +24,7 @@ export class CardController {
         @Body('filteredTextPositions') filteredTextPositions: Ad["filteredTextPositions"],
         @Body('editAd') editAd: AdDocument,
     ) {
+        console.log('received copy on controller: ', copy)
         return this.cardService.saveCanvases(canvases, userId, account, review, copy, themeId, backgroundImageLocation, maskLocations, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions, editAd);
     }
 

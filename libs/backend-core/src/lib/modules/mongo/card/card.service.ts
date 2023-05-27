@@ -50,6 +50,8 @@ export class CardService {
                     orderedCanvasName = canvasName;
             }
 
+            console.log('canvasName: copy: ', canvasName, copy)
+
             const key = `${folderName}/${adNameDateTime}/${orderedCanvasName}.png`;
             const params = {
                 Bucket: process.env.S3_BUCKET_NAME,
@@ -98,7 +100,7 @@ export class CardService {
             }
         }
 
-        const freshCopy = await this.copyModel.findById(copy._id);
+        const freshCopy = await this.copyModel.findById(copy._id); // ensures an edited copy is used
 
         if (editAd) {
             console.log('updating an existing ad:', userControlledAttributes)

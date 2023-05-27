@@ -1,5 +1,5 @@
 import useCanvasApp from '../../../hooks/useCanvasApp';
-import useDraggable from '../../../hooks/useDraggable';
+import useDraggable from '../../../hooks/useDraggable/useDraggable';
 import { useImage } from '../../../hooks/useImage';
 import useText from '../../../hooks/useText';
 import useZoom from '../../../hooks/useZoom';

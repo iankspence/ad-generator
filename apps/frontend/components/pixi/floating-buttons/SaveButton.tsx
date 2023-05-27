@@ -1,4 +1,4 @@
-import useSave from '../../../hooks/useSave';
+import useSave from '../../../hooks/useSave/useSave';
 import SaveIcon from '@mui/icons-material/Save';
 import IconButton from '@mui/material/IconButton';
 import BuildIcon from '@mui/icons-material/Build';
@@ -7,9 +7,9 @@ import { PixiContext } from '../../../contexts/PixiContext';
 
 const SaveButton = ({singleCanvasView}) => {
     const { editAd } = useContext(PixiContext);
-    const { saveAllApps, isLoading } = useSave();
+    const { save, isLoading } = useSave();
     const handleSaveButtonClick = () => {
-        saveAllApps();
+        save();
     };
 
     return (

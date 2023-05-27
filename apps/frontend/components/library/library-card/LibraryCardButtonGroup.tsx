@@ -13,7 +13,6 @@ const LibraryCardButtonGroup = ({ ad, isSelected }) => {
     const { selectedAds, updateSelectedAds } = useContext(CampaignContext);
     const { user, account } = useContext(UserContext);
 
-
     const userId = user?._id;
     const accountId = account?._id;
     const bestFitAudience = ad?.bestFitAudience || null;
