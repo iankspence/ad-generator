@@ -63,18 +63,6 @@ export class AdService {
         }
     }
 
-    async copyAd(adId: string): Promise<Ad> {
-        const adToCopy = await this.adModel.findById(adId);
-
-        const newAd = new this.adModel({
-            ...adToCopy.toObject(),
-            _id: new Types.ObjectId()
-        });
-
-        await newAd.save();
-        console.log('Ad copied to MongoDB:', newAd)
-        return newAd;
-    }
 
     async deleteAd(adId: string): Promise<void> {
         const ad = await this.adModel.findById(adId);

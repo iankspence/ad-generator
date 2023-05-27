@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import {AccountDocument, Card, CardDocument, ReviewDocument, CopyDocument, Copy, Ad} from "@monorepo/type";
 import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import { Model, Types } from 'mongoose';
 import {AdService} from "../ad/ad.service";
 import { createNameDateTime } from '../../../utils/createNameDateTime';
+import { Readable } from 'stream';
 
 const s3 = new S3Client({
     region: process.env.S3_REGION
@@ -160,5 +161,92 @@ export class CardService {
 
     async getCardsByAccountId(accountId: string) {
         return this.cardModel.find({accountId});
+    }
+
+    async copyCardsAndAd(adId: string): Promise<Ad> {
+        const adToCopy = await this.adService.findById(adId);
+        const newCardIds = [];
+        const newCardLocations = [];
+
+        const dateNameTime = createNameDateTime('America/Edmonton');
+
+        // copying the cards
+        for (let i = 0; i < adToCopy.cardIds.length; i++) {
+            const oldCard = await this.cardModel.findById(adToCopy.cardIds[i].cardId);
+            oldCard._id = new Types.ObjectId(); // create a new ObjectId
+            oldCard.isNew = true; // this makes mongoose treat the document as new
+
+            console.log('oldCard: ', oldCard)
+            console.log(oldCard.cardLocation.replace(`${process.env.CF_DOMAIN}/`, ''))
+
+            const oldCardParams = {
+                Bucket: process.env.S3_BUCKET_NAME,
+                Key: oldCard.cardLocation.replace(`${process.env.CF_DOMAIN}/`, '')
+            };
+
+            const oldCardData = await s3.send(new GetObjectCommand(oldCardParams));
+
+            const bodyData = [];  // Declare bodyData here
+
+            // Check if Body is an instance of Readable (Node.js environment)
+            if (oldCardData.Body instanceof Readable) {
+                for await (const chunk of oldCardData.Body) {
+                    bodyData.push(chunk);
+                }
+            }
+
+            // Generate a new key (file name) for the copied PNG file
+            const oldKeyParts = oldCardParams.Key.split('/');
+            oldKeyParts[oldKeyParts.length - 2] = dateNameTime;
+            const newKey = oldKeyParts.join('/');
+
+            // Upload the copied PNG file to S3
+            const newCardParams = {
+                Bucket: process.env.S3_BUCKET_NAME,
+                Key: newKey,
+                Body: Buffer.concat(bodyData),  // now the Body parameter is a Buffer
+                ContentType: 'image/png'
+            };
+
+            await s3.send(new PutObjectCommand(newCardParams));
+
+            // Update the cardLocation in the copied card
+            oldCard.cardLocation = `${process.env.CF_DOMAIN}/${newKey}`;
+
+            const newCard = await oldCard.save();
+
+            newCardIds.push({
+                canvasName: adToCopy.cardIds[i].canvasName,
+                cardId: newCard._id
+            });
+            newCardLocations.push({
+                canvasName: adToCopy.cardLocations[i].canvasName,
+                cardLocation: newCard.cardLocation
+            });
+        }
+
+        // now creating the ad with the new cardIds and cardLocations
+        const newAd = await this.adService.createAd(
+            createNameDateTime('America/Edmonton'),
+            adToCopy.userId,
+            adToCopy.accountId,
+            newCardIds, // new cardIds
+            newCardLocations, // new cardLocations
+            adToCopy.copyText,
+            adToCopy.copyTextEdited,
+            adToCopy.bestFitAudience,
+            adToCopy.bestFitReasoning,
+            adToCopy.source,
+            adToCopy.reviewDate,
+            adToCopy.userControlledAttributes,
+            adToCopy.xRanges,
+            adToCopy.yRanges,
+            adToCopy.lineHeightMultipliers,
+            adToCopy.filteredTextPositions,
+            adToCopy.themeId,
+        );
+
+        console.log('New ad created in Mongo: ', newAd)
+        return newAd;
     }
 }

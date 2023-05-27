@@ -34,4 +34,12 @@ export class CardController {
     ) {
     return this.cardService.getCardsByAccountId(accountId);
     }
+
+    @Post('copy-cards-and-ad')
+    async copyCardsAndAd(
+        @Body('adId') copyId: string,
+    ) {
+        return this.cardService.copyCardsAndAd(copyId);
+    }
+
 }

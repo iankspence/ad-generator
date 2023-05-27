@@ -349,9 +349,9 @@ export const getAdsByAccountId = async (accountId) => {
     }
 }
 
-export const copyAd = async (adId) => {
+export const copyCardsAndAd = async (adId) => {
     try {
-        const response = await axios.post(`${API_URL}/ad/copy`, { adId });
+        const response = await axios.post(`${API_URL}/card/copy-cards-and-ad`, { adId });
         return response.data;
     } catch (error) {
         console.error(error);

@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Card, CardMedia, IconButton } from '@material-ui/core';
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import { CampaignContext } from "../../../contexts/CampaignContext";
 import LibraryCardButtonGroup from "./LibraryCardButtonGroup";
-import {copyAd, deleteAd} from '../../../utils/api'
+import { copyCardsAndAd, deleteAd } from '../../../utils/api';
 import {PixiContext} from "../../../contexts/PixiContext";
 import {useRouter} from "next/router";
 
@@ -20,7 +20,7 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
 
         if (window.confirm("Are you sure you want to copy this ad?")) {
             try {
-                await copyAd(ad._id);
+                await copyCardsAndAd(ad._id);
                 refreshAds();
             } catch (error) {
                 alert("Failed to copy ad. Please try again later.");
