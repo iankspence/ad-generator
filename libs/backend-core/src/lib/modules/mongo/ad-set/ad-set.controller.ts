@@ -16,4 +16,11 @@ export class AdSetController {
         console.log('adSetId (controller): ', adSetId)
         return this.adSetService.findById(adSetId);
     }
+
+    @Post('delete-ad-set-and-ads-and-cards')
+    deleteAdSetAndAdsAndCards(@Body() dto: {adSetId: string}) {
+
+        console.log('adSetId (controller): ', dto.adSetId)
+        return this.adSetService.deleteAdsetAndAdsAndCards(dto.adSetId);
+    }
 }

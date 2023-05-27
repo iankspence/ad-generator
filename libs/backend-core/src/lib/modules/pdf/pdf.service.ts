@@ -99,7 +99,7 @@ export class PdfService {
             console.log('creatingPdf - end event');
             const pdfData = Buffer.concat(buffers);
 
-            const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}`
+            const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}/PDFs`
 
             // Define the S3 key and parameters
             const key = `${folderName}/${adSet.nameDateTime}.pdf`;

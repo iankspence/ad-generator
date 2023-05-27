@@ -8,7 +8,7 @@ import { audiences } from '../../../utils/constants/audiences'
 import { createAdSetForPdfDelivery } from '../../../utils/api';
 import { getBestFitAudienceNameAgeRangeAndInterests } from '../../../utils/audience/getBestFitAudienceNameAgeRangeAndInterests';
 
-const LibraryCardButtonGroup = ({ ad, isSelected }) => {
+const LibraryCardButtonGroup = ({ ad, isSelected, refreshAds }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const { selectedAds, updateSelectedAds } = useContext(CampaignContext);
     const { user, account } = useContext(UserContext);
@@ -37,6 +37,10 @@ const LibraryCardButtonGroup = ({ ad, isSelected }) => {
             const adIds = selectedAds.map((ad) => ad._id);
             createAdSetForPdfDelivery(userId, accountId, adIds, bestFitAudience, bestFitAudienceName, ageRange, interests);
             updateSelectedAds([]);
+            const resetTime = 7000 * adIds.length;
+            setTimeout(() => {
+                refreshAds();
+            }, resetTime);
         } catch (error) {
             console.error('Error creating AdSet:', error);
         }

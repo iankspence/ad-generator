@@ -25,8 +25,6 @@ const RenderLibraryCards = (ad, width, refreshAds) => {
         }
     });
 
-
-
     if (width === 2) {
         return <LibraryCard key={cardLocations.hook} ad={ad} cardLocation={cardLocations.hook} refreshAds={refreshAds}/>;
     } else {

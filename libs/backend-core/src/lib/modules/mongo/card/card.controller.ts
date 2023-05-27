@@ -46,4 +46,5 @@ export class CardController {
     async deleteCardsAndAd(@Param('id') adId: string) {
         return this.cardService.deleteCardsAndAd(adId);
     }
+
 }

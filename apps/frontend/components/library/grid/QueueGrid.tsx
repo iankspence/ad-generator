@@ -1,25 +1,44 @@
-import React, { useContext } from 'react';
-import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core";
+import React from 'react';
+import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails, IconButton } from "@material-ui/core";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import RenderLibraryCards from '../library-card/RenderLibraryCards';
 import { getGridItemStyle } from './getGridItemStyle';
 import { Ad } from '@monorepo/type';
-import { CampaignContext } from '../../../contexts/CampaignContext'
 import { audiences } from '../../../utils/constants/audiences';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import { deleteAdSetAndAdsAndCards } from '../../../utils/api';
 
 const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, ads, queueWidth, deliveryWidth, refreshAds }) => {
-
     const groupAdsByAdSet = (ads) => {
         return ads.reduce((groups, ad) => {
-            const groupId = ad.adSetNameDateTime;
+            const groupId = ad.adSetId;
             if (!groups[groupId]) {
-                groups[groupId] = [];
+                groups[groupId] = {
+                    ads: [],
+                    adSetNameDateTime: ad.adSetNameDateTime,
+                };
             }
-            groups[groupId].push(ad);
+            groups[groupId].ads.push(ad);
             return groups;
         }, {});
+    };
+
+    const handleDeleteAdSetClick = (adSetId: string) => async (event) => {
+        event.stopPropagation();
+
+        if (window.confirm("Are you sure you want to delete this Ad Set and its associated Ads? This can't be undone!")) {
+            try {
+                await deleteAdSetAndAdsAndCards(adSetId);
+                refreshAds();
+                setTimeout(() => {
+                    refreshAds();
+                }, 7000);
+            } catch (error) {
+                alert("Failed to delete Ad Set. Please try again later.");
+            }
+        }
     };
 
     const getMostCommonAudienceName = (ads) => {
@@ -75,8 +94,8 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
                 <Typography variant="h6">Queue</Typography>
                 {
                     Object.entries(groupAdsByAdSet(ads.filter(ad => ad.adStatus === 'queue')))
-                        .map(([adSetId, ads]: [string, Ad[]], index) => {
-                            const mostCommonAudienceName = getMostCommonAudienceName(ads);
+                        .map(([adSetId, adSet]: [string, { ads: Ad[], adSetNameDateTime: string }], index) => {
+                            const mostCommonAudienceName = getMostCommonAudienceName(adSet.ads);
                             return (
                                 <Accordion key={index}>
                                     <AccordionSummary
@@ -84,11 +103,17 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
                                         aria-controls="panel1a-content"
                                         id="panel1a-header"
                                     >
-                                        <Typography>{adSetId} - {mostCommonAudienceName}</Typography>
+                                        <Typography>{adSet.adSetNameDateTime} - {mostCommonAudienceName}</Typography>
+                                        <IconButton
+                                            onClick={handleDeleteAdSetClick(adSetId)}
+                                            style={{padding: '0', position: 'relative', top: '50%', right: '-2%', opacity: '30%'}}
+                                        >
+                                            <HighlightOffOutlinedIcon />
+                                        </IconButton>
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div style={{display: "flex", flexDirection: "column"}}>
-                                            {ads.map((ad, index) => (
+                                            {adSet.ads.map((ad, index) => (
                                                 <div style={{padding: "16px"}} key={index}>{RenderLibraryCards(ad, queueWidth, refreshAds)}</div>
                                             ))}
                                         </div>

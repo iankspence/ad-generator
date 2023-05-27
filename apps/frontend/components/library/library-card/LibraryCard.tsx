@@ -93,7 +93,7 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
                         style={{padding: '0', position: 'absolute', top: '2%', right: '33%', opacity: '30%'}}
                         aria-label="edit"
                     >
-                        <EditIcon />
+                        {ad?.adStatus === 'fresh' && <EditIcon />}
                     </IconButton>
                     <IconButton
                         onClick={handleDeleteClick}
@@ -112,7 +112,7 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
                 </>
 
             </div>
-            <LibraryCardButtonGroup ad={ad} isSelected={isSelected} />
+            <LibraryCardButtonGroup ad={ad} isSelected={isSelected} refreshAds={refreshAds} />
         </Card>
     );
 };

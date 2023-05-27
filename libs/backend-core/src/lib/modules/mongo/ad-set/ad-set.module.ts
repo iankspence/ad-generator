@@ -5,12 +5,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AdSet, AdSetSchema } from '@monorepo/type';
 import { AdModule } from '../ad/ad.module';
 import { BullConfigModule } from '../../bull/bull.module';
+import { CardModule } from '../card/card.module';
 
 @Module({
     imports: [
         MongooseModule.forFeature([{ name: AdSet.name, schema: AdSetSchema }]),
         AdModule,
         BullConfigModule,
+        CardModule,
     ],
     controllers: [AdSetController],
     providers: [AdSetService],

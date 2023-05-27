@@ -76,9 +76,7 @@ const useMask = (appRef, canvasName, size) => {
                 }
 
                 maskTextures.forEach((texture, index) => {
-
                     if (masks[index]) {
-
                         const maskData = {
                             name: masks[index].name,
                             canvasName,
@@ -86,9 +84,6 @@ const useMask = (appRef, canvasName, size) => {
                             color: generateAutoColor(masks[index].autoColor, account?.primaryColor, account?.secondaryColor)
                         };
                         addMaskLayer(app, maskData, size);
-                    } else {
-                        // handle the situation when masks[index] is undefined
-                        console.error(`No mask found at index ${index}`);
                     }
                 });
             }

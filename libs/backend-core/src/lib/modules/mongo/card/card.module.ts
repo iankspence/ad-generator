@@ -9,5 +9,6 @@ import {AdModule} from "../ad/ad.module";
     imports: [AdModule, MongooseModule.forFeature([{ name: Card.name, schema: CardSchema }]), MongooseModule.forFeature([{ name: Copy.name, schema: CopySchema }])],
     controllers: [CardController],
     providers: [CardService],
+    exports: [CardService]
 })
 export class CardModule {}
