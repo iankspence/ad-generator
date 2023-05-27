@@ -30,11 +30,11 @@ describe('selectPalette', () => {
         expect(selectPalette(autoColorSettings, sourceColor)).toEqual(expectedPalette);
     });
 
-    it('should return undefined when paletteType is not "split-complementary-1", "split-complementary-2", or "adjacent"', () => {
+    it('should throw an error when paletteType is not "split-complementary-1", "split-complementary-2", or "adjacent"', () => {
         const autoColorSettings = {
             paletteType: 'unknown-palette-type',
         };
-        expect(selectPalette(autoColorSettings, sourceColor)).toBeUndefined();
+        expect(() => selectPalette(autoColorSettings, sourceColor)).toThrow('Expected autoColorSettings.paletteType to be either "split-complementary-1", "split-complementary-2", or "adjacent"')
     });
 
     // Here are four more tests with invalid input
