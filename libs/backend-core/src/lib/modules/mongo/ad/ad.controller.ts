@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Body, HttpCode, Post, Delete} from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { AdService } from './ad.service';
 
 @Controller('ad')
@@ -9,10 +9,6 @@ export class AdController {
     getAdsByAccountId(@Param('accountId') accountId: string) {
         return this.adService.getAdsByAccountId(accountId);
     }
-    @Delete('delete/:id')
-    @HttpCode(204)
-    async deleteAd(@Param('id') adId: string) {
-        return this.adService.deleteAd(adId);
-    }
+
 
 }

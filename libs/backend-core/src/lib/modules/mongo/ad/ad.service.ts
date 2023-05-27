@@ -71,5 +71,4 @@ export class AdService {
         }
         await this.adModel.deleteOne({ _id: adId });
     }
-
 }

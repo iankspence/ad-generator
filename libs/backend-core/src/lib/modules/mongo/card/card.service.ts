@@ -1,5 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+    S3Client,
+    PutObjectCommand,
+    GetObjectCommand,
+    ListObjectsV2Command,
+    DeleteObjectCommand,
+} from '@aws-sdk/client-s3';
 import {AccountDocument, Card, CardDocument, ReviewDocument, CopyDocument, Copy, Ad} from "@monorepo/type";
 import {InjectModel} from "@nestjs/mongoose";
 import { Model, Types } from 'mongoose';
@@ -176,7 +182,6 @@ export class CardService {
             oldCard._id = new Types.ObjectId(); // create a new ObjectId
             oldCard.isNew = true; // this makes mongoose treat the document as new
 
-            console.log('oldCard: ', oldCard)
             console.log(oldCard.cardLocation.replace(`${process.env.CF_DOMAIN}/`, ''))
 
             const oldCardParams = {
@@ -248,5 +253,43 @@ export class CardService {
 
         console.log('New ad created in Mongo: ', newAd)
         return newAd;
+    }
+
+
+    async deleteCardsAndAd(adId: string): Promise<void> {
+        const ad = await this.adService.findById(adId);
+        if (!ad) {
+            throw new NotFoundException('Ad not found');
+        }
+
+        // deleting the cards related to the ad
+        for (const card of ad.cardIds) {
+            const cardToDelete = await this.cardModel.findById(card.cardId);
+            const cardKey = cardToDelete.cardLocation.replace(`${process.env.CF_DOMAIN}/`, '');
+
+            // List all objects in the card's folder
+            const listObjectsResponse = await s3.send(
+                new ListObjectsV2Command({
+                    Bucket: process.env.S3_BUCKET_NAME,
+                    Prefix: cardKey,
+                })
+            );
+
+            // Delete all objects in the card's folder
+            for (const object of listObjectsResponse.Contents) {
+                await s3.send(
+                    new DeleteObjectCommand({
+                        Bucket: process.env.S3_BUCKET_NAME,
+                        Key: object.Key,
+                    })
+                );
+            }
+
+            // delete card from MongoDB
+            await this.cardModel.deleteOne({ _id: card.cardId });
+        }
+
+        // deleting the ad
+        await this.adService.deleteAd(adId);
     }
 }

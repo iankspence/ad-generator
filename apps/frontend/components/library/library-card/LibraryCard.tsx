@@ -5,7 +5,7 @@ import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import { CampaignContext } from "../../../contexts/CampaignContext";
 import LibraryCardButtonGroup from "./LibraryCardButtonGroup";
-import { copyCardsAndAd, deleteAd } from '../../../utils/api';
+import { copyCardsAndAd, deleteCardsAndAd } from '../../../utils/api';
 import {PixiContext} from "../../../contexts/PixiContext";
 import {useRouter} from "next/router";
 
@@ -33,7 +33,7 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
 
         if (window.confirm("Are you sure you want to delete this ad? This can't be undone!")) {
             try {
-                await deleteAd(ad._id);
+                await deleteCardsAndAd(ad._id);
                 refreshAds();
             } catch (error) {
                 alert("Failed to delete ad. Please try again later.");

@@ -1,7 +1,6 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Delete, HttpCode } from '@nestjs/common';
 import { CardService } from './card.service';
 import { AccountDocument, ReviewDocument, CopyDocument, Ad, AdDocument } from '@monorepo/type';
-import * as PIXI from "pixi.js";
 
 @Controller('card')
 export class CardController {
@@ -42,4 +41,9 @@ export class CardController {
         return this.cardService.copyCardsAndAd(copyId);
     }
 
+    @Delete('delete/:id')
+    @HttpCode(204)
+    async deleteCardsAndAd(@Param('id') adId: string) {
+        return this.cardService.deleteCardsAndAd(adId);
+    }
 }

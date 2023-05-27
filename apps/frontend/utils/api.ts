@@ -358,9 +358,9 @@ export const copyCardsAndAd = async (adId) => {
     }
 }
 
-export const deleteAd = async (adId) => {
+export const deleteCardsAndAd = async (adId) => {
     try {
-        await axios.delete(`${API_URL}/ad/delete/${adId}`);
+        await axios.delete(`${API_URL}/card/delete/${adId}`);
     } catch (error) {
         console.error(error);
     }
