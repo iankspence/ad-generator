@@ -7,6 +7,7 @@ import { AccountModelService } from '../mongo/account/account-model.service';
 import PDFDocument from 'pdfkit';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { formatDateString } from '../../utils/formatDateString';
 
 const s3 = new S3Client({
     region: process.env.S3_REGION
@@ -70,7 +71,7 @@ export class PdfService {
 
             doc.fontSize(14)
                 .text("Review Date: ", border, border, { underline: false, continued: true })
-                .text(reviewDate, { underline: false, align: 'left' })
+                .text(formatDateString(reviewDate), { underline: false, align: 'left' })
                 .moveDown()
                 .text("Review Source: ", { underline: false, continued: true })
                 .text(source, { underline: false, align: 'left' })

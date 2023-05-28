@@ -4,9 +4,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
 import { CampaignContext } from '../../../contexts/CampaignContext';
 import UserContext from '../../../contexts/UserContext';
-import { audiences } from '../../../utils/constants/audiences'
 import { createAdSetForPdfDelivery } from '../../../utils/api';
 import { getBestFitAudienceNameAgeRangeAndInterests } from '../../../utils/audience/getBestFitAudienceNameAgeRangeAndInterests';
+import { formatDateString } from '../../../utils/formatDateString';
 
 const LibraryCardButtonGroup = ({ ad, isSelected, refreshAds }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -77,7 +77,7 @@ const LibraryCardButtonGroup = ({ ad, isSelected, refreshAds }) => {
                         <strong>Review Source:</strong> {source}
                     </Typography>
                     <Typography variant="body1" component="p" style={{fontSize: "14px"}}>
-                        <strong>Review Date:</strong> {reviewDate}
+                        <strong>Review Date:</strong> {formatDateString(reviewDate)}
                     </Typography>
                     <Typography variant="body1" component="p" style={{fontSize: "14px"}}>
                         <strong>Ad Created:</strong> {adNameDateTime.split('__')[0]}
