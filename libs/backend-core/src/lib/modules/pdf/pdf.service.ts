@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AdSet, AdSetDocument } from '@monorepo/type';
 import axios from 'axios';
-import { createNameDateTime } from '../../utils/createNameDateTime';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { AdService } from '../mongo/ad/ad.service';
 import { AccountModelService } from '../mongo/account/account-model.service';
@@ -37,8 +36,7 @@ export class PdfService {
 
         doc.on('data', buffers.push.bind(buffers));
 
-        console.log('creatingPdf - entering loop with ads: ', ads);
-
+        let pageNumber = 0; // Initialize the page number
 
         for (const ad of ads) {
 
@@ -55,20 +53,22 @@ export class PdfService {
             const images = await Promise.all(promises);
 
             const pageWidth = doc.page.width;
-            const pageHeight = doc.page.height;
             const border = 30;
             const imageSpace = 15;
             const imageWidth = (pageWidth - 2 * border - imageSpace) / 2;
-            const imageHeight = imageWidth;
             const textSpace = 35;
 
             // Add the ad copy and audience
             const adCopy = ad.copyTextEdited ? ad.copyTextEdited : ad.copyText;
-            const audience = ad.bestFitReasoning;
             const source = ad.source;
             const reviewDate = ad.reviewDate;
 
-            doc.fontSize(10)
+            pageNumber++;
+
+            doc.fontSize(14)
+                .text(`${pageNumber} of ${ads.length}`, doc.page.width - 120, border, { align: 'right' });
+
+            doc.fontSize(14)
                 .text("Review Date: ", border, border, { underline: false, continued: true })
                 .text(reviewDate, { underline: false, align: 'left' })
                 .moveDown()
@@ -77,16 +77,13 @@ export class PdfService {
                 .moveDown()
                 .text("Ad Copy: ", { underline: false, continued: true })
                 .text(adCopy, { underline: false, align: 'left' })
-                .moveDown()
-                .text("Ad Audience: ", { underline: false, continued: true })
-                .text(audience, { underline: false, align: 'left' });
 
             const textHeight = doc.y + textSpace;
 
             // Draw the 2x2 images
             for (let i = 0; i < images.length; i++) {
                 const x = border + (i % 2) * (imageWidth + imageSpace);
-                const y = textHeight + Math.floor(i / 2) * (imageHeight + imageSpace);
+                const y = textHeight + Math.floor(i / 2) * (imageWidth + imageSpace);
                 doc.image(images[i], x, y, { width: imageWidth });
             }
 

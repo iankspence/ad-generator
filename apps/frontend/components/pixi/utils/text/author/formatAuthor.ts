@@ -34,5 +34,5 @@ export const formatAuthor = (author) => {
     nameParts = capitalizeAuthorNameParts(nameParts);
     nameParts = abbreviateNamesAfterFirst(nameParts);
 
-    return `-${nameParts.join(' ')}`;
+    return `- ${nameParts.join(' ')}`;
 };
