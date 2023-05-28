@@ -4,7 +4,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import { CampaignContext } from "../../../contexts/CampaignContext";
-import LibraryCardButtonGroup from "./LibraryCardButtonGroup";
+import LibraryCardBottomButtonGroup from "./LibraryCardBottomButtonGroup";
 import { copyCardsAndAd, deleteCardsAndAd } from '../../../utils/api';
 import {PixiContext} from "../../../contexts/PixiContext";
 import {useRouter} from "next/router";
@@ -112,7 +112,7 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
                 </>
 
             </div>
-            <LibraryCardButtonGroup ad={ad} isSelected={isSelected} refreshAds={refreshAds} />
+            <LibraryCardBottomButtonGroup ad={ad} isSelected={isSelected} refreshAds={refreshAds} />
         </Card>
     );
 };

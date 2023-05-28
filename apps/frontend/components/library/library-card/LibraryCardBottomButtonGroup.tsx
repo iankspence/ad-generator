@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { IconButton, CardContent, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { CampaignContext } from '../../../contexts/CampaignContext';
 import UserContext from '../../../contexts/UserContext';
 import { createAdSetForPdfDelivery } from '../../../utils/api';
 import { getBestFitAudienceNameAgeRangeAndInterests } from '../../../utils/audience/getBestFitAudienceNameAgeRangeAndInterests';
 import { formatDateString } from '../../../utils/formatDateString';
 
-const LibraryCardButtonGroup = ({ ad, isSelected, refreshAds }) => {
+const LibraryCardBottomButtonGroup = ({ ad, isSelected, refreshAds }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const { selectedAds, updateSelectedAds } = useContext(CampaignContext);
     const { user, account } = useContext(UserContext);
@@ -55,10 +55,10 @@ const LibraryCardButtonGroup = ({ ad, isSelected, refreshAds }) => {
                 {isSelected(ad) && (
                     <IconButton
                         onClick={handleCreateAdSetFromSelectedAds}
-                        style={{padding: '0', position: 'absolute', right: '2%'}}
+                        style={{padding: '0', position: 'absolute', right: '3%', top: '12%'}}
                         aria-label="add to library"
                     >
-                        <CreateNewFolderOutlinedIcon />
+                        <PictureAsPdfIcon fontSize="small" />
                     </IconButton>
                 )}
 
@@ -94,4 +94,4 @@ const LibraryCardButtonGroup = ({ ad, isSelected, refreshAds }) => {
     );
 };
 
-export default LibraryCardButtonGroup;
+export default LibraryCardBottomButtonGroup;
