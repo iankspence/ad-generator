@@ -35,7 +35,7 @@ const LibraryCardBottomButtonGroup = ({ ad, isSelected, refreshAds }) => {
     const IconComponent = () => {
         if (adStatus === 'fresh') {
             return <PictureAsPdfIcon fontSize="small" />;
-        } else if (adStatus === 'queue') {
+        } else if (adStatus === 'pdf') {
             return <FacebookIcon fontSize="small" />;
         } else {
             return null;

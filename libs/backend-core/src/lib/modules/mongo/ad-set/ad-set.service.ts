@@ -23,11 +23,10 @@ export class AdSetService {
         const nameDateTime = createNameDateTime('America/Edmonton')
         const createdAdSet = new this.adSetModel({ ...adSetData, nameDateTime });
 
-        // Update adStatus and deliveryType for each ad in adIds
+        // Update adStatus for each ad in adIds
         for (const adId of adSetData.adIds) {
             const updatedAd = await this.adService.findById(adId);
-            updatedAd.adStatus = 'queue';
-            updatedAd.deliveryType = 'pdf';
+            updatedAd.adStatus = 'pdf';
             updatedAd.adSetId = createdAdSet._id.toString();
             updatedAd.adSetNameDateTime = nameDateTime;
             const savedAd = await updatedAd.save();

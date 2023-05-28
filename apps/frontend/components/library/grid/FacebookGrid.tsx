@@ -4,11 +4,11 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import RenderLibraryCards from '../library-card/RenderLibraryCards';
 import { getGridItemStyle } from './getGridItemStyle';
 
-const DeliveredGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, ads, deliveryWidth, refreshAds }) => {
+const FacebookGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads, facebookWidth, refreshAds }) => {
     return (
-        <Grid container item xs={deliveryWidth} style={getGridItemStyle(deliveryWidth)}>
+        <Grid container item xs={facebookWidth} style={getGridItemStyle(facebookWidth)}>
             {
-                deliveryWidth === 2 &&
+                facebookWidth === 2 &&
                 <Grid
                     item
                     xs={1}
@@ -20,7 +20,7 @@ const DeliveredGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWi
                         backgroundColor: '#fff',
                         borderRadius: '5px 0 0 5px',
                     }}
-                    onClick={() => handleResize(setDeliveryWidth, setAdsWidth, setQueueWidth)}
+                    onClick={() => handleResize(setFacebookWidth, setAdsWidth, setPdfWidth)}
                 >
                     <KeyboardArrowLeftIcon
                         style={{
@@ -29,14 +29,14 @@ const DeliveredGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWi
                     />
                 </Grid>
             }
-            <Grid item xs={deliveryWidth === 8 ? 12 : 11}>
-                <Typography variant="h6">Delivered</Typography>
-                {ads.filter(ad => ad.adStatus === 'delivered').map((ad, index) => (
-                    <div style={{padding: "16px"}} key={index}>{RenderLibraryCards(ad, deliveryWidth, refreshAds)}</div>
+            <Grid item xs={facebookWidth === 8 ? 12 : 11}>
+                <Typography variant="h6">Facebook Ad Sets</Typography>
+                {ads.filter(ad => ad.adStatus === 'facebook').map((ad, index) => (
+                    <div style={{padding: "16px"}} key={index}>{RenderLibraryCards(ad, facebookWidth, refreshAds)}</div>
                 ))}
             </Grid>
         </Grid>
     );
 };
 
-export default DeliveredGrid;
+export default FacebookGrid;

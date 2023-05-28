@@ -8,7 +8,7 @@ import { getAdsByAccountId } from '../../../utils/api';
 import UserContext from "../../../contexts/UserContext";
 import AudienceSelector from '../../pixi/design-drawer/text-input/selector/AudienceSelector';
 
-const AdsGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, ads, adsWidth, refreshAds }) => {
+const AdsGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads, adsWidth, refreshAds }) => {
 
     const { updateAds, selectedAudiencePosition } = useContext(CampaignContext);
     const { account } = useContext(UserContext);
@@ -27,7 +27,7 @@ const AdsGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, a
     return (
         <Grid container item xs={adsWidth} style={getGridItemStyle(adsWidth)}>
             <Grid item xs={adsWidth === 8 ? 12 : 11}>
-                <Typography variant="h6">Ads</Typography>
+                <Typography variant="h6">Fresh Ads</Typography>
                 <div style={{height: '8px'}} />
                 <AudienceSelector countTarget={'ads-fresh'} />
                 {ads.filter(ad => (ad.adStatus === 'fresh') && (Number(ad.bestFitAudience) === selectedAudiencePosition)).map((ad, index) => (
@@ -47,7 +47,7 @@ const AdsGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, a
                         backgroundColor: '#fff',
                         borderRadius: '0 5px 5px 0',
                     }}
-                    onClick={() => handleResize(setAdsWidth, setQueueWidth, setDeliveryWidth)}
+                    onClick={() => handleResize(setAdsWidth, setPdfWidth, setFacebookWidth)}
                 >
                     {
                         adsWidth === 2 &&
@@ -62,7 +62,7 @@ const AdsGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, a
                                 backgroundColor: '#fff',
                                 borderRadius: '0 5px 5px 0',
                             }}
-                            onClick={() => handleResize(setAdsWidth, setQueueWidth, setDeliveryWidth)}
+                            onClick={() => handleResize(setAdsWidth, setPdfWidth, setFacebookWidth)}
                         >
 
                         </Grid>

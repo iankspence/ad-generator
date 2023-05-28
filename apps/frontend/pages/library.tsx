@@ -5,15 +5,15 @@ import { getAdsByAccountId } from "../utils/api";
 import UserContext from "../contexts/UserContext";
 import {CampaignContext} from "../contexts/CampaignContext";
 import AdsGrid from "../components/library/grid/AdsGrid";
-import QueueGrid from "../components/library/grid/QueueGrid";
-import DeliveredGrid from "../components/library/grid/DeliveredGrid";
+import PdfGrid from "../components/library/grid/PdfGrid";
+import FacebookGrid from "../components/library/grid/FacebookGrid";
 
 const Library = () => {
     const { account } = useContext(UserContext);
     const { ads, updateAds } = useContext(CampaignContext);
     const [adsWidth, setAdsWidth] = useState(2);
-    const [queueWidth, setQueueWidth] = useState(8);
-    const [deliveryWidth, setDeliveryWidth] = useState(2);
+    const [pdfWidth, setPdfWidth] = useState(8);
+    const [facebookWidth, setFacebookWidth] = useState(2);
 
     const handleResize = (
         setterToExpand,
@@ -47,29 +47,29 @@ const Library = () => {
                     <AdsGrid
                         handleResize={handleResize}
                         setAdsWidth={setAdsWidth}
-                        setQueueWidth={setQueueWidth}
-                        setDeliveryWidth={setDeliveryWidth}
+                        setPdfWidth={setPdfWidth}
+                        setFacebookWidth={setFacebookWidth}
                         ads={ads}
                         adsWidth={adsWidth}
                         refreshAds={refreshAds}
                     />
-                    <QueueGrid
+                    <PdfGrid
                         handleResize={handleResize}
                         setAdsWidth={setAdsWidth}
-                        setQueueWidth={setQueueWidth}
-                        setDeliveryWidth={setDeliveryWidth}
+                        setPdfWidth={setPdfWidth}
+                        setFacebookWidth={setFacebookWidth}
                         ads={ads}
-                        queueWidth={queueWidth}
-                        deliveryWidth={deliveryWidth}
+                        pdfWidth={pdfWidth}
+                        facebookWidth={facebookWidth}
                         refreshAds={refreshAds}
                     />
-                    <DeliveredGrid
+                    <FacebookGrid
                         handleResize={handleResize}
                         setAdsWidth={setAdsWidth}
-                        setQueueWidth={setQueueWidth}
-                        setDeliveryWidth={setDeliveryWidth}
+                        setPdfWidth={setPdfWidth}
+                        setFacebookWidth={setFacebookWidth}
                         ads={ads}
-                        deliveryWidth={deliveryWidth}
+                        facebookWidth={facebookWidth}
                         refreshAds={refreshAds}
                     />
                 </Grid>

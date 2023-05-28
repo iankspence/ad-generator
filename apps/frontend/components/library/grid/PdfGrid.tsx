@@ -10,7 +10,7 @@ import { audiences } from '../../../utils/constants/audiences';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import { deleteAdSetAndAdsAndCards } from '../../../utils/api';
 
-const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, ads, queueWidth, deliveryWidth, refreshAds }) => {
+const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads, pdfWidth, facebookWidth, refreshAds }) => {
     const groupAdsByAdSet = (ads) => {
         return ads.reduce((groups, ad) => {
             const groupId = ad.adSetId;
@@ -67,9 +67,9 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
     if (!ads.length) return null;
 
     return (
-        <Grid container item xs={queueWidth} style={getGridItemStyle(queueWidth)}>
+        <Grid container item xs={pdfWidth} style={getGridItemStyle(pdfWidth)}>
             {
-                queueWidth === 2 && deliveryWidth === 2 &&
+                pdfWidth === 2 && facebookWidth === 2 &&
                 <Grid
                     item
                     xs={1}
@@ -81,7 +81,7 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
                         backgroundColor: '#fff',
                         borderRadius: '5px 0 0 5px',
                     }}
-                    onClick={() => handleResize(setQueueWidth, setAdsWidth, setDeliveryWidth)}
+                    onClick={() => handleResize(setPdfWidth, setAdsWidth, setFacebookWidth)}
                 >
                     <KeyboardArrowLeftIcon
                         style={{
@@ -90,10 +90,10 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
                     />
                 </Grid>
             }
-            <Grid item xs={queueWidth === 8 ? 12 : 11}>
-                <Typography variant="h6">Queue</Typography>
+            <Grid item xs={pdfWidth === 8 ? 12 : 11}>
+                <Typography variant="h6">PDF Ad Sets</Typography>
                 {
-                    Object.entries(groupAdsByAdSet(ads.filter(ad => ad.adStatus === 'queue')))
+                    Object.entries(groupAdsByAdSet(ads.filter(ad => ad.adStatus === 'pdf')))
                         .map(([adSetId, adSet]: [string, { ads: Ad[], adSetNameDateTime: string }], index) => {
                             const mostCommonAudienceName = getMostCommonAudienceName(adSet.ads);
                             return (
@@ -114,7 +114,7 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
                                     <AccordionDetails>
                                         <div style={{display: "flex", flexDirection: "column"}}>
                                             {adSet.ads.map((ad, index) => (
-                                                <div style={{padding: "16px"}} key={index}>{RenderLibraryCards(ad, queueWidth, refreshAds)}</div>
+                                                <div style={{padding: "16px"}} key={index}>{RenderLibraryCards(ad, pdfWidth, refreshAds)}</div>
                                             ))}
                                         </div>
                                     </AccordionDetails>
@@ -124,7 +124,7 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
                 }
             </Grid>
             {
-                queueWidth === 2 && deliveryWidth === 8 &&
+                pdfWidth === 2 && facebookWidth === 8 &&
                 <Grid
                     item
                     xs={1}
@@ -136,7 +136,7 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
                         backgroundColor: '#fff',
                         borderRadius: '0 5px 5px 0',
                     }}
-                    onClick={() => handleResize(setQueueWidth, setAdsWidth, setDeliveryWidth)}
+                    onClick={() => handleResize(setPdfWidth, setAdsWidth, setFacebookWidth)}
                 >
                     <KeyboardArrowRightIcon
                         style={{
@@ -149,4 +149,4 @@ const QueueGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth,
     );
 };
 
-export default QueueGrid;
+export default PdfGrid;
