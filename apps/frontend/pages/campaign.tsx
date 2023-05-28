@@ -1,4 +1,4 @@
-import ContentGenerator from '../components/content-generator/ContentGenerator';
+import ContentGenerator from '../components/pixi/content-generator/ContentGenerator';
 import TopNav from '../components/top-nav/TopNav';
 import { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';

@@ -1,5 +1,5 @@
-import { ScrapeGoogleMapsButton } from '../review/ScrapeGoogleMapsButton';
-import ScrapeRateMdsButton from '../review/ScrapeRateMdsButton';
+import { ScrapeGoogleMapsButton } from '../ScrapeGoogleMapsButton';
+import ScrapeRateMdsButton from '../ScrapeRateMdsButton';
 import { AccountDocument } from '@monorepo/type';
 import React from 'react';
 

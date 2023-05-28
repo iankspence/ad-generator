@@ -1,4 +1,4 @@
-import { audiences } from '../../utils/constants/audiences';
+import { audiences } from '../../../utils/constants/audiences';
 import React from 'react';
 
 interface SidebarAudienceTextAreaProps {

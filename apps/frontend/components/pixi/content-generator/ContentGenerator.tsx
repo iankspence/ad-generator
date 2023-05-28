@@ -1,17 +1,18 @@
-import { PixiContext } from '../../contexts/PixiContext';
-import CanvasClient from '../pixi/canvas/CanvasClient';
-import DesignDrawer from '../pixi/design-drawer/DesignDrawer';
-import CanvasNavigation from '../pixi/floating-buttons/CanvasNavigation';
-import CanvasViewToggle from '../pixi/floating-buttons/CanvasViewToggle';
-import SaveButton from '../pixi/floating-buttons/SaveButton';
-import ThemeSelector from '../pixi/floating-buttons/ThemeSelector';
+import { PixiContext } from '../../../contexts/PixiContext';
+import CanvasClient from '../canvas/CanvasClient';
+import DesignDrawer from '../design-drawer/DesignDrawer';
+import CanvasNavigation from '../floating-buttons/CanvasNavigation';
+import CanvasViewToggle from '../floating-buttons/CanvasViewToggle';
+import SaveButton from '../floating-buttons/SaveButton';
+import ThemeSelector from '../floating-buttons/ThemeSelector';
 import React, { useContext, useState } from 'react';
 import {handleThemeChange} from "./handleThemeChange";
 import {handleToggleView} from "./handleToggleView";
 import {handlePreviousCanvas} from "./handlePreviousCanvas";
 import {handleNextCanvas} from "./handleNextCanvas";
 import renderCanvas from "./renderCanvas";
-import FreezeEditAttributesButton from '../pixi/floating-buttons/FreezeEditAttributesButton';
+import FreezeEditAttributesButton from '../floating-buttons/FreezeEditAttributesButton';
+import AdCopyDisplay from '../ad-copy-display/AdCopyDisplay';
 
 const ContentGenerator = ({ primaryColor, secondaryColor }) => {
     const { selectedThemeId, updateSelectedThemeId, activeCanvases, updateActiveCanvases } = useContext(PixiContext);
@@ -75,6 +76,11 @@ const ContentGenerator = ({ primaryColor, secondaryColor }) => {
     return (
         <>
             <div className="w-full">
+                <AdCopyDisplay
+                    rightDrawerOpen={rightDrawerOpen}
+                    singleCanvasView={singleCanvasView}
+                />
+
                 <div className="fixed top-8 left-1/2 transform -translate-x-1/2 z-10 flex items-center space-x-4">
                     <ThemeSelector selectedThemeId={selectedThemeId} onThemeChange={(event) => handleThemeChange(event, updateSelectedThemeId)} />
                     <CanvasViewToggle singleCanvasView={singleCanvasView} onToggle={(event) => handleToggleView(event, singleCanvasView, setSingleCanvasView, activeCanvases, canvases, currentCanvasIndex, updateActiveCanvases) } />
