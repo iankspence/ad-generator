@@ -15,6 +15,13 @@ const MasterTextStyleAccordion = () => {
             <AccordionDetails>
                 <ActiveCanvasButtonGroup/>
 
+                <TextStyleAccordion
+                    textName={'main'}
+                />
+                <TextStyleAccordion
+                    textName={'author'}
+                />
+
                 <Accordion>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                         <Typography variant="subtitle1">XY Range</Typography>
@@ -28,13 +35,6 @@ const MasterTextStyleAccordion = () => {
                         />
                     </AccordionDetails>
                 </Accordion>
-
-                <TextStyleAccordion
-                    textName={'main'}
-                />
-                <TextStyleAccordion
-                    textName={'author'}
-                />
 
             </AccordionDetails>
         </Accordion>

@@ -44,7 +44,7 @@ export const saveAllApps = async (
         const canvases = await Promise.all(canvasNames.map(async (name, index) => {
             if (!canvasApps[name]) return;
             const dataUrl = await getCanvasData(canvasApps[name], width, height);
-            const { sourceText, sourceTextEdited, sourceTextId } = getTextData(name, filteredDataArray[index], positionArray[index]);
+            const { sourceTextId, sourceText, sourceTextEdited } = getTextData(name, filteredDataArray[index], positionArray[index]);
 
             return { canvasName: name, dataUrl, sourceTextId, sourceText, sourceTextEdited };
         }));

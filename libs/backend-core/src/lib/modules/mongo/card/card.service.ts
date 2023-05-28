@@ -26,7 +26,22 @@ export class CardService {
 
 ) {}
 
-    async saveCanvases(canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>, userId: string, account: AccountDocument, review: ReviewDocument, copy: CopyDocument, themeId: string, backgroundImageLocation: string, maskLocations: {maskLocation: string, maskName: string}[], userControlledAttributes: Ad["userControlledAttributes"], xRanges: Ad["xRanges"], yRanges: Ad["yRanges"], lineHeightMultipliers: Ad["lineHeightMultipliers"], filteredTextPositions: Ad["filteredTextPositions"], editAd) {
+    async saveCanvases(
+        canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>,
+        userId: string,
+        account: AccountDocument,
+        review: ReviewDocument,
+        copy: CopyDocument,
+        themeId: string,
+        backgroundImageLocation: string,
+        maskLocations: {maskLocation: string, maskName: string}[],
+        userControlledAttributes: Ad["userControlledAttributes"],
+        xRanges: Ad["xRanges"],
+        yRanges: Ad["yRanges"],
+        lineHeightMultipliers: Ad["lineHeightMultipliers"],
+        filteredTextPositions: Ad["filteredTextPositions"],
+        editAd) {
+
         const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}`
         const results = [];
 
@@ -35,6 +50,10 @@ export class CardService {
 
         const timeZone = 'America/Edmonton'
         const adNameDateTime = createNameDateTime(timeZone)
+        let newAdNameDateTime;
+        if (editAd) {
+            newAdNameDateTime = `${editAd.adNameDateTime.split('____')[0]}____${adNameDateTime}`;
+        }
 
         for (const {canvasName, dataUrl, sourceTextId, sourceText, sourceTextEdited} of canvases) {
             const base64Data = Buffer.from(dataUrl.replace(/^data:image\/\w+;base64,/, ""), 'base64');
@@ -59,10 +78,11 @@ export class CardService {
 
             console.log('canvasName: copy: ', canvasName, copy)
 
-            const key = `${folderName}/${adNameDateTime}/${orderedCanvasName}.png`;
+            // use the newAdNameDateTime for the new key
+            const newKey = editAd ? `${folderName}/${newAdNameDateTime}/${orderedCanvasName}.png` : `${folderName}/${adNameDateTime}/${orderedCanvasName}.png`;
             const params = {
                 Bucket: process.env.S3_BUCKET_NAME,
-                Key: key,
+                Key: newKey, // save the new cards with the new path
                 Body: base64Data,
                 ContentType: 'image/png'
             };
@@ -70,22 +90,70 @@ export class CardService {
             try {
                 const result = await s3.send(new PutObjectCommand(params));
 
-                const card = new this.cardModel({
-                    userId,
-                    accountId: account._id,
-                    cardName: canvasName,
-                    sourceTextId,
-                    sourceText,
-                    sourceTextEdited,
-                    cardLocation: `${process.env.CF_DOMAIN}/${key}`,
-                    backgroundImageLocation,
-                    maskLocations,
-                    themeId,
-                    primaryColor: account?.primaryColor,
-                    secondaryColor: account?.secondaryColor
-                });
+                let savedCard;
+                if (editAd) {
+                    // If editing, update existing card
 
-                const savedCard = await card.save();
+                    // cardLocation is the old cardLocation
+
+                    savedCard = await this.cardModel.findOneAndUpdate(
+                        {
+                            _id: editAd.cardIds.find(card => card.canvasName === canvasName).cardId,
+                            userId,
+                            accountId: account._id,
+                            cardName: canvasName
+                        },
+                        {
+                            cardLocation: `${process.env.CF_DOMAIN}/${newKey}`,
+                            sourceTextId,
+                            sourceText,
+                            sourceTextEdited,
+                            backgroundImageLocation,
+                            maskLocations,
+                            themeId,
+                            primaryColor: account?.primaryColor,
+                            secondaryColor: account?.secondaryColor
+                        },
+                        { new: true }
+                    );
+
+                    if (!savedCard) {
+                        throw new NotFoundException('Card not found');
+                    }
+                    if (savedCard) {
+                        const oldCardLocation = editAd.cardLocations.find(card => card.canvasName === canvasName).cardLocation;
+                        const oldKey = oldCardLocation.split(`${process.env.CF_DOMAIN}/`)[1];
+                        const deleteParams = {
+                            Bucket: process.env.S3_BUCKET_NAME,
+                            Key: oldKey
+                        };
+                        try {
+                            await s3.send(new DeleteObjectCommand(deleteParams));
+                        } catch (error) {
+                            console.error('Error deleting old card:', error);
+                            throw error;
+                        }
+                    }
+                } else {
+                    // If not editing, create new card
+                    const card = new this.cardModel({
+                        userId,
+                        accountId: account._id,
+                        cardName: canvasName,
+                        sourceTextId,
+                        sourceText,
+                        sourceTextEdited,
+                        cardLocation: `${process.env.CF_DOMAIN}/${newKey}`,
+                        backgroundImageLocation,
+                        maskLocations,
+                        themeId,
+                        primaryColor: account?.primaryColor,
+                        secondaryColor: account?.secondaryColor
+                    });
+
+                    savedCard = await card.save();
+                }
+
                 cardIds.push({
                     canvasName: savedCard.cardName,
                     cardId: savedCard._id
@@ -114,7 +182,7 @@ export class CardService {
 
             const updatedAd = await this.adService.updateAd(
                 editAd,
-                adNameDateTime,
+                editAd.adNameDateTime,
                 userId,
                 account._id.toString(),
                 cardIds,
@@ -174,7 +242,13 @@ export class CardService {
         const newCardIds = [];
         const newCardLocations = [];
 
-        const dateNameTime = createNameDateTime('America/Edmonton');
+        // First datetime is extracted from the ad being copied
+        const originalAdDateTime = adToCopy.adNameDateTime;
+
+        // Second datetime is current time
+        const currentDateTime = createNameDateTime('America/Edmonton');
+
+        const newAdNameDateTime = `${originalAdDateTime.split('____')[0]}____${currentDateTime}`;
 
         // copying the cards
         for (let i = 0; i < adToCopy.cardIds.length; i++) {
@@ -184,10 +258,12 @@ export class CardService {
 
             console.log(oldCard.cardLocation.replace(`${process.env.CF_DOMAIN}/`, ''))
 
+
             const oldCardParams = {
                 Bucket: process.env.S3_BUCKET_NAME,
                 Key: oldCard.cardLocation.replace(`${process.env.CF_DOMAIN}/`, '')
             };
+
 
             const oldCardData = await s3.send(new GetObjectCommand(oldCardParams));
 
@@ -202,8 +278,9 @@ export class CardService {
 
             // Generate a new key (file name) for the copied PNG file
             const oldKeyParts = oldCardParams.Key.split('/');
-            oldKeyParts[oldKeyParts.length - 2] = dateNameTime;
+            oldKeyParts[oldKeyParts.length - 2] = newAdNameDateTime;
             const newKey = oldKeyParts.join('/');
+
 
             // Upload the copied PNG file to S3
             const newCardParams = {
@@ -232,7 +309,7 @@ export class CardService {
 
         // now creating the ad with the new cardIds and cardLocations
         const newAd = await this.adService.createAd(
-            createNameDateTime('America/Edmonton'),
+            newAdNameDateTime,
             adToCopy.userId,
             adToCopy.accountId,
             newCardIds, // new cardIds

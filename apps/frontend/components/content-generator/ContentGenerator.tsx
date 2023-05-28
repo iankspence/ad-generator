@@ -18,7 +18,7 @@ const ContentGenerator = ({ primaryColor, secondaryColor }) => {
 
     const [rightDrawerOpen, setRightDrawerOpen] = useState(false);
     const [currentCanvasIndex, setCurrentCanvasIndex] = useState(0);
-    const [singleCanvasView, setSingleCanvasView] = useState(true);
+    const [singleCanvasView, setSingleCanvasView] = useState(false);
     const [canvasSize] = useState(320);
 
     const canvases = [
