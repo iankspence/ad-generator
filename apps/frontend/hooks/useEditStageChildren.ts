@@ -8,7 +8,7 @@ import * as PIXI from "pixi.js";
 
 const useEditStageChildren = (appRef, canvasName) => {
     const { editAd, updateBackgroundImageLocation, updateRange, updateLineHeightMultipliers, lineHeightMultipliers, updateCanvasApp, selectedThemeId, updateSelectedThemeId, xRanges, yRanges, userControlledAttributes, freezeEditAdAttributes } = useContext(PixiContext);
-    const {updateSelectedAudiencePosition, updateReviewPosition, updateHookPosition, updateClaimPosition, updateClosePosition } = useContext(CampaignContext)
+    const {updateSelectedAudiencePosition, updateReviewPosition, updateHookPosition, updateClaimPosition, updateClosePosition, updateCopyPosition } = useContext(CampaignContext)
     const { account } = useContext(UserContext);
     const router = useRouter();
     const [cards, setCards] = useState([]);
@@ -27,6 +27,9 @@ const useEditStageChildren = (appRef, canvasName) => {
 
         const closePosition = editAd.filteredTextPositions.find(position => position.canvasName === 'close').position;
         updateClosePosition(closePosition);
+
+        const copyPosition = editAd.filteredTextPositions.find(position => position.canvasName === 'copy').position;
+        updateCopyPosition(copyPosition);
     }
 
     const updateRangesFromAd = (editAd) => {
