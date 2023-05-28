@@ -1,10 +1,8 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Grid, Typography } from "@material-ui/core";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import MultiAudienceSelector from '../selector/MultiAudienceSelector';
 import RenderLibraryCards from '../library-card/RenderLibraryCards';
 import { getGridItemStyle } from './getGridItemStyle';
-import { audiences } from "../../../utils/constants/audiences";
 import {CampaignContext} from "../../../contexts/CampaignContext";
 import { getAdsByAccountId } from '../../../utils/api';
 import UserContext from "../../../contexts/UserContext";
@@ -29,8 +27,9 @@ const AdsGrid = ({ handleResize, setAdsWidth, setQueueWidth, setDeliveryWidth, a
     return (
         <Grid container item xs={adsWidth} style={getGridItemStyle(adsWidth)}>
             <Grid item xs={adsWidth === 8 ? 12 : 11}>
-                <AudienceSelector countTarget={'ads-fresh'} />
                 <Typography variant="h6">Ads</Typography>
+                <div style={{height: '8px'}} />
+                <AudienceSelector countTarget={'ads-fresh'} />
                 {ads.filter(ad => (ad.adStatus === 'fresh') && (Number(ad.bestFitAudience) === selectedAudiencePosition)).map((ad, index) => (
                     <div style={{padding: "16px"}} key={index}>{RenderLibraryCards(ad, adsWidth, refreshAds)}</div>
                 ))}

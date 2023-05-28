@@ -14,7 +14,6 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
     const { updateEditAd, updateBackgroundImageLocation, updateFreezeEditAdAttributes, updateShowFreezeEditAttributeButton } = useContext(PixiContext)
     const router = useRouter();
 
-
     const handleCopyClick = async (event) => {
         event.stopPropagation();
 

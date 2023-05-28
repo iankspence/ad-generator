@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { IconButton, CardContent, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import FacebookIcon from '@mui/icons-material/Facebook';
 import { CampaignContext } from '../../../contexts/CampaignContext';
 import UserContext from '../../../contexts/UserContext';
 import { createAdSetForPdfDelivery } from '../../../utils/api';
@@ -29,6 +30,17 @@ const LibraryCardBottomButtonGroup = ({ ad, isSelected, refreshAds }) => {
     const source = ad?.source || null;
     const bestFitReasoning = ad?.bestFitReasoning || null;
     const adNameDateTime = ad?.adNameDateTime || null;
+    const adStatus = ad?.adStatus || '';
+
+    const IconComponent = () => {
+        if (adStatus === 'fresh') {
+            return <PictureAsPdfIcon fontSize="small" />;
+        } else if (adStatus === 'queue') {
+            return <FacebookIcon fontSize="small" />;
+        } else {
+            return null;
+        }
+    }
 
     const handleCreateAdSetFromSelectedAds = (event) => {
         event.stopPropagation();
@@ -58,7 +70,7 @@ const LibraryCardBottomButtonGroup = ({ ad, isSelected, refreshAds }) => {
                         style={{padding: '0', position: 'absolute', right: '3%', top: '12%'}}
                         aria-label="add to library"
                     >
-                        <PictureAsPdfIcon fontSize="small" />
+                        <IconComponent />
                     </IconButton>
                 )}
 
