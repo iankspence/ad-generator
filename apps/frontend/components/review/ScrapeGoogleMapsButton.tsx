@@ -31,9 +31,7 @@ export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, account, setAc
                 await getGoogleMapsReviews(userId, account._id.toString(), googleQuery);
 
                 const updatedAccount = await addGoogleQuery(account._id.toString(), googleQuery);
-                console.log('Updated account after adding google query:', updatedAccount);
                 setAccount(updatedAccount);
-                // Hide the form after submission
                 toggleGoogleQueryForm();
             } catch (error) {
                 console.error('Error fetching Google Maps Reviews:', error);
