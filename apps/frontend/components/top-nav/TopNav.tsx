@@ -19,7 +19,7 @@ const TopNav = () => {
                 {user ? (
                     <>
                         <span
-                            className={`block w-full text-center items-center md:my-0 md:inline-block md:mx-2
+                            className={`block w-full text-center items-center  mt-2 md:my-0 md:inline-block md:mx-2
                             ${router.asPath === '/reviews' ? 'text-blue-500' : 'text-white'}`}
                         >
                             <Link href="/reviews" id="reviews">
@@ -28,7 +28,7 @@ const TopNav = () => {
                         </span>
 
                         <span
-                            className={`block w-full text-center items-center md:my-0 md:inline-block md:mx-2
+                            className={`block w-full text-center items-center  mt-2 md:my-0 md:inline-block md:mx-2
                             ${router.asPath === '/campaign' ? 'text-blue-500' : 'text-white'}`}
                         >
                             <Link href="/campaign" id="campaign">
@@ -37,7 +37,7 @@ const TopNav = () => {
                         </span>
 
                         <span
-                            className={`block w-full text-center items-center md:my-0 md:inline-block md:mx-2
+                            className={`block w-full text-center items-center  mt-2 md:my-0 md:inline-block md:mx-2
                             ${router.asPath === '/library' ? 'text-blue-500' : 'text-white'}`}
                         >
                             <Link href="/library" id="library">
@@ -73,7 +73,7 @@ const TopNav = () => {
                         </span>
 
                         <span
-                            className={`block w-full text-center items-center mt-2 md:my-0 md:inline-block md:mx-2 ${
+                            className={`block w-full text-center items-center  mt-2 md:my-0 md:inline-block md:mx-2 ${
                                 router.asPath === '/steps' ? 'text-blue-500' : 'text-white'
                             }`}
                         >
