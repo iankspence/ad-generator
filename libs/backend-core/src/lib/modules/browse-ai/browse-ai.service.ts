@@ -1,6 +1,6 @@
 import { ReviewQueueProducerService } from '../bull/review-queue-producer.service';
 import { AccountModelService } from '../mongo/account/account-model.service';
-import { BrowseAiJob, BrowseAiJobDocument, ReviewDocument } from '@monorepo/type';
+import { BrowseAiJob, BrowseAiJobDocument, ReviewDocument, StartRobotJobDto } from '@monorepo/type';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -16,12 +16,7 @@ export class BrowseAiService {
         private readonly reviewQueueProducerService: ReviewQueueProducerService,
     ) {}
 
-    async startRobotJob(startRobotJobDto: {
-        userId: string;
-        accountId: string;
-        robotUrl: string;
-        inputParameters: object;
-    }): Promise<any> {
+    async startRobotJob(startRobotJobDto: StartRobotJobDto): Promise<BrowseAiJobDocument> {
         console.log(`starting robot job (service)`);
         console.log(startRobotJobDto.robotUrl);
 
@@ -41,16 +36,20 @@ export class BrowseAiService {
         if (response.status !== 200) {
             throw new Error(`Error running robot: ${response.data}`);
         } else {
-            await this.browseAiJobModel.create({
+            const browseAiJobDocument = await this.browseAiJobModel.create({
                 userId: startRobotJobDto.userId,
                 accountId: startRobotJobDto.accountId,
                 statusCode: response.data.statusCode,
                 statusMessage: response.data.messageCode,
                 result: response.data.result,
             });
+
+            console.log(`response from Browse AI (service - start robot job): ${response.data}`);
+            console.log(`browseAiJobDocument: ${browseAiJobDocument}`);
+
+            return browseAiJobDocument;
         }
-        console.log(`response from Browse AI (service - start robot job): ${response.data}`);
-        return response.data;
+
     }
 
     async handleWebhookData(data: any): Promise<any> {
@@ -89,7 +88,6 @@ export class BrowseAiService {
                         const reviewsArray = task.capturedLists[reviewListKey];
 
                         for (const review of reviewsArray) {
-                            console.log(`review: ${review}`);
 
                             const convertedReview: Partial<ReviewDocument> = {
                                 userId: job.userId,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { AccountDocument } from '@monorepo/type';
+import { AccountDocument, StartRobotJobDto } from '@monorepo/type';
 import { startRobotJob } from '../../../utils/api/browse-ai/startRobotJobApi';
 import { addRateMdsLink } from '../../../utils/api/mongo/account/addRateMdsLinkApi';
 
@@ -41,17 +41,19 @@ export const ScrapeRateMdsButton: React.FC<Props> = ({ userId, account, setAccou
             setIsLoading(true);
             const accountId = account._id.toString();
 
+            const startRobotJobDto: StartRobotJobDto = {
+                userId,
+                accountId,
+                robotUrl: process.env.NEXT_PUBLIC_BROWSE_AI_RATE_MDS_HEADER_ROBOT,
+                inputParameters: {
+                    originUrl: rateMdsLink,
+                },
+            }
+
             try {
-                await startRobotJob(
-                    userId,
-                    accountId,
-                    process.env.NEXT_PUBLIC_BROWSE_AI_RATE_MDS_HEADER_ROBOT,
-                    rateMdsLink,
-                );
+                await startRobotJob(startRobotJobDto);
                 const updatedAccount = await addRateMdsLink({ accountId, rateMdsLink });
                 setAccount(updatedAccount);
-
-                // Hide the form after submission
                 toggleRateMdsForm();
             } catch (error) {
                 console.error('Error updating RateMds Link:', error);

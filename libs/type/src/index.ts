@@ -1,7 +1,14 @@
-export * from './lib/dto/user-register.dto';
-export * from './lib/dto/user-sign-in.dto';
-export * from './lib/dto/user-reset-password.dto';
-export * from './lib/dto/create-ad-set.dto';
+// DTO
+
+export * from './lib/dto/browse-ai/start-robot-job.dto';
+
+export * from './lib/dto/mongo/ad-set/create-ad-set.dto';
+
+export * from './lib/dto/mongo/user/register/user-register.dto';
+export * from './lib/dto/mongo/user/sign-in/user-sign-in.dto';
+export * from './lib/dto/mongo/user/forgot-password/user-reset-password.dto';
+
+// Schema
 export * from './lib/schema/account';
 export * from './lib/schema/user';
 export * from './lib/schema/browse-ai-job';

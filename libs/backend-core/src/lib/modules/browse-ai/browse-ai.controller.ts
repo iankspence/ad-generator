@@ -1,5 +1,6 @@
 import { BrowseAiService } from './browse-ai.service';
 import { Controller, Post, Body } from '@nestjs/common';
+import { BrowseAiJobDocument, StartRobotJobDto } from '@monorepo/type';
 
 @Controller('browse-ai')
 export class BrowseAiController {
@@ -12,13 +13,8 @@ export class BrowseAiController {
     @Post('start-robot-job')
     async runRateMdsHeaderRobot(
         @Body()
-        startRobotJobDto: {
-            userId: string;
-            accountId: string;
-            robotUrl: string;
-            inputParameters: { originUrl: string };
-        },
-    ): Promise<any> {
+        startRobotJobDto: StartRobotJobDto,
+    ): Promise<BrowseAiJobDocument> {
         console.log(`handling start-robot-job data (controller)`);
         return await this.browseAiService.startRobotJob(startRobotJobDto);
     }
