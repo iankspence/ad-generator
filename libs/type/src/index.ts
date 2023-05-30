@@ -9,6 +9,9 @@ export * from './lib/dto/mongo/user/register/user-register.dto';
 export * from './lib/dto/mongo/user/sign-in/user-sign-in.dto';
 export * from './lib/dto/mongo/user/forgot-password/user-reset-password.dto';
 
+export * from './lib/dto/outscraper/scrape-google-maps-reviews.dto';
+export * from './lib/dto/outscraper/external-google-maps-reviews-v3.dto';
+
 // Schema
 export * from './lib/schema/account';
 export * from './lib/schema/user';

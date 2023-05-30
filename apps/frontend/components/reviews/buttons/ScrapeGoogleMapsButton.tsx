@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { AccountDocument } from '@monorepo/type';
+import { AccountDocument, ScrapeGoogleMapsReviewsDto } from '@monorepo/type';
 import { addGoogleQuery } from '../../../utils/api/mongo/account/addGoogleQueryApi';
 import { getGoogleMapsReviews } from '../../../utils/api/outscraper/getGoogleMapsReviewsApi';
 
@@ -30,7 +30,16 @@ export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, account, setAc
         if (userConfirmed) {
             try {
                 setIsLoading(true);
-                await getGoogleMapsReviews(userId, account._id.toString(), googleQuery);
+
+                const getGoogleMapsReviewsDto: ScrapeGoogleMapsReviewsDto = {
+                    userId,
+                    accountId: account._id.toString(),
+                    query: googleQuery,
+                }
+
+                console.log('getGoogleMapsReviewsDto (button): ', getGoogleMapsReviewsDto)
+
+                await getGoogleMapsReviews(getGoogleMapsReviewsDto);
 
                 const updatedAccount = await addGoogleQuery(account._id.toString(), googleQuery);
                 setAccount(updatedAccount);
@@ -48,7 +57,7 @@ export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, account, setAc
                 <Box className="py-2 text-reviewDrumOrange text-xl">Connected.</Box>
             ) : (
                 <Button
-                    className="bg-reviewDrumMedGray text-xl text-white px-4 py-2 rounded hover:bg-blue-600"
+                    className="bg-reviewDrumMedGray text-md text-white px-4 py-2 rounded hover:bg-blue-600"
                     onClick={toggleGoogleQueryForm}
                 >
                     Connect
