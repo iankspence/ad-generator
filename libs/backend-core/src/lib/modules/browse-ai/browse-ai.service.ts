@@ -51,7 +51,7 @@ export class BrowseAiService {
         }
     }
 
-    async handleWebhookData(incomingWebhookData: IncomingWebhookDataDto): Promise<any> {
+    async handleWebhookData(incomingWebhookData: IncomingWebhookDataDto): Promise<BrowseAiJobDocument> {
         console.log(`handling webhook data (service): ${incomingWebhookData}`);
 
         const job = await this.browseAiJobModel.findOne({ 'result.id': incomingWebhookData.task.id }).exec();
@@ -110,7 +110,7 @@ export class BrowseAiService {
         }
     }
 
-    async updateRobotJobWithWebhookData(incomingWebhookData: IncomingWebhookDataDto): Promise<any> {
+    async updateRobotJobWithWebhookData(incomingWebhookData: IncomingWebhookDataDto): Promise<BrowseAiJobDocument> {
         const browseAiJob = await this.browseAiJobModel.findOne({ 'result.id': incomingWebhookData.task.id }).exec();
         if (!browseAiJob) {
             throw new Error(`No Browse AI job found for task ID ${incomingWebhookData.task.id}`);
