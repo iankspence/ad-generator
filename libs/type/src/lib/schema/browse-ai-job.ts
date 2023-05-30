@@ -98,31 +98,36 @@ export class BrowseAiJob {
         required: false,
         type: {
             id: String,
+            inputParameters: Object,
+            robotId: String,
             status: String,
+            runByUserId: String,
+            robotBulkRunId: String,
+            runByTaskMonitorId: String,
+            runByAPI: Boolean,
             createdAt: Number,
+            startedAt: Number,
             finishedAt: Number,
+            userFriendlyError: String,
+            triedRecordingVideo: Boolean,
+            videoUrl: String,
+            videoRemovedAt: Number,
             retriedOriginalTaskId: String,
             retriedByTaskId: String,
-            startedAt: Number,
-            robotId: String,
-            triedRecordingVideo: Boolean,
-            robotBulkRunId: String,
-            runByAPI: Boolean,
-            runByTaskMonitorId: String,
-            runByUserId: String,
-            userFriendlyError: String,
-            inputParameters: Object,
-            videoRemovedAt: Number,
-            videoUrl: String,
             capturedDataTemporaryUrl: String,
             capturedTexts: Object,
-            capturedScreenshots: Object,
+            capturedScreenshots:  Object,
             capturedLists: Object,
-        },
+        }
     })
     taskFromWebhook!: IncomingWebhookDataDto['task'];
 
-    @Prop({ required: false })
+    @Prop({
+        required: false,
+        type: {
+            event: String,
+        }
+    })
     eventFromWebhook!: IncomingWebhookDataDto['event'];
 }
 

@@ -1,7 +1,9 @@
 import { AccountModelService } from './account-model.service';
 import { Account, AccountDocument } from '@monorepo/type';
 import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode, Patch } from '@nestjs/common';
+import { Public } from '../../auth/public.decorator';
 
+@Public()
 @Controller('account')
 export class AccountController {
     constructor(private readonly accountModelService: AccountModelService) {}
@@ -17,7 +19,6 @@ export class AccountController {
 
     @Put(':_id')
     async updateOneById(@Param('_id') _id: string, @Body() update: Partial<Account>): Promise<Account> {
-        console.log('updateOneById', _id, update);
         return this.accountModelService.updateOneById(_id, update);
     }
 
@@ -29,16 +30,11 @@ export class AccountController {
 
     @Post('user')
     async findByUserId(@Body() dto: { userId: string }): Promise<AccountDocument[]> {
-        console.log('get account/user/:userId', dto.userId);
-        const filteredAccounts = await this.accountModelService.findAccountsByUserId(dto.userId);
-        console.log('filteredAccounts', filteredAccounts);
-        return filteredAccounts;
+        return await this.accountModelService.findAccountsByUserId(dto.userId);
     }
 
     @Patch('google-query')
     async addGoogleQuery(@Body() dto: { accountId: string; googleQuery: string }) {
-        console.log('addGoogleQuery Patch Controller', dto);
-
         return await this.accountModelService.addGoogleQuery(dto.accountId, dto.googleQuery);
     }
 
@@ -49,13 +45,11 @@ export class AccountController {
 
     @Patch('rate-mds-link')
     async addRateMdsLink(@Body() dto: { accountId: string; rateMdsLink: string }) {
-        console.log('addRateMdsLink Patch Controller', dto);
         return await this.accountModelService.addRateMdsLink(dto.accountId, dto.rateMdsLink);
     }
 
     @Post('get-all-text-by-account-id')
     async getAllTextForAccountId(@Body() dto: { accountId: string }) {
-        console.log('getAllTextForAccountId', dto);
         return await this.accountModelService.getAllTextByAccountId(dto.accountId);
     }
 }

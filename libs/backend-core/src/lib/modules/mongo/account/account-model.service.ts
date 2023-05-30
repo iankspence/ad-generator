@@ -58,8 +58,6 @@ export class AccountModelService {
 
     async findAccountsByUserId(userId: string): Promise<AccountDocument[]> {
         const accounts = await this.accountModel.find({ }).exec();
-        console.log('accounts', accounts);
-
         return accounts.filter((account) => account.userId.toString() === userId);
     }
 

@@ -18,8 +18,6 @@ export class BrowseAiService {
     ) {}
 
     async startRobotJob(startRobotJobDto: StartRobotJobDto): Promise<BrowseAiJobDocument> {
-        console.log(`starting robot job (service)`);
-        console.log(startRobotJobDto.robotUrl);
 
         const response$ = this.httpService.post(
             startRobotJobDto.robotUrl,
@@ -37,29 +35,23 @@ export class BrowseAiService {
         if (response.status !== 200) {
             throw new Error(`Error running robot: ${response.data}`);
         } else {
-            const browseAiJobDocument = await this.browseAiJobModel.create({
+            return await this.browseAiJobModel.create({
                 userId: startRobotJobDto.userId,
                 accountId: startRobotJobDto.accountId,
                 statusCode: response.data.statusCode,
                 statusMessage: response.data.messageCode,
                 result: response.data.result,
             });
-
-            console.log(`response from Browse AI (service - start robot job): ${response.data}`);
-            console.log(`browseAiJobDocument: ${browseAiJobDocument}`);
-            return browseAiJobDocument;
         }
     }
 
     async handleWebhookData(incomingWebhookData: IncomingWebhookDataDto): Promise<BrowseAiJobDocument> {
-        console.log(`handling webhook data (service): ${incomingWebhookData}`);
 
         const job = await this.browseAiJobModel.findOne({ 'result.id': incomingWebhookData.task.id }).exec();
         if (incomingWebhookData.event !== 'task.finishedSuccessfully') {
             throw new Error(`Webhook event ${incomingWebhookData.event} not supported`);
         } else {
             const task = incomingWebhookData.task;
-            console.log(`task: ${task}`);
             if (!task) {
                 throw new Error(`Webhook data does not contain a task`);
             } else {
