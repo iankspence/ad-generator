@@ -6,6 +6,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { firstValueFrom } from 'rxjs';
+import { IncomingWebhookDataDto } from '@monorepo/type';
 
 @Injectable()
 export class BrowseAiService {
@@ -46,20 +47,18 @@ export class BrowseAiService {
 
             console.log(`response from Browse AI (service - start robot job): ${response.data}`);
             console.log(`browseAiJobDocument: ${browseAiJobDocument}`);
-
             return browseAiJobDocument;
         }
-
     }
 
-    async handleWebhookData(data: any): Promise<any> {
-        console.log(`handling webhook data (service): ${data}`);
+    async handleWebhookData(incomingWebhookData: IncomingWebhookDataDto): Promise<any> {
+        console.log(`handling webhook data (service): ${incomingWebhookData}`);
 
-        const job = await this.browseAiJobModel.findOne({ 'result.id': data.task.id }).exec();
-        if (data.event !== 'task.finishedSuccessfully') {
-            throw new Error(`Webhook event ${data.event} not supported`);
+        const job = await this.browseAiJobModel.findOne({ 'result.id': incomingWebhookData.task.id }).exec();
+        if (incomingWebhookData.event !== 'task.finishedSuccessfully') {
+            throw new Error(`Webhook event ${incomingWebhookData.event} not supported`);
         } else {
-            const task = data.task;
+            const task = incomingWebhookData.task;
             console.log(`task: ${task}`);
             if (!task) {
                 throw new Error(`Webhook data does not contain a task`);
@@ -106,18 +105,18 @@ export class BrowseAiService {
                         }
                     }
                 }
-                return this.updateRobotJobWithWebhookData(data);
+                return this.updateRobotJobWithWebhookData(incomingWebhookData);
             }
         }
     }
 
-    async updateRobotJobWithWebhookData(data: any): Promise<any> {
-        const browseAiJob = await this.browseAiJobModel.findOne({ 'result.id': data.task.id }).exec();
+    async updateRobotJobWithWebhookData(incomingWebhookData: IncomingWebhookDataDto): Promise<any> {
+        const browseAiJob = await this.browseAiJobModel.findOne({ 'result.id': incomingWebhookData.task.id }).exec();
         if (!browseAiJob) {
-            throw new Error(`No Browse AI job found for task ID ${data.task.id}`);
+            throw new Error(`No Browse AI job found for task ID ${incomingWebhookData.task.id}`);
         } else {
-            browseAiJob.taskFromWebhook = data.task;
-            browseAiJob.eventFromWebhook = data.event;
+            browseAiJob.taskFromWebhook = incomingWebhookData.task;
+            browseAiJob.eventFromWebhook = incomingWebhookData.event;
             return this.browseAiJobModel.findOneAndUpdate({ _id: browseAiJob._id }, browseAiJob, { new: true });
         }
     }

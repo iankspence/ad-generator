@@ -6,14 +6,12 @@ import axios from 'axios';
 @Injectable()
 export class OutscraperService {
     private apiKey: string;
-
     constructor(private reviewQueueProducerService: ReviewQueueProducerService) {
         this.apiKey = process.env.OUTSCRAPER_API_KEY;
         if (!this.apiKey) {
             throw new Error('Outscraper API key is not set in the environment variables');
         }
     }
-
     async getGoogleMapsReviews(
         userId: string,
         accountId: string,

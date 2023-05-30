@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { IncomingWebhookDataDto } from '../dto/browse-ai/incoming-webhook-data.dto';
 
 export interface RateMdsHeaderCapturedText {
     Name: string | null;
@@ -53,7 +54,6 @@ export class BrowseAiJob {
             createdAt: Number,
             finishedAt: Number,
             retriedOriginalTaskId: String,
-            retriedTaskId: String,
             retriedByTaskId: String,
             startedAt: Number,
             robotId: String,
@@ -65,7 +65,7 @@ export class BrowseAiJob {
             userFriendlyError: String,
             inputParameters: Object,
             videoRemovedAt: Number,
-            capturedDataTemporaryUrl: Object,
+            capturedDataTemporaryUrl: String,
             capturedTexts: Object,
             capturedScreenshots: Object,
             capturedLists: Object,
@@ -77,7 +77,6 @@ export class BrowseAiJob {
         createdAt: number;
         finishedAt: null | number;
         retriedOriginalTaskId: null | string;
-        retriedTaskId: null | string;
         retriedByTaskId: null | string;
         startedAt: number;
         robotId: string;
@@ -89,7 +88,7 @@ export class BrowseAiJob {
         userFriendlyError: null | string;
         inputParameters: { originUrl: string } | { originUrl: string; dr_fix_review_list_ratemds_limit: number };
         videoRemovedAt: null | number;
-        capturedDataTemporaryUrl: object;
+        capturedDataTemporaryUrl: string | null;
         capturedTexts: object;
         capturedScreenshots: object;
         capturedLists: object;
@@ -103,7 +102,6 @@ export class BrowseAiJob {
             createdAt: Number,
             finishedAt: Number,
             retriedOriginalTaskId: String,
-            retriedTaskId: String,
             retriedByTaskId: String,
             startedAt: Number,
             robotId: String,
@@ -116,39 +114,16 @@ export class BrowseAiJob {
             inputParameters: Object,
             videoRemovedAt: Number,
             videoUrl: String,
-            capturedDataTemporaryUrl: Object,
+            capturedDataTemporaryUrl: String,
             capturedTexts: Object,
             capturedScreenshots: Object,
             capturedLists: Object,
         },
-    }) // set with webhook after task completes
-    taskFromWebhook!: {
-        id: string;
-        status: string;
-        createdAt: number;
-        finishedAt: null | number;
-        retriedOriginalTaskId: null | string;
-        retriedTaskId: null | string;
-        retriedByTaskId: null | string;
-        startedAt: number;
-        robotId: string;
-        triedRecordingVideo: boolean;
-        robotBulkRunId: null | string;
-        runByAPI: boolean;
-        runByTaskMonitorId: null | string;
-        runByUserId: null | string;
-        userFriendlyError: null | string;
-        inputParameters: object;
-        videoRemovedAt: null | number;
-        videoUrl: null | string;
-        capturedDataTemporaryUrl: object;
-        capturedTexts: RateMdsHeaderCapturedText;
-        capturedScreenshots: object;
-        capturedLists: RateMdsReviewCapturedList;
-    };
+    })
+    taskFromWebhook!: IncomingWebhookDataDto['task'];
 
-    @Prop({ required: false }) // set with webhook after task completes
-    eventFromWebhook!: string;
+    @Prop({ required: false })
+    eventFromWebhook!: IncomingWebhookDataDto['event'];
 }
 
 export const BrowseAiJobSchema = SchemaFactory.createForClass(BrowseAiJob);
