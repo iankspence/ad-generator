@@ -3,9 +3,7 @@ import { PixiContext } from '../contexts/PixiContext';
 import { useContext, useEffect, useState } from 'react';
 import setCanvasText from "../components/pixi/utils/text/setCanvasText";
 import {getTextSettings} from "../components/pixi/utils/text/getTextSettings";
-import {getSelectedTheme} from "../components/pixi/utils/getSelectedTheme";
 import {getFilteredTextArrays} from "../components/pixi/utils/text/getFilteredTextArrays";
-import {getAdsByAccountId} from "../utils/api";
 import UserContext from '../contexts/UserContext';
 import {useRouter} from "next/router";
 

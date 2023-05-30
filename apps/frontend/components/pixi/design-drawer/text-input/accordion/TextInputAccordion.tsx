@@ -6,15 +6,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { getFilteredTextArrays } from '../../../utils/text/getFilteredTextArrays';
 import ReviewHookAccordion from './ReviewHookAccordion';
 import ClaimCloseAccordion from './ClaimCloseAccordion';
-import {
-    updateClaimTextEdit,
-    updateCloseTextEdit,
-    updateHookTextEdit,
-    updateReviewTextEdit,
-    updateCopyTextEdit,
-} from "../../../../../utils/api";
+import { updateReviewTextEdit } from "../../../../../utils/api/mongo/review/updateReviewTextEditApi";
+import { updateHookTextEdit } from "../../../../../utils/api/mongo/hook/updateHookTextEditApi";
+import { updateClaimTextEdit } from "../../../../../utils/api/mongo/claim/updateClaimTextEditApi";
+import { updateCloseTextEdit } from "../../../../../utils/api/mongo/close/updateCloseTextEditApi";
+import { updateCopyTextEdit } from "../../../../../utils/api/mongo/copy/updateCopyTextEditApi";
 import AudienceSelector from "../selector/AudienceSelector";
-import { audiences } from "../../../../../utils/constants/audiences";
 import CopyAccordion from "./CopyAccordion";
 
 const TextInputAccordion = () => {

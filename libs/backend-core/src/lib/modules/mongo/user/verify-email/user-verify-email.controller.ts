@@ -1,7 +1,7 @@
 import { UserVerifyEmailService } from './user-verify-email.service';
 import { Body, Controller, Post } from '@nestjs/common';
 
-@Controller()
+@Controller('user')
 export class UserVerifyEmailController {
     constructor(private readonly userVerifyEmailService: UserVerifyEmailService) {}
     @Post('verify-email')

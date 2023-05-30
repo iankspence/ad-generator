@@ -8,7 +8,7 @@ import { getGridItemStyle } from './getGridItemStyle';
 import { Ad } from '@monorepo/type';
 import { audiences } from '../../../utils/constants/audiences';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-import { deleteAdSetAndAdsAndCards } from '../../../utils/api';
+import { deleteAdSetAndAdsAndCards } from '../../../utils/api/mongo/ad-set/deleteAdSetAndAdsAndCardsApi';
 
 const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads, pdfWidth, facebookWidth, refreshAds }) => {
     const groupAdsByAdSet = (ads) => {

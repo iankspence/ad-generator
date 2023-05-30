@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { PixiContext } from "../contexts/PixiContext";
-import {getCardsByAccountId} from "../utils/api";
+import {getCardsByAccountId} from "../utils/api/mongo/card/getCardsByAccountIdApi";
 import UserContext from "../contexts/UserContext";
 import {CampaignContext} from "../contexts/CampaignContext";
 import * as PIXI from "pixi.js";

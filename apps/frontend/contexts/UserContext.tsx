@@ -1,4 +1,5 @@
-import { userAccount, getAccounts } from '../utils/api';
+import { getAccounts } from "../utils/api/mongo/account/getAccountsApi";
+import { userJwt } from '../utils/api/mongo/user/sign-in/userJwtApi';
 import { createContext, useState, useEffect, ReactNode } from 'react';
 import { AccountDocument, UserDocument } from '@monorepo/type';
 
@@ -36,8 +37,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const refreshToken = async () => {
         const token = localStorage.getItem('userToken');
         if (token) {
-            const data = await userAccount(token);
-            console.log('Context data: ', data);
+            const data = await userJwt(token);
             setUser(data);
         }
     };

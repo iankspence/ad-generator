@@ -4,7 +4,7 @@ import UserContext from '../contexts/UserContext';
 import NewAccountForm from "../components/account/NewAccountForm";
 import AccountInfo from "../components/account/AccountInfo";
 import SelectAccount from "../components/account/SelectAccount";
-import {getAccounts} from "../utils/api";
+import { getAccounts } from "../utils/api/mongo/account/getAccountsApi";
 
 export function AccountPage() {
     const { user, account, setAccount } = useContext(UserContext);

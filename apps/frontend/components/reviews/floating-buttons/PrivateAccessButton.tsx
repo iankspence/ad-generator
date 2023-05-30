@@ -11,7 +11,7 @@ import UserContext from '../../../contexts/UserContext';
 import { CampaignContext } from '../../../contexts/CampaignContext';
 import ReviewConnector from '../buttons/ReviewConnector';
 
-const PrivateAccessButton = () => {
+const PrivateAccessButton = ({ refreshReviews, setRefreshReviews }) => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
     const { user, account, setAccount } = useContext(UserContext);
@@ -69,6 +69,8 @@ const PrivateAccessButton = () => {
                     />
                     <ChangeAudienceButton
                         filteredReviews={filteredReviews}
+                        refreshReviews={refreshReviews}
+                        setRefreshReviews={setRefreshReviews}
                     />
                 </Box>
             </Drawer>

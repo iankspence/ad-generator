@@ -1,4 +1,4 @@
-import { saveCanvasesToS3 } from '../../utils/api';
+import { saveCanvasesToS3 } from '../../utils/api/mongo/card/saveCanvasesToS3Api';
 import { formatUserControlledAttributes } from './formatUserControlledAttributes';
 import { formatXRanges } from './formatXRanges';
 import { formatYRanges } from './formatYRanges';

@@ -2,7 +2,7 @@ import { UserRegisterService } from './user-register.service';
 import { UserRegisterDto } from '@monorepo/type';
 import { Body, Controller, Post } from '@nestjs/common';
 
-@Controller()
+@Controller('user')
 export class UserRegisterController {
     constructor(private readonly userRegisterService: UserRegisterService) {}
 

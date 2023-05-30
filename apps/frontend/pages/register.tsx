@@ -1,5 +1,5 @@
 import TopNav from '../components/top-nav/TopNav';
-import { register } from '../utils/api';
+import { register } from '../utils/api/mongo/user/register/registerApi';
 import React, { useState } from 'react';
 
 export function RegisterPage() {

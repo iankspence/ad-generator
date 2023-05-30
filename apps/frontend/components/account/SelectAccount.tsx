@@ -1,6 +1,6 @@
 import { Autocomplete } from '@mui/material';
 import { TextField } from '@mui/material';
-import { getAccounts } from "../../utils/api";
+import { getAccounts } from "../../utils/api/mongo/account/getAccountsApi";
 import { AccountDocument } from "@monorepo/type";
 import { useEffect, useState } from 'react';
 

@@ -3,13 +3,14 @@ import ReviewsAudienceTable from '../components/reviews/ReviewsAudienceTable';
 import TopNav from '../components/top-nav/TopNav';
 import { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';
-import { getReviewsByAccountId } from '../utils/api';
+import { getReviewsByAccountId } from '../utils/api/mongo/review/getReviewsByAccountIdApi';
 import { formatAudienceData } from '../components/reviews/formatAudienceData';
 import PrivateAccessButton from '../components/reviews/floating-buttons/PrivateAccessButton';
 
 function ReviewsPage() {
     const { user, account, setAccount } = useContext(UserContext);
     const { reviews, updateReviews, selectedAudiencePosition } = useContext(CampaignContext);
+    const [refreshReviews, setRefreshReviews] = useState(false);
 
     useEffect(() => {
         if (account) {
@@ -17,11 +18,11 @@ function ReviewsPage() {
                 updateReviews(fetchedReviews);
             });
         }
-    }, [account, reviews]);
+    }, [account, refreshReviews]);
 
     const tableData = formatAudienceData(reviews);
 
-
+    console.log('user: ', user);
     return (
         <>
             <TopNav />
@@ -31,7 +32,11 @@ function ReviewsPage() {
                     <ReviewsAudienceTable audienceData={tableData}/>
                 </div>
             </div>
-            <PrivateAccessButton />
+            {
+                user && (user.roles.includes('admin') || user.roles.includes('content-manager')) && selectedAudiencePosition !== null &&
+                <PrivateAccessButton refreshReviews={refreshReviews} setRefreshReviews={setRefreshReviews} />
+            }
+
         </>
     );
 }

@@ -1,7 +1,7 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
 import ColorThief from 'colorthief';
-import { updateAccountLogoAndColors } from '../../utils/api';
+import { updateAccountLogoAndColors } from '../../utils/api/mongo/account/updateAccountLogoAndColorsApi';
 import UserContext from "../../contexts/UserContext";
 import { convertRgbToHex } from '../../utils/color/convertRgbToHex';
 

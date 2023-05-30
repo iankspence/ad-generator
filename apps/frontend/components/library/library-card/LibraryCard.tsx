@@ -5,7 +5,8 @@ import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import { CampaignContext } from "../../../contexts/CampaignContext";
 import LibraryCardBottomButtonGroup from "./LibraryCardBottomButtonGroup";
-import { copyCardsAndAd, deleteCardsAndAd } from '../../../utils/api';
+import { copyCardsAndAd } from '../../../utils/api/mongo/card/copyCardsAndAdApi';
+import { deleteCardsAndAd } from '../../../utils/api/mongo/card/deleteCardsAndAdApi';
 import {PixiContext} from "../../../contexts/PixiContext";
 import {useRouter} from "next/router";
 

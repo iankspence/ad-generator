@@ -4,7 +4,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import RenderLibraryCards from '../library-card/RenderLibraryCards';
 import { getGridItemStyle } from './getGridItemStyle';
 import {CampaignContext} from "../../../contexts/CampaignContext";
-import { getAdsByAccountId } from '../../../utils/api';
+import { getAdsByAccountId } from '../../../utils/api/mongo/ad/getAdsByAccountIdApi';
 import UserContext from "../../../contexts/UserContext";
 import AudienceSelector from '../../pixi/design-drawer/text-input/selector/AudienceSelector';
 

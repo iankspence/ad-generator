@@ -1,5 +1,5 @@
 import TopNav from '../components/top-nav/TopNav';
-import { forgotPassword } from '../utils/api';
+import { forgotPassword } from '../utils/api/mongo/user/forgot-password/forgotPasswordApi';
 import Link from 'next/link';
 import React, { useState } from 'react';
 

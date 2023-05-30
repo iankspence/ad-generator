@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import { Grid } from "@material-ui/core";
 import TopNav from "../components/top-nav/TopNav";
-import { getAdsByAccountId } from "../utils/api";
+import { getAdsByAccountId } from "../utils/api/mongo/ad/getAdsByAccountIdApi";
 import UserContext from "../contexts/UserContext";
 import {CampaignContext} from "../contexts/CampaignContext";
 import AdsGrid from "../components/library/grid/AdsGrid";

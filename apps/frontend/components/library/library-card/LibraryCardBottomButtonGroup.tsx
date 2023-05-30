@@ -5,7 +5,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { CampaignContext } from '../../../contexts/CampaignContext';
 import UserContext from '../../../contexts/UserContext';
-import { createAdSetForPdfDelivery } from '../../../utils/api';
+import { createAdSetForPdfDelivery } from '../../../utils/api/mongo/ad-set/createAdSetForPdfDeliveryApi';
 import { getBestFitAudienceNameAgeRangeAndInterests } from '../../../utils/audience/getBestFitAudienceNameAgeRangeAndInterests';
 import { formatDateString } from '../../../utils/formatDateString';
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createAccount } from '../../utils/api';
+import { createAccount } from '../../utils/api/mongo/account/createAccountApi';
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@material-ui/core';
 
 export default function NewAccountForm({ userId, accounts, setAccounts }) {

@@ -2,7 +2,7 @@ import { UserForgotPasswordService } from './user-forgot-password.service';
 import { ResetPasswordDto } from '@monorepo/type';
 import { Body, Controller, Post } from '@nestjs/common';
 
-@Controller()
+@Controller('user')
 export class UserForgotPasswordController {
     constructor(private readonly userForgotPasswordService: UserForgotPasswordService) {}
     @Post('forgot-password')

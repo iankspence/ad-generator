@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { AccountDocument } from '@monorepo/type';
-import { addGoogleQuery, getGoogleMapsReviews } from '../../../utils/api';
+import { addGoogleQuery } from '../../../utils/api/mongo/account/addGoogleQueryApi';
+import { getGoogleMapsReviews } from '../../../utils/api/outscraper/getGoogleMapsReviewsApi';
 
 interface Props {
     userId: string;

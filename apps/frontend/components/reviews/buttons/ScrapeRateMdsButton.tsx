@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { AccountDocument } from '@monorepo/type';
-import { addRateMdsLink, startRobotJob } from '../../../utils/api';
+import { startRobotJob } from '../../../utils/api/browse-ai/startRobotJobApi';
+import { addRateMdsLink } from '../../../utils/api/mongo/account/addRateMdsLinkApi';
 
 interface Props {
     userId: string;

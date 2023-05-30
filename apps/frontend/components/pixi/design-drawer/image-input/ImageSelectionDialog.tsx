@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, Grid, Card, CardMedia, CardActionArea } from '@mui/material';
-import { getBackgroundImages} from '../../../../utils/api'; // Assuming the getAllImages function is in the same file
+import { getBackgroundImages} from '../../../../utils/api/mongo/background-image/getBackgroundImagesApi';
 
 const ImageSelectionDialog = ({ open, onClose, onSelect }) => {
     const [images, setImages] = useState([]);

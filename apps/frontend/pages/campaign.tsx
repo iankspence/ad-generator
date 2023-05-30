@@ -2,7 +2,7 @@ import ContentGenerator from '../components/pixi/content-generator/ContentGenera
 import TopNav from '../components/top-nav/TopNav';
 import { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';
-import { getAllTextByAccountId } from '../utils/api';
+import { getAllTextByAccountId } from '../utils/api/mongo/account/getAllTextByAccountIdApi';
 import React, { useContext, useEffect } from 'react';
 
 function CampaignPage() {

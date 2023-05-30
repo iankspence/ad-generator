@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Module({
     imports: [
@@ -21,6 +22,11 @@ import { PassportModule } from '@nestjs/passport';
             signOptions: { expiresIn: '24h' },
         }),
     ],
-    providers: [JwtStrategy, LocalStrategy, { provide: APP_GUARD, useClass: RolesGuard }],
+    providers: [
+        LocalStrategy,
+        JwtStrategy,
+        { provide: APP_GUARD, useClass: JwtAuthGuard },
+        { provide: APP_GUARD, useClass: RolesGuard }
+    ],
 })
 export class AuthModule {}

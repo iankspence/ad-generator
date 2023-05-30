@@ -1,4 +1,4 @@
-import { verifyEmail } from '../utils/api';
+import { verifyEmail } from '../utils/api/mongo/user/verify-email/verifyEmailApi';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 

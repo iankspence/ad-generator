@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { PixiContext } from '../contexts/PixiContext';
 import { addMaskLayer } from '../components/pixi/utils/addMaskLayer';
-import { getMasksByNames } from '../utils/api';
+import { getMasksByNames } from '../utils/api/mongo/mask/getMasksByNamesApi';
 import * as PIXI from 'pixi.js';
 import { findMaskChildren } from '../components/pixi/utils/findMaskChildren';
 import { getSelectedTheme } from "../components/pixi/utils/getSelectedTheme";

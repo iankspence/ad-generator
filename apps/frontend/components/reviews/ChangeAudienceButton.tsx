@@ -1,17 +1,21 @@
 import UserContext from '../../contexts/UserContext';
-import { updateReview } from '../../utils/api';
+import { updateReview } from '../../utils/api/mongo/review/updateReviewApi';
 import { audiences } from '../../utils/constants/audiences';
 import { ReviewDocument } from '@monorepo/type';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import ReviewViewer from './ReviewViewer';
 import { CampaignContext } from '../../contexts/CampaignContext';
 
 interface ChangeAudienceButtonProps {
     filteredReviews: ReviewDocument[] | Partial<ReviewDocument>[];
+    refreshReviews: boolean
+    setRefreshReviews: any
 }
 
 const ChangeAudienceButton: React.FC<ChangeAudienceButtonProps> = ({
-                                                                       filteredReviews
+                                                                       filteredReviews,
+                                                                       refreshReviews,
+    setRefreshReviews
      }) => {
     const { user } = useContext(UserContext);
     const { reviewPosition, selectedAudiencePosition } = useContext(CampaignContext)
@@ -22,12 +26,6 @@ const ChangeAudienceButton: React.FC<ChangeAudienceButtonProps> = ({
     if (!filteredReviews) return null;
 
     const review = filteredReviews[reviewPosition - 1];
-
-
-    // useEffect(() => {
-    //     setNewAudiencePosition(parseInt(audience));
-    //     setNewAudienceReasoning(audienceReasoning);
-    // }, [audience, audienceReasoning]);
 
     const handleSubmit = async () => {
         if (review.bestFitAudience === newAudiencePosition) {
@@ -54,6 +52,7 @@ const ChangeAudienceButton: React.FC<ChangeAudienceButtonProps> = ({
 
         if (userConfirmed) {
             await updateReview(user._id.toString(), review._id.toString(), Number(newAudiencePosition.toString()), newAudienceReasoning);
+            setRefreshReviews(!refreshReviews)
             setShowForm(false);
         }
     };

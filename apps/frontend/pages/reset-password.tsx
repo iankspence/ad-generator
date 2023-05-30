@@ -1,5 +1,5 @@
 import TopNav from '../components/top-nav/TopNav';
-import { resetPassword } from '../utils/api'; // Import the resetPassword function
+import { resetPassword } from '../utils/api/mongo/user/forgot-password/resetPasswordApi';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 
