@@ -1,5 +1,5 @@
 import { AccountModelService } from './account-model.service';
-import { Account, AccountDocument, AddGoogleQueryDto, AddRateMdsLinkDto } from '@monorepo/type';
+import { Account, AccountDocument, AddGoogleQueryDto, AddRateMdsLinkDto, CreateAccountDto } from '@monorepo/type';
 import {
     Controller,
     Get,
@@ -17,15 +17,18 @@ import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { RolesGuard } from '../../auth/roles.guard';
 import { Roles } from '../../auth/roles.decorator';
 
-// @Public()
 @Controller('account')
 export class AccountController {
     constructor(private readonly accountModelService: AccountModelService) {}
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'content-manager')
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    async create(@Body() account: Partial<Account>): Promise<Account> {
-        return this.accountModelService.create(account);
+    async create(@Body() createAccountDto: CreateAccountDto): Promise<Account> {
+        return this.accountModelService.create(createAccountDto);
     }
+
     @Get(':_id')
     async findOne(@Param('_id') _id: string): Promise<Account> {
         return await this.accountModelService.findOneById(_id);

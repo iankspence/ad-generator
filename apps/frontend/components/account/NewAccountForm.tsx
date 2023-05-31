@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createAccount } from '../../utils/api/mongo/account/createAccountApi';
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@material-ui/core';
+import { CreateAccountDto } from '@monorepo/type';
 
 export default function NewAccountForm({ userId, accounts, setAccounts }) {
     const [open, setOpen] = useState(false);
@@ -16,19 +17,18 @@ export default function NewAccountForm({ userId, accounts, setAccounts }) {
     };
 
     const handleCreateAccount = async () => {
-        const accountData = {
+        const createAccountDto: CreateAccountDto = {
             ...newAccount,
             userId,
         };
         try {
-            const newAccount = await createAccount(accountData);
+            const newAccount = await createAccount(createAccountDto);
             setAccounts([...accounts, newAccount]);
             setOpen(false);
         } catch (error) {
             console.error(error);
         }
     };
-
 
     return (
         <>

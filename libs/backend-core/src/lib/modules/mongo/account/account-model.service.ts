@@ -8,7 +8,7 @@ import {
     AccountDocument,
     ClaimDocument,
     CloseDocument,
-    CopyDocument,
+    CopyDocument, CreateAccountDto,
     HookDocument,
     ReviewDocument,
 } from '@monorepo/type';
@@ -40,8 +40,8 @@ export class AccountModelService {
         return [reviews, hooks, claims, closes, copies];
     }
 
-    async create(account: Partial<Account>): Promise<Account> {
-        const createdAccount = new this.accountModel(account);
+    async create(createAccountDto: CreateAccountDto): Promise<Account> {
+        const createdAccount = new this.accountModel(createAccountDto);
         return createdAccount.save();
     }
     async findOneById(_id: string): Promise<Account> {
