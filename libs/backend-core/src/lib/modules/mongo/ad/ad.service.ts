@@ -45,7 +45,7 @@ export class AdService {
         return updateAd;
     }
 
-    async getAdsByAccountId(accountId: string) {
+    async findAdsByAccountId(accountId: string) {
         try {
             return this.adModel.find({ accountId }).exec();
         } catch (error) {

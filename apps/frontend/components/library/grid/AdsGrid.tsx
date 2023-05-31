@@ -4,9 +4,10 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import RenderLibraryCards from '../library-card/RenderLibraryCards';
 import { getGridItemStyle } from './getGridItemStyle';
 import {CampaignContext} from "../../../contexts/CampaignContext";
-import { getAdsByAccountId } from '../../../utils/api/mongo/ad/getAdsByAccountIdApi';
+import { findAdsByAccountId } from '../../../utils/api/mongo/ad/findAdsByAccountIdApi';
 import UserContext from "../../../contexts/UserContext";
 import AudienceSelector from '../../pixi/design-drawer/text-input/selector/AudienceSelector';
+import { FindAdsByAccountIdDto } from '@monorepo/type';
 
 const AdsGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads, adsWidth, refreshAds }) => {
 
@@ -15,7 +16,10 @@ const AdsGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
 
     useEffect(() => {
         const fetchAds = async () => {
-            const fetchedAds = await getAdsByAccountId(account?._id.toString());
+            const findAdsByAccountIdDto: FindAdsByAccountIdDto = {
+                accountId: account?._id.toString(),
+            }
+            const fetchedAds = await findAdsByAccountId(findAdsByAccountIdDto);
             updateAds(fetchedAds);
         };
 

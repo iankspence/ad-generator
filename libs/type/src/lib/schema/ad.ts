@@ -1,27 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import * as PIXI from "pixi.js";
+import { UserControlledAttribute } from '../interface/mongo/ad/UserControlledAttribute';
 
 export interface AdDocument extends Ad, Document<Types.ObjectId> {}
-
-export interface UserControlledAttribute {
-    canvasName: string,
-    childrenNames: string[],
-    imageControls: {
-        location: string,
-        x: number,
-        y: number,
-        scaleX: number,
-        scaleY: number,
-    },
-    textControls: {
-        name: string,
-        x: number,
-        y: number,
-        text: string,
-        style: PIXI.HTMLTextStyle,
-    } [],
-}
 
 @Schema({ timestamps: true })
 export class Ad {

@@ -9,6 +9,9 @@ export * from './lib/dto/mongo/account/create-account.dto';
 export * from './lib/dto/mongo/account/get-text-by-account-id.dto';
 export * from './lib/dto/mongo/account/update-account-logo-and-colors.dto';
 
+export * from './lib/dto/mongo/ad/find-ads-by-account-id.dto';
+
+
 export * from './lib/dto/mongo/ad-set/create-ad-set.dto';
 
 export * from './lib/dto/mongo/user/register/user-register.dto';
@@ -35,3 +38,5 @@ export * from './lib/schema/card';
 export * from './lib/schema/background-image';
 
 
+// Interface
+export * from './lib/interface/mongo/ad/UserControlledAttribute'

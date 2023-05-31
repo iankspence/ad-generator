@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState} from "react";
 import { Grid } from "@material-ui/core";
 import TopNav from "../components/top-nav/TopNav";
-import { getAdsByAccountId } from "../utils/api/mongo/ad/getAdsByAccountIdApi";
+import { findAdsByAccountId } from "../utils/api/mongo/ad/findAdsByAccountIdApi";
 import UserContext from "../contexts/UserContext";
 import {CampaignContext} from "../contexts/CampaignContext";
 import AdsGrid from "../components/library/grid/AdsGrid";
 import PdfGrid from "../components/library/grid/PdfGrid";
 import FacebookGrid from "../components/library/grid/FacebookGrid";
+import { FindAdsByAccountIdDto } from "@monorepo/type";
 
 const Library = () => {
     const { account } = useContext(UserContext);
@@ -27,14 +28,20 @@ const Library = () => {
 
     useEffect(() => {
         const fetchAds = async () => {
-            const ads = await getAdsByAccountId(account?._id);
+            const findAdsByAccountIdDto: FindAdsByAccountIdDto = {
+                accountId: account?._id.toString(),
+            }
+            const ads = await findAdsByAccountId(findAdsByAccountIdDto);
             updateAds(ads);
         };
         fetchAds();
     }, [account]);
 
     const refreshAds = async () => {
-        const newAds = await getAdsByAccountId(account?._id.toString());
+        const findAdsByAccountIdDto: FindAdsByAccountIdDto = {
+            accountId: account?._id.toString(),
+        }
+        const newAds = await findAdsByAccountId(findAdsByAccountIdDto);
         updateAds(newAds);
     };
 
