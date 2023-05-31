@@ -19,7 +19,7 @@ import {
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Configuration, OpenAIApi } from 'openai';
+import { Configuration, OpenAIApi, CreateChatCompletionRequest } from 'openai';
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
@@ -37,7 +37,8 @@ export class OpenAiService {
 
     async classifyReviewPrompt(classifyReviewPromptDto: ClassifyReviewPromptDto): Promise<[number, string]> {
         const openai = new OpenAIApi(configuration);
-        const response = await openai.createChatCompletion({
+
+        const createChatCompletionRequest: CreateChatCompletionRequest = {
             model: 'gpt-4',
             messages: [
                 {
@@ -52,7 +53,9 @@ export class OpenAiService {
             ],
             top_p: 0.05,
             max_tokens: 150,
-        });
+        }
+
+        const response = await openai.createChatCompletion(createChatCompletionRequest);
 
         const responseContent = response.data.choices[0].message.content;
         const splitResponseContent = responseContent.split('\n');
@@ -87,7 +90,7 @@ export class OpenAiService {
         const openai = new OpenAIApi(configuration);
 
         try {
-            const response = await openai.createChatCompletion({
+            const createChatCompletionRequest: CreateChatCompletionRequest = {
                 model: 'gpt-4',
                 messages: [
                     {
@@ -102,7 +105,9 @@ export class OpenAiService {
                 ],
                 top_p: 0.05,
                 max_tokens: 250,
-            });
+            }
+
+            const response = await openai.createChatCompletion(createChatCompletionRequest);
 
             const responseContent = response.data.choices[0].message.content;
             const splitResponseContent = responseContent.split('\n');
@@ -142,7 +147,8 @@ export class OpenAiService {
 
         const openai = new OpenAIApi(configuration);
         try {
-            const response = await openai.createChatCompletion({
+
+            const createChatCompletionRequest: CreateChatCompletionRequest = {
                 model: 'gpt-4',
                 messages: [
                     {
@@ -161,8 +167,10 @@ export class OpenAiService {
                     },
                 ],
                 top_p: 0.05,
-                max_tokens: 500,
-            });
+                max_tokens: 500
+            }
+
+            const response = await openai.createChatCompletion(createChatCompletionRequest);
 
             const responseContent = response.data.choices[0].message.content;
             const splitResponseContent = responseContent.split('\n');
