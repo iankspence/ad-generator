@@ -1,6 +1,21 @@
 import { AccountModelService } from './account-model.service';
-import { Account, AccountDocument } from '@monorepo/type';
-import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode, Patch } from '@nestjs/common';
+import { Account, AccountDocument, AddGoogleQueryDto } from '@monorepo/type';
+import {
+    Controller,
+    Get,
+    Post,
+    Put,
+    Delete,
+    Body,
+    Param,
+    HttpStatus,
+    HttpCode,
+    Patch,
+    UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
+import { RolesGuard } from '../../auth/roles.guard';
+import { Roles } from '../../auth/roles.decorator';
 
 // @Public()
 @Controller('account')
@@ -32,9 +47,11 @@ export class AccountController {
         return await this.accountModelService.findAccountsByUserId(dto.userId);
     }
 
-    @Patch('google-query')
-    async addGoogleQuery(@Body() dto: { accountId: string; googleQuery: string }) {
-        return await this.accountModelService.addGoogleQuery(dto.accountId, dto.googleQuery);
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'content-manager')
+    @Patch('add-google-query')
+    async addGoogleQuery(@Body() addGoogleQueryDto: AddGoogleQueryDto) {
+        return await this.accountModelService.addGoogleQuery(addGoogleQueryDto.accountId, addGoogleQueryDto.googleQuery);
     }
 
     @Patch('facebook-link')

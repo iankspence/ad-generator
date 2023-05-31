@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { AccountDocument, ScrapeGoogleMapsReviewsDto } from '@monorepo/type';
+import { AccountDocument, AddGoogleQueryDto, ScrapeGoogleMapsReviewsDto } from '@monorepo/type';
 import { addGoogleQuery } from '../../../utils/api/mongo/account/addGoogleQueryApi';
 import { getGoogleMapsReviews } from '../../../utils/api/outscraper/getGoogleMapsReviewsApi';
 
@@ -41,7 +41,12 @@ export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, account, setAc
 
                 await getGoogleMapsReviews(getGoogleMapsReviewsDto);
 
-                const updatedAccount = await addGoogleQuery(account._id.toString(), googleQuery);
+                const addGoogleQueryDto: AddGoogleQueryDto = {
+                    accountId: account._id.toString(),
+                    googleQuery,
+                }
+
+                const updatedAccount = await addGoogleQuery(addGoogleQueryDto);
                 setAccount(updatedAccount);
                 toggleGoogleQueryForm();
             } catch (error) {

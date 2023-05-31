@@ -61,7 +61,7 @@ export class AccountModelService {
         return accounts.filter((account) => account.userId.toString() === userId);
     }
 
-    async addGoogleQuery(accountId: string, googleQuery: string) {
+    async addGoogleQuery(accountId: string, googleQuery: string | string[]) {
         return this.accountModel.findOneAndUpdate({ _id: accountId }, { googleQuery }, { new: true }).exec();
     }
 
