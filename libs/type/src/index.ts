@@ -20,7 +20,11 @@ export * from './lib/dto/mongo/card/save-canvases-to-s3.dto';
 
 export * from './lib/dto/mongo/claim/update-claim-text-edit.dto';
 
+export * from './lib/dto/mongo/close/update-close-text-edit.dto';
 
+export * from './lib/dto/mongo/copy/update-copy-text-edit.dto';
+
+export * from './lib/dto/mongo/hook/update-hook-text-edit.dto';
 
 export * from './lib/dto/mongo/user/register/user-register.dto';
 export * from './lib/dto/mongo/user/sign-in/user-sign-in.dto';

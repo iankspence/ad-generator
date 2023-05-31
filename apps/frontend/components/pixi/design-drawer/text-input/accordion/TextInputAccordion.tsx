@@ -69,7 +69,12 @@ const TextInputAccordion = () => {
                     ));
                     break;
                 case 'hook':
-                    updatedData = await updateHookTextEdit({ ...currentHook, hookTextEdited: text });
+                    updatedData = await updateHookTextEdit({
+                        hook: {
+                            ...currentHook,
+                            hookTextEdited: text,
+                        }
+                    });
                     updateHooks(hooks.map((hook) =>
                         hook._id === currentHookId ? updatedData : hook
                     ));
@@ -86,13 +91,23 @@ const TextInputAccordion = () => {
                     ));
                     break;
                 case 'close':
-                    updatedData = await updateCloseTextEdit({ ...currentClose, closeTextEdited: text});
+                    updatedData = await updateCloseTextEdit({
+                        close: {
+                            ...currentClose,
+                            closeTextEdited: text
+                        },
+                    })
                     updateCloses(closes.map((close) =>
                         close._id === currentCloseId ? updatedData : close
                     ));
                     break;
                 case 'copy':
-                    updatedData = await updateCopyTextEdit({ ...currentCopy, copyTextEdited: text });
+                    updatedData = await updateCopyTextEdit({
+                        copy: {
+                            ...currentCopy,
+                            copyTextEdited: text
+                        },
+                    });
                     updateCopies(copies.map((copy) =>
                         copy._id === currentCopyId ? updatedData : copy
                     ));

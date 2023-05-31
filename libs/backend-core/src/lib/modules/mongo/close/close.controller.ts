@@ -1,26 +1,18 @@
 import { CloseService } from './close.service';
-import { Close, CloseDocument} from '@monorepo/type';
-import { Body, Controller, Post } from '@nestjs/common';
+import { CloseDocument, UpdateCloseTextEditDto } from '@monorepo/type';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
+import { RolesGuard } from '../../auth/roles.guard';
+import { Roles } from '../../auth/roles.decorator';
 
 @Controller('close')
 export class CloseController {
     constructor(private readonly closeService: CloseService) {}
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'content-manager')
     @Post('update-text-edit')
-    async updateTextEdit(@Body() {close}: { close: Partial<CloseDocument>}): Promise<CloseDocument> {
-        return await this.closeService.updateTextEdit(close);
-    }
-
-    @Post('get-by-review-id')
-    async getCloseByReviewId(@Body() reviewId: string): Promise<Close[]> {
-        return await this.closeService.getClosesByReviewId(reviewId);
-    }
-
-    @Post('get-by-account-id')
-    async getCloseByAccountId(@Body() dto: { accountId: string }): Promise<string[]> {
-        console.log('accountId', dto.accountId);
-        const closes = await this.closeService.getClosesByAccountId(dto.accountId);
-
-        return closes.map((close) => close.closeText);
+    async updateTextEdit(@Body() updateCloseTextEdit: UpdateCloseTextEditDto): Promise<CloseDocument> {
+        return await this.closeService.updateTextEdit(updateCloseTextEdit.close);
     }
 }
