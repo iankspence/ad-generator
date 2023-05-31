@@ -4,14 +4,15 @@ import { ScrapeGoogleMapsReviewsDto } from '@monorepo/type';
 
 export const getGoogleMapsReviews = async (getGoogleMapsReviewsDto: ScrapeGoogleMapsReviewsDto) => {
     try {
-        const token = localStorage.getItem('userToken');
-        const response = await axios.post(`${API_URL}/outscraper/reviews`, getGoogleMapsReviewsDto,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                }
-            });
+        const response = await axios({
+            method: 'post',
+            url: `${API_URL}/outscraper/reviews`,
+            data: getGoogleMapsReviewsDto,
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
         return response.data;
     } catch (error) {
         console.error('Error fetching Google Maps Reviews:', error);

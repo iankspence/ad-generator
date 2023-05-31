@@ -22,7 +22,6 @@ function ReviewsPage() {
 
     const tableData = formatAudienceData(reviews);
 
-    console.log('user: ', user);
     return (
         <>
             <TopNav />
@@ -36,7 +35,6 @@ function ReviewsPage() {
                 user && (user.roles.includes('admin') || user.roles.includes('content-manager')) && selectedAudiencePosition !== null &&
                 <PrivateAccessButton refreshReviews={refreshReviews} setRefreshReviews={setRefreshReviews} />
             }
-
         </>
     );
 }

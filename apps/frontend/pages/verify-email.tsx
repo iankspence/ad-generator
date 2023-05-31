@@ -1,6 +1,7 @@
 import { verifyEmail } from '../utils/api/mongo/user/verify-email/verifyEmailApi';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { VerifyEmailDto } from '@monorepo/type';
 
 export default function VerifyEmail() {
     const router = useRouter();
@@ -13,8 +14,10 @@ export default function VerifyEmail() {
 
         (async () => {
             try {
-                const data = await verifyEmail(emailVerificationToken);
-                localStorage.setItem('userToken', data.token);
+                const verifyEmailDto: VerifyEmailDto = {
+                    emailVerificationToken: emailVerificationToken as string,
+                }
+                await verifyEmail(verifyEmailDto);
                 setVerificationStatus('success');
             } catch (error) {
                 console.error('Error:', error);
@@ -25,7 +28,7 @@ export default function VerifyEmail() {
 
     useEffect(() => {
         if (verificationStatus === 'success') {
-            router.push('/reviews').then((r) => console.log('Redirected to reviews'));
+            router.push('/sign-in').then((r) => console.log('Redirected to sign-in page'));
         }
     }, [verificationStatus, router]);
 

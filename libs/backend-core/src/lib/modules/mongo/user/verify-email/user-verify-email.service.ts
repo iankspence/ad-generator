@@ -8,15 +8,14 @@ import { Model } from 'mongoose';
 export class UserVerifyEmailService {
     constructor(
         @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
-        private readonly userSignInService: UserSignInService,
     ) {}
 
-    async verifyEmail(verifyToken: string): Promise<{ message: string; token: string }> {
-        const user = await this.findByVerificationToken(verifyToken);
+    async verifyEmail(emailVerificationToken: string): Promise<{ message: string }> {
+        const user = await this.findByVerificationToken(emailVerificationToken);
         if (user) {
             await this.updateEmailVerificationStatus(user as UserDocument);
-            const token = await this.userSignInService.generateToken(user);
-            return { message: 'Email successfully verified', token };
+            return { message: 'Email successfully verified' };
+
         } else {
             throw new Error('Invalid verification token');
         }

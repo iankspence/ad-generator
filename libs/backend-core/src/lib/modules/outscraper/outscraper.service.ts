@@ -19,7 +19,7 @@ export class OutscraperService {
             limit: 1,
             language: 'en',
             region: 'CA',
-            reviewsLimit: 2,
+            reviewsLimit: 3,
             ignoreEmpty: true,
             async: true,
         }
