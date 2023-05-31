@@ -13,7 +13,6 @@ export * from './lib/dto/mongo/ad/find-ads-by-account-id.dto';
 export * from './lib/dto/mongo/ad-set/create-ad-set-for-pdf-delivery.dto';
 export * from './lib/dto/mongo/ad-set/delete-ad-set-and-ads-and-cards.dto';
 
-
 export * from './lib/dto/mongo/user/register/user-register.dto';
 export * from './lib/dto/mongo/user/sign-in/user-sign-in.dto';
 export * from './lib/dto/mongo/user/forgot-password/user-reset-password.dto';
@@ -36,7 +35,6 @@ export * from './lib/schema/close';
 export * from './lib/schema/mask';
 export * from './lib/schema/card';
 export * from './lib/schema/background-image';
-
 
 // Interface
 export * from './lib/interface/mongo/ad/UserControlledAttribute'

@@ -15,9 +15,8 @@ const s3 = new S3Client({
 export class BackgroundImageService {
     constructor(@InjectModel(BackgroundImage.name) private backgroundImageModel: Model<BackgroundImageDocument>) {}
 
-    async createBackgroundImage(backgroundImageName: string, backgroundImageLocation: string, backgroundImagePreviewLocation: string): Promise<BackgroundImage> {
-        const newImage = new this.backgroundImageModel({ backgroundImageName, backgroundImageLocation, backgroundImagePreviewLocation });
-        return newImage.save();
+    async getBackgroundImages(): Promise<BackgroundImageDocument[]> {
+        return await this.backgroundImageModel.find().exec();
     }
 
     async uploadImagesFromDirectory(directoryPath: string): Promise<void> {
@@ -35,14 +34,16 @@ export class BackgroundImageService {
                         height: 140,
                         fit: sharp.fit.inside,
                     })
-                    .toBuffer();                const previewImageLocation = await this.uploadFileToS3(previewImageBuffer, `background-images/preview/${imageName}${fileExtension}`, fileExtension, true);
+                    .toBuffer();
+                const previewImageLocation = await this.uploadFileToS3(previewImageBuffer, `background-images/preview/${imageName}${fileExtension}`, fileExtension, true);
                 await this.createBackgroundImage(`${imageName}`, fullImageLocation, previewImageLocation);
             }
         }
     }
 
-    async getBackgroundImages(): Promise<BackgroundImageDocument[]> {
-        return await this.backgroundImageModel.find().exec();
+    async createBackgroundImage(backgroundImageName: string, backgroundImageLocation: string, backgroundImagePreviewLocation: string): Promise<BackgroundImage> {
+        const newImage = new this.backgroundImageModel({ backgroundImageName, backgroundImageLocation, backgroundImagePreviewLocation });
+        return newImage.save();
     }
 
     private isFileSupported(fileExtension: string): boolean {
