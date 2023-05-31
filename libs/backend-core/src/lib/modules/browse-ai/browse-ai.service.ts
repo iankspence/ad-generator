@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { firstValueFrom } from 'rxjs';
 import { IncomingWebhookDataDto } from '@monorepo/type';
+import { ExternalBrowseAiJobDto } from '@monorepo/type';
 
 @Injectable()
 export class BrowseAiService {
@@ -19,17 +20,23 @@ export class BrowseAiService {
 
     async startRobotJob(startRobotJobDto: StartRobotJobDto): Promise<BrowseAiJobDocument> {
 
-        const response$ = this.httpService.post(
-            startRobotJobDto.robotUrl,
-            {
+        const externalBrowseAiJob: ExternalBrowseAiJobDto = {
+            url: startRobotJobDto.robotUrl,
+            data: {
                 inputParameters: startRobotJobDto.inputParameters,
             },
-            {
+            config: {
                 headers: {
                     Authorization: `Bearer ${process.env.BROWSE_AI_API_KEY}`,
                     'Content-Type': 'application/json',
-                },
-            },
+                }
+            }
+        }
+
+        const response$ = this.httpService.post(
+            externalBrowseAiJob.url,
+            externalBrowseAiJob.data,
+            externalBrowseAiJob.config,
         );
         const response = await firstValueFrom(response$);
         if (response.status !== 200) {
