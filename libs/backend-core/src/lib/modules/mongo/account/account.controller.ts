@@ -1,5 +1,11 @@
 import { AccountModelService } from './account-model.service';
-import { Account, AccountDocument, AddGoogleQueryDto, AddRateMdsLinkDto, CreateAccountDto } from '@monorepo/type';
+import {
+    Account,
+    AccountDocument,
+    AddGoogleQueryDto,
+    AddRateMdsLinkDto,
+    CreateAccountDto,
+} from '@monorepo/type';
 import {
     Controller,
     Get,
@@ -48,6 +54,13 @@ export class AccountController {
     @Post('user')
     async findByUserId(@Body() dto: { userId: string }): Promise<AccountDocument[]> {
         return await this.accountModelService.findAccountsByUserId(dto.userId);
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
+    @Get('get-accounts')
+    async getAccounts(): Promise<AccountDocument[]> {
+        return await this.accountModelService.getAccounts();
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)

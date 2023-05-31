@@ -8,6 +8,9 @@ export class Account {
     @Prop({ type: Types.ObjectId, ref: 'User', required: true })
     userId!: Types.ObjectId;
 
+    // @Prop({ type: Types.ObjectId, ref: 'User', required: false, default: null })
+    // managerUserId?: Types.ObjectId | null;
+
     @Prop({ required: true })
     companyName!: string;
 

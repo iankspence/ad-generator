@@ -12,7 +12,7 @@ export function SelectAccount({ userId, account, setAccount, accounts, setAccoun
     useEffect(() => {
         const fetchAccounts = async () => {
             setIsLoading(true);
-            const allAccounts = await getAccounts(userId);
+            const allAccounts = await getAccounts();
             setAccounts(allAccounts);
             setIsDataFetched(true);
             setIsLoading(false);
@@ -49,7 +49,7 @@ export function SelectAccount({ userId, account, setAccount, accounts, setAccoun
             getOptionLabel={(option) => option.companyName}
             style={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Select Account" variant="outlined" />}
-            isOptionEqualToValue={(option, value) => option._id === value._id} // Add this line
+            isOptionEqualToValue={(option, value) => option._id === value._id}
         />
     );
 }

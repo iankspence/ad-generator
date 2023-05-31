@@ -18,7 +18,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     const fetchAndSetDefaultAccount = async () => {
         if (!account && user) {
-            const accounts = await getAccounts(user._id);
+            const accounts = await getAccounts();
             if (accounts.length > 0) {
                 setAccount(accounts[0]);
             }

@@ -13,7 +13,7 @@ export function AccountPage() {
 
     useEffect(() => {
         const fetchAccounts = async () => {
-            const allAccounts = await getAccounts(user?._id);
+            const allAccounts = await getAccounts();
             setAccounts(allAccounts);
         };
         fetchAccounts();
