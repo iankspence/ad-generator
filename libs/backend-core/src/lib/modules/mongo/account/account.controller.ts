@@ -4,16 +4,13 @@ import {
     AccountDocument,
     AddGoogleQueryDto,
     AddRateMdsLinkDto,
-    CreateAccountDto,
+    CreateAccountDto, UpdateAccountLogoAndColorsDto,
 } from '@monorepo/type';
 import {
     Controller,
     Get,
     Post,
-    Put,
-    Delete,
     Body,
-    Param,
     HttpStatus,
     HttpCode,
     Patch,
@@ -36,27 +33,6 @@ export class AccountController {
         return this.accountModelService.create(createAccountDto);
     }
 
-    @Get(':_id')
-    async findOne(@Param('_id') _id: string): Promise<Account> {
-        return await this.accountModelService.findOneById(_id);
-    }
-
-    @Put(':_id')
-    async updateOneById(@Param('_id') _id: string, @Body() update: Partial<Account>): Promise<Account> {
-        return this.accountModelService.updateOneById(_id, update);
-    }
-
-    @Delete(':_id')
-    @HttpCode(HttpStatus.NO_CONTENT)
-    async deleteOneById(@Param('_id') _id: string): Promise<void> {
-        await this.accountModelService.deleteOneById(_id);
-    }
-
-    @Post('user')
-    async findByUserId(@Body() dto: { userId: string }): Promise<AccountDocument[]> {
-        return await this.accountModelService.findAccountsByUserId(dto.userId);
-    }
-
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin')
     @Get('get-accounts')
@@ -69,11 +45,6 @@ export class AccountController {
     @Patch('add-google-query')
     async addGoogleQuery(@Body() addGoogleQueryDto: AddGoogleQueryDto) {
         return await this.accountModelService.addGoogleQuery(addGoogleQueryDto.accountId, addGoogleQueryDto.googleQuery);
-    }
-
-    @Patch('facebook-link')
-    async addFacebookLink(@Body() dto: { accountId: string; facebookLink: string }) {
-        return await this.accountModelService.addFacebookLink(dto.accountId, dto.facebookLink);
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -89,4 +60,17 @@ export class AccountController {
     async getTextByAccountId(@Body() getTextByAccountIdDto: GetTextByAccountIdDto) {
         return await this.accountModelService.getTextByAccountId(getTextByAccountIdDto);
     }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'content-manager')
+    @Post('update-account-logo-and-colors')
+    async updateAccountLogoAndColors(@Body() updateAccountLogoAndColorsDto: UpdateAccountLogoAndColorsDto): Promise<Account> {
+        return this.accountModelService.updateAccountLogoAndColors(updateAccountLogoAndColorsDto);
+    }
 }
+
+// @Delete(':_id')
+// @HttpCode(HttpStatus.NO_CONTENT)
+// async deleteOneById(@Param('_id') _id: string): Promise<void> {
+//     await this.accountModelService.deleteOneById(_id);
+// }

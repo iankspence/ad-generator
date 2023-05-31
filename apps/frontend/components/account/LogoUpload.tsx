@@ -4,6 +4,7 @@ import ColorThief from 'colorthief';
 import { updateAccountLogoAndColors } from '../../utils/api/mongo/account/updateAccountLogoAndColorsApi';
 import UserContext from "../../contexts/UserContext";
 import { convertRgbToHex } from '../../utils/color/convertRgbToHex';
+import { UpdateAccountLogoAndColorsDto } from '@monorepo/type';
 
 const LogoUpload = () => {
     const { account, setAccount } = useContext(UserContext);
@@ -20,7 +21,14 @@ const LogoUpload = () => {
             const primaryColor = convertRgbToHex(primaryColorRgb);
             const secondaryColor = convertRgbToHex(secondaryColorRgb);
 
-            await updateAccountLogoAndColors(account._id, logoData, primaryColor, secondaryColor);
+            const updateAccountLogoAndColorsDto: UpdateAccountLogoAndColorsDto = {
+                accountId: account._id.toString(),
+                logo: logoData,
+                primaryColor,
+                secondaryColor,
+            }
+
+            await updateAccountLogoAndColors(updateAccountLogoAndColorsDto);
 
             setAccount({ ...account, logo: logoData, primaryColor, secondaryColor });
         };

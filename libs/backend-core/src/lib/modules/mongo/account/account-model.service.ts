@@ -11,7 +11,7 @@ import {
     CopyDocument, CreateAccountDto,
     GetTextByAccountIdDto,
     HookDocument,
-    ReviewDocument,
+    ReviewDocument, UpdateAccountLogoAndColorsDto,
 } from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -37,32 +37,16 @@ export class AccountModelService {
         return await this.accountModel.findOne({ _id: _id }).exec();
     }
 
-    async updateOneById(_id: string, update: Partial<Account>): Promise<Account | null> {
-        return this.accountModel.findOneAndUpdate({ _id: _id }, update, { new: true }).exec();
-    }
-
-    async deleteOneById(_id: string): Promise<Account | null> {
-        return this.accountModel.findOneAndDelete({ _id }).exec();
-    }
-
-    async findAccountsByUserId(userId: string): Promise<AccountDocument[]> {
-        const accounts = await this.accountModel.find({ }).exec();
-        return accounts.filter((account) => account.userId.toString() === userId);
+    async updateAccountLogoAndColors(updateAccountLogoAndColorsDto: UpdateAccountLogoAndColorsDto): Promise<Account | null> {
+        return this.accountModel.findOneAndUpdate({ _id: updateAccountLogoAndColorsDto.accountId }, updateAccountLogoAndColorsDto, { new: true }).exec();
     }
 
     async getAccounts(): Promise<AccountDocument[]> {
         return this.accountModel.find().exec();
     }
 
-
     async addGoogleQuery(accountId: string, googleQuery: string | string[]) {
         return this.accountModel.findOneAndUpdate({ _id: accountId }, { googleQuery }, { new: true }).exec();
-    }
-
-    async addFacebookLink(accountId: string, facebookLink: string) {
-        return this.accountModel
-            .findOneAndUpdate({ _id: new Types.ObjectId(accountId) }, { facebookLink }, { new: true })
-            .exec();
     }
 
     async addRateMdsLink(accountId: string, rateMdsLink: string) {
@@ -115,7 +99,6 @@ export class AccountModelService {
             }
         }
 
-        // if there's no header for this originUrl, add it
         await this.accountModel
             .findOneAndUpdate(
                 { _id: accountId },
@@ -141,3 +124,7 @@ export class AccountModelService {
         return [reviews, hooks, claims, closes, copies];
     }
 }
+
+// async deleteOneById(_id: string): Promise<Account | null> {
+//     return this.accountModel.findOneAndDelete({ _id }).exec();
+// }
