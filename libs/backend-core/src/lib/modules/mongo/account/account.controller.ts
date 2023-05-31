@@ -27,7 +27,7 @@ export class AccountController {
 
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin', 'content-manager')
-    @Post()
+    @Post('create')
     @HttpCode(HttpStatus.CREATED)
     async create(@Body() createAccountDto: CreateAccountDto): Promise<Account> {
         return this.accountModelService.create(createAccountDto);

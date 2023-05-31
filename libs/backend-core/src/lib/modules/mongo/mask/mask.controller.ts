@@ -9,11 +9,6 @@ import { Roles } from '../../auth/roles.decorator';
 export class MaskController {
     constructor(private readonly maskService: MaskService) {}
 
-    @Post('upload-from-directory')
-    async uploadMasksFromDirectory(@Body('directoryPath') directoryPath: string): Promise<void> {
-        await this.maskService.uploadMasksFromDirectory(directoryPath);
-    }
-
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin', 'content-manager')
     @Post('find-all-by-names')
@@ -21,3 +16,8 @@ export class MaskController {
         return await this.maskService.findAllByNames(findMasksByNamesDto.maskNames);
     }
 }
+
+// @Post('upload-from-directory')
+// async uploadMasksFromDirectory(@Body('directoryPath') directoryPath: string): Promise<void> {
+//     await this.maskService.uploadMasksFromDirectory(directoryPath);
+// }

@@ -5,7 +5,7 @@ export const createAccount = async (createAccountDto) => {
     try {
         const response = await axios({
             method: 'post',
-            url: `${API_URL}/account`,
+            url: `${API_URL}/account/create`,
             data: createAccountDto,
             withCredentials: true,
             headers: {
