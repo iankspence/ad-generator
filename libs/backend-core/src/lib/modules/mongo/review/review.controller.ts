@@ -3,7 +3,6 @@ import { Review, ReviewDocument } from '@monorepo/type';
 import { Get, Controller, Param, Patch, Body, Post, UseGuards } from '@nestjs/common';
 import { Roles } from '../../auth/roles.decorator';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
-import { Public } from '../../auth/public.decorator';
 
 @Controller('review')
 export class ReviewController {
@@ -14,14 +13,13 @@ export class ReviewController {
         return await this.reviewService.updateTextEdit(review);
     }
 
-    @Public()
     @Get('account/:accountId')
     async getReviewsByAccountId(@Param('accountId') accountId: string): Promise<Review[]> {
         return this.reviewService.getReviewsByAccountId(accountId);
     }
 
-    @UseGuards(JwtAuthGuard)
-    @Roles('admin', 'content-manager')
+    // @UseGuards(JwtAuthGuard)
+    // @Roles('admin', 'content-manager')
     @Patch('update')
     async updateReviewAudience(
         @Body()

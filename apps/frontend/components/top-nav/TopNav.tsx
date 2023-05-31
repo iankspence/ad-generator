@@ -2,13 +2,14 @@ import UserContext from '../../contexts/UserContext';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
+import { signOut } from '../../utils/api/mongo/user/sign-in/signOutApi';
 
 const TopNav = () => {
     const router = useRouter();
     const { user, setUser } = useContext(UserContext);
 
     const handleSignOut = () => {
-        localStorage.removeItem('userToken');
+        signOut();
         setUser(null);
         router.push('/sign-in');
     };

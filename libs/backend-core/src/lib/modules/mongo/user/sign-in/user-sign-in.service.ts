@@ -12,7 +12,8 @@ export class UserSignInService {
             email: user._doc.email,
             roles: user._doc.roles,
         };
-        return this.jwtService.sign(payload);
+
+        return this.jwtService.sign(payload, { expiresIn: '1h' });
     }
 
     async signIn(user: any): Promise<{ user: any; token: string }> {

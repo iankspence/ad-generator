@@ -30,7 +30,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         }
         return null;
     }
-
     async findOneByEmail(email: string): Promise<UserDocument | null> {
         return await this.userModel.findOne({ email }).exec();
     }

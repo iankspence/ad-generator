@@ -1,19 +1,15 @@
 import { getAccounts } from "../utils/api/mongo/account/getAccountsApi";
-import { userJwt } from '../utils/api/mongo/user/sign-in/userJwtApi';
 import { createContext, useState, useEffect, ReactNode } from 'react';
 import { AccountDocument, UserDocument } from '@monorepo/type';
+import { getCurrentUser } from '../utils/api/mongo/user/sign-in/getCurrentUserApi';
 
 interface UserContextProps {
     user: UserDocument | null;
     setUser: (user: UserDocument) => void;
-
     account: AccountDocument | Partial<AccountDocument> | null;
     setAccount: (account: AccountDocument | Partial<AccountDocument>) => void;
-
-    refreshToken: () => Promise<void>;
 }
 
-// Removed default values
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
@@ -25,29 +21,30 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             const accounts = await getAccounts(user._id);
             if (accounts.length > 0) {
                 setAccount(accounts[0]);
-                console.log('Setting default account: ', accounts[0])
             }
         }
     };
+
+    // Fetch and set the current user when the page loads
+    useEffect(() => {
+        const fetchAndSetCurrentUser = async () => {
+            try {
+                const currentUser = await getCurrentUser();
+                setUser(currentUser);
+            } catch (error) {
+                console.error('Error fetching current user:', error);
+            }
+        };
+
+        fetchAndSetCurrentUser();
+    }, []); // Empty array means this effect runs once when the component mounts
 
     useEffect(() => {
         fetchAndSetDefaultAccount();
     }, [user, account]);
 
-    const refreshToken = async () => {
-        const token = localStorage.getItem('userToken');
-        if (token) {
-            const data = await userJwt(token);
-            setUser(data);
-        }
-    };
-
-    useEffect(() => {
-        refreshToken();
-    }, []);
-
     return (
-        <UserContext.Provider value={{ user, setUser, account, setAccount, refreshToken }}>
+        <UserContext.Provider value={{ user, setUser, account, setAccount }}>
             {children}
         </UserContext.Provider>
     );

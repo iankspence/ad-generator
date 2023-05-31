@@ -2,10 +2,19 @@ import { AppModule } from './app/app.module';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
-    app.enableCors();
+
+    app.enableCors({
+        origin: 'http://localhost:4200',
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+        credentials: true,
+    });
+
+    app.use(cookieParser());
+
     const globalPrefix = 'api';
     app.setGlobalPrefix(globalPrefix);
 

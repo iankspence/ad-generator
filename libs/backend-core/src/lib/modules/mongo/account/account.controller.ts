@@ -1,9 +1,8 @@
 import { AccountModelService } from './account-model.service';
 import { Account, AccountDocument } from '@monorepo/type';
 import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode, Patch } from '@nestjs/common';
-import { Public } from '../../auth/public.decorator';
 
-@Public()
+// @Public()
 @Controller('account')
 export class AccountController {
     constructor(private readonly accountModelService: AccountModelService) {}

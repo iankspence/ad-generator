@@ -19,14 +19,14 @@ import { JwtAuthGuard } from './jwt-auth.guard';
         PassportModule,
         JwtModule.register({
             secret: process.env.JWT_SECRET,
-            signOptions: { expiresIn: '24h' },
+            signOptions: { expiresIn: '1h' },
         }),
     ],
     providers: [
         LocalStrategy,
         JwtStrategy,
-        { provide: APP_GUARD, useClass: JwtAuthGuard },
-        { provide: APP_GUARD, useClass: RolesGuard }
+        // { provide: APP_GUARD, useClass: JwtAuthGuard },
+        // { provide: APP_GUARD, useClass: RolesGuard }
     ],
 })
 export class AuthModule {}

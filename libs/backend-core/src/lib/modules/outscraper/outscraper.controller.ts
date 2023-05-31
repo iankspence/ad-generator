@@ -8,8 +8,8 @@ import { Roles } from '../auth/roles.decorator';
 export class OutscraperController {
     constructor(private readonly outscraperService: OutscraperService) {}
 
-    @UseGuards(JwtAuthGuard)
-    @Roles('admin', 'content-manager')
+    // @UseGuards(JwtAuthGuard)
+    // @Roles('admin', 'content-manager')
     @Post('reviews')
     async scrapeGoogleMapsReviews(
         @Body() scrapeGoogleMapsReviewsDto: ScrapeGoogleMapsReviewsDto,

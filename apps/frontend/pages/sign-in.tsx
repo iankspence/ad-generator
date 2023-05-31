@@ -14,9 +14,8 @@ export function SignInPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const data = await signIn(email, password);
-            localStorage.setItem('userToken', data.token);
-            setUser(data.user);
+            const user = await signIn(email, password);
+            setUser(user);
             await Router.push('/reviews');
         } catch (error) {
             console.error('Failed to sign in:', error);
