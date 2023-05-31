@@ -26,6 +26,8 @@ export * from './lib/dto/mongo/copy/update-copy-text-edit.dto';
 
 export * from './lib/dto/mongo/hook/update-hook-text-edit.dto';
 
+export * from './lib/dto/mongo/mask/find-masks-by-name.dto';
+
 export * from './lib/dto/mongo/user/register/user-register.dto';
 export * from './lib/dto/mongo/user/sign-in/user-sign-in.dto';
 export * from './lib/dto/mongo/user/forgot-password/user-reset-password.dto';

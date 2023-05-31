@@ -1,6 +1,9 @@
 import { MaskService } from './mask.service';
-import { MaskDocument } from '@monorepo/type';
-import { Controller, Post, Body } from '@nestjs/common';
+import { FindMasksByNamesDto, MaskDocument } from '@monorepo/type';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
+import { RolesGuard } from '../../auth/roles.guard';
+import { Roles } from '../../auth/roles.decorator';
 
 @Controller('mask')
 export class MaskController {
@@ -11,8 +14,10 @@ export class MaskController {
         await this.maskService.uploadMasksFromDirectory(directoryPath);
     }
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'content-manager')
     @Post('find-all-by-names')
-    async findAllByNames(@Body('maskNames') maskNames: string[]): Promise<MaskDocument[]> {
-        return await this.maskService.findAllByNames(maskNames);
+    async findAllByNames(@Body() findMasksByNamesDto: FindMasksByNamesDto): Promise<MaskDocument[]> {
+        return await this.maskService.findAllByNames(findMasksByNamesDto.maskNames);
     }
 }

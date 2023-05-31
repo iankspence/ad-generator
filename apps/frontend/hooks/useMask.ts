@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { PixiContext } from '../contexts/PixiContext';
 import { addMaskLayer } from '../components/pixi/utils/addMaskLayer';
-import { getMasksByNames } from '../utils/api/mongo/mask/getMasksByNamesApi';
+import { findMasksByNames } from '../utils/api/mongo/mask/findMasksByNamesApi';
 import * as PIXI from 'pixi.js';
 import { findMaskChildren } from '../components/pixi/utils/findMaskChildren';
 import { getSelectedTheme } from "../components/pixi/utils/getSelectedTheme";
@@ -13,9 +13,10 @@ const useMask = (appRef, canvasName, size) => {
     const { selectedThemeId, updateMaskLocations } = useContext(PixiContext);
     const selectedTheme = getSelectedTheme(selectedThemeId);
     const { account } = useContext(UserContext)
+
     const fetchMaskTextures = async (maskNames) => {
         try {
-            const masks = await getMasksByNames(maskNames);
+            const masks = await findMasksByNames({ maskNames });
             const maskLocations = []
             const textures = await Promise.all(masks.map(async (mask) => {
                 const resource = await PIXI.autoDetectResource(mask.maskLocation).load();
