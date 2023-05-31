@@ -4,6 +4,7 @@ export * from './lib/dto/browse-ai/start-robot-job.dto';
 export * from './lib/dto/browse-ai/incoming-webhook-data.dto';
 
 export * from './lib/dto/mongo/account/add-google-query.dto';
+export * from './lib/dto/mongo/account/add-rate-mds-link.dto';
 
 export * from './lib/dto/mongo/ad-set/create-ad-set.dto';
 

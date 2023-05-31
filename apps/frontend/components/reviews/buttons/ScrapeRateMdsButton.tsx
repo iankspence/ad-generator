@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { AccountDocument, StartRobotJobDto } from '@monorepo/type';
+import { AccountDocument, AddRateMdsLinkDto, StartRobotJobDto } from '@monorepo/type';
 import { startRobotJob } from '../../../utils/api/browse-ai/startRobotJobApi';
 import { addRateMdsLink } from '../../../utils/api/mongo/account/addRateMdsLinkApi';
 
@@ -52,7 +52,11 @@ export const ScrapeRateMdsButton: React.FC<Props> = ({ userId, account, setAccou
 
             try {
                 await startRobotJob(startRobotJobDto);
-                const updatedAccount = await addRateMdsLink({ accountId, rateMdsLink });
+                const addRateMdsLinkDto: AddRateMdsLinkDto = {
+                    accountId,
+                    rateMdsLink,
+                }
+                const updatedAccount = await addRateMdsLink(addRateMdsLinkDto);
                 setAccount(updatedAccount);
                 toggleRateMdsForm();
             } catch (error) {

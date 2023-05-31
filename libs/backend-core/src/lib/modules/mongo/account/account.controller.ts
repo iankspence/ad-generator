@@ -1,5 +1,5 @@
 import { AccountModelService } from './account-model.service';
-import { Account, AccountDocument, AddGoogleQueryDto } from '@monorepo/type';
+import { Account, AccountDocument, AddGoogleQueryDto, AddRateMdsLinkDto } from '@monorepo/type';
 import {
     Controller,
     Get,
@@ -59,9 +59,11 @@ export class AccountController {
         return await this.accountModelService.addFacebookLink(dto.accountId, dto.facebookLink);
     }
 
-    @Patch('rate-mds-link')
-    async addRateMdsLink(@Body() dto: { accountId: string; rateMdsLink: string }) {
-        return await this.accountModelService.addRateMdsLink(dto.accountId, dto.rateMdsLink);
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'content-manager')
+    @Patch('add-rate-mds-link')
+    async addRateMdsLink(@Body() addRateMdsLinkDto: AddRateMdsLinkDto) {
+        return await this.accountModelService.addRateMdsLink(addRateMdsLinkDto.accountId, addRateMdsLinkDto.rateMdsLink);
     }
 
     @Post('get-all-text-by-account-id')
