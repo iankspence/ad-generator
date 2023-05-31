@@ -2,8 +2,9 @@ import ContentGenerator from '../components/pixi/content-generator/ContentGenera
 import TopNav from '../components/top-nav/TopNav';
 import { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';
-import { getAllTextByAccountId } from '../utils/api/mongo/account/getAllTextByAccountIdApi';
+import { getTextByAccountId } from '../utils/api/mongo/account/getTextByAccountIdApi';
 import React, { useContext, useEffect } from 'react';
+import { GetTextByAccountIdDto } from '../../../libs/type/src/lib/dto/mongo/account/get-text-by-account-id.dto';
 
 function CampaignPage() {
     const { account } = useContext(UserContext);
@@ -12,7 +13,8 @@ function CampaignPage() {
     useEffect(() => {
         if (!account) return;
         const fetchData = async () => {
-            const allText = await getAllTextByAccountId(account?._id.toString());
+            const getTextByAccountIdDto: GetTextByAccountIdDto = {accountId: account?._id.toString()}
+            const allText = await getTextByAccountId(getTextByAccountIdDto);
 
             if (account) {
                 updateReviews(allText[0]);

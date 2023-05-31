@@ -22,6 +22,7 @@ import {
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { RolesGuard } from '../../auth/roles.guard';
 import { Roles } from '../../auth/roles.decorator';
+import { GetTextByAccountIdDto } from '@monorepo/type';
 
 @Controller('account')
 export class AccountController {
@@ -82,8 +83,10 @@ export class AccountController {
         return await this.accountModelService.addRateMdsLink(addRateMdsLinkDto.accountId, addRateMdsLinkDto.rateMdsLink);
     }
 
-    @Post('get-all-text-by-account-id')
-    async getAllTextForAccountId(@Body() dto: { accountId: string }) {
-        return await this.accountModelService.getAllTextByAccountId(dto.accountId);
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'content-manager')
+    @Post('get-text-by-account-id')
+    async getTextByAccountId(@Body() getTextByAccountIdDto: GetTextByAccountIdDto) {
+        return await this.accountModelService.getTextByAccountId(getTextByAccountIdDto);
     }
 }

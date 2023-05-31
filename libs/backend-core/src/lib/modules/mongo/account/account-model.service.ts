@@ -9,6 +9,7 @@ import {
     ClaimDocument,
     CloseDocument,
     CopyDocument, CreateAccountDto,
+    GetTextByAccountIdDto,
     HookDocument,
     ReviewDocument,
 } from '@monorepo/type';
@@ -27,18 +28,6 @@ export class AccountModelService {
         private readonly reviewService: ReviewService,
         private readonly closeService: CloseService,
     ) {}
-
-    async getAllTextByAccountId(
-        accountId: string,
-    ): Promise<[ReviewDocument[], HookDocument[], ClaimDocument[], CloseDocument[], CopyDocument[]]> {
-        const reviews = await this.reviewService.getReviewsByAccountId(accountId);
-        const hooks = await this.hookService.getHooksByAccountId(accountId);
-        const claims = await this.claimService.getClaimsByAccountId(accountId);
-        const closes = await this.closeService.getClosesByAccountId(accountId);
-        const copies = await this.copyService.getCopiesByAccountId(accountId);
-
-        return [reviews, hooks, claims, closes, copies];
-    }
 
     async create(createAccountDto: CreateAccountDto): Promise<Account> {
         const createdAccount = new this.accountModel(createAccountDto);
@@ -140,5 +129,15 @@ export class AccountModelService {
             .exec();
 
         return rateMdsHeader.numberOfReviews;
+    }
+
+    async getTextByAccountId(getTextByAccountIdDto: GetTextByAccountIdDto): Promise<[ReviewDocument[], HookDocument[], ClaimDocument[], CloseDocument[], CopyDocument[]]> {
+        const reviews = await this.reviewService.getReviewsByAccountId(getTextByAccountIdDto.accountId);
+        const hooks = await this.hookService.getHooksByAccountId(getTextByAccountIdDto.accountId);
+        const claims = await this.claimService.getClaimsByAccountId(getTextByAccountIdDto.accountId);
+        const closes = await this.closeService.getClosesByAccountId(getTextByAccountIdDto.accountId);
+        const copies = await this.copyService.getCopiesByAccountId(getTextByAccountIdDto.accountId);
+
+        return [reviews, hooks, claims, closes, copies];
     }
 }
