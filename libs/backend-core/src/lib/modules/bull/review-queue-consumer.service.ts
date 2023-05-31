@@ -2,7 +2,7 @@ import { audiences } from '../../utils/constants/audiences';
 import { OpenAiService } from '../open-ai/open-ai.service';
 import { ReviewGateway } from '../websocket/review.gateway';
 import { ReviewQueueProducerService } from './review-queue-producer.service';
-import { Hook, HookDocument, Review, ReviewDocument } from '@monorepo/type';
+import { HookDocument, Review, ReviewDocument } from '@monorepo/type';
 import { OnQueueActive, OnQueueCompleted, Process, Processor } from '@nestjs/bull';
 import { InjectModel } from '@nestjs/mongoose';
 import { Job } from 'bull';
@@ -89,11 +89,12 @@ export class ReviewQueueConsumerService {
     @Process('extract-hooks-from-review')
     async extractHooksFromReview(job: Job<any>): Promise<void> {
         try {
-            const newHooks = await this.openAiService.extractHooksFromReview(
-                job.data.review.userId,
-                job.data.review.accountId,
-                job.data.review._id,
-                job.data.review.reviewText,
+            const newHooks = await this.openAiService.extractHooksFromReview({
+                reviewId: job.data.review._id,
+                reviewText: job.data.review.reviewText,
+                accountId: job.data.review.accountId,
+                userId: job.data.review.userId,
+                }
             );
 
             newHooks.map((hook: Partial<HookDocument>) => {

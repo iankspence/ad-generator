@@ -1,4 +1,4 @@
-export function generateClaimCopyClosePrompt(
+export function claimCopyClosePrompt(
     reviewText: string,
     hookText: string,
     audienceNamePrompt: string,

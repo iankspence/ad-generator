@@ -1,6 +1,6 @@
-import { classifyReviewPrompt } from '../../utils/classifyReviewPrompt';
-import { extractHooksFromReviewPrompt } from '../../utils/extractHooksFromReviewPrompt';
-import { generateClaimCopyClosePrompt } from '../../utils/generateClaimCopyClosePrompt';
+import { classifyReviewPrompt } from '../../utils/prompts/classifyReviewPrompt';
+import { extractHooksFromReviewPrompt } from '../../utils/prompts/extractHooksFromReviewPrompt';
+import { claimCopyClosePrompt } from '../../utils/prompts/claimCopyClosePrompt';
 import {
     Claim,
     Hook,
@@ -12,17 +12,14 @@ import {
     CloseDocument,
     Copy,
     CopyDocument,
+    ClassifyReviewPromptDto,
+    ExtractHooksFromReviewDto,
+    GenerateClaimCopyCloseDto,
 } from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Configuration, OpenAIApi } from 'openai';
-
-function addPromptSuffix(prompt: string): string {
-    const newPrompt = prompt + '\\n\\n###\\n\\n';
-    console.log(newPrompt);
-    return newPrompt;
-}
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
@@ -37,39 +34,8 @@ export class OpenAiService {
         @InjectModel(Copy.name) private copyModel: Model<CopyDocument>,
         @InjectModel(Close.name) private closeModel: Model<CloseDocument>,
     ) {}
-    /**
-     * Extract a positiveDescriptor and an array of business claims for a review.
-     *
-     * @param prompt - The review string to return values for.
-     */
-    async createCompletion(prompt: string): Promise<[string, string[]]> {
-        const openai = new OpenAIApi(configuration);
-        console.log('prompt from createCompletion: ', prompt);
 
-        const response = await openai.createCompletion({
-            model: 'davinci:ft-personal-2023-03-02-13-13-09',
-            prompt: addPromptSuffix(prompt),
-            temperature: 0.7,
-            max_tokens: 80,
-            stop: '\\n%',
-        });
-
-        const responseText = response.data.choices[0].text;
-        const responseLines = responseText.trim().split('\n');
-        const firstLineSplit = responseLines[0].split('\\n');
-        const responsePositiveDescriptor = firstLineSplit[0];
-        const firstClaim = firstLineSplit[1];
-        const responseClaimArray = [firstClaim, ...responseLines.slice(1)];
-
-        return [responsePositiveDescriptor, responseClaimArray];
-    }
-
-    /**
-     * General API for GPT 4
-     *
-     * @param prompt - The review to classify audiences for.
-     */
-    async createCompletionGPT4(prompt: string): Promise<[number, string]> {
+    async classifyReviewPrompt(classifyReviewPromptDto: ClassifyReviewPromptDto): Promise<[number, string]> {
         const openai = new OpenAIApi(configuration);
         const response = await openai.createChatCompletion({
             model: 'gpt-4',
@@ -81,11 +47,11 @@ export class OpenAiService {
                 },
                 {
                     role: 'user',
-                    content: classifyReviewPrompt(prompt),
+                    content: classifyReviewPrompt(classifyReviewPromptDto.prompt),
                 },
             ],
             top_p: 0.05,
-            max_tokens: 120,
+            max_tokens: 150,
         });
 
         const responseContent = response.data.choices[0].message.content;
@@ -104,7 +70,9 @@ export class OpenAiService {
 
     async updateReviewWithClassification(reviewJob: { review: ReviewDocument }): Promise<ReviewDocument> {
         const review: ReviewDocument = reviewJob.review;
-        const [bestFitAudience, bestFitReasoning] = await this.createCompletionGPT4(review.reviewText);
+        const [bestFitAudience, bestFitReasoning] = await this.classifyReviewPrompt({
+            prompt: review.reviewText,
+        });
         return this.reviewModel.findByIdAndUpdate(
             review._id,
             {
@@ -115,15 +83,9 @@ export class OpenAiService {
         );
     }
 
-    async extractHooksFromReview(
-        userId: string,
-        accountId: string,
-        reviewId: string,
-        reviewText: string,
-    ): Promise<Partial<HookDocument[]>> {
+    async extractHooksFromReview(extractHooksFromReviewDto: ExtractHooksFromReviewDto): Promise<HookDocument[]> {
         const openai = new OpenAIApi(configuration);
 
-        console.log(extractHooksFromReviewPrompt(reviewText));
         try {
             const response = await openai.createChatCompletion({
                 model: 'gpt-4',
@@ -135,7 +97,7 @@ export class OpenAiService {
                     },
                     {
                         role: 'user',
-                        content: extractHooksFromReviewPrompt(reviewText),
+                        content: extractHooksFromReviewPrompt(extractHooksFromReviewDto.reviewText),
                     },
                 ],
                 top_p: 0.05,
@@ -144,26 +106,21 @@ export class OpenAiService {
 
             const responseContent = response.data.choices[0].message.content;
             const splitResponseContent = responseContent.split('\n');
-            console.log('splitResponseContent: ', splitResponseContent);
             const hookArray: HookDocument[] = [];
 
             for (const line of splitResponseContent) {
-                console.log('line before if check: ', line);
-                if (reviewText.includes(line) && line.length > 2 && line !== '' && line !== null) {
-                    console.log('line after if check: ', line);
+                if (extractHooksFromReviewDto.reviewText.includes(line) && line.length > 2 && line !== '' && line !== null) {
 
                     const newHook = await this.hookModel.create({
+                        userId: extractHooksFromReviewDto.userId,
+                        accountId: extractHooksFromReviewDto.accountId,
+                        reviewId: extractHooksFromReviewDto.reviewId,
                         hookText: line,
-                        reviewId: reviewId,
-                        userId,
-                        accountId,
                     });
 
                     hookArray.push(newHook);
                 }
             }
-
-            console.log('hookArray: ', hookArray);
 
             return hookArray;
         } catch (error) {
@@ -171,15 +128,18 @@ export class OpenAiService {
         }
     }
 
-    async generateClaimCopyClose(
-        accountId: string,
-        reviewId: string,
-        reviewText: string,
-        hookId: string,
-        hookText: string,
-        reviewAudienceName: string,
-        reviewAudienceAge: string,
-    ) {
+    async generateClaimCopyClose(generateClaimCopyCloseDto: GenerateClaimCopyCloseDto) {
+
+        const {
+            reviewText,
+            hookText,
+            reviewAudienceName,
+            reviewAudienceAge,
+            hookId,
+            reviewId,
+            accountId
+        } = generateClaimCopyCloseDto;
+
         const openai = new OpenAIApi(configuration);
         try {
             const response = await openai.createChatCompletion({
@@ -192,7 +152,7 @@ export class OpenAiService {
                     },
                     {
                         role: 'user',
-                        content: generateClaimCopyClosePrompt(
+                        content: claimCopyClosePrompt(
                             reviewText,
                             hookText,
                             reviewAudienceName,
@@ -201,13 +161,11 @@ export class OpenAiService {
                     },
                 ],
                 top_p: 0.05,
-                max_tokens: 250,
+                max_tokens: 500,
             });
 
             const responseContent = response.data.choices[0].message.content;
             const splitResponseContent = responseContent.split('\n');
-
-            console.log('splitResponseContent: ', splitResponseContent);
 
             let currentCategory = null;
             for (const line of splitResponseContent) {

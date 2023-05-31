@@ -37,6 +37,10 @@ export * from './lib/dto/mongo/user/sign-in/user-sign-in.dto';
 export * from './lib/dto/mongo/user/forgot-password/user-reset-password.dto';
 export * from './lib/dto/mongo/user/verify-email/verify-email.dto';
 
+export * from './lib/dto/open-ai/classify-review-prompt.dto'
+export * from './lib/dto/open-ai/extract-hooks-from-review.dto'
+export * from './lib/dto/open-ai/generate-claim-copy-close.dto'
+
 export * from './lib/dto/outscraper/scrape-google-maps-reviews.dto';
 export * from './lib/dto/outscraper/external-google-maps-reviews-v3.dto';
 
