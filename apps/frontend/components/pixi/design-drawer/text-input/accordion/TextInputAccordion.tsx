@@ -75,7 +75,12 @@ const TextInputAccordion = () => {
                     ));
                     break;
                 case 'claim':
-                    updatedData = await updateClaimTextEdit({ ...currentClaim, claimTextEdited: text });
+                    updatedData = await updateClaimTextEdit({
+                        claim: {
+                            ...currentClaim,
+                            claimTextEdited: text,
+                        },
+                    });
                     updateClaims(claims.map((claim) =>
                         claim._id === currentClaimId ? updatedData : claim
                     ));

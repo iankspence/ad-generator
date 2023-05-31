@@ -18,6 +18,10 @@ export * from './lib/dto/mongo/card/delete-cards-and-ad.dto';
 export * from './lib/dto/mongo/card/find-cards-by-account-id.dto';
 export * from './lib/dto/mongo/card/save-canvases-to-s3.dto';
 
+export * from './lib/dto/mongo/claim/update-claim-text-edit.dto';
+
+
+
 export * from './lib/dto/mongo/user/register/user-register.dto';
 export * from './lib/dto/mongo/user/sign-in/user-sign-in.dto';
 export * from './lib/dto/mongo/user/forgot-password/user-reset-password.dto';

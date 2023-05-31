@@ -6,7 +6,7 @@ import {
     ListObjectsV2Command,
     DeleteObjectCommand,
 } from '@aws-sdk/client-s3';
-import {AccountDocument, Card, CardDocument, ReviewDocument, CopyDocument, Copy, Ad, SaveCanvasesToS3Dto} from "@monorepo/type";
+import { Card, CardDocument, CopyDocument, Copy, Ad, SaveCanvasesToS3Dto} from "@monorepo/type";
 import {InjectModel} from "@nestjs/mongoose";
 import { Model, Types } from 'mongoose';
 import {AdService} from "../ad/ad.service";
@@ -23,7 +23,6 @@ export class CardService {
         @InjectModel(Card.name) private readonly cardModel: Model<CardDocument>,
         @InjectModel(Copy.name) private readonly copyModel: Model<CopyDocument>,
         private readonly adService: AdService,
-
 ) {}
 
     async saveCanvases(saveCanvasesToS3Dto: SaveCanvasesToS3Dto) {
