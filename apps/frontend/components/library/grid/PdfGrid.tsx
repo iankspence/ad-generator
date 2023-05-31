@@ -9,6 +9,7 @@ import { Ad } from '@monorepo/type';
 import { audiences } from '../../../utils/constants/audiences';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import { deleteAdSetAndAdsAndCards } from '../../../utils/api/mongo/ad-set/deleteAdSetAndAdsAndCardsApi';
+import { DeleteAdSetAndAdsAndCardsDto } from '@monorepo/type';
 
 const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads, pdfWidth, facebookWidth, refreshAds }) => {
     const groupAdsByAdSet = (ads) => {
@@ -30,7 +31,10 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
 
         if (window.confirm("Are you sure you want to delete this Ad Set and its associated Ads? This can't be undone!")) {
             try {
-                await deleteAdSetAndAdsAndCards(adSetId);
+                const deleteAdSetAndAdsAndCardsDto: DeleteAdSetAndAdsAndCardsDto = {
+                    adSetId,
+                }
+                await deleteAdSetAndAdsAndCards(deleteAdSetAndAdsAndCardsDto);
                 refreshAds();
                 setTimeout(() => {
                     refreshAds();

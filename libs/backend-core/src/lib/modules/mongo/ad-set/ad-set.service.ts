@@ -23,14 +23,12 @@ export class AdSetService {
         const nameDateTime = createNameDateTime('America/Edmonton')
         const createdAdSet = new this.adSetModel({ ...adSetData, nameDateTime });
 
-        // Update adStatus for each ad in adIds
         for (const adId of adSetData.adIds) {
             const updatedAd = await this.adService.findById(adId);
             updatedAd.adStatus = 'pdf';
             updatedAd.adSetId = createdAdSet._id.toString();
             updatedAd.adSetNameDateTime = nameDateTime;
-            const savedAd = await updatedAd.save();
-            console.log('savedAd', savedAd)
+            await updatedAd.save();
         }
 
         await this.pdfQueueProducerService.addCreatePdfJob(createdAdSet, adSetData.accountId);
@@ -44,13 +42,10 @@ export class AdSetService {
             throw new NotFoundException('Ad Set not found');
         }
 
-        // Deleting all the ads and cards related to the ad set
         for (const adId of adSet.adIds) {
             await this.cardService.deleteCardsAndAd(adId);
         }
 
-        // Deleting the ad set
         await this.adSetModel.deleteOne({ _id: adSetId });
     }
-
 }

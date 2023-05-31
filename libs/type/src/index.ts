@@ -1,5 +1,4 @@
 // DTO
-
 export * from './lib/dto/browse-ai/start-robot-job.dto';
 export * from './lib/dto/browse-ai/incoming-webhook-data.dto';
 
@@ -11,8 +10,9 @@ export * from './lib/dto/mongo/account/update-account-logo-and-colors.dto';
 
 export * from './lib/dto/mongo/ad/find-ads-by-account-id.dto';
 
+export * from './lib/dto/mongo/ad-set/create-ad-set-for-pdf-delivery.dto';
+export * from './lib/dto/mongo/ad-set/delete-ad-set-and-ads-and-cards.dto';
 
-export * from './lib/dto/mongo/ad-set/create-ad-set.dto';
 
 export * from './lib/dto/mongo/user/register/user-register.dto';
 export * from './lib/dto/mongo/user/sign-in/user-sign-in.dto';

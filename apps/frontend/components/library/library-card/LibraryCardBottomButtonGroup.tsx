@@ -8,6 +8,7 @@ import UserContext from '../../../contexts/UserContext';
 import { createAdSetForPdfDelivery } from '../../../utils/api/mongo/ad-set/createAdSetForPdfDeliveryApi';
 import { getBestFitAudienceNameAgeRangeAndInterests } from '../../../utils/audience/getBestFitAudienceNameAgeRangeAndInterests';
 import { formatDateString } from '../../../utils/formatDateString';
+import { CreateAdSetForPdfDeliveryDto } from '@monorepo/type';
 
 const LibraryCardBottomButtonGroup = ({ ad, isSelected, refreshAds }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -47,7 +48,18 @@ const LibraryCardBottomButtonGroup = ({ ad, isSelected, refreshAds }) => {
         console.log('create ad set from selected ads');
         try {
             const adIds = selectedAds.map((ad) => ad._id);
-            createAdSetForPdfDelivery(userId, accountId, adIds, bestFitAudience, bestFitAudienceName, ageRange, interests);
+            const createAdSetForPdfDeliveryDto: CreateAdSetForPdfDeliveryDto = {
+                userId: userId.toString(),
+                accountId: accountId.toString(),
+                adIds,
+                bestFitAudience,
+                bestFitAudienceName,
+                ageRange,
+                interests,
+            }
+
+            const newAdSet = createAdSetForPdfDelivery(createAdSetForPdfDeliveryDto);
+            console.log('newAdSet', newAdSet);
             updateSelectedAds([]);
             const resetTime = 7000 * adIds.length;
             setTimeout(() => {

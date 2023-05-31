@@ -16,9 +16,9 @@ export class CreateAdSetForPdfDeliveryDto {
     @IsString()
     readonly bestFitAudienceName!: string;
 
-    @IsArray()
-    readonly ageRange!: [number, number];
+    @IsString()
+    readonly ageRange!: string;
 
-    @IsArray()
-    readonly interests!: string[];
+    @IsString()
+    readonly interests!: string;
 }
