@@ -32,8 +32,7 @@ export class UserSignInController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('admin')
+    @UseGuards(JwtAuthGuard)
     @Post('sign-out')
     async signOut(@Req() req: Request, @Res() res: Response) {
         res.clearCookie('userCookie');
