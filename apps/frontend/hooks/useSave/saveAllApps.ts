@@ -6,6 +6,7 @@ import { formatLineHeightMultipliers } from './formatLineHeightMultipliers';
 import { formatFilteredTextPositions } from './formatFilteredTextPositions';
 import { getTextData } from './getTextData';
 import { getCanvasData } from './getCanvasData';
+import { SaveCanvasesToS3Dto } from '@monorepo/type';
 
 export const saveAllApps = async (
     width,
@@ -52,22 +53,23 @@ export const saveAllApps = async (
         const formattedUserControlledAttributes = formatUserControlledAttributes(canvasApps, backgroundImageLocation);
 
         try {
-            await saveCanvasesToS3(
+            const saveCanvasesToS3Dto: SaveCanvasesToS3Dto = {
                 canvases,
-                user?._id,
+                userId: user?._id,
                 account,
-                filteredReviews[reviewPosition - 1],
-                filteredCopies[copyPosition - 1],
-                selectedThemeId,
+                review: filteredReviews[reviewPosition - 1],
+                copy: filteredCopies[copyPosition - 1],
+                themeId: selectedThemeId,
                 backgroundImageLocation,
                 maskLocations,
-                formattedUserControlledAttributes,
-                formatXRanges(xRanges),
-                formatYRanges(yRanges),
-                formatLineHeightMultipliers(lineHeightMultipliers),
-                formatFilteredTextPositions(hookPosition, claimPosition, reviewPosition, closePosition, copyPosition),
+                userControlledAttributes: formattedUserControlledAttributes,
+                xRanges: formatXRanges(xRanges),
+                yRanges: formatYRanges(yRanges),
+                lineHeightMultipliers: formatLineHeightMultipliers(lineHeightMultipliers),
+                filteredTextPositions: formatFilteredTextPositions(hookPosition, claimPosition, reviewPosition, closePosition, copyPosition),
                 editAd
-            );
+            };
+            await saveCanvasesToS3(saveCanvasesToS3Dto);
 
             updateShowFreezeEditAttributeButton(false);
             updateEditAd(null);

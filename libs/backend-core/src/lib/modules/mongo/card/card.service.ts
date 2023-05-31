@@ -6,7 +6,7 @@ import {
     ListObjectsV2Command,
     DeleteObjectCommand,
 } from '@aws-sdk/client-s3';
-import {AccountDocument, Card, CardDocument, ReviewDocument, CopyDocument, Copy, Ad} from "@monorepo/type";
+import {AccountDocument, Card, CardDocument, ReviewDocument, CopyDocument, Copy, Ad, SaveCanvasesToS3Dto} from "@monorepo/type";
 import {InjectModel} from "@nestjs/mongoose";
 import { Model, Types } from 'mongoose';
 import {AdService} from "../ad/ad.service";
@@ -26,21 +26,23 @@ export class CardService {
 
 ) {}
 
-    async saveCanvases(
-        canvases: Array<{canvasName: string, dataUrl: string, sourceTextId: string, sourceText: string, sourceTextEdited: string}>,
-        userId: string,
-        account: AccountDocument,
-        review: ReviewDocument,
-        copy: CopyDocument,
-        themeId: string,
-        backgroundImageLocation: string,
-        maskLocations: {maskLocation: string, maskName: string}[],
-        userControlledAttributes: Ad["userControlledAttributes"],
-        xRanges: Ad["xRanges"],
-        yRanges: Ad["yRanges"],
-        lineHeightMultipliers: Ad["lineHeightMultipliers"],
-        filteredTextPositions: Ad["filteredTextPositions"],
-        editAd) {
+    async saveCanvases(saveCanvasesToS3Dto: SaveCanvasesToS3Dto) {
+        const {
+            canvases,
+            userId,
+            account,
+            review,
+            copy,
+            themeId,
+            backgroundImageLocation,
+            maskLocations,
+            userControlledAttributes,
+            xRanges,
+            yRanges,
+            lineHeightMultipliers,
+            filteredTextPositions,
+            editAd,
+        } = saveCanvasesToS3Dto;
 
         const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}`
         const results = [];
@@ -233,8 +235,8 @@ export class CardService {
         return results;
     }
 
-    async getCardsByAccountId(accountId: string) {
-        return this.cardModel.find({accountId});
+    async findCardsByAccountId(accountId: string) {
+        return this.cardModel.find({ accountId });
     }
 
     async copyCardsAndAd(adId: string): Promise<Ad> {
@@ -242,47 +244,33 @@ export class CardService {
         const newCardIds = [];
         const newCardLocations = [];
 
-        // First datetime is extracted from the ad being copied
         const originalAdDateTime = adToCopy.adNameDateTime;
-
-        // Second datetime is current time
         const currentDateTime = createNameDateTime('America/Edmonton');
-
         const newAdNameDateTime = `${originalAdDateTime.split('____')[0]}____${currentDateTime}`;
 
-        // copying the cards
         for (let i = 0; i < adToCopy.cardIds.length; i++) {
             const oldCard = await this.cardModel.findById(adToCopy.cardIds[i].cardId);
-            oldCard._id = new Types.ObjectId(); // create a new ObjectId
-            oldCard.isNew = true; // this makes mongoose treat the document as new
-
-            console.log(oldCard.cardLocation.replace(`${process.env.CF_DOMAIN}/`, ''))
-
+            oldCard._id = new Types.ObjectId();
+            oldCard.isNew = true;
 
             const oldCardParams = {
                 Bucket: process.env.S3_BUCKET_NAME,
                 Key: oldCard.cardLocation.replace(`${process.env.CF_DOMAIN}/`, '')
             };
 
-
             const oldCardData = await s3.send(new GetObjectCommand(oldCardParams));
-
             const bodyData = [];  // Declare bodyData here
 
-            // Check if Body is an instance of Readable (Node.js environment)
             if (oldCardData.Body instanceof Readable) {
                 for await (const chunk of oldCardData.Body) {
                     bodyData.push(chunk);
                 }
             }
 
-            // Generate a new key (file name) for the copied PNG file
             const oldKeyParts = oldCardParams.Key.split('/');
             oldKeyParts[oldKeyParts.length - 2] = newAdNameDateTime;
             const newKey = oldKeyParts.join('/');
 
-
-            // Upload the copied PNG file to S3
             const newCardParams = {
                 Bucket: process.env.S3_BUCKET_NAME,
                 Key: newKey,
@@ -292,9 +280,7 @@ export class CardService {
 
             await s3.send(new PutObjectCommand(newCardParams));
 
-            // Update the cardLocation in the copied card
             oldCard.cardLocation = `${process.env.CF_DOMAIN}/${newKey}`;
-
             const newCard = await oldCard.save();
 
             newCardIds.push({
@@ -307,7 +293,6 @@ export class CardService {
             });
         }
 
-        // now creating the ad with the new cardIds and cardLocations
         const newAd = await this.adService.createAd(
             newAdNameDateTime,
             adToCopy.userId,

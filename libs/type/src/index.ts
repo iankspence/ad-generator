@@ -13,6 +13,11 @@ export * from './lib/dto/mongo/ad/find-ads-by-account-id.dto';
 export * from './lib/dto/mongo/ad-set/create-ad-set-for-pdf-delivery.dto';
 export * from './lib/dto/mongo/ad-set/delete-ad-set-and-ads-and-cards.dto';
 
+export * from './lib/dto/mongo/card/copy-cards-and-ad.dto';
+export * from './lib/dto/mongo/card/delete-cards-and-ad.dto';
+export * from './lib/dto/mongo/card/find-cards-by-account-id.dto';
+export * from './lib/dto/mongo/card/save-canvases-to-s3.dto';
+
 export * from './lib/dto/mongo/user/register/user-register.dto';
 export * from './lib/dto/mongo/user/sign-in/user-sign-in.dto';
 export * from './lib/dto/mongo/user/forgot-password/user-reset-password.dto';

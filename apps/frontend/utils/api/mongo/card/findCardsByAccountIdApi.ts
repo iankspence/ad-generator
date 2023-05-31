@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { API_URL } from '../../../constants/apiUrl';
 
-export const saveCanvasesToS3 = async (saveCanvasesToS3Dto) => {
+export const findCardsByAccountId = async (findCardsByAccountIdDto) => {
     try {
         const response = await axios({
             method: 'post',
-            url: `${API_URL}/card/save-canvases`,
-            data: saveCanvasesToS3Dto,
+            url: `${API_URL}/card/find-cards-by-account-id`,
+            data: findCardsByAccountIdDto,
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
@@ -15,7 +15,7 @@ export const saveCanvasesToS3 = async (saveCanvasesToS3Dto) => {
 
         return response.data;
     } catch (error) {
-        console.error('Error sending canvas image to backend:', error);
+        console.error('Error fetching cards:', error);
         throw error;
     }
-};
+}

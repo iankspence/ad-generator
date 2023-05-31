@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { PixiContext } from "../contexts/PixiContext";
-import {getCardsByAccountId} from "../utils/api/mongo/card/getCardsByAccountIdApi";
+import { findCardsByAccountId } from '../utils/api/mongo/card/findCardsByAccountIdApi';
 import UserContext from "../contexts/UserContext";
 import {CampaignContext} from "../contexts/CampaignContext";
 import * as PIXI from "pixi.js";
+import { FindCardsByAccountIdDto } from '@monorepo/type';
 
 const useEditStageChildren = (appRef, canvasName) => {
     const { editAd, updateBackgroundImageLocation, updateRange, updateLineHeightMultipliers, lineHeightMultipliers, updateCanvasApp, selectedThemeId, updateSelectedThemeId, xRanges, yRanges, userControlledAttributes, freezeEditAdAttributes } = useContext(PixiContext);
@@ -84,7 +85,10 @@ const useEditStageChildren = (appRef, canvasName) => {
     useEffect(() => {
         if (!account?._id) return;
         const fetchCards = async () => {
-            const cards = await getCardsByAccountId(account._id);
+            const findCardsByAccountIdDto: FindCardsByAccountIdDto = {
+                accountId: account._id.toString()
+            }
+            const cards = await findCardsByAccountId(findCardsByAccountIdDto);
             setCards(cards);
         }
         fetchCards();

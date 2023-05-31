@@ -9,6 +9,7 @@ import { copyCardsAndAd } from '../../../utils/api/mongo/card/copyCardsAndAdApi'
 import { deleteCardsAndAd } from '../../../utils/api/mongo/card/deleteCardsAndAdApi';
 import {PixiContext} from "../../../contexts/PixiContext";
 import {useRouter} from "next/router";
+import { CopyCardsAndAdDto, DeleteCardsAndAdDto } from '@monorepo/type';
 
 const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
     const { selectedAds, updateSelectedAds } = useContext(CampaignContext);
@@ -20,7 +21,10 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
 
         if (window.confirm("Are you sure you want to copy this ad?")) {
             try {
-                await copyCardsAndAd(ad._id);
+                const copyCardsAndAdDto: CopyCardsAndAdDto = {
+                    adId: ad._id,
+                }
+                await copyCardsAndAd(copyCardsAndAdDto);
                 refreshAds();
             } catch (error) {
                 alert("Failed to copy ad. Please try again later.");
@@ -33,7 +37,10 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
 
         if (window.confirm("Are you sure you want to delete this ad? This can't be undone!")) {
             try {
-                await deleteCardsAndAd(ad._id);
+                const deleteCardsAndAdDto: DeleteCardsAndAdDto = {
+                    adId: ad._id,
+                }
+                await deleteCardsAndAd(deleteCardsAndAdDto);
                 refreshAds();
             } catch (error) {
                 alert("Failed to delete ad. Please try again later.");

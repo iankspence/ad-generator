@@ -1,9 +1,19 @@
 import axios from 'axios';
 import { API_URL } from '../../../constants/apiUrl';
 
-export const deleteCardsAndAd = async (adId) => {
+export const deleteCardsAndAd = async (deleteCardsAndAdDto) => {
     try {
-        await axios.delete(`${API_URL}/card/delete/${adId}`);
+        const response = await axios({
+            method: 'delete',
+            url: `${API_URL}/card/delete-cards-and-ad`,
+            data: deleteCardsAndAdDto,
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        return response.data;
     } catch (error) {
         console.error(error);
     }
