@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { API_URL } from '../../../constants/apiUrl';
-import { UpdateReviewTextEditDto } from '@monorepo/type';
+import { FindReviewsByAccountIdDto } from '@monorepo/type';
 
-export const updateReviewTextEdit = async (updateReviewTextEditDto: UpdateReviewTextEditDto) => {
+export const findReviewsByAccountId = async (findReviewsByAccountIdDto: FindReviewsByAccountIdDto) => {
     try {
         const response = await axios({
             method: 'post',
-            url: `${API_URL}/review/update-text-edit`,
-            data: updateReviewTextEditDto,
+            url: `${API_URL}/review/find-all-by-account-id`,
+            data: findReviewsByAccountIdDto,
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ export const updateReviewTextEdit = async (updateReviewTextEditDto: UpdateReview
 
         return response.data;
     } catch (error) {
-        console.error('Error updating review text edit:', error);
+        console.error('Error fetching reviews:', error);
         throw error;
     }
-}
+};

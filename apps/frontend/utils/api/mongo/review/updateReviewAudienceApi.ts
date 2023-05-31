@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { API_URL } from '../../../constants/apiUrl';
-import { UpdateReviewTextEditDto } from '@monorepo/type';
+import { UpdateReviewAudienceDto } from '@monorepo/type';
 
-export const updateReviewTextEdit = async (updateReviewTextEditDto: UpdateReviewTextEditDto) => {
+export const updateReviewAudience = async (updateReviewAudienceDto: UpdateReviewAudienceDto) => {
     try {
         const response = await axios({
             method: 'post',
-            url: `${API_URL}/review/update-text-edit`,
-            data: updateReviewTextEditDto,
+            url: `${API_URL}/review/update-audience`,
+            data: updateReviewAudienceDto,
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ export const updateReviewTextEdit = async (updateReviewTextEditDto: UpdateReview
 
         return response.data;
     } catch (error) {
-        console.error('Error updating review text edit:', error);
+        console.error('Error updating review:', error);
         throw error;
     }
-}
+};

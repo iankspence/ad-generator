@@ -63,7 +63,12 @@ const TextInputAccordion = () => {
             let updatedData;
             switch (canvasName) {
                 case 'review':
-                    updatedData = await updateReviewTextEdit({ ...currentReview, reviewTextEdited: text });
+                    updatedData = await updateReviewTextEdit({
+                        review: {
+                            ...currentReview,
+                            reviewTextEdited: text,
+                        }
+                    });
                     updateReviews(reviews.map((review) =>
                         review._id === currentReviewId ? updatedData : review
                     ));

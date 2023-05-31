@@ -1,4 +1,4 @@
-import {Account, AccountDocument, Hook, HookDocument, Review, ReviewDocument} from '@monorepo/type';
+import {Account, AccountDocument, Hook, HookDocument, Review, ReviewDocument, UpdateReviewAudienceDto} from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel, Prop } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -8,41 +8,32 @@ export class ReviewService {
     constructor(@InjectModel(Review.name) private reviewModel: Model<ReviewDocument>) {}
 
     async getReviewsByAccountId(accountId: string): Promise<ReviewDocument[]> {
-        return this.reviewModel.find({ accountId: accountId }).exec();
+        return this.reviewModel.find({ accountId }).exec();
     }
 
-    async updateReviewAudience(
-        userId: string,
-        reviewId: string,
-        bestFitAudience: number,
-        bestFitReasoning: string,
-    ): Promise<ReviewDocument> {
-        const unchangedReview = await this.reviewModel.findOne({ _id: reviewId });
+    async updateReviewAudience(updateReviewAudienceDto: UpdateReviewAudienceDto): Promise<ReviewDocument> {
+        const unchangedReview = await this.reviewModel.findOne({ _id: updateReviewAudienceDto.reviewId });
 
         return await this.reviewModel
             .findOneAndUpdate(
-                { _id: reviewId },
+                { _id: updateReviewAudienceDto.reviewId },
                 {
                     audienceChanges: [
                         ...unchangedReview.audienceChanges.concat({
                             dateOfChange: new Date().toDateString(),
-                            userId,
+                            userId: updateReviewAudienceDto.userId,
                             bestFitAudienceBefore: unchangedReview.bestFitAudience,
-                            bestFitAudienceAfter: bestFitAudience,
+                            bestFitAudienceAfter: updateReviewAudienceDto.bestFitAudience,
                             bestFitReasoningBefore: unchangedReview.bestFitReasoning,
-                            bestFitReasoningAfter: bestFitReasoning,
+                            bestFitReasoningAfter: updateReviewAudienceDto.bestFitReasoning,
                         }),
                     ],
-                    bestFitAudience,
-                    bestFitReasoning,
+                    bestFitAudience: updateReviewAudienceDto.bestFitAudience,
+                    bestFitReasoning: updateReviewAudienceDto.bestFitReasoning,
                 },
                 { new: true },
             )
             .exec();
-    }
-
-    async createReview(review: Partial<Review>): Promise<Review> {
-        return await this.reviewModel.create(review);
     }
 
     async updateTextEdit(review: Partial<ReviewDocument>): Promise<Review> {

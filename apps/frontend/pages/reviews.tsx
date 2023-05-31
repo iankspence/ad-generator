@@ -3,18 +3,20 @@ import ReviewsAudienceTable from '../components/reviews/ReviewsAudienceTable';
 import TopNav from '../components/top-nav/TopNav';
 import { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';
-import { getReviewsByAccountId } from '../utils/api/mongo/review/getReviewsByAccountIdApi';
+import { findReviewsByAccountId } from '../utils/api/mongo/review/findReviewsByAccountIdApi';
 import { formatAudienceData } from '../components/reviews/formatAudienceData';
 import PrivateAccessButton from '../components/reviews/floating-buttons/PrivateAccessButton';
 
 function ReviewsPage() {
-    const { user, account, setAccount } = useContext(UserContext);
+    const { user, account} = useContext(UserContext);
     const { reviews, updateReviews, selectedAudiencePosition } = useContext(CampaignContext);
     const [refreshReviews, setRefreshReviews] = useState(false);
 
     useEffect(() => {
         if (account) {
-            getReviewsByAccountId(account._id.toString()).then((fetchedReviews) => {
+            findReviewsByAccountId({
+                accountId: account._id.toString()
+            }).then((fetchedReviews) => {
                 updateReviews(fetchedReviews);
             });
         }

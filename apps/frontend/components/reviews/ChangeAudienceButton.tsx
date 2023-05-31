@@ -1,5 +1,5 @@
 import UserContext from '../../contexts/UserContext';
-import { updateReview } from '../../utils/api/mongo/review/updateReviewApi';
+import { updateReviewAudience } from '../../utils/api/mongo/review/updateReviewAudienceApi';
 import { audiences } from '../../utils/constants/audiences';
 import { ReviewDocument } from '@monorepo/type';
 import React, { useContext, useState } from 'react';
@@ -51,7 +51,12 @@ const ChangeAudienceButton: React.FC<ChangeAudienceButtonProps> = ({
         const userConfirmed = window.confirm(confirmationMessage);
 
         if (userConfirmed) {
-            await updateReview(user._id.toString(), review._id.toString(), Number(newAudiencePosition.toString()), newAudienceReasoning);
+            await updateReviewAudience({
+                userId: user._id.toString(),
+                reviewId: review._id.toString(),
+                bestFitAudience: Number(newAudiencePosition),
+                bestFitReasoning: newAudienceReasoning,
+        });
             setRefreshReviews(!refreshReviews)
             setShowForm(false);
         }
