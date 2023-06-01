@@ -9,9 +9,11 @@ const TopNav = () => {
     const { user, setUser } = useContext(UserContext);
 
     const handleSignOut = () => {
-        signOut();
-        setUser(null);
-        router.push('/sign-in');
+        if (window.confirm('Are you sure you want to sign out?')) {
+            signOut();
+            setUser(null);
+            router.push('/sign-in');
+        }
     };
 
     return (
