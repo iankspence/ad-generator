@@ -17,7 +17,8 @@ const TopNav = () => {
     return (
         <nav className="bg-black py-2 text-white flex flex-col md:flex-row ">
             <div className="flex-1 flex flex-col md:flex-row md:justify-center w-full lg:y-4">
-                {user ? (
+
+                {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client')) ? (
                     <>
                         <span
                             className={`block w-full text-center items-center  mt-2 md:my-0 md:inline-block md:mx-2
@@ -28,23 +29,31 @@ const TopNav = () => {
                             </Link>
                         </span>
 
-                        <span
-                            className={`block w-full text-center items-center  mt-2 md:my-0 md:inline-block md:mx-2
-                            ${router.asPath === '/ad-generator' ? 'text-blue-500' : 'text-white'}`}
-                        >
-                            <Link href="/ad-generator" id="ad-generator">
-                                Ad Generator
-                            </Link>
-                        </span>
+                        {user?.roles?.includes('admin') || user?.roles?.includes('content-manager') ? (
 
-                        <span
-                            className={`block w-full text-center items-center  mt-2 md:my-0 md:inline-block md:mx-2
-                            ${router.asPath === '/library' ? 'text-blue-500' : 'text-white'}`}
-                        >
-                            <Link href="/library" id="library">
-                                Library
-                            </Link>
-                        </span>
+                            <>
+                                <span
+                                    className={`block w-full text-center items-center  mt-2 md:my-0 md:inline-block md:mx-2
+                                    ${router.asPath === '/ad-generator' ? 'text-blue-500' : 'text-white'}`}
+                                >
+                                <Link href="/ad-generator" id="ad-generator">
+                                    Ad Generator
+                                </Link>
+
+                                </span>
+
+                                <span
+                                    className={`block w-full text-center items-center  mt-2 md:my-0 md:inline-block md:mx-2
+                                    ${router.asPath === '/library' ? 'text-blue-500' : 'text-white'}`}
+                                    >
+                                    <Link href="/library" id="library">
+                                        Library
+                                    </Link>
+                                </span>
+                            </>
+
+                        ) : null
+                        }
 
                         <span
                             className={`block w-full text-center items-center mt-2 md:my-0 md:inline-block md:mx-2
