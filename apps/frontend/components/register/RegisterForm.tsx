@@ -3,40 +3,64 @@ import { TextField, Button, IconButton, InputAdornment, Select, MenuItem, FormCo
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Country, State, City }  from 'country-state-city';
 
-const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setShowPassword }) => {
+export async function getStaticProps() {
+    const allCountries = Country.getAllCountries();
+    const selectedCountries = allCountries.filter(country => country.isoCode === 'US' || country.isoCode === 'CA');
+
+    // get states and cities for each country
+    const countriesWithStatesAndCities = selectedCountries.map(country => {
+        const states = State.getStatesOfCountry(country.isoCode);
+        const cities = City.getCitiesOfCountry(country.isoCode);
+
+        return {
+            ...country,
+            states,
+            cities
+        }
+    });
+
+    return {
+        props: {
+            countries: countriesWithStatesAndCities
+        }
+    }
+}
+
+const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setShowPassword, countries }) => {
     const [passwordFieldType, setPasswordFieldType] = useState("password");
-    const [countries, setCountries] = useState([]);
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [step, setStep] = useState(1);
     const [passwordError, setPasswordError] = useState('');
-    const [emailError, setEmailError] = useState(''); // Added
+    const [emailError, setEmailError] = useState('');
 
     useEffect(() => {
         setPasswordFieldType(showPassword ? "text" : "password");
-        const allCountries = Country.getAllCountries();
-        const selectedCountries = allCountries.filter(country => country.isoCode === 'US' || country.isoCode === 'CA');
-        setCountries(selectedCountries);
     }, [showPassword]);
 
     useEffect(() => {
         if (formData.country) {
-            setStates(State.getStatesOfCountry(formData.country));
+            const selectedCountry = countries.find(country => country.isoCode === formData.country);
+            setStates(selectedCountry ? selectedCountry.states : []);
         }
-    }, [formData.country]);
+    }, [formData.country, countries]);
 
     useEffect(() => {
         if (formData.provinceState) {
-            setCities(City.getCitiesOfState(formData.country, formData.provinceState));
+            const selectedCountry = countries.find(country => country.isoCode === formData.country);
+            const selectedState = selectedCountry.states.find(state => state.isoCode === formData.provinceState);
+            setCities(selectedState ? selectedState.cities : []);
         }
-    }, [formData.provinceState]);
+    }, [formData.provinceState, countries]);
+
 
     const validateEmail = (email) => {
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
     }
 
     const handleNext = (e) => {
+
         e.preventDefault();
         if (formData.password.length < 8) {
             setPasswordError('Password should be at least 8 characters');

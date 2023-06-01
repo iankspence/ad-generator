@@ -1,6 +1,5 @@
 import { audiences } from '../../../utils/constants/audiences';
 import { OpenAiService } from '../../open-ai/open-ai.service';
-import { ReviewGateway } from '../../websocket/review.gateway';
 import { ReviewQueueProducerService } from './review-queue-producer.service';
 import {
     ClassifyReviewJob,
@@ -23,7 +22,6 @@ export class ReviewQueueConsumerService {
     constructor(
         @InjectModel(Review.name) private reviewModel: Model<ReviewDocument>,
         private readonly openAiService: OpenAiService,
-        private readonly reviewGateway: ReviewGateway,
         private readonly reviewQueueProducerService: ReviewQueueProducerService,
     ) {}
 
@@ -87,8 +85,6 @@ export class ReviewQueueConsumerService {
                 review: job.data.review,
             });
             console.log(`Processing job ${job.id} completed successfully`);
-
-            this.reviewGateway.server.emit('reviewProcessed', result);
 
             if (result.bestFitAudience) {
                 console.log(`Best fit audience found, now extracting hooks`);

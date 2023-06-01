@@ -55,11 +55,14 @@ export * from './lib/schema/ad-set';
 export * from './lib/schema/background-image';
 export * from './lib/schema/browse-ai-job';
 export * from './lib/schema/card';
+export * from './lib/schema/city';
 export * from './lib/schema/claim';
 export * from './lib/schema/close';
 export * from './lib/schema/copy';
+export * from './lib/schema/country';
 export * from './lib/schema/hook';
 export * from './lib/schema/mask';
+export * from './lib/schema/province-state';
 export * from './lib/schema/review';
 export * from './lib/schema/user';
 
