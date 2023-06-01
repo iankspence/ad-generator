@@ -9,6 +9,9 @@ import Head from 'next/head';
 const theme = createTheme();
 
 function CustomApp({ Component, pageProps }: AppProps) {
+
+
+
     return (
         <UserProvider>
             <CampaignProvider>

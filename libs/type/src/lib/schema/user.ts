@@ -11,7 +11,7 @@ export interface UserMethods {
 @Schema({ timestamps: true })
 export class User implements UserMethods {
     @Prop({ required: true })
-    name!: string;
+    companyName!: string;
 
     @Prop({ required: true, unique: true })
     email!: string;
