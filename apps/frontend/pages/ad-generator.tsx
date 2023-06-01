@@ -4,9 +4,9 @@ import { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';
 import { getTextByAccountId } from '../utils/api/mongo/account/getTextByAccountIdApi';
 import React, { useContext, useEffect } from 'react';
-import { GetTextByAccountIdDto } from '../../../libs/type/src/lib/dto/mongo/account/get-text-by-account-id.dto';
+import { GetTextByAccountIdDto } from '@monorepo/type';
 
-function CampaignPage() {
+function AdGeneratorPage() {
     const { account } = useContext(UserContext);
     const { updateReviews, updateHooks, updateCopies, updateClaims, updateCloses } = useContext(CampaignContext);
 
@@ -44,4 +44,4 @@ function CampaignPage() {
     );
 }
 
-export default CampaignPage;
+export default AdGeneratorPage;

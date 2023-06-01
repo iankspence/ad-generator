@@ -56,7 +56,7 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
                 updateBackgroundImageLocation('');
                 updateFreezeEditAdAttributes(true)
                 updateShowFreezeEditAttributeButton(true)
-                router.push('/campaign');
+                router.push('/ad-generator');
             } catch (error) {
                 alert("Failed to delete ad. Please try again later.");
             }

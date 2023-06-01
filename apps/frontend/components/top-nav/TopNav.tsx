@@ -30,10 +30,10 @@ const TopNav = () => {
 
                         <span
                             className={`block w-full text-center items-center  mt-2 md:my-0 md:inline-block md:mx-2
-                            ${router.asPath === '/campaign' ? 'text-blue-500' : 'text-white'}`}
+                            ${router.asPath === '/ad-generator' ? 'text-blue-500' : 'text-white'}`}
                         >
-                            <Link href="/campaign" id="campaign">
-                                Campaign
+                            <Link href="/ad-generator" id="ad-generator">
+                                Ad Generator
                             </Link>
                         </span>
 
