@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AdSet, AdSetDocument } from '@monorepo/type';
+import { AdSet, AdSetDocument, CreatePdfJob } from '@monorepo/type';
 import axios from 'axios';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { AdService } from '../mongo/ad/ad.service';
@@ -21,16 +21,16 @@ export class PdfService {
         @InjectModel(AdSet.name) private adSetModel: Model<AdSetDocument>,
     ) {}
 
-    async createPdf(adSet: AdSetDocument, accountId: string): Promise<void> {
+    async createPdf(createPdfJob: CreatePdfJob): Promise<void> {
 
-        console.log('creatingPdf', adSet, accountId);
-
-        const ads = await this.adService.getAdsByAdSetId({ adSetId: adSet._id.toString() });
+        const ads = await this.adService.getAdsByAdSetId({
+            adSetId: createPdfJob.adSet._id.toString()
+        });
         if (!ads) {
             throw new Error(`ad set ads not found`);
         }
 
-        const account = await this.accountModelService.findOneById(accountId);
+        const account = await this.accountModelService.findOneById(createPdfJob.accountId);
 
         const doc = new PDFDocument;
         const buffers = [];
@@ -100,7 +100,7 @@ export class PdfService {
             const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}/PDFs`
 
             // Define the S3 key and parameters
-            const key = `${folderName}/${adSet.nameDateTime}.pdf`;
+            const key = `${folderName}/${createPdfJob.adSet.nameDateTime}.pdf`;
             const params = {
                 Bucket: process.env.S3_BUCKET_NAME,
                 Key: key,
@@ -114,7 +114,7 @@ export class PdfService {
                 console.log('PDF uploaded to S3:', result);
 
                 // Save the location of the PDF in the database
-                const adSetToUpdate = await this.adSetModel.findById(adSet._id);
+                const adSetToUpdate = await this.adSetModel.findById(createPdfJob.adSet._id);
                 adSetToUpdate.pdfLocation =  `${process.env.CF_DOMAIN}/${key}`;
 
                 await adSetToUpdate.save();

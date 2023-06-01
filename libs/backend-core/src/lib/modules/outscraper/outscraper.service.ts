@@ -1,4 +1,4 @@
-import { ReviewQueueProducerService } from '../bull/review-queue-producer.service';
+import { ReviewQueueProducerService } from '../bull/review-queue/review-queue-producer.service';
 import { ReviewDocument, ScrapeGoogleMapsReviewsDto, ExternalGoogleMapsReviewsV3Dto } from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
@@ -64,7 +64,9 @@ export class OutscraperService {
                         responseText: review['owner_answer'],
                         overallRating: review['review_rating'],
                     };
-                    this.reviewQueueProducerService.addCreateGoogleReviewJob(convertedReview);
+                    this.reviewQueueProducerService.addCreateGoogleReviewJob({
+                        review: convertedReview,
+                    });
                 });
             }
         };

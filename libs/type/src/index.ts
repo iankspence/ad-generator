@@ -61,4 +61,13 @@ export * from './lib/schema/card';
 export * from './lib/schema/background-image';
 
 // Interface
+export * from './lib/interface/bull/create-pdf-job';
+export * from './lib/interface/bull/create-rate-mds-review-job';
+export * from './lib/interface/bull/create-google-review-job';
+export * from './lib/interface/bull/classify-review-job';
+export * from './lib/interface/bull/extract-hooks-from-review-job';
+export * from './lib/interface/bull/generate-claim-copy-close-job';
+export * from './lib/interface/bull/create-review-with-hash';
+export * from './lib/interface/bull/create-review-source-text-hash';
+
 export * from './lib/interface/mongo/ad/UserControlledAttribute'

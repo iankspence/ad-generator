@@ -1,13 +1,13 @@
-import {Account, AccountDocument, Hook, HookDocument, Review, ReviewDocument, UpdateReviewAudienceDto} from '@monorepo/type';
+import { Review, ReviewDocument, UpdateReviewAudienceDto } from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
-import { InjectModel, Prop } from '@nestjs/mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 @Injectable()
 export class ReviewService {
     constructor(@InjectModel(Review.name) private reviewModel: Model<ReviewDocument>) {}
 
-    async getReviewsByAccountId(accountId: string): Promise<ReviewDocument[]> {
+    async findReviewsByAccountId(accountId: string): Promise<ReviewDocument[]> {
         return this.reviewModel.find({ accountId }).exec();
     }
 

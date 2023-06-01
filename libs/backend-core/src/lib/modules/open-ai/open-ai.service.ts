@@ -71,8 +71,8 @@ export class OpenAiService {
         return [parseInt(bestFitNumberMatch), bestFitReasoning];
     }
 
-    async updateReviewWithClassification(reviewJob: { review: ReviewDocument }): Promise<ReviewDocument> {
-        const review: ReviewDocument = reviewJob.review;
+    async updateReviewWithClassification(reviewJob: { review: Partial<ReviewDocument> }): Promise<ReviewDocument> {
+        const review: Partial<ReviewDocument> = reviewJob.review;
         const [bestFitAudience, bestFitReasoning] = await this.classifyReviewPrompt({
             prompt: review.reviewText,
         });

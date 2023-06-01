@@ -1,20 +1,22 @@
-import { audiences } from '../../utils/constants/audiences';
-import { OpenAiService } from '../open-ai/open-ai.service';
-import { ReviewGateway } from '../websocket/review.gateway';
+import { audiences } from '../../../utils/constants/audiences';
+import { OpenAiService } from '../../open-ai/open-ai.service';
+import { ReviewGateway } from '../../websocket/review.gateway';
 import { ReviewQueueProducerService } from './review-queue-producer.service';
-import { HookDocument, Review, ReviewDocument } from '@monorepo/type';
+import {
+    ClassifyReviewJob,
+    CreateRateMdsReviewJob,
+    ExtractHooksFromReviewJob, GenerateClaimCopyCloseJob,
+    HookDocument,
+    Review,
+    ReviewDocument,
+} from '@monorepo/type';
 import { OnQueueActive, OnQueueCompleted, Process, Processor } from '@nestjs/bull';
 import { InjectModel } from '@nestjs/mongoose';
 import { Job } from 'bull';
-import * as crypto from 'crypto';
 import { Model } from 'mongoose';
+import { CreateReviewWithHash } from '@monorepo/type';
+import { createReviewSourceTextHash } from './utils/create-review-source-text-hash';
 
-function createReviewSourceTextHash(source: string, reviewText: string) {
-    const combinedText = `${source} ${reviewText}`;
-    const hash = crypto.createHash('md5');
-    hash.update(combinedText);
-    return hash.digest('hex');
-}
 
 @Processor('review-queue')
 export class ReviewQueueConsumerService {
@@ -25,8 +27,11 @@ export class ReviewQueueConsumerService {
         private readonly reviewQueueProducerService: ReviewQueueProducerService,
     ) {}
 
-    async createReviewWithHash(review: Partial<ReviewDocument>): Promise<ReviewDocument | null> {
-        const reviewSourceTextHash = createReviewSourceTextHash(review.source, review.reviewText);
+    async createReviewWithHash(createReviewWithHash: CreateReviewWithHash): Promise<ReviewDocument | null> {
+        const reviewSourceTextHash = createReviewSourceTextHash({
+            source: createReviewWithHash.review.source,
+            reviewText: createReviewWithHash.review.reviewText,
+        });
 
         const existingReview = await this.reviewModel.findOne({
             sourceTextHash: reviewSourceTextHash,
@@ -36,47 +41,60 @@ export class ReviewQueueConsumerService {
             return null;
         }
 
-        review.sourceTextHash = reviewSourceTextHash;
-        return this.reviewModel.create(review);
+        createReviewWithHash.review.sourceTextHash = reviewSourceTextHash;
+        return this.reviewModel.create(createReviewWithHash.review);
     }
 
     @Process('create-rate-mds-review')
-    async createRateMdsReview(job: Job<any>): Promise<void> {
+    async createRateMdsReview(job: Job<CreateRateMdsReviewJob>): Promise<void> {
         console.log(`Processing job ${job.id} with data:`, job.data);
-        const reviewDocument = await this.createReviewWithHash(job.data.review);
+        const reviewDocument = await this.createReviewWithHash({
+            review: job.data.review,
+        });
         console.log(`Processing job ${job.id} completed successfully`);
         if (!reviewDocument) {
             return;
         } else {
-            return this.reviewQueueProducerService.addClassifyJob(reviewDocument);
+            return this.reviewQueueProducerService.addClassifyReviewJob({
+                review: reviewDocument,
+            });
         }
     }
 
     @Process('create-google-review')
-    async createGoogleReview(job: Job<any>): Promise<void> {
+    async createGoogleReview(job: Job<CreateRateMdsReviewJob>): Promise<void> {
         console.log(`Processing job ${job.id} with data:`, job.data);
-        const reviewDocument = await this.createReviewWithHash(job.data.review);
+        const reviewDocument = await this.createReviewWithHash({
+            review: job.data.review,
+        });
         console.log(`Processing job ${job.id} completed successfully`);
 
         if (!reviewDocument) {
             return;
         } else {
-            return this.reviewQueueProducerService.addClassifyJob(reviewDocument);
+            return this.reviewQueueProducerService.addClassifyReviewJob({
+                review: reviewDocument,
+            });
         }
     }
 
-    @Process('classify')
-    async processJob(job: Job<any>): Promise<void> {
+    @Process('classify-review')
+    async classifyReview(job: Job<ClassifyReviewJob>): Promise<void> {
         try {
+
             console.log(`Processing job ${job.id} with data:`, job.data);
-            const result = await this.openAiService.updateReviewWithClassification(job.data);
+            const result = await this.openAiService.updateReviewWithClassification({
+                review: job.data.review,
+            });
             console.log(`Processing job ${job.id} completed successfully`);
 
             this.reviewGateway.server.emit('reviewProcessed', result);
 
             if (result.bestFitAudience) {
                 console.log(`Best fit audience found, now extracting hooks`);
-                return this.reviewQueueProducerService.addExtractHooksFromReviewJob(result);
+                return this.reviewQueueProducerService.addExtractHooksFromReviewJob({
+                    review: result,
+                });
             } else {
                 console.log(`No best fit audience found, skipping hook extraction`);
                 return;
@@ -87,10 +105,10 @@ export class ReviewQueueConsumerService {
     }
 
     @Process('extract-hooks-from-review')
-    async extractHooksFromReview(job: Job<any>): Promise<void> {
+    async extractHooksFromReview(job: Job<ExtractHooksFromReviewJob>): Promise<void> {
         try {
             const newHooks = await this.openAiService.extractHooksFromReview({
-                reviewId: job.data.review._id,
+                reviewId: job.data.review._id.toString(),
                 reviewText: job.data.review.reviewText,
                 accountId: job.data.review.accountId,
                 userId: job.data.review.userId,
@@ -98,7 +116,10 @@ export class ReviewQueueConsumerService {
             );
 
             newHooks.map((hook: Partial<HookDocument>) => {
-                return this.reviewQueueProducerService.addGenerateClaimsCopyCloseJob(job.data.review, hook);
+                return this.reviewQueueProducerService.addGenerateClaimCopyCloseJob({
+                    review: job.data.review,
+                    hook,
+                });
             });
             console.log(`Processing job ${job.id} completed successfully`);
         } catch (error) {
@@ -107,18 +128,20 @@ export class ReviewQueueConsumerService {
     }
 
     @Process('generate-claim-copy-close')
-    async generateClaimCopyClose(job: Job<any>): Promise<void> {
+    async generateClaimCopyClose(job: Job<GenerateClaimCopyCloseJob>): Promise<void> {
         try {
             const audience = audiences[job.data.review.bestFitAudience - 1];
 
-            await this.openAiService.generateClaimCopyClose(
-                job.data.review.accountId,
-                job.data.review._id,
-                job.data.review.reviewText,
-                job.data.hook._id,
-                job.data.hook.hookText,
-                audience.name,
-                audience.ageRange,
+            await this.openAiService.generateClaimCopyClose({
+                accountId: job.data.review.accountId,
+                reviewId: job.data.review._id.toString(),
+                reviewText: job.data.review.reviewText,
+                hookId: job.data.hook._id.toString(),
+                hookText: job.data.hook.hookText,
+                reviewAudienceName: audience.name,
+                reviewAudienceAge: audience.ageRange,
+                }
+
             );
             console.log(`Processing job ${job.id} completed successfully`);
         } catch (error) {
@@ -132,7 +155,7 @@ export class ReviewQueueConsumerService {
     }
 
     @OnQueueCompleted()
-    onComplete(job: Job, result: any) {
+    onComplete(job: Job) {
         console.log(`Processing job completed: ${job.id}`);
     }
 }

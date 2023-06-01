@@ -1,8 +1,8 @@
-import { AdSet, AdSetDocument, CreateAdSetForPdfDeliveryDto } from '@monorepo/type';
+import { AdSet, AdSetDocument, CreateAdSetForPdfDeliveryDto, CreatePdfJob } from '@monorepo/type';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { PdfQueueProducerService } from '../../bull/pdf-queue-producer.service';
+import { PdfQueueProducerService } from '../../bull/pdf-queue/pdf-queue-producer.service';
 import { AdService } from '../ad/ad.service';
 import { createNameDateTime } from '../../../utils/createNameDateTime';
 import { CardService } from '../card/card.service';
@@ -31,7 +31,10 @@ export class AdSetService {
             await updatedAd.save();
         }
 
-        await this.pdfQueueProducerService.addCreatePdfJob(createdAdSet, adSetData.accountId);
+        await this.pdfQueueProducerService.addCreatePdfJob({
+            adSet: createdAdSet,
+            accountId: adSetData.accountId,
+        });
 
         return createdAdSet.save();
     }

@@ -6,7 +6,7 @@ export const findReviewsByAccountId = async (findReviewsByAccountIdDto: FindRevi
     try {
         const response = await axios({
             method: 'post',
-            url: `${API_URL}/review/find-all-by-account-id`,
+            url: `${API_URL}/review/find-by-account-id`,
             data: findReviewsByAccountIdDto,
             withCredentials: true,
             headers: {

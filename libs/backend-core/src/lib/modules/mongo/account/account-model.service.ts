@@ -115,7 +115,7 @@ export class AccountModelService {
     }
 
     async getTextByAccountId(getTextByAccountIdDto: GetTextByAccountIdDto): Promise<[ReviewDocument[], HookDocument[], ClaimDocument[], CloseDocument[], CopyDocument[]]> {
-        const reviews = await this.reviewService.getReviewsByAccountId(getTextByAccountIdDto.accountId);
+        const reviews = await this.reviewService.findReviewsByAccountId(getTextByAccountIdDto.accountId);
         const hooks = await this.hookService.getHooksByAccountId(getTextByAccountIdDto.accountId);
         const claims = await this.claimService.getClaimsByAccountId(getTextByAccountIdDto.accountId);
         const closes = await this.closeService.getClosesByAccountId(getTextByAccountIdDto.accountId);

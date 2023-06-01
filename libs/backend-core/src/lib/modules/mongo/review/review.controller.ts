@@ -16,9 +16,9 @@ export class ReviewController {
     constructor(private readonly reviewService: ReviewService) {}
 
     @UseGuards(JwtAuthGuard)
-    @Post('account')
+    @Post('find-by-account-id')
     async findReviewsByAccountId(@Body() findReviewsByAccountIdDto: FindReviewsByAccountIdDto): Promise<Review[]> {
-        return this.reviewService.getReviewsByAccountId(findReviewsByAccountIdDto.accountId);
+        return this.reviewService.findReviewsByAccountId(findReviewsByAccountIdDto.accountId);
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)
