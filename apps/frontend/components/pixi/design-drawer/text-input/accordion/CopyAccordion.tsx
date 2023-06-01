@@ -5,7 +5,6 @@ import TextSelector from '../selector/TextSelector';
 import TextAreaWithEdit from '../text-area/TextAreaWithEdit';
 
 const CopyAccordion = ({ copyPosition, updateCopyPosition, filteredCopies, onEditStart, onEditSubmit, onEditRestore }) => {
-    console.log('copy position: ', copyPosition)
     return (
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>

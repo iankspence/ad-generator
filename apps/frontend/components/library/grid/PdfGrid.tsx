@@ -5,7 +5,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import RenderLibraryCards from '../library-card/RenderLibraryCards';
 import { getGridItemStyle } from './getGridItemStyle';
-import { Ad, AdDocument, CopyCardsAndAdDto } from '@monorepo/type';
+import { AdDocument, CopyCardsAndAdDto } from '@monorepo/type';
 import { audiences } from '../../../utils/constants/audiences';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import { deleteAdSetAndAdsAndCards } from '../../../utils/api/mongo/ad-set/deleteAdSetAndAdsAndCardsApi';
@@ -67,7 +67,6 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
             }
         }
 
-        // Return the name of the most common audience, or null if no audience was found
         return mostCommonAudience ? audiences[mostCommonAudience-1].name : null;
     };
 

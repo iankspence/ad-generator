@@ -44,6 +44,18 @@ export function AccountPage() {
 
     }, [user, refreshAccount]);
 
+
+    // const handleDeleteAccount = async () => {
+    //     if (window.confirm("Are you sure you want to delete this account? This operation cannot be undone.")) {
+    //         try {
+    //             await deleteAccount(account._id); // you should replace `deleteAccount` with the actual API call you use for deleting an account
+    //             setRefreshAccount(!refreshAccount); // force to re-fetch the accounts
+    //         } catch (error) {
+    //             console.error("Failed to delete account. Please try again later.", error);
+    //         }
+    //     }
+    // };
+
     if ( !user || !user?.roles ) return <LoadingScreen />;
 
     if (!user?.roles.includes('admin') && !user?.roles.includes('content-manager') && !user?.roles.includes('client')) {
