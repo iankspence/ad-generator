@@ -18,6 +18,11 @@ export class AdSetService {
     async findById(adSetId: string): Promise<AdSet> {
         return this.adSetModel.findById({ _id: adSetId }).exec();
     }
+
+    async findAdSetsByAccountId(accountId: string): Promise<AdSetDocument[]> {
+        return this.adSetModel.find({ accountId }).exec();
+    }
+
     async createAdSetForPdfDelivery(adSetData: CreateAdSetForPdfDeliveryDto): Promise<AdSet> {
 
         const nameDateTime = createNameDateTime('America/Edmonton')

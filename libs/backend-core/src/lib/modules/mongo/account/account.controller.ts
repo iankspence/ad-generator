@@ -4,7 +4,7 @@ import {
     AccountDocument,
     AddGoogleQueryDto,
     AddRateMdsLinkDto,
-    CreateAccountDto, FindAccountByUserIdDto, UpdateAccountLogoAndColorsDto,
+    CreateAccountDto, DeleteAccountDto, FindAccountByUserIdDto, UpdateAccountLogoAndColorsDto,
 } from '@monorepo/type';
 import {
     Controller,
@@ -15,6 +15,7 @@ import {
     HttpCode,
     Patch,
     UseGuards,
+    Param, Delete,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { RolesGuard } from '../../auth/roles.guard';
@@ -31,6 +32,13 @@ export class AccountController {
     @HttpCode(HttpStatus.CREATED)
     async create(@Body() createAccountDto: CreateAccountDto): Promise<Account> {
         return this.accountModelService.create(createAccountDto);
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'content-manager')
+    @Delete('delete')
+    async delete(@Body() deleteAccountDto: DeleteAccountDto): Promise<Account> {
+        return this.accountModelService.delete(deleteAccountDto.accountId);
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)

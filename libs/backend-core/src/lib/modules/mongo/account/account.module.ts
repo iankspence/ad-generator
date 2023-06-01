@@ -6,8 +6,11 @@ import { ReviewModule } from '../review/review.module';
 import { AccountModelService } from './account-model.service';
 import { AccountController } from './account.controller';
 import { Account, AccountSchema } from '@monorepo/type';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AdSetModule } from '../ad-set/ad-set.module';
+import { AdModule } from '../ad/ad.module';
+import { CardModule } from '../card/card.module';
 
 @Module({
     imports: [
@@ -17,6 +20,9 @@ import { MongooseModule } from '@nestjs/mongoose';
         CopyModule,
         ClaimModule,
         CloseModule,
+        forwardRef(() => AdSetModule),
+        AdModule,
+        CardModule
     ],
     controllers: [AccountController],
     providers: [AccountModelService],

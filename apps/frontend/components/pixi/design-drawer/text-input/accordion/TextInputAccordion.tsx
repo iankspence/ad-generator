@@ -45,12 +45,8 @@ const TextInputAccordion = () => {
     const [currentCloseId, setCurrentCloseId] = useState(null);
     const [currentCopyId, setCurrentCopyId] = useState(null);
 
-    const onEditStart = () => {
-        console.log('edit start');
-    };
-    const onEditRestore = () => {
-        console.log('edit restore');
-    };
+    const onEditStart = () => {};
+    const onEditRestore = () => {};
 
     const onEditSubmit = async (text, canvasName) => {
         try {

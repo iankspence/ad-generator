@@ -9,6 +9,7 @@ import LoadingScreen from '../components/loading-screen/LoadingScreen';
 import NoAccess from '../components/loading-screen/NoAccess';
 import { useUser } from '../hooks/useUser';
 import { findAccountByUserId } from '../utils/api/mongo/account/findAccountByUserId';
+import { deleteAccount } from '../utils/api/mongo/account/deleteAccountApi';
 
 export function AccountPage() {
     const { user, account, setAccount } = useContext(UserContext);
@@ -45,16 +46,18 @@ export function AccountPage() {
     }, [user, refreshAccount]);
 
 
-    // const handleDeleteAccount = async () => {
-    //     if (window.confirm("Are you sure you want to delete this account? This operation cannot be undone.")) {
-    //         try {
-    //             await deleteAccount(account._id); // you should replace `deleteAccount` with the actual API call you use for deleting an account
-    //             setRefreshAccount(!refreshAccount); // force to re-fetch the accounts
-    //         } catch (error) {
-    //             console.error("Failed to delete account. Please try again later.", error);
-    //         }
-    //     }
-    // };
+    const handleDeleteAccount = async () => {
+        if (window.confirm("Are you sure you want to delete this account? This operation cannot be undone.")) {
+            try {
+                await deleteAccount({
+                    accountId: account._id.toString(),
+                });
+                setRefreshAccount(!refreshAccount); // force to re-fetch the accounts
+            } catch (error) {
+                console.error("Failed to delete account. Please try again later.", error);
+            }
+        }
+    };
 
     if ( !user || !user?.roles ) return <LoadingScreen />;
 
@@ -71,12 +74,14 @@ export function AccountPage() {
 
 
                     { (user.roles.includes('admin') || user.roles.includes('content-manager')) ?
-                        <>
+                        <div className="pb-8">
+
+
                             <h1 className="text-3xl font-semibold">Account</h1>
                             <p className="font-semibold py-2">Select Account:</p>
                             <div className="py-2"></div>
 
-                            <div className="flex justify-between pb-8">
+                            <div className="flex justify-between">
                                 <SelectAccount
                                     userId={user?._id}
                                     account={account}
@@ -86,8 +91,21 @@ export function AccountPage() {
                                 />
 
                                 <NewAccountForm userId={user?._id} accounts={accounts} setAccounts={setAccounts} />
+
                             </div>
-                        </>
+
+                            {user.roles.includes('admin') && (
+                                <div className="pt-2 text-right">
+                                    <button
+                                        onClick={handleDeleteAccount}
+                                        className={`text-sm underline ${account ? 'text-red-500' : 'text-gray-500'}`}
+                                        disabled={!account}
+                                    >
+                                        Delete Account
+                                    </button>
+                                </div>
+                            )}
+                        </div>
 
                         : <></>
                     }

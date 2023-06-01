@@ -75,7 +75,7 @@ export class BrowseAiService {
                         robotUrl: process.env.BROWSE_AI_RATE_MDS_REVIEW_ROBOT,
                         inputParameters: {
                             originUrl: job.result.inputParameters.originUrl,
-                            dr_fix_review_list_ratemds_limit: 3,
+                            dr_fix_review_list_ratemds_limit: 1,
                             // dr_fix_review_list_ratemds_limit: numberOfReviews,
                         },
                     });

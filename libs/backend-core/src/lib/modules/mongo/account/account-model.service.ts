@@ -13,10 +13,13 @@ import {
     HookDocument,
     ReviewDocument, UpdateAccountLogoAndColorsDto,
 } from '@monorepo/type';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Buffer } from 'buffer';
 import { Model, Types } from 'mongoose';
+import { AdSetService } from '../ad-set/ad-set.service';
+import { AdService } from '../ad/ad.service';
+import { CardService } from '../card/card.service';
 
 @Injectable()
 export class AccountModelService {
@@ -27,12 +30,36 @@ export class AccountModelService {
         private readonly hookService: HookService,
         private readonly reviewService: ReviewService,
         private readonly closeService: CloseService,
+        private readonly adSetService: AdSetService,
+        private readonly adService: AdService,
+        private readonly cardService: CardService,
     ) {}
 
     async create(createAccountDto: CreateAccountDto): Promise<Account> {
         const createdAccount = new this.accountModel(createAccountDto);
         return createdAccount.save();
     }
+
+    async delete(accountId: string): Promise<Account> {
+        const deletedAccount = await this.accountModel.findByIdAndDelete(accountId);
+        if (!deletedAccount) {
+            throw new NotFoundException(`Account with accountId ${accountId} not found`);
+        }
+
+        const accountAdSets = await this.adSetService.findAdSetsByAccountId(accountId);
+        for (const adSet of accountAdSets) {
+            await this.adSetService.deleteAdsetAndAdsAndCards(adSet._id.toString());
+        }
+
+        // delete the remaining ads which did not belong to any adset
+        const ads = await this.adService.findAdsByAccountId(accountId);
+        for (const ad of ads) {
+            await this.cardService.deleteCardsAndAd(ad._id.toString());
+        }
+
+        return deletedAccount;
+    }
+
     async findOneById(_id: string): Promise<Account> {
         return await this.accountModel.findOne({ _id: _id }).exec();
     }
