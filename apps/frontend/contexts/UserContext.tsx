@@ -6,8 +6,6 @@ import { getCurrentUser } from '../utils/api/mongo/user/sign-in/getCurrentUserAp
 interface UserContextProps {
     user: UserDocument | null;
     setUser: (user: UserDocument) => void;
-    roles: string[] | null;
-    setRoles: (roles: string[]) => void;
     account: AccountDocument | Partial<AccountDocument> | null;
     setAccount: (account: AccountDocument | Partial<AccountDocument>) => void;
 }
@@ -16,7 +14,6 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<UserDocument | null>(null);
-    const [roles, setRoles] = useState<string[] | null>(null);
     const [account, setAccount] = useState<AccountDocument | Partial<AccountDocument> | null>(null);
 
     const fetchAndSetDefaultAccount = async () => {
@@ -33,9 +30,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             try {
                 const currentUser = await getCurrentUser();
                 setUser(currentUser);
-                setRoles(currentUser.roles)
-                console.log('Current user:', currentUser);
-                console.log('Current user roles:', currentUser.roles)
             } catch (error) {
                 console.error('Error fetching current user:', error);
             }
@@ -52,8 +46,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         <UserContext.Provider value={{
             user,
             setUser,
-            roles,
-            setRoles,
             account,
             setAccount }}>
             {children}

@@ -7,10 +7,12 @@ import {CampaignContext} from "../contexts/CampaignContext";
 import AdsGrid from "../components/library/grid/AdsGrid";
 import PdfGrid from "../components/library/grid/PdfGrid";
 import FacebookGrid from "../components/library/grid/FacebookGrid";
+import LoadingScreen from "../components/loading-screen/LoadingScreen";
 import { FindAdsByAccountIdDto } from "@monorepo/type";
+import NoAccess from "../components/loading-screen/NoAccess";
 
 const Library = () => {
-    const { account } = useContext(UserContext);
+    const { account, user } = useContext(UserContext);
     const { ads, updateAds } = useContext(CampaignContext);
     const [adsWidth, setAdsWidth] = useState(2);
     const [pdfWidth, setPdfWidth] = useState(8);
@@ -44,6 +46,12 @@ const Library = () => {
         const newAds = await findAdsByAccountId(findAdsByAccountIdDto);
         updateAds(newAds);
     };
+
+    if ( !user || !user?.roles ) return <LoadingScreen />;
+
+    if (!user?.roles.includes('admin') && !user?.roles.includes('content-manager')) {
+        return <NoAccess />;
+    }
 
     return (
         <>

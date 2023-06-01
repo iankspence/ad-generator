@@ -5,9 +5,11 @@ import UserContext from '../contexts/UserContext';
 import { getTextByAccountId } from '../utils/api/mongo/account/getTextByAccountIdApi';
 import React, { useContext, useEffect } from 'react';
 import { GetTextByAccountIdDto } from '@monorepo/type';
+import LoadingScreen from '../components/loading-screen/LoadingScreen';
+import NoAccess from '../components/loading-screen/NoAccess';
 
 function AdGeneratorPage() {
-    const { account } = useContext(UserContext);
+    const { account, user } = useContext(UserContext);
     const { updateReviews, updateHooks, updateCopies, updateClaims, updateCloses } = useContext(CampaignContext);
 
     useEffect(() => {
@@ -27,6 +29,12 @@ function AdGeneratorPage() {
 
         fetchData();
     }, [account]);
+
+    if ( !user || !user?.roles ) return <LoadingScreen />;
+
+    if (!user?.roles.includes('admin') && !user?.roles.includes('content-manager')) {
+        return <NoAccess />;
+    }
 
     return (
         <div className="bg-reviewDrumLightGray">

@@ -6,6 +6,8 @@ import UserContext from '../contexts/UserContext';
 import { findReviewsByAccountId } from '../utils/api/mongo/review/findReviewsByAccountIdApi';
 import { formatAudienceData } from '../components/reviews/formatAudienceData';
 import PrivateAccessButton from '../components/reviews/floating-buttons/PrivateAccessButton';
+import LoadingScreen from '../components/loading-screen/LoadingScreen';
+import NoAccess from '../components/loading-screen/NoAccess';
 
 function ReviewsPage() {
     const { user, account} = useContext(UserContext);
@@ -23,6 +25,12 @@ function ReviewsPage() {
     }, [account, refreshReviews]);
 
     const tableData = formatAudienceData(reviews);
+
+    if ( !user || !user?.roles ) return <LoadingScreen />;
+
+    if (!user?.roles.includes('admin') && !user?.roles.includes('content-manager') && !user?.roles.includes('client')) {
+        return <NoAccess />;
+    }
 
     return (
         <>

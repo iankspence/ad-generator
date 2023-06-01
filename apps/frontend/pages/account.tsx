@@ -5,6 +5,8 @@ import NewAccountForm from "../components/account/NewAccountForm";
 import AccountInfo from "../components/account/AccountInfo";
 import SelectAccount from "../components/account/SelectAccount";
 import { getAccounts } from "../utils/api/mongo/account/getAccountsApi";
+import LoadingScreen from '../components/loading-screen/LoadingScreen';
+import NoAccess from '../components/loading-screen/NoAccess';
 
 export function AccountPage() {
     const { user, account, setAccount } = useContext(UserContext);
@@ -18,6 +20,12 @@ export function AccountPage() {
         };
         fetchAccounts();
     }, [user?._id, account?.logo]);
+
+    if ( !user || !user?.roles ) return <LoadingScreen />;
+
+    if (!user?.roles.includes('admin') && !user?.roles.includes('content-manager') && !user?.roles.includes('client')) {
+        return <NoAccess />;
+    }
 
     return (
         <>
