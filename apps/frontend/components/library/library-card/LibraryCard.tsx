@@ -64,10 +64,12 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
     };
 
     const handleCardClick = () => {
-        if (isSelected(ad)) {
-            updateSelectedAds(selectedAds.filter(selectedAd => selectedAd._id !== ad._id));
-        } else {
-            updateSelectedAds([...selectedAds, ad]);
+        if (ad?.adStatus === 'fresh') {
+            if (isSelected(ad)) {
+                updateSelectedAds(selectedAds.filter(selectedAd => selectedAd._id !== ad._id));
+            } else {
+                updateSelectedAds([...selectedAds, ad]);
+            }
         }
     };
 
@@ -102,16 +104,18 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
                     >
                         {ad?.adStatus === 'fresh' && <EditIcon />}
                     </IconButton>
-                    <IconButton
-                        onClick={handleDeleteClick}
-                        style={{padding: '0', position: 'absolute', top: '2%', right: '2%', opacity: '30%'}}
-                        aria-label="delete"
-                    >
-                        <HighlightOffOutlinedIcon />
-                    </IconButton>
+                    {ad?.adStatus === 'fresh' &&
+                        <IconButton
+                            onClick={handleDeleteClick}
+                            style={{padding: '0', position: 'absolute', top: '2%', right: '2%', opacity: '30%'}}
+                            aria-label="delete"
+                        >
+                            <HighlightOffOutlinedIcon />
+                        </IconButton>
+                    }
                     <IconButton
                         onClick={handleCopyClick}
-                        style={{padding: '0', position: 'absolute', top: '2%', right: '17%', opacity: '30%'}}
+                        style={{padding: '0', position: 'absolute', top: '3%', right: ad?.adStatus === 'fresh' ? '17%' : '3%', opacity: '30%'}}
                         aria-label="copy"
                     >
                         <ContentCopyOutlinedIcon />

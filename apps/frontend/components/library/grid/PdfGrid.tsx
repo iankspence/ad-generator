@@ -5,11 +5,13 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import RenderLibraryCards from '../library-card/RenderLibraryCards';
 import { getGridItemStyle } from './getGridItemStyle';
-import { Ad } from '@monorepo/type';
+import { Ad, AdDocument, CopyCardsAndAdDto } from '@monorepo/type';
 import { audiences } from '../../../utils/constants/audiences';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import { deleteAdSetAndAdsAndCards } from '../../../utils/api/mongo/ad-set/deleteAdSetAndAdsAndCardsApi';
 import { DeleteAdSetAndAdsAndCardsDto } from '@monorepo/type';
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import { copyCardsAndAd } from '../../../utils/api/mongo/card/copyCardsAndAdApi';
 
 const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads, pdfWidth, facebookWidth, refreshAds }) => {
     const groupAdsByAdSet = (ads) => {
@@ -36,9 +38,10 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
                 }
                 await deleteAdSetAndAdsAndCards(deleteAdSetAndAdsAndCardsDto);
                 refreshAds();
+                const timeout = 2000 * ads.length;
                 setTimeout(() => {
                     refreshAds();
-                }, 7000);
+                }, timeout);
             } catch (error) {
                 alert("Failed to delete Ad Set. Please try again later.");
             }
@@ -66,6 +69,27 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
 
         // Return the name of the most common audience, or null if no audience was found
         return mostCommonAudience ? audiences[mostCommonAudience-1].name : null;
+    };
+
+    const handleCopyAdSetClick = (adSetAds: AdDocument[]) => async (event) => {
+        event.stopPropagation();
+
+        if (window.confirm("Are you sure you want to copy this Ad Set and its associated Ads?")) {
+            for (const ad of adSetAds) {
+                try {
+                    const copyCardsAndAdDto: CopyCardsAndAdDto = {
+                        adId: ad._id.toString(),
+                    }
+                    await copyCardsAndAd(copyCardsAndAdDto);
+                } catch (error) {
+                    alert("Failed to copy ad. Please try again later.");
+                }
+            }
+            refreshAds();
+            setTimeout(() => {
+                refreshAds();
+            }, 7000);
+        }
     };
 
     if (!ads.length) return null;
@@ -98,7 +122,7 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
                 <Typography variant="h6">PDF Ad Sets</Typography>
                 {
                     Object.entries(groupAdsByAdSet(ads.filter(ad => ad.adStatus === 'pdf')))
-                        .map(([adSetId, adSet]: [string, { ads: Ad[], adSetNameDateTime: string }], index) => {
+                        .map(([adSetId, adSet]: [string, { ads: AdDocument[], adSetNameDateTime: string }], index) => {
                             const mostCommonAudienceName = getMostCommonAudienceName(adSet.ads);
                             return (
                                 <Accordion key={index}>
@@ -108,6 +132,12 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
                                         id="panel1a-header"
                                     >
                                         <Typography>{adSet.adSetNameDateTime} - {mostCommonAudienceName}</Typography>
+                                        <IconButton
+                                            onClick={handleCopyAdSetClick(adSet.ads)}
+                                            style={{padding: '0', position: 'relative', top: '50%', right: '-10%', opacity: '30%'}}
+                                        >
+                                            <ContentCopyOutlinedIcon />
+                                        </IconButton>
                                         <IconButton
                                             onClick={handleDeleteAdSetClick(adSetId)}
                                             style={{padding: '0', position: 'relative', top: '50%', right: '-2%', opacity: '30%'}}

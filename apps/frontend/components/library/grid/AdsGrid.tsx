@@ -26,8 +26,6 @@ const AdsGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
         fetchAds();
     }, []);
 
-    console.log('selectedAudiencePosition: ', selectedAudiencePosition)
-
     return (
         <Grid container item xs={adsWidth} style={getGridItemStyle(adsWidth)}>
             <Grid item xs={adsWidth === 8 ? 12 : 11}>
