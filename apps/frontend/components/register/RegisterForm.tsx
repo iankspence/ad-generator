@@ -14,7 +14,9 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
 
     useEffect(() => {
         setPasswordFieldType(showPassword ? "text" : "password");
-        setCountries(Country.getAllCountries());
+        const allCountries = Country.getAllCountries();
+        const selectedCountries = allCountries.filter(country => country.isoCode === 'US' || country.isoCode === 'CA');
+        setCountries(selectedCountries);
     }, [showPassword]);
 
     useEffect(() => {
