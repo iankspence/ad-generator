@@ -14,6 +14,7 @@ export function AccountPage() {
     const { user, account, setAccount } = useContext(UserContext);
 
     const [accounts, setAccounts] = useState([]);
+    const [ refreshAccount, setRefreshAccount ] = useState(false);
 
     useUser();
 
@@ -22,9 +23,7 @@ export function AccountPage() {
         if (!user || !user?.roles) return;
 
         const fetchAccounts = async () => {
-
             if (!user?._id) return;
-            console.log('fetching accounts user roles: ', user.roles, user);
 
             if (user.roles.includes('admin') || user.roles.includes('content-manager')) {
                 const allAccounts = await getAccounts();
@@ -33,18 +32,17 @@ export function AccountPage() {
             }
 
             if (user.roles.includes('client')) {
-                console.log('test 1')
                 const clientAccount = await findAccountByUserId({
                     userId: user._id.toString(),
                 });
-
-                console.log('clientAccount: ', clientAccount);
                 setAccount(clientAccount);
                 return;
             }
         };
+
         fetchAccounts();
-    }, [user?._id, account?.logo]);
+
+    }, [user, refreshAccount]);
 
     if ( !user || !user?.roles ) return <LoadingScreen />;
 
@@ -84,7 +82,7 @@ export function AccountPage() {
 
 
 
-                    {account && <AccountInfo/>}
+                    {account && <AccountInfo refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount}/>}
                 </div>
             </div>
         </>

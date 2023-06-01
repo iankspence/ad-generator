@@ -6,7 +6,7 @@ import UserContext from "../../contexts/UserContext";
 import { convertRgbToHex } from '../../utils/color/convertRgbToHex';
 import { UpdateAccountLogoAndColorsDto } from '@monorepo/type';
 
-const LogoUpload = () => {
+const LogoUpload = ({ refreshAccount, setRefreshAccount }) => {
     const { account, setAccount, user } = useContext(UserContext);
 
     const extractColors = (logoData) => {
@@ -31,6 +31,7 @@ const LogoUpload = () => {
             await updateAccountLogoAndColors(updateAccountLogoAndColorsDto);
 
             setAccount({ ...account, logo: logoData, primaryColor, secondaryColor });
+            setRefreshAccount(!refreshAccount);
         };
         img.src = logoData;
     };

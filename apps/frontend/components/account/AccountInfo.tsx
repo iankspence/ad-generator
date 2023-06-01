@@ -2,7 +2,7 @@ import React, {useContext } from 'react';
 import LogoUpload from './LogoUpload';
 import UserContext from "../../contexts/UserContext";
 
-export default function AccountInfo() {
+export default function AccountInfo({ refreshAccount, setRefreshAccount }) {
     const { account } = useContext(UserContext);
 
     return (
@@ -41,7 +41,7 @@ export default function AccountInfo() {
             {account && (
                 <div className="flex mt-2">
                     <div className="w-full">
-                        <LogoUpload />
+                        <LogoUpload refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount}/>
                     </div>
                 </div>
             )}
