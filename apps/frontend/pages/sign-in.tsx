@@ -9,16 +9,13 @@ export function SignInPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const { setUser, setRoles } = useContext(UserContext);
+    const { setUser } = useContext(UserContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const user = await signIn(email, password);
             setUser(user);
-            setRoles(user.roles)
-            console.log('Signed in user:', user);
-            console.log('Signed in user roles:', user.roles)
             await Router.push('/reviews');
         } catch (error) {
             console.error('Failed to sign in:', error);

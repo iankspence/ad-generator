@@ -7,7 +7,7 @@ import { convertRgbToHex } from '../../utils/color/convertRgbToHex';
 import { UpdateAccountLogoAndColorsDto } from '@monorepo/type';
 
 const LogoUpload = () => {
-    const { account, setAccount } = useContext(UserContext);
+    const { account, setAccount, user } = useContext(UserContext);
 
     const extractColors = (logoData) => {
         const img = new Image();
@@ -60,10 +60,22 @@ const LogoUpload = () => {
 
     return (
         <>
-            <div {...getRootProps()} className="flex justify-center items-center w-full h-48 border-2 border-dashed border-gray-300 rounded cursor-pointer hover:border-gray-400">
-                <input {...getInputProps()} />
-                {account?.logo ? <img src={account?.logo} alt="Uploaded Logo" /> : <p>Drag and drop a logo or click to select a file</p>}
-            </div>
+            {
+                ( user?.roles.includes('admin') || user?.roles.includes('content-manager') ? (
+                    <>
+                        <p className="font-semibold py-2">Upload Logo:</p>
+
+                        <div {...getRootProps()} className="flex justify-center items-center w-full h-48 border-2 border-dashed border-gray-300 rounded cursor-pointer hover:border-gray-400">
+                            <input {...getInputProps()} />
+                            {account?.logo ? <img src={account?.logo} alt="Uploaded Logo" /> : <p>Drag and drop a logo or click to select a file</p>}
+                        </div>
+                    </>
+
+                ) : (
+                    <></>
+                ))
+            }
+
             {(account?.logo && account?.primaryColor && account?.secondaryColor) && (
                 <div className="mt-4">
                     <p className="font-semibold py-2">Extracted Colors:</p>

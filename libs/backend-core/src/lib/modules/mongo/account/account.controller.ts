@@ -4,7 +4,7 @@ import {
     AccountDocument,
     AddGoogleQueryDto,
     AddRateMdsLinkDto,
-    CreateAccountDto, UpdateAccountLogoAndColorsDto,
+    CreateAccountDto, FindAccountByUserIdDto, UpdateAccountLogoAndColorsDto,
 } from '@monorepo/type';
 import {
     Controller,
@@ -38,6 +38,13 @@ export class AccountController {
     @Get('get-accounts')
     async getAccounts(): Promise<AccountDocument[]> {
         return await this.accountModelService.getAccounts();
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('client')
+    @Post('find-account-by-user-id')
+    async findAccountByUserId(@Body() findAccountByUserIdDto: FindAccountByUserIdDto): Promise<AccountDocument> {
+        return await this.accountModelService.findAccountByUserId(findAccountByUserIdDto);
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)

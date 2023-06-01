@@ -1,7 +1,5 @@
-import { getAccounts } from "../utils/api/mongo/account/getAccountsApi";
-import { createContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useState, ReactNode } from 'react';
 import { AccountDocument, UserDocument } from '@monorepo/type';
-import { getCurrentUser } from '../utils/api/mongo/user/sign-in/getCurrentUserApi';
 
 interface UserContextProps {
     user: UserDocument | null;
@@ -15,32 +13,6 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<UserDocument | null>(null);
     const [account, setAccount] = useState<AccountDocument | Partial<AccountDocument> | null>(null);
-
-    const fetchAndSetDefaultAccount = async () => {
-        if (!account && user) {
-            const accounts = await getAccounts();
-            if (accounts.length > 0) {
-                setAccount(accounts[0]);
-            }
-        }
-    };
-
-    useEffect(() => {
-        const fetchAndSetCurrentUser = async () => {
-            try {
-                const currentUser = await getCurrentUser();
-                setUser(currentUser);
-            } catch (error) {
-                console.error('Error fetching current user:', error);
-            }
-        };
-
-        fetchAndSetCurrentUser();
-    }, []);
-
-    useEffect(() => {
-        fetchAndSetDefaultAccount();
-    }, [user, account]);
 
     return (
         <UserContext.Provider value={{

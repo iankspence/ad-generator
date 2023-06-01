@@ -10,6 +10,7 @@ import FacebookGrid from "../components/library/grid/FacebookGrid";
 import LoadingScreen from "../components/loading-screen/LoadingScreen";
 import { FindAdsByAccountIdDto } from "@monorepo/type";
 import NoAccess from "../components/loading-screen/NoAccess";
+import { useUser } from '../hooks/useUser';
 
 const Library = () => {
     const { account, user } = useContext(UserContext);
@@ -18,15 +19,7 @@ const Library = () => {
     const [pdfWidth, setPdfWidth] = useState(8);
     const [facebookWidth, setFacebookWidth] = useState(2);
 
-    const handleResize = (
-        setterToExpand,
-        setterToShrink1,
-        setterToShrink2
-    ) => {
-        setterToExpand(8);
-        setterToShrink1(2);
-        setterToShrink2(2);
-    };
+    useUser();
 
     useEffect(() => {
         const fetchAds = async () => {
@@ -38,6 +31,16 @@ const Library = () => {
         };
         fetchAds();
     }, [account]);
+
+    const handleResize = (
+        setterToExpand,
+        setterToShrink1,
+        setterToShrink2
+    ) => {
+        setterToExpand(8);
+        setterToShrink1(2);
+        setterToShrink2(2);
+    };
 
     const refreshAds = async () => {
         const findAdsByAccountIdDto: FindAdsByAccountIdDto = {

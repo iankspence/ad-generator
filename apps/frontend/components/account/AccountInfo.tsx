@@ -41,7 +41,6 @@ export default function AccountInfo() {
             {account && (
                 <div className="flex mt-2">
                     <div className="w-full">
-                        <p className="font-semibold py-2">Upload Logo:</p>
                         <LogoUpload />
                     </div>
                 </div>

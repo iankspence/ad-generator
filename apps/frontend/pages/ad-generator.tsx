@@ -7,10 +7,13 @@ import React, { useContext, useEffect } from 'react';
 import { GetTextByAccountIdDto } from '@monorepo/type';
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
 import NoAccess from '../components/loading-screen/NoAccess';
+import { useUser } from '../hooks/useUser';
 
 function AdGeneratorPage() {
     const { account, user } = useContext(UserContext);
     const { updateReviews, updateHooks, updateCopies, updateClaims, updateCloses } = useContext(CampaignContext);
+
+    useUser();
 
     useEffect(() => {
         if (!account) return;

@@ -8,11 +8,14 @@ import { formatAudienceData } from '../components/reviews/formatAudienceData';
 import PrivateAccessButton from '../components/reviews/floating-buttons/PrivateAccessButton';
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
 import NoAccess from '../components/loading-screen/NoAccess';
+import { useUser } from '../hooks/useUser';
 
 function ReviewsPage() {
     const { user, account} = useContext(UserContext);
     const { reviews, updateReviews, selectedAudiencePosition } = useContext(CampaignContext);
     const [refreshReviews, setRefreshReviews] = useState(false);
+
+    useUser();
 
     useEffect(() => {
         if (account) {

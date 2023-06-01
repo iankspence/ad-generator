@@ -8,7 +8,7 @@ import {
     AccountDocument,
     ClaimDocument,
     CloseDocument,
-    CopyDocument, CreateAccountDto,
+    CopyDocument, CreateAccountDto, FindAccountByUserIdDto,
     GetTextByAccountIdDto,
     HookDocument,
     ReviewDocument, UpdateAccountLogoAndColorsDto,
@@ -43,6 +43,10 @@ export class AccountModelService {
 
     async getAccounts(): Promise<AccountDocument[]> {
         return this.accountModel.find().exec();
+    }
+
+    async findAccountByUserId(findAccountByUserIdDto: FindAccountByUserIdDto): Promise<AccountDocument> {
+        return this.accountModel.findOne({ userId: findAccountByUserIdDto.userId }).exec();
     }
 
     async addGoogleQuery(accountId: string, googleQuery: string | string[]) {
