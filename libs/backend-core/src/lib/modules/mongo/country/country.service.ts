@@ -10,4 +10,8 @@ export class CountryService {
     async bulkCreate(countries: Country[]): Promise<void> {
         await this.countryModel.insertMany(countries, { ordered: false });
     }
+
+    async getCountries(): Promise<CountryDocument[]> {
+        return await this.countryModel.find().exec();
+    }
 }

@@ -1,34 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Button, IconButton, InputAdornment, Select, MenuItem, FormControl, InputLabel, OutlinedInput } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Country, State, City }  from 'country-state-city';
+import { getCountries } from '../../utils/api/mongo/country/getCountriesApi';
+import { findProvinceStateByCountryApi } from '../../utils/api/mongo/province-state/findProvinceStateByCountryApi';
+import { findCitiesByProvinceStateApi } from '../../utils/api/mongo/city/findCitiesByProvinceStateApi';
 
-export async function getStaticProps() {
-    const allCountries = Country.getAllCountries();
-    const selectedCountries = allCountries.filter(country => country.isoCode === 'US' || country.isoCode === 'CA');
-
-    // get states and cities for each country
-    const countriesWithStatesAndCities = selectedCountries.map(country => {
-        const states = State.getStatesOfCountry(country.isoCode);
-        const cities = City.getCitiesOfCountry(country.isoCode);
-
-        return {
-            ...country,
-            states,
-            cities
-        }
-    });
-
-    return {
-        props: {
-            countries: countriesWithStatesAndCities
-        }
-    }
-}
-
-const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setShowPassword, countries }) => {
+const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setShowPassword }) => {
     const [passwordFieldType, setPasswordFieldType] = useState("password");
-    const [states, setStates] = useState([]);
+    const [countries, setCountries] = useState([]);
+    const [provinceStates, setProvinceStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [step, setStep] = useState(1);
     const [passwordError, setPasswordError] = useState('');
@@ -39,25 +19,52 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
     }, [showPassword]);
 
     useEffect(() => {
+        // Fetch the countries when the component mounts
+        const fetchCountries = async () => {
+            try {
+                const countries = await getCountries();
+                setCountries(countries);
+            } catch (error) {
+                console.error('Error fetching countries:', error);
+            }
+        };
+        fetchCountries();
+    }, []);
+
+    useEffect(() => {
         if (formData.country) {
-            const selectedCountry = countries.find(country => country.isoCode === formData.country);
-            setStates(selectedCountry ? selectedCountry.states : []);
+            const fetchStates = async () => {
+                try {
+                    const provinceStates = await findProvinceStateByCountryApi(formData.country);
+                    console.log('provinceStates:', provinceStates);
+                    console.log('formData:', formData);
+                    setProvinceStates(provinceStates);
+                } catch (error) {
+                    console.error('Error fetching states:', error);
+                }
+            };
+            fetchStates();
         }
-    }, [formData.country, countries]);
+    }, [formData.country]);
 
     useEffect(() => {
         if (formData.provinceState) {
-            const selectedCountry = countries.find(country => country.isoCode === formData.country);
-            const selectedState = selectedCountry.states.find(state => state.isoCode === formData.provinceState);
-            setCities(selectedState ? selectedState.cities : []);
+            const fetchCities = async () => {
+                try {
+                    const cities = await findCitiesByProvinceStateApi(formData.provinceState);
+                    setCities(cities);
+                } catch (error) {
+                    console.error('Error fetching cities:', error);
+                }
+            };
+            fetchCities();
         }
-    }, [formData.provinceState, countries]);
+    }, [formData.provinceState]);
 
-
-    const validateEmail = (email) => {
-        const re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
-    }
+    // const validateEmail = (email) => {
+    //     const re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    //     return re.test(String(email).toLowerCase());
+    // }
 
     const handleNext = (e) => {
 
@@ -67,11 +74,12 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
             return;
         }
         setPasswordError('');
-        if (!validateEmail(formData.email)) {
-            setEmailError('Invalid email address');
-            return;
-        }
-        setEmailError('');
+        // if ( formData.email.length < 4 ) { {// !validateEmail(formData.email)) {{
+        //     setEmailError('Invalid email address');
+        //     return;
+        // }
+
+        // setEmailError('');
         setStep(step + 1);
     }
 
@@ -151,7 +159,7 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
                             autoComplete="false"
                         >
                             {countries.map((country) => (
-                                <MenuItem key={country.isoCode} value={country.isoCode}>{country.name}</MenuItem>
+                                <MenuItem key={country.name} value={country.name}>{country.name}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -167,8 +175,8 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
                             input={<OutlinedInput label="Province/State"/>}
                             autoComplete="false"
                         >
-                            {states.map((state) => (
-                                <MenuItem key={state.isoCode} value={state.isoCode}>{state.name}</MenuItem>
+                            {provinceStates.map((provinceState) => (
+                                <MenuItem key={provinceState.name} value={provinceState.name}>{provinceState.name}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>

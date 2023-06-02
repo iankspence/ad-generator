@@ -10,4 +10,8 @@ export class ProvinceStateService {
     async bulkCreate(provinceStates: ProvinceState[]): Promise<void> {
         await this.provinceStateModel.insertMany(provinceStates, { ordered: false });
     }
+
+    async findProvinceStatesByCountry(country: string): Promise<ProvinceStateDocument[]> {
+        return this.provinceStateModel.find({ countryName: country }).exec();
+    }
 }

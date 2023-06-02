@@ -10,4 +10,8 @@ export class CityService {
     async bulkCreate(cities: City[]): Promise<void> {
         await this.cityModel.insertMany(cities, { ordered: false });
     }
+
+    async findCitiesByProvinceState(provinceState: string): Promise<CityDocument[]> {
+        return this.cityModel.find({ provinceState }).exec();
+    }
 }
