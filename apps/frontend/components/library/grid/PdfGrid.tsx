@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails, IconButton } from "@material-ui/core";
+import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails, IconButton } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';

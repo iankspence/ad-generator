@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createAccount } from '../../utils/api/mongo/account/createAccountApi';
-import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@material-ui/core';
+import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
 import { CreateAccountDto } from '@monorepo/type';
 
 export default function NewAccountForm({ userId, accounts, setAccounts }) {

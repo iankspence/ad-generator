@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { IconButton, CardContent, Typography } from '@material-ui/core';
+import { IconButton, CardContent, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import FacebookIcon from '@mui/icons-material/Facebook';

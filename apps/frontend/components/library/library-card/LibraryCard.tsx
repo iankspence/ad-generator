@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Card, CardMedia, IconButton } from '@material-ui/core';
+import { Card, CardMedia, IconButton } from '@mui/material';
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';

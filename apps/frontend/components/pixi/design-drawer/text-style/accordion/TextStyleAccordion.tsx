@@ -3,13 +3,13 @@ import {
     Accordion,
     AccordionSummary,
     AccordionDetails,
+    Grid
 } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import * as PIXI from 'pixi.js';
 import { PixiContext } from '../../../../../contexts/PixiContext';
 import { mode } from '../../../utils/mode';
-import Grid from '@material-ui/core/Grid';
 import { capitalizeFirstLetter } from '../../../utils/text/capitalizeFirstLetter';
 import UserContext from '../../../../../contexts/UserContext';
 import BoldButton from '../button/bold/BoldButton';

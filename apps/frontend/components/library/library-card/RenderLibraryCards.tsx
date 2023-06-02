@@ -1,6 +1,6 @@
 import React from 'react';
 import LibraryCard from './LibraryCard';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 
 const RenderLibraryCards = (ad, width, refreshAds) => {
 
