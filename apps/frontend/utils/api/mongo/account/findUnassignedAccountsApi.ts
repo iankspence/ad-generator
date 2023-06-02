@@ -5,7 +5,7 @@ export const findUnassignedAccounts = async () => {
     try {
         const response = await axios({
             method: 'get',
-            url: `${API_URL}/account/find-unassigned-client-accounts`,
+            url: `${API_URL}/account/find-unassigned-accounts`,
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',

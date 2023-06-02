@@ -8,6 +8,7 @@ export * from './lib/dto/mongo/account/add-rate-mds-link.dto';
 export * from './lib/dto/mongo/account/create-account.dto';
 export * from './lib/dto/mongo/account/delete-account.dto';
 export * from './lib/dto/mongo/account/get-text-by-account-id.dto';
+export * from './lib/dto/mongo/account/find-accounts-by-manager-id.dto';
 export * from './lib/dto/mongo/account/find-account-by-user-id.dto';
 export * from './lib/dto/mongo/account/update-account-logo-and-colors.dto';
 export * from './lib/dto/mongo/account/update-account-manager.dto';

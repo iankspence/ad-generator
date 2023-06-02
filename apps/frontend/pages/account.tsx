@@ -11,6 +11,7 @@ import { useUser } from '../hooks/useUser';
 import { findAccountByUserId } from '../utils/api/mongo/account/findAccountByUserId';
 import { deleteAccount } from '../utils/api/mongo/account/deleteAccountApi';
 import UnassignedAccountPicker from '../components/account/UnassignedAccountPicker';
+import { findAccountsByManagerId } from '../utils/api/mongo/account/findAccountsByManagerIdApi';
 
 export function AccountPage() {
     const { user, account, setAccount } = useContext(UserContext);
@@ -27,17 +28,24 @@ export function AccountPage() {
         const fetchAccounts = async () => {
             if (!user?._id) return;
 
-            if (user.roles.includes('admin') || user.roles.includes('content-manager')) {
-                const allAccounts = await getAccounts();
-                setAccounts(allAccounts);
-                return;
-            }
-
             if (user.roles.includes('client')) {
                 const clientAccount = await findAccountByUserId({
                     userId: user._id.toString(),
                 });
                 setAccount(clientAccount);
+                return;
+            }
+
+            if (user.roles.includes('content-manager')) {
+                const managedAccounts = await findAccountsByManagerId({
+                    managerUserId: user._id.toString(),
+                });
+                setAccounts(managedAccounts);
+            }
+
+            if (user.roles.includes('admin')) {
+                const allAccounts = await getAccounts();
+                setAccounts(allAccounts);
                 return;
             }
         };

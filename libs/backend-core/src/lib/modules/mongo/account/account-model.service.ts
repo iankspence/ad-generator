@@ -8,7 +8,7 @@ import {
     AccountDocument,
     ClaimDocument,
     CloseDocument,
-    CopyDocument, CreateAccountDto, FindAccountByUserIdDto,
+    CopyDocument, CreateAccountDto, FindAccountByUserIdDto, FindAccountsByManagerIdDto,
     FindTextByAccountIdDto,
     HookDocument,
     ReviewDocument, UpdateAccountLogoAndColorsDto, UpdateAccountManagerDto,
@@ -163,5 +163,9 @@ export class AccountModelService {
 
     async findUnassignedAccounts(): Promise<AccountDocument[]> {
         return this.accountModel.find({ managerUserId: null }).exec();
+    }
+
+    async findAccountsByManagerId(findAccountsByManagerIdDto: FindAccountsByManagerIdDto): Promise<AccountDocument[]> {
+        return this.accountModel.find({ managerUserId: findAccountsByManagerIdDto.managerUserId }).exec();
     }
 }

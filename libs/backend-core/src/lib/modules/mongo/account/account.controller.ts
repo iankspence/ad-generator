@@ -4,7 +4,7 @@ import {
     AccountDocument,
     AddGoogleQueryDto,
     AddRateMdsLinkDto,
-    CreateAccountDto, DeleteAccountDto, FindAccountByUserIdDto,
+    CreateAccountDto, DeleteAccountDto, FindAccountByUserIdDto, FindAccountsByManagerIdDto,
     FindTextByAccountIdDto, UpdateAccountLogoAndColorsDto, UpdateAccountManagerDto,
 } from '@monorepo/type';
 import {
@@ -92,8 +92,16 @@ export class AccountController {
 
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin', 'content-manager')
-    @Get('find-unassigned-client-accounts')
-    async findUnassignedClientAccounts(): Promise<AccountDocument[]> {
+    @Get('find-unassigned-accounts')
+    async findUnassignedAccounts(): Promise<AccountDocument[]> {
         return this.accountModelService.findUnassignedAccounts();
+    }
+
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('content-manager')
+    @Post('find-accounts-by-manager-id')
+    async findAccountsByManagerId(@Body() findAccountsByManagerId: FindAccountsByManagerIdDto): Promise<AccountDocument[]> {
+        return this.accountModelService.findAccountsByManagerId(findAccountsByManagerId);
     }
 }
