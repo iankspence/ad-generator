@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { API_URL } from '../../../constants/apiUrl';
+import { FindCitiesByProvinceStateDto } from '@monorepo/type';
 
-export const findCitiesByProvinceStateApi = async (provinceState: string) => {
+export const findCitiesByProvinceStateApi = async (findCitiesByProvinceStateDto: FindCitiesByProvinceStateDto) => {
     try {
         const response = await axios({
             method: 'post',
             url: `${API_URL}/city/find-cities-by-province-state`,
-            data: { provinceState },
+            data: findCitiesByProvinceStateDto,
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',

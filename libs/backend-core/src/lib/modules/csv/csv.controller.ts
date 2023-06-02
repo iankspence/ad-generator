@@ -1,4 +1,4 @@
-import { Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { createReadStream } from 'fs';
 import csvParser from 'csv-parser';
@@ -7,6 +7,9 @@ import { CountryService } from '../mongo/country/country.service';
 import { ProvinceStateService } from '../mongo/province-state/province-state.service';
 import { CityService } from '../mongo/city/city.service';
 import { City, Country, ProvinceState } from '@monorepo/type';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @Controller('csv')
 export class CsvController {
@@ -16,6 +19,8 @@ export class CsvController {
         private readonly cityService: CityService,
     ) {}
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
     @Post('country-province-state-city')
     @UseInterceptors(FileInterceptor('file', { dest: './uploads' }))
     async uploadFile(@UploadedFile() file) {
@@ -69,7 +74,6 @@ export class CsvController {
                 .on('error', reject);
         });
 
-        console.log('end of stream: saving countries and provinceStates data');
         await this.saveData(countries, provinceStates);
 
         return { status: 'ok' };

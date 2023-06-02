@@ -35,9 +35,9 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
         if (formData.country) {
             const fetchStates = async () => {
                 try {
-                    const provinceStates = await findProvinceStateByCountryApi(formData.country);
-                    console.log('provinceStates:', provinceStates);
-                    console.log('formData:', formData);
+                    const provinceStates = await findProvinceStateByCountryApi({
+                        country: formData.country,
+                    });
                     setProvinceStates(provinceStates);
                 } catch (error) {
                     console.error('Error fetching states:', error);
@@ -51,7 +51,9 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
         if (formData.provinceState) {
             const fetchCities = async () => {
                 try {
-                    const cities = await findCitiesByProvinceStateApi(formData.provinceState);
+                    const cities = await findCitiesByProvinceStateApi({
+                        provinceState: formData.provinceState,
+                    });
                     setCities(cities);
                 } catch (error) {
                     console.error('Error fetching cities:', error);
@@ -61,10 +63,10 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
         }
     }, [formData.provinceState]);
 
-    // const validateEmail = (email) => {
-    //     const re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    //     return re.test(String(email).toLowerCase());
-    // }
+    const validateEmail = (email) => {
+        const re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
 
     const handleNext = (e) => {
 
@@ -74,12 +76,12 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
             return;
         }
         setPasswordError('');
-        // if ( formData.email.length < 4 ) { {// !validateEmail(formData.email)) {{
-        //     setEmailError('Invalid email address');
-        //     return;
-        // }
+        if ( !validateEmail(formData.email) ) {
+            setEmailError('Invalid email address');
+            return;
+        }
 
-        // setEmailError('');
+        setEmailError('');
         setStep(step + 1);
     }
 

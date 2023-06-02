@@ -21,6 +21,8 @@ export * from './lib/dto/mongo/card/delete-cards-and-ad.dto';
 export * from './lib/dto/mongo/card/find-cards-by-account-id.dto';
 export * from './lib/dto/mongo/card/save-canvases-to-s3.dto';
 
+export * from './lib/dto/mongo/city/find-cities-by-province-state.dto';
+
 export * from './lib/dto/mongo/claim/update-claim-text-edit.dto';
 
 export * from './lib/dto/mongo/close/update-close-text-edit.dto';
@@ -30,6 +32,8 @@ export * from './lib/dto/mongo/copy/update-copy-text-edit.dto';
 export * from './lib/dto/mongo/hook/update-hook-text-edit.dto';
 
 export * from './lib/dto/mongo/mask/find-masks-by-name.dto';
+
+export * from './lib/dto/mongo/province-state/find-province-states-by-country.dto';
 
 export * from './lib/dto/mongo/review/find-reviews-by-account-id.dto';
 export * from './lib/dto/mongo/review/update-review-audience.dto';
