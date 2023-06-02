@@ -19,7 +19,22 @@ export class UserMailerService {
         const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
         sendSmtpEmail.to = [{ email }];
         sendSmtpEmail.subject = 'Email Verification';
-        sendSmtpEmail.htmlContent = `<p>Please click the link below to verify your email address:</p><p><a href="${verificationLink}">${verificationLink}</a></p>`;
+
+        `
+    `;
+
+
+        sendSmtpEmail.htmlContent = `
+<p>Hi there,</p>
+<p>We're excited to welcome you to our community! You're just one step away from finalizing your registration. By verifying your email address, you ensure a secure and personalized experience on our platform.</p>
+<p>Please click the link below to verify your email address:</p>
+<p><a href="${verificationLink}">Verify Email Address</a></p>
+<p>If you did not sign up for this account, no further action is required. If you have any questions, feel free to reach out to our support team.</p>
+<p>Thank you for joining us!</p>
+<p>Cheers,</p>
+<p>The Chiro Creative Team</p>
+`;
+
         sendSmtpEmail.sender = {
             email: 'ian@chirocreative.ca',
             name: 'Chiro Creative',

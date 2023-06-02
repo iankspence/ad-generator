@@ -8,7 +8,7 @@ import { getAccounts } from "../utils/api/mongo/account/getAccountsApi";
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
 import NoAccess from '../components/loading-screen/NoAccess';
 import { useUser } from '../hooks/useUser';
-import { findAccountByUserIdApi } from '../utils/api/mongo/account/findAccountByUserIdApi';
+import { findAccountByUserId } from '../utils/api/mongo/account/findAccountByUserIdApi';
 import { deleteAccount } from '../utils/api/mongo/account/deleteAccountApi';
 import UnassignedAccountPicker from '../components/account/UnassignedAccountPicker';
 import { findAccountsByManagerId } from '../utils/api/mongo/account/findAccountsByManagerIdApi';
@@ -29,7 +29,7 @@ export function AccountPage() {
             if (!user?._id) return;
 
             if (user.roles.includes('client')) {
-                const clientAccount = await findAccountByUserIdApi({
+                const clientAccount = await findAccountByUserId({
                     userId: user._id.toString(),
                 });
                 setAccount(clientAccount);
