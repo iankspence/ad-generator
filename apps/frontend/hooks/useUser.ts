@@ -2,7 +2,7 @@ import { useEffect, useContext } from 'react';
 import { getAccounts } from '../utils/api/mongo/account/getAccountsApi';
 import { getCurrentUser } from '../utils/api/mongo/user/sign-in/getCurrentUserApi';
 import UserContext from '../contexts/UserContext';
-import { findAccountByUserId } from '../utils/api/mongo/account/findAccountByUserId';
+import { findAccountByUserId } from '../utils/api/mongo/account/findAccountByUserIdApi';
 import { findAccountsByManagerId } from '../utils/api/mongo/account/findAccountsByManagerIdApi';
 
 export const useUser = () => {

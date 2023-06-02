@@ -5,8 +5,6 @@ import UserContext from "../../contexts/UserContext";
 
 export function UnassignedAccountPicker() {
     const [unassignedAccounts, setUnassignedAccounts] = useState([]);
-    const [selectedAccount, setSelectedAccount] = useState(null);
-    const [promptMessage, setPromptMessage] = useState("");
     const { user } = useContext(UserContext);
 
     useEffect(() => {
@@ -22,8 +20,6 @@ export function UnassignedAccountPicker() {
 
     const handleAccountSelection = async (accountId) => {
         if(window.confirm('Do you want to take assignment for this account?')) {
-            const selected = unassignedAccounts.find(account => account._id.toString() === accountId.toString());
-            setSelectedAccount(selected);
 
             if(user && (user.roles.includes('admin') || user.roles.includes('content-manager')) ) {
                 await updateAccountManager({
@@ -32,7 +28,6 @@ export function UnassignedAccountPicker() {
                 });
                 const refreshedAccounts = await findUnassignedAccounts();
                 setUnassignedAccounts(refreshedAccounts);
-
             }
         }
     };

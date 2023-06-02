@@ -7,7 +7,6 @@ import { findAccountsByManagerId } from '../../utils/api/mongo/account/findAccou
 import UserContext from '../../contexts/UserContext';
 
 export function SelectAccount({ userId, account, setAccount, accounts, setAccounts }) {
-    const [isLoading, setIsLoading] = useState(true);
     const [value, setValue] = useState<AccountDocument | null>(null);
     const [isDataFetched, setIsDataFetched] = useState(false);
     const { user } = useContext(UserContext);
@@ -25,7 +24,6 @@ export function SelectAccount({ userId, account, setAccount, accounts, setAccoun
                 console.log('accounts: ', accounts)
                 if (accounts.length > 0) {
                     setAccounts(accounts);
-                    setIsLoading(false);
                     setIsDataFetched(true);
                 }
                 return;
@@ -35,7 +33,6 @@ export function SelectAccount({ userId, account, setAccount, accounts, setAccoun
                 const accounts = await getAccounts();
                 if (accounts.length > 0) {
                     setAccounts(accounts);
-                    setIsLoading(false);
                     setIsDataFetched(true);
                 }
                 return;
@@ -53,7 +50,7 @@ export function SelectAccount({ userId, account, setAccount, accounts, setAccoun
         }
     }, [account, accounts, isDataFetched]);
 
-    if (isLoading) {
+    if (!accounts) {
         return <div className="py-8" ></div>;
     }
 
