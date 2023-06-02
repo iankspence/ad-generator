@@ -4,4 +4,5 @@ export class CreateAccountDto {
     country!: string;
     provinceState!: string;
     city!: string;
+    managerUserId?: string | null;
 }

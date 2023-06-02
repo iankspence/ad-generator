@@ -7,7 +7,7 @@ import { Model } from 'mongoose';
 export class CopyService {
     constructor(@InjectModel(Copy.name) private readonly copyModel: Model<CopyDocument>) {}
 
-    async getCopiesByAccountId(accountId: string): Promise<CopyDocument[]> {
+    async findCopiesByAccountId(accountId: string): Promise<CopyDocument[]> {
         return this.copyModel.find({ accountId }).exec();
     }
 

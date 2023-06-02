@@ -10,6 +10,7 @@ export * from './lib/dto/mongo/account/delete-account.dto';
 export * from './lib/dto/mongo/account/get-text-by-account-id.dto';
 export * from './lib/dto/mongo/account/find-account-by-user-id.dto';
 export * from './lib/dto/mongo/account/update-account-logo-and-colors.dto';
+export * from './lib/dto/mongo/account/update-account-manager.dto';
 
 export * from './lib/dto/mongo/ad/find-ads-by-account-id.dto';
 

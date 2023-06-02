@@ -1,3 +1,3 @@
-export class GetTextByAccountIdDto {
+export class FindTextByAccountIdDto {
     accountId!: string;
 }

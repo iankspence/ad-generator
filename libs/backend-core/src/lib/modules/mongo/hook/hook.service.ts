@@ -7,7 +7,7 @@ import { Model } from 'mongoose';
 export class HookService {
     constructor(@InjectModel(Hook.name) private readonly hookModel: Model<HookDocument>) {}
 
-    async getHooksByAccountId(accountId: string): Promise<HookDocument[]> {
+    async findHooksByAccountId(accountId: string): Promise<HookDocument[]> {
         return this.hookModel.find({ accountId: accountId }).exec();
     }
 

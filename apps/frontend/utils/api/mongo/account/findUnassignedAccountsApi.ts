@@ -1,12 +1,11 @@
 import axios from 'axios';
 import { API_URL } from '../../../constants/apiUrl';
 
-export const getTextByAccountId = async (getTextByAccountIdDto) => {
+export const findUnassignedAccounts = async () => {
     try {
         const response = await axios({
-            method: 'post',
-            url: `${API_URL}/account/get-text-by-account-id`,
-            data: getTextByAccountIdDto,
+            method: 'get',
+            url: `${API_URL}/account/find-unassigned-client-accounts`,
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',

@@ -25,8 +25,6 @@ export class UserRegisterService {
             emailVerificationToken: uuidv4(),
         });
 
-
-
         await this.userMailerService.sendVerificationEmail(user.email, user.emailVerificationToken);
 
         await this.accountModelService.create({
@@ -35,6 +33,7 @@ export class UserRegisterService {
             country: registerUserDto.country,
             provinceState: registerUserDto.provinceState,
             city: registerUserDto.city,
+            managerUserId: null,
         });
 
         return user;

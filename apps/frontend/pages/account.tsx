@@ -10,6 +10,7 @@ import NoAccess from '../components/loading-screen/NoAccess';
 import { useUser } from '../hooks/useUser';
 import { findAccountByUserId } from '../utils/api/mongo/account/findAccountByUserId';
 import { deleteAccount } from '../utils/api/mongo/account/deleteAccountApi';
+import UnassignedAccountPicker from '../components/account/UnassignedAccountPicker';
 
 export function AccountPage() {
     const { user, account, setAccount } = useContext(UserContext);
@@ -91,9 +92,9 @@ export function AccountPage() {
                                 />
 
                                 <NewAccountForm userId={user?._id} accounts={accounts} setAccounts={setAccounts} />
-
                             </div>
 
+                            <UnassignedAccountPicker />
                             {user.roles.includes('admin') && (
                                 <div className="pt-2 text-right">
                                     <button

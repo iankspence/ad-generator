@@ -32,7 +32,7 @@ export default function NewAccountForm({ userId, accounts, setAccounts }) {
 
     return (
         <>
-            <Button variant="contained" onClick={() => setOpen(true)}>
+            <Button variant="contained" color="inherit" onClick={() => setOpen(true)}>
                 Create New Account
             </Button>
             <Dialog open={open} onClose={() => setOpen(false)}>

@@ -9,9 +9,9 @@ import {
     ClaimDocument,
     CloseDocument,
     CopyDocument, CreateAccountDto, FindAccountByUserIdDto,
-    GetTextByAccountIdDto,
+    FindTextByAccountIdDto,
     HookDocument,
-    ReviewDocument, UpdateAccountLogoAndColorsDto,
+    ReviewDocument, UpdateAccountLogoAndColorsDto, UpdateAccountManagerDto,
 } from '@monorepo/type';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -145,17 +145,23 @@ export class AccountModelService {
         return rateMdsHeader.numberOfReviews;
     }
 
-    async getTextByAccountId(getTextByAccountIdDto: GetTextByAccountIdDto): Promise<[ReviewDocument[], HookDocument[], ClaimDocument[], CloseDocument[], CopyDocument[]]> {
-        const reviews = await this.reviewService.findReviewsByAccountId(getTextByAccountIdDto.accountId);
-        const hooks = await this.hookService.getHooksByAccountId(getTextByAccountIdDto.accountId);
-        const claims = await this.claimService.getClaimsByAccountId(getTextByAccountIdDto.accountId);
-        const closes = await this.closeService.getClosesByAccountId(getTextByAccountIdDto.accountId);
-        const copies = await this.copyService.getCopiesByAccountId(getTextByAccountIdDto.accountId);
+    async findTextByAccountId(findTextByAccountIdDto: FindTextByAccountIdDto): Promise<[ReviewDocument[], HookDocument[], ClaimDocument[], CloseDocument[], CopyDocument[]]> {
+        const reviews = await this.reviewService.findReviewsByAccountId(findTextByAccountIdDto.accountId);
+        const hooks = await this.hookService.findHooksByAccountId(findTextByAccountIdDto.accountId);
+        const claims = await this.claimService.findClaimsByAccountId(findTextByAccountIdDto.accountId);
+        const closes = await this.closeService.findClosesByAccountId(findTextByAccountIdDto.accountId);
+        const copies = await this.copyService.findCopiesByAccountId(findTextByAccountIdDto.accountId);
 
         return [reviews, hooks, claims, closes, copies];
     }
-}
 
-// async deleteOneById(_id: string): Promise<Account | null> {
-//     return this.accountModel.findOneAndDelete({ _id }).exec();
-// }
+    async updateAccountManager(updateAccountManagerDto: UpdateAccountManagerDto): Promise<Account | null> {
+        return this.accountModel.findOneAndUpdate({ _id: updateAccountManagerDto.accountId }, {
+            managerUserId: updateAccountManagerDto.managerUserId,
+        }, { new: true }).exec();
+    }
+
+    async findUnassignedAccounts(): Promise<AccountDocument[]> {
+        return this.accountModel.find({ managerUserId: null }).exec();
+    }
+}

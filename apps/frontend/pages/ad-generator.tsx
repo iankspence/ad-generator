@@ -2,9 +2,9 @@ import ContentGenerator from '../components/pixi/content-generator/ContentGenera
 import TopNav from '../components/top-nav/TopNav';
 import { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';
-import { getTextByAccountId } from '../utils/api/mongo/account/getTextByAccountIdApi';
+import { findTextByAccountId } from '../utils/api/mongo/account/findTextByAccountIdApi';
 import React, { useContext, useEffect } from 'react';
-import { GetTextByAccountIdDto } from '@monorepo/type';
+import { FindTextByAccountIdDto } from '@monorepo/type';
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
 import NoAccess from '../components/loading-screen/NoAccess';
 import { useUser } from '../hooks/useUser';
@@ -18,8 +18,8 @@ function AdGeneratorPage() {
     useEffect(() => {
         if (!account) return;
         const fetchData = async () => {
-            const getTextByAccountIdDto: GetTextByAccountIdDto = {accountId: account?._id.toString()}
-            const allText = await getTextByAccountId(getTextByAccountIdDto);
+            const findTextByAccountIdDto: FindTextByAccountIdDto = {accountId: account?._id.toString()}
+            const allText = await findTextByAccountId(findTextByAccountIdDto);
 
             if (account) {
                 updateReviews(allText[0]);

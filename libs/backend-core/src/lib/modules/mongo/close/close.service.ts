@@ -7,7 +7,7 @@ import { Model } from 'mongoose';
 export class CloseService {
     constructor(@InjectModel(Close.name) private readonly closeModel: Model<CloseDocument>) {}
 
-    async getClosesByAccountId(accountId: string): Promise<CloseDocument[]> {
+    async findClosesByAccountId(accountId: string): Promise<CloseDocument[]> {
         return this.closeModel.find({ accountId: accountId }).exec();
     }
 

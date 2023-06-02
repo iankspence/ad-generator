@@ -7,7 +7,7 @@ import { Model } from 'mongoose';
 export class ClaimService {
     constructor(@InjectModel(Claim.name) private readonly claimModel: Model<ClaimDocument>) {}
 
-    async getClaimsByAccountId(accountId: string): Promise<ClaimDocument[]> {
+    async findClaimsByAccountId(accountId: string): Promise<ClaimDocument[]> {
         return this.claimModel.find({ accountId: accountId }).exec();
     }
 

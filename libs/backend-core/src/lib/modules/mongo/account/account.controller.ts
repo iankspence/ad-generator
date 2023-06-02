@@ -4,7 +4,8 @@ import {
     AccountDocument,
     AddGoogleQueryDto,
     AddRateMdsLinkDto,
-    CreateAccountDto, DeleteAccountDto, FindAccountByUserIdDto, UpdateAccountLogoAndColorsDto,
+    CreateAccountDto, DeleteAccountDto, FindAccountByUserIdDto,
+    FindTextByAccountIdDto, UpdateAccountLogoAndColorsDto, UpdateAccountManagerDto,
 } from '@monorepo/type';
 import {
     Controller,
@@ -15,12 +16,11 @@ import {
     HttpCode,
     Patch,
     UseGuards,
-    Param, Delete,
+    Delete,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { RolesGuard } from '../../auth/roles.guard';
 import { Roles } from '../../auth/roles.decorator';
-import { GetTextByAccountIdDto } from '@monorepo/type';
 
 @Controller('account')
 export class AccountController {
@@ -71,9 +71,9 @@ export class AccountController {
 
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin', 'content-manager')
-    @Post('get-text-by-account-id')
-    async getTextByAccountId(@Body() getTextByAccountIdDto: GetTextByAccountIdDto) {
-        return await this.accountModelService.getTextByAccountId(getTextByAccountIdDto);
+    @Post('find-text-by-account-id')
+    async findTextByAccountId(@Body() findTextByAccountIdDto: FindTextByAccountIdDto) {
+        return await this.accountModelService.findTextByAccountId(findTextByAccountIdDto);
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -82,10 +82,18 @@ export class AccountController {
     async updateAccountLogoAndColors(@Body() updateAccountLogoAndColorsDto: UpdateAccountLogoAndColorsDto): Promise<Account> {
         return this.accountModelService.updateAccountLogoAndColors(updateAccountLogoAndColorsDto);
     }
-}
 
-// @Delete(':_id')
-// @HttpCode(HttpStatus.NO_CONTENT)
-// async deleteOneById(@Param('_id') _id: string): Promise<void> {
-//     await this.accountModelService.deleteOneById(_id);
-// }
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'content-manager')
+    @Post('update-account-manager')
+    async updateAccountManager(@Body() updateAccountManagerDto: UpdateAccountManagerDto): Promise<Account> {
+        return this.accountModelService.updateAccountManager(updateAccountManagerDto);
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'content-manager')
+    @Get('find-unassigned-client-accounts')
+    async findUnassignedClientAccounts(): Promise<AccountDocument[]> {
+        return this.accountModelService.findUnassignedAccounts();
+    }
+}
