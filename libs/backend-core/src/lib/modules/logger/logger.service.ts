@@ -1,19 +1,22 @@
 import { Logger, Injectable, Scope } from '@nestjs/common';
 import * as winston from 'winston';
 
-@Injectable({ scope: Scope.TRANSIENT })  // The TRANSIENT scope means a new instance will be created for each injection
+@Injectable({ scope: Scope.TRANSIENT })
 export class LoggerService extends Logger {
     context?: string;
     private logger: winston.Logger;
+    private env: string;
 
     constructor() {
         super();
+        this.env = (process.env.CONFIG_ENV || 'local').toUpperCase();
+
         this.logger = winston.createLogger({
             level: 'info',
             format: winston.format.combine(
                 winston.format.timestamp(),
                 winston.format.printf(({ level, message, label, timestamp }) => {
-                    return `${timestamp} [${label}] ${level}: ${message}`;
+                    return `${timestamp} [${this.env}][${label}] ${level}: ${message}`;
                 })
             ),
             transports: [
@@ -30,7 +33,7 @@ export class LoggerService extends Logger {
             winston.format.label({ label: context }),
             winston.format.timestamp(),
             winston.format.printf(({ level, message, label, timestamp }) => {
-                return `${timestamp} [${label}] ${level}: ${message}`;
+                return `${timestamp} [${this.env}][${label}] ${level}: ${message}`;
             })
         );
     }
