@@ -1,59 +1,20 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect } from 'react';
 import TopNav from '../components/top-nav/TopNav';
 import UserContext from '../contexts/UserContext';
 import NewAccountForm from "../components/account/NewAccountForm";
 import AccountInfo from "../components/account/AccountInfo";
 import SelectAccount from "../components/account/SelectAccount";
-import { getAccounts } from "../utils/api/mongo/account/getAccountsApi";
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
 import NoAccess from '../components/loading-screen/NoAccess';
 import { useUser } from '../hooks/useUser';
-import { findAccountByUserId } from '../utils/api/mongo/account/findAccountByUserIdApi';
 import { deleteAccount } from '../utils/api/mongo/account/deleteAccountApi';
 import UnassignedAccountPicker from '../components/account/UnassignedAccountPicker';
-import { findAccountsByManagerId } from '../utils/api/mongo/account/findAccountsByManagerIdApi';
+import useAccounts from '../hooks/useAccounts';
 
 export function AccountPage() {
     const { user, account, setAccount } = useContext(UserContext);
-
-    const [accounts, setAccounts] = useState([]);
-    const [ refreshAccount, setRefreshAccount ] = useState(false);
-
+    const { accounts, refreshAccount, setRefreshAccount } = useAccounts();
     useUser();
-
-    useEffect(() => {
-
-        if (!user || !user?.roles) return;
-
-        const fetchAccounts = async () => {
-            if (!user?._id) return;
-
-            if (user.roles.includes('client')) {
-                const clientAccount = await findAccountByUserId({
-                    userId: user._id.toString(),
-                });
-                setAccount(clientAccount);
-                return;
-            }
-
-            if (user.roles.includes('content-manager')) {
-                const managedAccounts = await findAccountsByManagerId({
-                    managerUserId: user._id.toString(),
-                });
-                setAccounts(managedAccounts);
-            }
-
-            if (user.roles.includes('admin')) {
-                const allAccounts = await getAccounts();
-                setAccounts(allAccounts);
-                return;
-            }
-        };
-
-        fetchAccounts();
-
-    }, [user, refreshAccount]);
-
 
     const handleDeleteAccount = async () => {
         if (window.confirm("Are you sure you want to delete this account? This operation cannot be undone.")) {
@@ -68,7 +29,66 @@ export function AccountPage() {
         }
     };
 
-    if ( !user || !user?.roles ) return <LoadingScreen />;
+    const statusChangeCallback = (response) => {
+        console.log('statusChangeCallback');
+        console.log(response);
+        if (response.status === 'connected') {
+            testAPI();
+        } else {
+            document.getElementById('status').innerHTML = 'Please log ' +
+                'into this webpage.';
+        }
+    };
+
+    useEffect(() => {
+        console.log('useEffect: ', process.env.NEXT_PUBLIC_FACEBOOK_APP_ID);
+        if (window.FB) {
+            window.FB.XFBML.parse();
+        } else {
+            // Asynchronously load the Facebook SDK
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0&appId=" + process.env.NEXT_PUBLIC_FACEBOOK_APP_ID + "&autoLogAppEvents=1";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            // Listen for the Facebook SDK to load and then initialize it
+            window.fbAsyncInit = function () {
+                window.FB.init({
+                    appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
+                    cookie: true,
+                    xfbml: true,
+                    version: 'v17.0'
+                });
+
+                // Bind the FB.login() function to the click event of the login button
+                const loginButton = document.querySelector('.fb-login-button');
+                if (loginButton) {
+                    loginButton.addEventListener('click', function () {
+                        window.FB.login(function(response) {
+                            statusChangeCallback(response);
+                        }, { scope: 'public_profile', auth_type: 'reauthenticate', redirect_uri: 'https://f817-2604-3d09-8b83-5900-2466-216a-9964-18ab.ngrok-free.app/account' });
+                    });
+                }
+            };
+
+        }
+    }, []);
+
+    const testAPI = () => {
+        console.log('Welcome!  Fetching your information.... ');
+        window.FB.api('/me', function(response) {
+            console.log('Successful login for: ' + response.name);
+            document.getElementById('status').innerHTML =
+                'Thanks for logging in, ' + response.name + '!';
+        });
+    }
+
+    if (!user || !user?.roles) {
+        return <LoadingScreen />;
+    }
 
     if (!user?.roles.includes('admin') && !user?.roles.includes('content-manager') && !user?.roles.includes('client')) {
         return <NoAccess />;
@@ -78,30 +98,24 @@ export function AccountPage() {
         <>
             <TopNav />
             <div className="min-h-screen bg-reviewDrumLightGray flex items-center justify-center">
-
                 <div className="w-1/2 bg-white rounded-lg shadow-lg p-8">
-
-
                     { (user.roles.includes('admin') || user.roles.includes('content-manager')) ?
                         <div className="pb-8">
-
-
                             <h1 className="text-3xl font-semibold">Account</h1>
                             <p className="font-semibold py-2">Select Account:</p>
                             <div className="py-2"></div>
-
                             <div className="flex justify-between">
                                 <SelectAccount
-                                    userId={user?._id}
                                     account={account}
                                     setAccount={setAccount}
                                     accounts={accounts}
-                                    setAccounts={setAccounts}
                                 />
-
-                                <NewAccountForm userId={user?._id} accounts={accounts} setAccounts={setAccounts} />
+                                <NewAccountForm
+                                    userId={user?._id}
+                                    refreshAccount={refreshAccount}
+                                    setRefreshAccount={setRefreshAccount}
+                                />
                             </div>
-
                             <UnassignedAccountPicker />
                             {user.roles.includes('admin') && (
                                 <div className="pt-2 text-right">
@@ -118,10 +132,19 @@ export function AccountPage() {
 
                         : <></>
                     }
-
-
-
                     {account && <AccountInfo refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount}/>}
+                </div>
+                <div className="AccountPage">
+                    <div
+                        className="fb-login-button"
+                        data-width=""
+                        data-size="large"
+                        data-button-type="continue_with"
+                        data-layout="default"
+                        data-auto-logout-link="false"
+                        data-use-continue-as="true"
+                    />
+                    <div id="status"></div>
                 </div>
             </div>
         </>
