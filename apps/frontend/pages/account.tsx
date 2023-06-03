@@ -33,6 +33,7 @@ export function AccountPage() {
         console.log('statusChangeCallback');
         console.log(response);
         if (response.status === 'connected') {
+            console.log('connected');
             testAPI();
         } else {
             document.getElementById('status').innerHTML = 'Please log ' +
@@ -69,7 +70,7 @@ export function AccountPage() {
                     loginButton.addEventListener('click', function () {
                         window.FB.login(function(response) {
                             statusChangeCallback(response);
-                        }, { scope: 'public_profile', auth_type: 'reauthenticate', redirect_uri: 'https://f817-2604-3d09-8b83-5900-2466-216a-9964-18ab.ngrok-free.app/account' });
+                        }, { scope: 'public_profile', auth_type: 'reauthenticate', redirect_uri: 'https://dev.reviewdrum.com/account' });
                     });
                 }
             };
