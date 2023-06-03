@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../../../constants/apiUrl';
+import { API_URL } from '../../apiUrl';
 import { UpdateReviewAudienceDto } from '@monorepo/type';
 
 export const updateReviewAudience = async (updateReviewAudienceDto: UpdateReviewAudienceDto) => {

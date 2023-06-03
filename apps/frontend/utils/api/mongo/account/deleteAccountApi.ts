@@ -1,6 +1,6 @@
 import { DeleteAccountDto } from '@monorepo/type';
 import axios from 'axios';
-import { API_URL } from '../../../constants/apiUrl';
+import { API_URL } from '../../apiUrl';
 
 export const deleteAccount = async (deleteAccountDto: DeleteAccountDto) => {
     try {

@@ -1,6 +1,18 @@
 //@ts-check
+if (process.env.CONFIG_ENV === 'local') {
+    require('dotenv').config({ path: './apps/frontend/environments/.env.local.public' });
+    require('dotenv').config({ path: './apps/frontend/environments/.env.local.secret' });
+} else if (process.env.CONFIG_ENV === 'dev') {
+    require('dotenv').config({ path: './apps/frontend/environments/.env.dev.public' });
+    require('dotenv').config({ path: './apps/frontend/environments/.env.dev.secret' });
+} else if (process.env.CONFIG_ENV === 'staging') {
+    require('dotenv').config({ path: './apps/frontend/environments/.env.staging.public' });
+    require('dotenv').config({ path: './apps/frontend/environments/.env.staging.secret' });
+} else if (process.env.CONFIG_ENV === 'prod') {
+    require('dotenv').config({ path: './apps/frontend/environments/.env.prod.public' });
+    require('dotenv').config({ path: './apps/frontend/environments/.env.prod.secret' });
+}
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withNx } = require('@nrwl/next/plugins/with-nx');
 
 /**

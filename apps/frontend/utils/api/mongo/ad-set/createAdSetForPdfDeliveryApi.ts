@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../../../constants/apiUrl';
+import { API_URL } from '../../apiUrl';
 import { CreateAdSetForPdfDeliveryDto } from '@monorepo/type';
 
 export const createAdSetForPdfDelivery = async (createAdSetForPdfDeliveryDto: CreateAdSetForPdfDeliveryDto) => {

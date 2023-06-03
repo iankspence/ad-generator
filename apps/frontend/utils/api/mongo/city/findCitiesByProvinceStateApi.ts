@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../../../constants/apiUrl';
+import { API_URL } from '../../apiUrl';
 import { FindCitiesByProvinceStateDto } from '@monorepo/type';
 
 export const findCitiesByProvinceStateApi = async (findCitiesByProvinceStateDto: FindCitiesByProvinceStateDto) => {

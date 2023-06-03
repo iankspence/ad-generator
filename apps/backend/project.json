@@ -6,8 +6,9 @@
     "targets": {
         "build": {
             "executor": "@nrwl/webpack:webpack",
+            "defaultConfiguration": "local",
             "outputs": ["{options.outputPath}"],
-            "defaultConfiguration": "production",
+
             "options": {
                 "target": "node",
                 "compiler": "tsc",
@@ -19,22 +20,30 @@
                 "webpackConfig": "apps/backend/webpack.config.js"
             },
             "configurations": {
-                "development": {},
-                "production": {}
+                "local": {},
+                "dev": {},
+                "staging": {},
+                "prod": {}
             }
         },
         "serve": {
             "executor": "@nrwl/js:node",
-            "defaultConfiguration": "development",
+            "defaultConfiguration": "local",
             "options": {
                 "buildTarget": "backend:build"
             },
             "configurations": {
-                "development": {
-                    "buildTarget": "backend:build:development"
+                "local": {
+                    "buildTarget": "backend:build:local"
                 },
-                "production": {
-                    "buildTarget": "backend:build:production"
+                "dev": {
+                    "buildTarget": "backend:build:dev"
+                },
+                "staging": {
+                    "buildTarget": "backend:build:staging"
+                },
+                "prod": {
+                    "buildTarget": "backend:build:prod"
                 }
             }
         },

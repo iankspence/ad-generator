@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../../../constants/apiUrl';
+import { API_URL } from '../../apiUrl';
 import { UpdateAccountManagerDto } from '@monorepo/type';
 
 export const updateAccountManager = async (updateAccountManagerDto: UpdateAccountManagerDto) => {

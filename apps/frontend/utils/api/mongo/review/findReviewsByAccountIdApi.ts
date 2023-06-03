@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../../../constants/apiUrl';
+import { API_URL } from '../../apiUrl';
 import { FindReviewsByAccountIdDto } from '@monorepo/type';
 
 export const findReviewsByAccountId = async (findReviewsByAccountIdDto: FindReviewsByAccountIdDto) => {

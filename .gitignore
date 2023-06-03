@@ -41,4 +41,10 @@ Thumbs.db
 # Next.js
 .next
 
+# Environment variables
 .env
+
+.env.local.secret
+.env.dev.secret
+.env.staging.secret
+.env.prod.secret

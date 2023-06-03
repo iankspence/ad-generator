@@ -1,6 +1,6 @@
 import { FindAccountsByManagerIdDto } from '@monorepo/type';
 import axios from 'axios';
-import { API_URL } from '../../../constants/apiUrl';
+import { API_URL } from '../../apiUrl';
 
 export const findAccountsByManagerId = async (findAccountsByManagerIdDto: FindAccountsByManagerIdDto) => {
     try {

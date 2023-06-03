@@ -14,16 +14,11 @@ export class UserMailerService {
     }
 
     async sendVerificationEmail(email: string, verificationToken: string) {
-        const verificationLink = `http://localhost:4200/verify-email?emailVerificationToken=${verificationToken}`;
+        const verificationLink = `${process.env.FRONTEND_URI}/verify-email?emailVerificationToken=${verificationToken}`;
 
         const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
         sendSmtpEmail.to = [{ email }];
         sendSmtpEmail.subject = 'Email Verification';
-
-        `
-    `;
-
-
         sendSmtpEmail.htmlContent = `
 <p>Hi there,</p>
 <p>We're excited to welcome you to our community! You're just one step away from finalizing your registration. By verifying your email address, you ensure a secure and personalized experience on our platform.</p>
@@ -44,7 +39,7 @@ export class UserMailerService {
     }
 
     async sendResetPasswordEmail(email: string, resetPasswordToken: string) {
-        const resetPasswordLink = `http://localhost:4200/reset-password?resetPasswordToken=${resetPasswordToken}`;
+        const resetPasswordLink = `${process.env.FRONTEND_URI}/reset-password?resetPasswordToken=${resetPasswordToken}`;
 
         const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
         sendSmtpEmail.to = [{ email }];
