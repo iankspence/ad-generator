@@ -35,19 +35,19 @@
                 "dev": {
                     "buildTarget": "frontend:build:dev",
                     "hostname": "0.0.0.0",
-                    "port": "${PORT:-8080}",
+                    "port": 8080,
                     "dev": true
                 },
                 "staging": {
                     "buildTarget": "frontend:build:staging",
                     "hostname": "0.0.0.0",
-                    "port": "${PORT:-8080}",
+                    "port": 8080,
                     "dev": false
                 },
                 "prod": {
                     "buildTarget": "frontend:build:prod",
                     "hostname": "0.0.0.0",
-                    "port": "${PORT:-8080}",
+                    "port": 8080,
                     "dev": false
                 }
             }
