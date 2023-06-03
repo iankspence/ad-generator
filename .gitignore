@@ -48,3 +48,6 @@ Thumbs.db
 .env.dev.secret
 .env.staging.secret
 .env.prod.secret
+
+# log files
+*.log
