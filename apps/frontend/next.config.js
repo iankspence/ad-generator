@@ -1,16 +1,16 @@
 //@ts-check
 if (process.env.CONFIG_ENV === 'local') {
-    require('dotenv').config({ path: './apps/frontend/environments/.env.local.public' });
-    require('dotenv').config({ path: './apps/frontend/environments/.env.local.secret' });
+    require('dotenv').config({ path: './apps/frontend/.env.local.public' });
+    require('dotenv').config({ path: './apps/frontend/.env.local.secret' });
 } else if (process.env.CONFIG_ENV === 'dev') {
-    require('dotenv').config({ path: './apps/frontend/environments/.env.dev.public' });
-    require('dotenv').config({ path: './apps/frontend/environments/.env.dev.secret' });
+    require('dotenv').config({ path: './apps/frontend/.env.dev.public' });
+    require('dotenv').config({ path: './apps/frontend/.env.dev.secret' });
 } else if (process.env.CONFIG_ENV === 'staging') {
-    require('dotenv').config({ path: './apps/frontend/environments/.env.staging.public' });
-    require('dotenv').config({ path: './apps/frontend/environments/.env.staging.secret' });
+    require('dotenv').config({ path: './apps/frontend/.env.staging.public' });
+    require('dotenv').config({ path: './apps/frontend/.env.staging.secret' });
 } else if (process.env.CONFIG_ENV === 'prod') {
-    require('dotenv').config({ path: './apps/frontend/environments/.env.prod.public' });
-    require('dotenv').config({ path: './apps/frontend/environments/.env.prod.secret' });
+    require('dotenv').config({ path: './apps/frontend/.env.prod.public' });
+    require('dotenv').config({ path: './apps/frontend/.env.prod.secret' });
 }
 
 const { withNx } = require('@nrwl/next/plugins/with-nx');
