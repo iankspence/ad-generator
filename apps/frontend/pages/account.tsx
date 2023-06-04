@@ -70,7 +70,7 @@ export function AccountPage() {
                     loginButton.addEventListener('click', function () {
                         window.FB.login(function(response) {
                             statusChangeCallback(response);
-                        }, { scope: 'public_profile', auth_type: 'reauthenticate', redirect_uri: 'https://dev.reviewdrum.com/account' });
+                        }, { scope: 'pages_user_timezone', auth_type: 'reauthenticate', redirect_uri: 'https://dev.reviewdrum.com/account' });
                     });
                 }
             };
