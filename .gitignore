@@ -50,4 +50,6 @@ Thumbs.db
 .env.prod.secret
 
 # log files
-*.log
+combined.log
+error.log
+
