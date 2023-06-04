@@ -14,13 +14,16 @@ const PrivacyPolicy = () => {
         };
     }, []);
 
-    return (
-        <div
-            name="termly-embed"
-            data-id="288d3254-cd59-4f62-a62b-e69f2fa44daf"
-            data-type="iframe"
-        ></div>
-    );
+    // Function to create the div element with custom attributes
+    const createPolicyDiv = () => {
+        return React.createElement('div', {
+            name: 'termly-embed',
+            'data-id': '288d3254-cd59-4f62-a62b-e69f2fa44daf',
+            'data-type': 'iframe',
+        });
+    };
+
+    return createPolicyDiv();
 }
 
 export default PrivacyPolicy;
