@@ -38,8 +38,8 @@ export function PricingPage() {
         },
         {
             tier: 'Clinic',
-            description: 'Our done-for-you service for clinics with ad budget of +$20/day. We handle ad creation, posting, and data analytics for optimal ad performance.',
-            bullets: ['Full-Service Ad Management', 'Ideal for Top-Tier Clinics', 'New Creatives Cycled in Bi-Weekly'],
+            description: 'Our done-for-you service for clinics with an ad budget of +$20/day. We handle ad creation, posting, and data analytics for optimal ad performance.',
+            bullets: ['Full-Service Ad Management', 'Ideal for Top-Tier Clinics', 'Creatives + Analytics Available for Download'],
             monthly: '$399 CAD',
             annual: '$3990 CAD',
         },
