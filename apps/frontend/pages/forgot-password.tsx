@@ -1,7 +1,8 @@
 import TopNav from '../components/top-nav/TopNav';
 import { forgotPassword } from '../utils/api/mongo/user/forgot-password/forgotPasswordApi';
-import Link from 'next/link';
 import React, { useState } from 'react';
+import { TextField, Button } from '@mui/material';
+import Link from 'next/link';
 
 export function ForgotPasswordPage() {
     const [email, setEmail] = useState('');
@@ -19,32 +20,31 @@ export function ForgotPasswordPage() {
     return (
         <div>
             <TopNav />
-            <div className="bg-black min-h-screen text-white px-8 py-4">
-                <h1 className="text-3xl mb-4 mt-4 text-center font-semibold">Forgot Your Password</h1>
-                <div className="w-full max-w-md mx-auto">
-                    <form className="bg-gray-800 p-6 rounded shadow-md" onSubmit={handleSubmit}>
-                        <div className="mb-4">
-                            <label className="block text-sm font-bold mb-2">Email</label>
-                            <input
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                type="email"
-                                required
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </div>
-                        <div className="mt-4">
-                            <button className="bg-blue-500 py-2 px-4 rounded hover:bg-blue-600 w-full" type="submit">
-                                Reset Password
-                            </button>
-                        </div>
-                    </form>
-                    <div className="mt-4 text-center">
-                        <Link href="/sign-in" className="text-blue-500 hover:text-blue-700">
+            <div className="min-h-screen bg-reviewDrumLightGray flex flex-col items-center justify-start overflow-auto pt-8">
+                <h1 className="text-3xl mb-4 mt-4 text-center font-semibold text-reviewDrumDarkGray">Forgot Your Password</h1>
+                <form onSubmit={handleSubmit} className="w-full max-w-sm mx-auto mt-4 bg-white p-8 rounded-lg shadow-lg">
+                    <TextField
+                        fullWidth
+                        label="Email"
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        autoComplete="false"
+                    />
+
+                    <div className="mb-4"></div>
+
+                    <Button type="submit" variant="contained" color="inherit" className="w-full">
+                        Reset Password
+                    </Button>
+
+                    <div className="mt-6 text-center">
+                        <Link href="/sign-in" className="underline text-blue-500 hover:text-blue-700">
                             Back to Sign In
                         </Link>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     );
