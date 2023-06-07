@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { CreateCheckoutSessionDto, FindCustomerSubscriptionStatusByAccountIdDto } from '@monorepo/type';
 import { Req, Res } from '@nestjs/common';
@@ -6,6 +6,9 @@ import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import { CustomerEventService } from '../customer-event/customer-event.service';
 import { LoggerService } from '../../logger/logger.service';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
+import { RolesGuard } from '../../auth/roles.guard';
+import { Roles } from '../../auth/roles.decorator';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2022-11-15' });
 
@@ -19,6 +22,8 @@ export class CustomerController {
         this.logger.setContext('CustomerController');
     }
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('client')
     @Post('create-checkout-session')
     async createCheckoutSession(@Body() createCheckoutSessionDto: CreateCheckoutSessionDto) {
         try {
@@ -31,6 +36,8 @@ export class CustomerController {
         }
     }
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('client')
     @Post('find-customer-subscription-status-by-account-id')
     findCustomerSubscriptionStatusByAccountId(@Body() findCustomerSubscriptionStatusByAccountIdDto: FindCustomerSubscriptionStatusByAccountIdDto) {
         return this.customerService.findCustomerSubscriptionStatusByAccountId(findCustomerSubscriptionStatusByAccountIdDto.accountId);
@@ -58,7 +65,7 @@ export class CustomerController {
                 try {
                     const session = event.data.object;
                     this.logger.verbose(`checkout.session.completed event: ${session.id}`);
-                    this.logger.debug(`checkout.session.completed event (JSON stringoify): ${JSON.stringify(session, null, 2)}`);
+                    this.logger.debug(`checkout.session.completed event (JSON stringify): ${JSON.stringify(session, null, 2)}`);
 
                     const accountId = session.metadata.accountId
                     const customerId = await this.customerService.findCustomerIdByAccountId(accountId);

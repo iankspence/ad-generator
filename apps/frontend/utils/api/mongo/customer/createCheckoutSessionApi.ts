@@ -18,19 +18,15 @@ const createCheckoutSession = async (createCheckoutSessionDto: CreateCheckoutSes
         });
 
         const { id } = response.data;
-
         const stripe = await stripePromise;
-
-        // When the customer clicks on the button, redirect them to Checkout.
         const result = await stripe.redirectToCheckout({
             sessionId: id,
         });
 
         if (result.error) {
-            // If redirectToCheckout fails due to a browser or network
-            // error, display the localized error message to your customer.
             throw new Error(result.error.message);
         }
+
     } catch (error) {
         console.error('Error creating checkout session:', error);
         throw error;
