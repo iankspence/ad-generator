@@ -26,6 +26,7 @@ export class CustomerService {
     }
 
     async create(userId, accountId): Promise<CustomerDocument> {
+        this.logger.verbose(`Creating customer for accountId: ${accountId}`);
         try {
             const stripeCustomer = await this.stripe.customers.create();
 
@@ -35,7 +36,9 @@ export class CustomerService {
                 stripeCustomerId: stripeCustomer.id,
             });
 
-            return createdCustomer.save();
+            const result = await createdCustomer.save();
+            this.logger.verbose(`Created customer for accountId: ${accountId} with id: ${result._id}`);
+            return result;
         } catch (error) {
             this.logger.error(`Error creating customer for accountId: ${accountId}`, error.stack);
             throw error;
@@ -43,6 +46,7 @@ export class CustomerService {
     }
 
     async updateSubscription(stripeCustomerId: string, subscriptionId: string): Promise<CustomerDocument> {
+        this.logger.verbose(`Updating subscription for stripeCustomerId: ${stripeCustomerId}`);
         try {
             const customer = await this.customerModel.findOne({ stripeCustomerId });
             if (!customer) {
@@ -51,8 +55,9 @@ export class CustomerService {
             }
 
             customer.subscriptionId = subscriptionId;
-
-            return customer.save();
+            const savedCustomer = await customer.save();
+            this.logger.verbose(`Updated subscription for stripeCustomerId: ${stripeCustomerId}`);
+            return savedCustomer;
         } catch (error) {
             this.logger.error(`Error updating subscription for stripeCustomerId: ${stripeCustomerId}`, error.stack);
             throw error;
@@ -77,6 +82,8 @@ export class CustomerService {
             if (subscription.items?.data?.[0]?.price?.id) {
                 priceId = subscription.items.data[0].price.id;
             }
+
+            this.logger.verbose(`Subscription status for stripeCustomerId: ${stripeCustomerId} is ${subscription.status}`)
 
             return {
                 isActive: subscription.status === 'active',
@@ -107,6 +114,7 @@ export class CustomerService {
     }
 
     async createCheckoutSession(createCheckoutSessionDto: CreateCheckoutSessionDto): Promise<Stripe.Checkout.Session> {
+        this.logger.verbose(`Creating checkout session for accountId: ${createCheckoutSessionDto.accountId}`);
         const payment_method_types: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] = ['card'];
         const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [{
             price: createCheckoutSessionDto.priceId,
@@ -116,36 +124,61 @@ export class CustomerService {
         const success_url = process.env.FRONTEND_URI + '/account';
         const cancel_url = process.env.FRONTEND_URI + '/account';
 
-        const customerId = await this.findCustomerIdByAccountId(createCheckoutSessionDto.accountId);
+        try {
+            const customerId = await this.findCustomerIdByAccountId(createCheckoutSessionDto.accountId);
 
+            const session = await this.stripe.checkout.sessions.create({
+                customer: customerId,
+                payment_method_types,
+                line_items,
+                mode,
+                success_url,
+                cancel_url,
+                metadata: {
+                    accountId: createCheckoutSessionDto.accountId
+                },
+            });
 
-        return this.stripe.checkout.sessions.create({
-            customer: customerId,
-            payment_method_types,
-            line_items,
-            mode,
-            success_url,
-            cancel_url,
-            metadata: {
-            accountId: createCheckoutSessionDto.accountId
-            },
-        });
+            this.logger.verbose(`Checkout session created for accountId: ${createCheckoutSessionDto.accountId}`);
+            return session;
+        } catch (error) {
+            this.logger.error(`Error creating checkout session for accountId: ${createCheckoutSessionDto.accountId}`, error.stack);
+            throw error;
+        }
     }
+
     async assignSubscriptionIdToCustomer(customerId: string, subscriptionId: string) {
-        const customer = await this.customerModel.findOne({ stripeCustomerId: customerId });
-        if (!customer) {
-            throw new Error(`Customer with id ${customerId} not found`);
-        }
+        this.logger.verbose(`Assigning subscription id to customer: ${customerId}`);
+        try {
+            const customer = await this.customerModel.findOne({ stripeCustomerId: customerId });
+            if (!customer) {
+                this.logger.error(`Customer with id ${customerId} not found`);
+                return null;
+            }
 
-        customer.subscriptionId = subscriptionId;
-        await customer.save();
+            customer.subscriptionId = subscriptionId;
+            await customer.save();
+            this.logger.verbose(`Assigned subscription id to customer: ${customerId}`);
+        } catch (error) {
+            this.logger.error(`Error assigning subscription id to customer: ${customerId}`, error.stack);
+            throw error;
+        }
     }
-    async findCustomerIdByAccountId(accountId: string) {
-        const customer = await this.customerModel.findOne({ accountId });
-        if (!customer) {
-            throw new Error(`Customer with account id ${accountId} not found`);
-        }
 
-        return customer.stripeCustomerId;
+    async findCustomerIdByAccountId(accountId: string) {
+        this.logger.verbose(`Finding customer id by account id: ${accountId}`);
+        try {
+            const customer = await this.customerModel.findOne({ accountId });
+            if (!customer) {
+                this.logger.error(`Customer with account id ${accountId} not found`);
+                return null;
+            }
+
+            this.logger.verbose(`Found customer id: ${customer.stripeCustomerId} for account id: ${accountId}`);
+            return customer.stripeCustomerId;
+        } catch (error) {
+            this.logger.error(`Error finding customer id by account id: ${accountId}`, error.stack);
+            throw error;
+        }
     }
 }

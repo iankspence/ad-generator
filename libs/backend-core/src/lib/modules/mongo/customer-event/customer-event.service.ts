@@ -14,6 +14,24 @@ export class CustomerEventService {
         this.logger.setContext('CustomerEventService');
     }
 
+    async createCheckoutSessionCompletedEvent(session: any, eventId: string) {
+        try {
+            const customerEvent = new this.customerEventModel({
+                customerId: session.customer,
+                stripeEventId: eventId,
+                eventType: 'checkout.session.completed',
+                eventData: session,
+            });
+
+            await customerEvent.save();
+            this.logger.verbose(`Created checkout.session.completed event for customer: ${session.customer}`);
+
+        } catch (error) {
+            this.logger.error(`Failed to create checkout.session.completed event for customer: ${session.customer}`, error.stack);
+            throw error;
+        }
+    }
+
     async createInvoicePaymentSucceededEvent(invoice: any, eventId: string) {
         try {
             const customerEvent = new this.customerEventModel({
