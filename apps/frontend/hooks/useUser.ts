@@ -7,17 +7,20 @@ import { findAccountsByManagerId } from '../utils/api/mongo/account/findAccounts
 import {
     findCustomerSubscriptionStatusByAccountId,
 } from '../utils/api/mongo/customer/findCustomerSubscriptionStatusByAccountIdApi';
+import { findSubscriptionTierByPriceId } from '../utils/api/mongo/customer/findSubscriptionTierByPriceId';
 
 export const useUser = () => {
-    const { user, setUser, account, setAccount, setSubscriptionStatus } = useContext(UserContext);
+    const { user, setUser, account, setAccount, setSubscriptionStatus, setSubscriptionTier } = useContext(UserContext);
 
     const fetchAndSetSubscriptionStatus = async () => {
         if (account) {
-            const status = await findCustomerSubscriptionStatusByAccountId({
+            const { active, priceId } = await findCustomerSubscriptionStatusByAccountId({
                 accountId: account._id.toString(),
             });
-            console.log('status:', status)
-            setSubscriptionStatus(status);
+            console.log('status:', active)
+            setSubscriptionStatus(active);
+            const subscriptionTier = findSubscriptionTierByPriceId(priceId);
+            setSubscriptionTier(subscriptionTier);
         }
     };
 

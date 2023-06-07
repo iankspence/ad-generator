@@ -5,6 +5,11 @@ import { CreateCheckoutSessionDto, Customer, CustomerDocument } from '@monorepo/
 import Stripe from 'stripe';
 import { LoggerService } from '../../logger/logger.service';
 
+interface SubscriptionStatus {
+    isActive: boolean;
+    priceId: string | null;
+}
+
 @Injectable()
 export class CustomerService {
     private stripe: Stripe;
@@ -54,35 +59,45 @@ export class CustomerService {
         }
     }
 
-    async isSubscriptionActive(stripeCustomerId: string): Promise<boolean> {
+    async isSubscriptionActive(stripeCustomerId: string): Promise<SubscriptionStatus> {
         try {
             const customer = await this.customerModel.findOne({ stripeCustomerId });
             if (!customer) {
                 this.logger.error(`Customer not found for stripeCustomerId (isSubscriptionActive): ${stripeCustomerId}`);
-                return null;
+                return { isActive: false, priceId: null };
             }
 
             if (!customer.subscriptionId) {
-                return false;
+                return { isActive: false, priceId: null };
             }
 
             const subscription = await this.stripe.subscriptions.retrieve(customer.subscriptionId);
-            return subscription.status === 'active';
+
+            let priceId = null;
+            if (subscription.items?.data?.[0]?.price?.id) {
+                priceId = subscription.items.data[0].price.id;
+            }
+
+            return {
+                isActive: subscription.status === 'active',
+                priceId,
+            };
         } catch (error) {
             this.logger.error(`Error checking subscription status for stripeCustomerId: ${stripeCustomerId}`, error.stack);
             throw error;
         }
     }
 
+
     async findCustomerSubscriptionStatusByAccountId(accountId: string): Promise<{ active: boolean }> {
         try {
             return this.customerModel.findOne({ accountId }).then(customer => {
                 if (!customer) {
-                    return { active: false };
+                    return { active: false, priceId: null };
                 }
 
                 return this.isSubscriptionActive(customer.stripeCustomerId).then(active => {
-                    return { active };
+                    return { active: active.isActive, priceId: active.priceId };
                 });
             });
         } catch (error) {

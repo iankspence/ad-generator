@@ -16,7 +16,7 @@ import { PricingData, pricingData } from '../utils/constants/pricingData';
 import { PricingCard } from '../components/pricing/PricingCard';
 
 export function AccountPage() {
-    const { user, account, setAccount } = useContext(UserContext);
+    const { user, account, setAccount, subscriptionStatus, subscriptionTier } = useContext(UserContext);
     const { accounts, refreshAccount, setRefreshAccount } = useAccounts();
     const [annualPayment, setAnnualPayment] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -106,9 +106,7 @@ export function AccountPage() {
 
                         : <></>
                     }
-                    {user.roles.includes('client') && (
-                        <button onClick={handleOpenModal}>Connect Payment</button>
-                    )}
+
                     <Dialog open={openModal} onClose={handleCloseModal}>
                         <DialogTitle>Select a Plan</DialogTitle>
                         <DialogContent>
@@ -131,7 +129,7 @@ export function AccountPage() {
                         </DialogContent>
                     </Dialog>
 
-                    {account && <AccountInfo refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount}/>}
+                    {account && <AccountInfo refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount} handleOpenModal={handleOpenModal}/>}
                 </div>
             </div>
         </>
