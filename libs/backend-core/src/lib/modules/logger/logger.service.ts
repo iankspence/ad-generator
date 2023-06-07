@@ -43,9 +43,9 @@ export class LoggerService extends Logger {
         this.logger.info(message);
     }
 
-    error(message: string, trace: string) {
+    error(message: string, trace?: string) {
         super.error(message, trace);
-        this.logger.error(message);
+        this.logger.error(trace ? `${message} - ${trace}` : message);
     }
 
     warn(message: string) {

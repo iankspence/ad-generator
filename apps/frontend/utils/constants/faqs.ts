@@ -16,10 +16,6 @@ export const faqs = [
         answer: "You're not required to provide any additional information for your ads. We leverage your reviews to build impactful ad content."
     },
     {
-        question: "Are there usage restrictions on the ads?",
-        answer: "There are no usage restrictions on the ads - they are entirely yours to use as you see fit."
-    },
-    {
         question: "What happens when I change plans?",
         answer: "You can change your plan at any time. However, bear in mind that upon switching, you pay for the new plan in full and lose access to the previous one. To maintain a seamless ad delivery schedule, we recommend switching near the end of the month."
     },

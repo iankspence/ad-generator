@@ -16,12 +16,14 @@ export const useUser = () => {
             const status = await findCustomerSubscriptionStatusByAccountId({
                 accountId: account._id.toString(),
             });
+            console.log('status:', status)
             setSubscriptionStatus(status);
         }
     };
 
     useEffect(() => {
         fetchAndSetSubscriptionStatus();
+
     }, [account]);
 
     const fetchAndSetDefaultAccount = async () => {

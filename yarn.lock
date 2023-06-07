@@ -3734,6 +3734,11 @@
   dependencies:
     tslib "^2.5.0"
 
+"@stripe/stripe-js@^1.54.0":
+  version "1.54.0"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.54.0.tgz#f92f6b646533776a41bc62b650d2a03f1e282af8"
+  integrity sha512-nElTXkS+nMfDNMkWfLmyeqHQfMGJ1JjrjAVMibV61Oc/rYdUv0cKRYCi1l4ivZ5SySB3vQLcLolxbKBkbNznZA==
+
 "@svgr/babel-plugin-add-jsx-attribute@^6.5.1":
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-6.5.1.tgz#74a5d648bd0347bda99d82409d87b8ca80b9a1ba"

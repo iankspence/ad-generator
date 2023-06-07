@@ -31,6 +31,7 @@ export * from './lib/dto/mongo/close/update-close-text-edit.dto';
 
 export * from './lib/dto/mongo/copy/update-copy-text-edit.dto';
 
+export * from './lib/dto/mongo/customer/create-checkout-session.dto';
 export * from './lib/dto/mongo/customer/find-customer-subscription-status-by-account-id.dto';
 
 export * from './lib/dto/mongo/hook/update-hook-text-edit.dto';
@@ -69,6 +70,7 @@ export * from './lib/schema/close';
 export * from './lib/schema/copy';
 export * from './lib/schema/country';
 export * from './lib/schema/customer';
+export * from './lib/schema/customer-event';
 export * from './lib/schema/hook';
 export * from './lib/schema/mask';
 export * from './lib/schema/province-state';

@@ -25,11 +25,6 @@ async function bootstrap() {
 
     const app = await NestFactory.create(AppModule);
 
-    console.log('process.env.FRONTEND_URI (main): ', process.env.FRONTEND_URI)
-    console.log('process.env.BACKEND_URI (main): ', process.env.BACKEND_URI)
-    console.log('MONGODB_URI (main): ', process.env.MONGODB_URI.substring(0, 10))
-    console.log('process.env.CONFIG_ENV (main): ', process.env.CONFIG_ENV)
-
     app.enableCors({
         origin: process.env.FRONTEND_URI,
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',

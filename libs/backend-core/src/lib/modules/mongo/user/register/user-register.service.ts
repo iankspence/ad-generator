@@ -38,7 +38,7 @@ export class UserRegisterService {
             managerUserId: null,
         });
 
-        await this.customerService.create(account._id.toString());
+        await this.customerService.create(user._id.toString(), account._id.toString());
 
         return user;
     }

@@ -7,6 +7,7 @@ import { ClaimModule } from './claim/claim.module';
 import { CloseModule } from './close/close.module';
 import { CopyModule } from './copy/copy.module';
 import { CountryModule } from './country/country.module';
+import { CustomerEventModule } from './customer-event/customer-event.module';
 import { CustomerModule } from './customer/customer.module';
 import { HookModule } from './hook/hook.module';
 import { MaskModule } from './mask/mask.module';
@@ -32,6 +33,7 @@ import { Module } from '@nestjs/common';
         ProvinceStateModule,
         CityModule,
         CustomerModule,
+        CustomerEventModule,
     ],
 })
 export class MongoModule {}
