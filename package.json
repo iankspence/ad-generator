@@ -25,7 +25,7 @@
         "@nestjs/platform-express": "^9.4.2",
         "@nrwl/next": "15.8.9",
         "@nrwl/nx-cloud": "^16.0.5",
-        "@nrwl/webpack": "^16.3.2",
+        "@nrwl/webpack": "15.8.9",
         "@pixi/utils": "^7.2.4",
         "@stripe/stripe-js": "^1.54.0",
         "autoprefixer": "^10.4.14",
