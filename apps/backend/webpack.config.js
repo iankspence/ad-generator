@@ -4,11 +4,5 @@ const { composePlugins, withNx } = require('@nrwl/webpack');
 module.exports = composePlugins(withNx(), (config) => {
     // Update the webpack config as needed here.
     // e.g. `config.plugins.push(new MyPlugin())`
-
-    // Add tree-shaking
-    config.optimization = {
-        usedExports: true,
-    };
-
     return config;
 });

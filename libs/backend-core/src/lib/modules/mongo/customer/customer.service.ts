@@ -118,7 +118,8 @@ export class CustomerService {
 
         const customerId = await this.findCustomerIdByAccountId(createCheckoutSessionDto.accountId);
 
-        const session = await this.stripe.checkout.sessions.create({
+
+        return this.stripe.checkout.sessions.create({
             customer: customerId,
             payment_method_types,
             line_items,
@@ -126,20 +127,12 @@ export class CustomerService {
             success_url,
             cancel_url,
             metadata: {
-                accountId: createCheckoutSessionDto.accountId,
+            accountId: createCheckoutSessionDto.accountId
             },
         });
-
-        console.log('session (createCheckoutSession method): ', session)
-
-        return session;
     }
-
-
     async assignSubscriptionIdToCustomer(customerId: string, subscriptionId: string) {
         const customer = await this.customerModel.findOne({ stripeCustomerId: customerId });
-        console.log('assigning subscription id to customer: ', customer, subscriptionId);
-
         if (!customer) {
             throw new Error(`Customer with id ${customerId} not found`);
         }
@@ -147,16 +140,8 @@ export class CustomerService {
         customer.subscriptionId = subscriptionId;
         await customer.save();
     }
-
-
     async findCustomerIdByAccountId(accountId: string) {
-
-        console.log('findCustomerIdByAccountId (findCustomerIdByAccountId): ', accountId);
-
         const customer = await this.customerModel.findOne({ accountId });
-
-        console.log('customer (findCustomerIdByAccountId): ', customer);
-
         if (!customer) {
             throw new Error(`Customer with account id ${accountId} not found`);
         }
