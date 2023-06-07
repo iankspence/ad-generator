@@ -29,63 +29,63 @@ export function AccountPage() {
         }
     };
 
-    const statusChangeCallback = (response) => {
-        console.log('statusChangeCallback');
-        console.log(response);
-        if (response.status === 'connected') {
-            console.log('connected');
-            testAPI();
-        } else {
-            document.getElementById('status').innerHTML = 'Please log ' +
-                'into this webpage.';
-        }
-    };
+    // const statusChangeCallback = (response) => {
+    //     console.log('statusChangeCallback');
+    //     console.log(response);
+    //     if (response.status === 'connected') {
+    //         console.log('connected');
+    //         testAPI();
+    //     } else {
+    //         document.getElementById('status').innerHTML = 'Please log ' +
+    //             'into this webpage.';
+    //     }
+    // };
 
-    useEffect(() => {
-        console.log('useEffect: ', process.env.NEXT_PUBLIC_FACEBOOK_APP_ID);
-        if (window.FB) {
-            window.FB.XFBML.parse();
-        } else {
-            // Asynchronously load the Facebook SDK
-            (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0&appId=" + process.env.NEXT_PUBLIC_FACEBOOK_APP_ID + "&autoLogAppEvents=1";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-
-            // Listen for the Facebook SDK to load and then initialize it
-            window.fbAsyncInit = function () {
-                window.FB.init({
-                    appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
-                    cookie: true,
-                    xfbml: true,
-                    version: 'v17.0'
-                });
-
-                // Bind the FB.login() function to the click event of the login button
-                const loginButton = document.querySelector('.fb-login-button');
-                if (loginButton) {
-                    loginButton.addEventListener('click', function () {
-                        window.FB.login(function(response) {
-                            statusChangeCallback(response);
-                        }, { scope: 'pages_user_timezone', auth_type: 'reauthenticate', redirect_uri: 'https://dev.reviewdrum.com/account' });
-                    });
-                }
-            };
-
-        }
-    }, []);
-
-    const testAPI = () => {
-        console.log('Welcome!  Fetching your information.... ');
-        window.FB.api('/me', function(response) {
-            console.log('Successful login for: ' + response.name);
-            document.getElementById('status').innerHTML =
-                'Thanks for logging in, ' + response.name + '!';
-        });
-    }
+    // useEffect(() => {
+    //     console.log('useEffect: ', process.env.NEXT_PUBLIC_FACEBOOK_APP_ID);
+    //     if (window.FB) {
+    //         window.FB.XFBML.parse();
+    //     } else {
+    //         // Asynchronously load the Facebook SDK
+    //         (function (d, s, id) {
+    //             var js, fjs = d.getElementsByTagName(s)[0];
+    //             if (d.getElementById(id)) return;
+    //             js = d.createElement(s); js.id = id;
+    //             js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0&appId=" + process.env.NEXT_PUBLIC_FACEBOOK_APP_ID + "&autoLogAppEvents=1";
+    //             fjs.parentNode.insertBefore(js, fjs);
+    //         }(document, 'script', 'facebook-jssdk'));
+    //
+    //         // Listen for the Facebook SDK to load and then initialize it
+    //         window.fbAsyncInit = function () {
+    //             window.FB.init({
+    //                 appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
+    //                 cookie: true,
+    //                 xfbml: true,
+    //                 version: 'v17.0'
+    //             });
+    //
+    //             // Bind the FB.login() function to the click event of the login button
+    //             const loginButton = document.querySelector('.fb-login-button');
+    //             if (loginButton) {
+    //                 loginButton.addEventListener('click', function () {
+    //                     window.FB.login(function(response) {
+    //                         statusChangeCallback(response);
+    //                     }, { scope: 'pages_user_timezone', auth_type: 'reauthenticate', redirect_uri: 'https://dev.reviewdrum.com/account' });
+    //                 });
+    //             }
+    //         };
+    //
+    //     }
+    // }, []);
+    //
+    // const testAPI = () => {
+    //     console.log('Welcome!  Fetching your information.... ');
+    //     window.FB.api('/me', function(response) {
+    //         console.log('Successful login for: ' + response.name);
+    //         document.getElementById('status').innerHTML =
+    //             'Thanks for logging in, ' + response.name + '!';
+    //     });
+    // }
 
     if (!user || !user?.roles) {
         return <LoadingScreen />;

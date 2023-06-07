@@ -6,6 +6,7 @@ import { User, UserSchema } from '@monorepo/type';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CustomerModule } from '../../customer/customer.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { MongooseModule } from '@nestjs/mongoose';
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
         UserMailerModule,
         AccountModule,
+        CustomerModule,
     ],
     controllers: [UserRegisterController],
     providers: [UserRegisterService],

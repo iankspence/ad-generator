@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
+import { CustomerService } from '../../customer/customer.service';
 
 @Injectable()
 export class UserRegisterService {
@@ -13,6 +14,7 @@ export class UserRegisterService {
         @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
         private readonly accountModelService: AccountModelService,
         private readonly userMailerService: UserMailerService,
+        private readonly customerService: CustomerService,
     ) {}
 
     async register(registerUserDto: RegisterUserDto): Promise<UserDocument> {
@@ -27,7 +29,7 @@ export class UserRegisterService {
 
         await this.userMailerService.sendVerificationEmail(user.email, user.emailVerificationToken);
 
-        await this.accountModelService.create({
+        const account = await this.accountModelService.create({
             userId: user._id.toString(),
             companyName: user.companyName,
             country: registerUserDto.country,
@@ -35,6 +37,8 @@ export class UserRegisterService {
             city: registerUserDto.city,
             managerUserId: null,
         });
+
+        await this.customerService.create(account._id.toString());
 
         return user;
     }

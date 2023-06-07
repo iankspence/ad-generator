@@ -1,12 +1,28 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { getAccounts } from '../utils/api/mongo/account/getAccountsApi';
 import { getCurrentUser } from '../utils/api/mongo/user/sign-in/getCurrentUserApi';
 import UserContext from '../contexts/UserContext';
 import { findAccountByUserId } from '../utils/api/mongo/account/findAccountByUserIdApi';
 import { findAccountsByManagerId } from '../utils/api/mongo/account/findAccountsByManagerIdApi';
+import {
+    findCustomerSubscriptionStatusByAccountId,
+} from '../utils/api/mongo/customer/findCustomerSubscriptionStatusByAccountIdApi';
 
 export const useUser = () => {
-    const { user, setUser, account, setAccount } = useContext(UserContext);
+    const { user, setUser, account, setAccount, setSubscriptionStatus } = useContext(UserContext);
+
+    const fetchAndSetSubscriptionStatus = async () => {
+        if (account) {
+            const status = await findCustomerSubscriptionStatusByAccountId({
+                accountId: account._id.toString(),
+            });
+            setSubscriptionStatus(status);
+        }
+    };
+
+    useEffect(() => {
+        fetchAndSetSubscriptionStatus();
+    }, [account]);
 
     const fetchAndSetDefaultAccount = async () => {
         if (!account && user && user?._id && user?.roles) {
@@ -38,7 +54,6 @@ export const useUser = () => {
                 }
                 return;
             }
-
         }
     };
 

@@ -35,7 +35,7 @@ export class AccountModelService {
         private readonly cardService: CardService,
     ) {}
 
-    async create(createAccountDto: CreateAccountDto): Promise<Account> {
+    async create(createAccountDto: CreateAccountDto): Promise<AccountDocument> {
         const createdAccount = new this.accountModel(createAccountDto);
         return createdAccount.save();
     }

@@ -6,6 +6,7 @@ import * as bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import * as process from 'process';
 
+
 if (process.env.CONFIG_ENV === 'local') {
     require('dotenv').config({ path: './apps/backend/.env.local.public' });
     require('dotenv').config({ path: './apps/backend/.env.local.secret' });
@@ -36,6 +37,12 @@ async function bootstrap() {
     });
 
     app.use(cookieParser());
+
+    app.use(bodyParser.json({
+        verify: (req, res, buf) => {
+            req['rawBody'] = buf;
+        }
+    }));
 
     const globalPrefix = 'api';
     app.setGlobalPrefix(globalPrefix);
