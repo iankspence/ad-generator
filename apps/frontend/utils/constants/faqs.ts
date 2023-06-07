@@ -1,7 +1,7 @@
 export const faqs = [
     {
         question: "Are there any setup fees?",
-        answer: "There are no hidden setup fees. The costs involved are solely the monthly payments and, for the Clinic tier, a daily ad spend of $20 or more."
+        answer: "There are no hidden setup fees. For the Clinic tier, we recommend a daily ad budget of $20 or more for best results."
     },
     {
         question: "How long will my ads take to create?",
