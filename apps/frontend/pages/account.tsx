@@ -16,7 +16,7 @@ import { PricingData, pricingData } from '../utils/constants/pricingData';
 import { PricingCard } from '../components/pricing/PricingCard';
 
 export function AccountPage() {
-    const { user, account, setAccount, subscriptionStatus, subscriptionTier } = useContext(UserContext);
+    const { user, account, setAccount } = useContext(UserContext);
     const { accounts, refreshAccount, setRefreshAccount } = useAccounts();
     const [annualPayment, setAnnualPayment] = useState(false);
     const [openModal, setOpenModal] = useState(false);

@@ -113,8 +113,8 @@ export class CustomerService {
             quantity: 1
         }];
         const mode = 'subscription';
-        const success_url = 'http://localhost:4200/account';
-        const cancel_url = 'http://localhost:4200/account';
+        const success_url = process.env.FRONTEND_URI + '/account';
+        const cancel_url = process.env.FRONTEND_URI + '/account';
 
         const customerId = await this.findCustomerIdByAccountId(createCheckoutSessionDto.accountId);
 
