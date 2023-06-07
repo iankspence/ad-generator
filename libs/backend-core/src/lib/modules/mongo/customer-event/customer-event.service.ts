@@ -16,6 +16,9 @@ export class CustomerEventService {
 
     async createCheckoutSessionCompletedEvent(session: any, eventId: string) {
         try {
+
+            this.logger.verbose(`Creating checkout.session.completed event for customer: ${session.customer}`);
+
             const customerEvent = new this.customerEventModel({
                 customerId: session.customer,
                 stripeEventId: eventId,
