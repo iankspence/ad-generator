@@ -17,11 +17,18 @@ const createCheckoutSession = async (createCheckoutSessionDto: CreateCheckoutSes
             },
         });
 
+        console.log('creating checkout session response: ', response.data)
+
         const { id } = response.data;
         const stripe = await stripePromise;
         const result = await stripe.redirectToCheckout({
             sessionId: id,
         });
+
+        console.log(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY.substring(0, 10))
+        console.log('id: ', id)
+        console.log('stripe: ', stripe)
+        console.log('result: ', result)
 
         if (result.error) {
             throw new Error(result.error.message);
