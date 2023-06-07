@@ -7,6 +7,8 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 const createCheckoutSession = async (createCheckoutSessionDto: CreateCheckoutSessionDto) => {
     try {
+        console.log('createCheckoutSessionDto (createCheckoutSessionApi): ', createCheckoutSessionDto)
+
         const response = await axios({
             method: 'post',
             url: `${API_URL}/customer/create-checkout-session`,
