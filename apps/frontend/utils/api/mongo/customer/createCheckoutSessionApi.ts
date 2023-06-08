@@ -3,13 +3,10 @@ import { loadStripe } from '@stripe/stripe-js';
 import { API_URL } from '../../apiUrl';
 import { CreateCheckoutSessionDto } from '@monorepo/type';
 
-console.log('Stripe Key:', process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const createCheckoutSession = async (createCheckoutSessionDto: CreateCheckoutSessionDto) => {
     try {
-        console.log('createCheckoutSessionDto (createCheckoutSessionApi): ', createCheckoutSessionDto)
-
         const response = await axios({
             method: 'post',
             url: `${API_URL}/customer/create-checkout-session`,
@@ -20,18 +17,13 @@ const createCheckoutSession = async (createCheckoutSessionDto: CreateCheckoutSes
             },
         });
 
-        console.log('creating checkout session response: ', response.data)
-
         const { id } = response.data;
         const stripe = await stripePromise;
         const result = await stripe.redirectToCheckout({
             sessionId: id,
         });
 
-        console.log(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY.substring(0, 10))
-        console.log('id: ', id)
-        console.log('stripe: ', stripe)
-        console.log('result: ', result)
+        console.log(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY.substring(0, 10));
 
         if (result.error) {
             throw new Error(result.error.message);

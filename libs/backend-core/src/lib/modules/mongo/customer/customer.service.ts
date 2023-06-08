@@ -83,8 +83,6 @@ export class CustomerService {
                 priceId = subscription.items.data[0].price.id;
             }
 
-            this.logger.verbose(`Subscription status for stripeCustomerId: ${stripeCustomerId} is ${subscription.status}`)
-
             return {
                 isActive: subscription.status === 'active',
                 priceId,
@@ -94,7 +92,6 @@ export class CustomerService {
             throw error;
         }
     }
-
 
     async findCustomerSubscriptionStatusByAccountId(accountId: string): Promise<{ active: boolean }> {
         try {
