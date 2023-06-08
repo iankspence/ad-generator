@@ -15,9 +15,6 @@ export class CustomerEvent {
     @Prop({ required: true })
     stripeEventId!: string;
 
-    @Prop({ required: false, default: null })
-    subscriptionId?: string;
-
     @Prop({ type: {}, required: false })
     eventData?: Record<string, any>;
 }
