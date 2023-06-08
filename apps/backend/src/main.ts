@@ -47,6 +47,7 @@ async function bootstrap() {
 
     const port = process.env.PORT || 3333;
     await app.listen(port);
+
     Logger.log(`🚀 Application is running on ${process.env.BACKEND_URI}/${globalPrefix}`);
 }
 

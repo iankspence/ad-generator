@@ -24,7 +24,7 @@ export class CustomerEventService {
             });
 
             await customerEvent.save();
-            this.logger.verbose(`Created customer event for customer: ${customer.id}`);
+            this.logger.log(`Created customer event for customer: ${customer.id}`);
         } catch (error) {
             this.logger.error(`Failed to create customer event for customer: ${customer.id}`, error.stack);
             throw error;
@@ -44,7 +44,7 @@ export class CustomerEventService {
             });
 
             await customerEvent.save();
-            this.logger.verbose(`Created checkout.session.completed event for customer: ${session.customer}`);
+            this.logger.log(`Created checkout.session.completed event for customer: ${session.customer}`);
 
         } catch (error) {
             this.logger.error(`Failed to create checkout.session.completed event for customer: ${session.customer}`, error.stack);
@@ -62,7 +62,7 @@ export class CustomerEventService {
             });
 
             await customerEvent.save();
-            this.logger.verbose(`Created invoice.payment_succeeded event for customer: ${invoice.customer}`);
+            this.logger.log(`Created invoice.payment_succeeded event for customer: ${invoice.customer}`);
         } catch (error) {
             this.logger.error(`Failed to create invoice.payment_succeeded event for customer: ${invoice.customer}`, error.stack);
             throw error;
@@ -79,7 +79,7 @@ export class CustomerEventService {
             });
 
             await customerEvent.save();
-            this.logger.verbose(`Created customer.subscription.created event for customer: ${subscription.customer}`);
+            this.logger.log(`Created customer.subscription.created event for customer: ${subscription.customer}`);
         } catch (error) {
             this.logger.error(`Failed to create customer.subscription.created event for customer: ${subscription.customer}`, error.stack);
             throw error;
@@ -96,7 +96,7 @@ export class CustomerEventService {
             });
 
             await customerEvent.save();
-            this.logger.verbose(`Created customer.subscription.updated event for customer: ${subscription.customer}`);
+            this.logger.log(`Created customer.subscription.updated event for customer: ${subscription.customer}`);
         } catch (error) {
             this.logger.error(`Failed to create customer.subscription.updated event for customer: ${subscription.customer}`, error.stack);
             throw error;
@@ -113,7 +113,7 @@ export class CustomerEventService {
             });
 
             await customerEvent.save();
-            this.logger.verbose(`Created customer.subscription.deleted event for customer: ${subscription.customer}`);
+            this.logger.log(`Created customer.subscription.deleted event for customer: ${subscription.customer}`);
         } catch (error) {
             this.logger.error(`Failed to create customer.subscription.deleted event for customer: ${subscription.customer}`, error.stack);
             throw error;
