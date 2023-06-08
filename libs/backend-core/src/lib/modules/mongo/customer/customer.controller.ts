@@ -28,7 +28,7 @@ export class CustomerController {
     async createCheckoutSession(@Body() createCheckoutSessionDto: CreateCheckoutSessionDto) {
         try {
             const checkoutSession = await this.customerService.createCheckoutSession(createCheckoutSessionDto);
-            this.logger.verbose(`Checkout session created: ${checkoutSession.id}`);
+            this.logger.log(`Checkout session created: ${checkoutSession.id}`);
             return checkoutSession
         } catch (error) {
             this.logger.error('Error creating checkout session', error.stack);
@@ -63,7 +63,7 @@ export class CustomerController {
             case 'customer.created':
                 try {
                     const customer = event.data.object;
-                    this.logger.verbose(`customer.created event: ${customer.id}`);
+                    this.logger.log(`customer.created event: ${customer.id}`);
                     await this.customerEventService.createCustomerEvent(customer, event.id);
                     status = 200;
                     message = 'Customer created';
@@ -78,7 +78,7 @@ export class CustomerController {
             case 'checkout.session.completed':
                 try {
                     const session = event.data.object;
-                    this.logger.verbose(`checkout.session.completed event: ${session.id}`);
+                    this.logger.log(`checkout.session.completed event: ${session.id}`);
 
                     const accountId = session.metadata.accountId
                     const customerId = await this.customerService.findCustomerIdByAccountId(accountId);
@@ -109,7 +109,7 @@ export class CustomerController {
                 try {
                     const invoice = event.data.object;
                     await this.customerEventService.createInvoicePaymentSucceededEvent(invoice, event.id);
-                    this.logger.verbose(`Invoice payment succeeded event: ${invoice.id}`);
+                    this.logger.log(`Invoice payment succeeded event: ${invoice.id}`);
                     message = 'Invoice payment succeeded';
                 } catch (error) {
                     this.logger.error('Error handling invoice payment succeeded event:', error.stack);
@@ -122,7 +122,7 @@ export class CustomerController {
                 try {
                     const subscription = event.data.object;
                     await this.customerEventService.createSubscriptionCreatedEvent(subscription, event.id);
-                    this.logger.verbose(`Customer subscription created event: ${subscription.id}`);
+                    this.logger.log(`Customer subscription created event: ${subscription.id}`);
                     message = 'Customer subscription created';
                 } catch (error) {
                     this.logger.error('Error handling subscription created event:', error.stack);
@@ -136,7 +136,7 @@ export class CustomerController {
                     const subscription = event.data.object;
                     await this.customerEventService.createSubscriptionUpdatedEvent(subscription, event.id);
                     await this.customerService.updateSubscription(subscription.customer, subscription.id);
-                    this.logger.verbose(`Customer subscription updated event: ${subscription.id}`);
+                    this.logger.log(`Customer subscription updated event: ${subscription.id}`);
                     message = 'Customer subscription updated';
                 } catch (error) {
                     this.logger.error('Error handling subscription updated event:', error.stack);
@@ -149,7 +149,7 @@ export class CustomerController {
                 try {
                     const subscription = event.data.object;
                     await this.customerEventService.createSubscriptionDeletedEvent(subscription, event.id);
-                    this.logger.verbose(`Customer subscription deleted event: ${subscription.id}`);
+                    this.logger.log(`Customer subscription deleted event: ${subscription.id}`);
                     message = 'Customer subscription deleted';
                 } catch (error) {
                     this.logger.error('Error handling subscription deleted event:', error.stack);
