@@ -36,7 +36,7 @@ export class CustomerService {
             });
 
             const result = await createdCustomer.save();
-            this.logger.verbose(`Created customer for accountId: ${accountId} with id: ${result._id}`);
+            this.logger.log(`Created customer for accountId: ${accountId} with id: ${result._id}`);
             return result;
         } catch (error) {
             this.logger.error(`Error creating customer for accountId: ${accountId}`, error.stack);
@@ -133,7 +133,7 @@ export class CustomerService {
                 },
             });
 
-            this.logger.verbose(`Checkout session created for accountId: ${createCheckoutSessionDto.accountId}`);
+            this.logger.log(`Checkout session created for accountId: ${createCheckoutSessionDto.accountId}`);
             return session;
         } catch (error) {
             this.logger.error(`Error creating checkout session for accountId: ${createCheckoutSessionDto.accountId}`, error.stack);
@@ -151,7 +151,7 @@ export class CustomerService {
 
             customer.subscriptionId = subscriptionId;
             await customer.save();
-            this.logger.verbose(`Assigned subscription id to customer: ${customerId}`);
+            this.logger.log(`Assigned subscription id to customer: ${customerId}`);
         } catch (error) {
             this.logger.error(`Error assigning subscription id to customer: ${customerId}`, error.stack);
             throw error;
