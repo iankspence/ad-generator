@@ -12,9 +12,6 @@ import { Roles } from '../../auth/roles.decorator';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2022-11-15' });
 
-console.log('stripe secret: ', process.env.STRIPE_SECRET_KEY.substring(0, 10))
-console.log('stripe webhook secret: ', process.env.STRIPE_WEBHOOK_SECRET.substring(0, 10))
-
 @Controller('customer')
 export class CustomerController {
     constructor(
