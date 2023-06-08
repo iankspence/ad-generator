@@ -65,7 +65,6 @@ export class CustomerController {
                 try {
                     const session = event.data.object;
                     this.logger.verbose(`checkout.session.completed event: ${session.id}`);
-                    this.logger.debug(`checkout.session.completed event (JSON stringify): ${JSON.stringify(session, null, 2)}`);
 
                     const accountId = session.metadata.accountId
                     const customerId = await this.customerService.findCustomerIdByAccountId(accountId);
