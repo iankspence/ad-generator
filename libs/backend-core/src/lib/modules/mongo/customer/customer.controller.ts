@@ -60,6 +60,21 @@ export class CustomerController {
 
         switch (event.type) {
 
+            case 'customer.created':
+                try {
+                    const customer = event.data.object;
+                    this.logger.verbose(`customer.created event: ${customer.id}`);
+                    await this.customerEventService.createCustomerEvent(customer, event.id);
+                    status = 200;
+                    message = 'Customer created';
+                }
+                catch (error) {
+                    this.logger.error('Error handling customer.created event:', error.stack);
+                    status = 500;
+                    message = 'Error handling customer.created event';
+                }
+                break;
+
             case 'checkout.session.completed':
                 try {
                     const session = event.data.object;

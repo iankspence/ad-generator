@@ -14,6 +14,23 @@ export class CustomerEventService {
         this.logger.setContext('CustomerEventService');
     }
 
+    async createCustomerEvent(customer: any, eventId: string) {
+        try {
+            const customerEvent = new this.customerEventModel({
+                customerId: customer.id,
+                stripeEventId: eventId,
+                eventType: 'customer.created',
+                eventData: customer,
+            });
+
+            await customerEvent.save();
+            this.logger.verbose(`Created customer event for customer: ${customer.id}`);
+        } catch (error) {
+            this.logger.error(`Failed to create customer event for customer: ${customer.id}`, error.stack);
+            throw error;
+        }
+    }
+
     async createCheckoutSessionCompletedEvent(session: any, eventId: string) {
         try {
 
