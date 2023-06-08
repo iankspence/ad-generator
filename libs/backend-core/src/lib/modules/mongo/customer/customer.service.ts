@@ -45,7 +45,6 @@ export class CustomerService {
     }
 
     async updateSubscription(stripeCustomerId: string, subscriptionId: string): Promise<CustomerDocument> {
-        this.logger.verbose(`Updating subscription for stripeCustomerId: ${stripeCustomerId}`);
         try {
             const customer = await this.customerModel.findOne({ stripeCustomerId });
             if (!customer) {
@@ -55,7 +54,7 @@ export class CustomerService {
 
             customer.subscriptionId = subscriptionId;
             const savedCustomer = await customer.save();
-            this.logger.verbose(`Updated subscription for stripeCustomerId: ${stripeCustomerId}`);
+            this.logger.log(`Updated subscription for stripeCustomerId: ${stripeCustomerId}`);
             return savedCustomer;
         } catch (error) {
             this.logger.error(`Error updating subscription for stripeCustomerId: ${stripeCustomerId}`, error.stack);
