@@ -1,16 +1,13 @@
 import { Logger, Injectable, Scope } from '@nestjs/common';
-import { Logtail } from "@logtail/node";
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class LoggerService extends Logger {
     context?: string;
-    private env: string;
-    private logtail: Logtail;
+    private readonly env: string;
 
     constructor() {
         super();
         this.env = (process.env.CONFIG_ENV || 'local').toUpperCase();
-        this.logtail = new Logtail(process.env.LOG_SOURCE_TOKEN);
     }
 
     setContext(context: string) {
