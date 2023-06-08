@@ -22,7 +22,7 @@ export class CustomerService {
             apiVersion: "2022-11-15",
         });
 
-        this.logger.setContext('CustomerService'); // Set the context for the logger
+        this.logger.setContext('CustomerService');
     }
 
     async create(userId, accountId): Promise<CustomerDocument> {
@@ -119,8 +119,10 @@ export class CustomerService {
         const cancel_url = process.env.FRONTEND_URI + '/account';
 
         try {
+            this.logger.verbose(`Creating checkout session for accountId: ${createCheckoutSessionDto.accountId}`);
             const customerId = await this.findCustomerIdByAccountId(createCheckoutSessionDto.accountId);
 
+            this.logger.verbose(`Found customer id: ${customerId} for accountId: ${createCheckoutSessionDto.accountId}`);
             const session = await this.stripe.checkout.sessions.create({
                 customer: customerId,
                 payment_method_types,

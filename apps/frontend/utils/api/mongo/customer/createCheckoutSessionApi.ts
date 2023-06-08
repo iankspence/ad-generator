@@ -5,6 +5,8 @@ import { CreateCheckoutSessionDto } from '@monorepo/type';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
+console.log(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY.substring(0, 10));
+
 const createCheckoutSession = async (createCheckoutSessionDto: CreateCheckoutSessionDto) => {
     try {
         const response = await axios({
