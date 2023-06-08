@@ -26,7 +26,6 @@ export class CustomerService {
     }
 
     async create(userId, accountId): Promise<CustomerDocument> {
-        this.logger.verbose(`Creating customer for accountId: ${accountId}`);
         try {
             const stripeCustomer = await this.stripe.customers.create();
 
@@ -111,7 +110,6 @@ export class CustomerService {
     }
 
     async createCheckoutSession(createCheckoutSessionDto: CreateCheckoutSessionDto): Promise<Stripe.Checkout.Session> {
-        this.logger.verbose(`Creating checkout session for accountId: ${createCheckoutSessionDto.accountId}`);
         const payment_method_types: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] = ['card'];
         const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [{
             price: createCheckoutSessionDto.priceId,
@@ -145,7 +143,6 @@ export class CustomerService {
     }
 
     async assignSubscriptionIdToCustomer(customerId: string, subscriptionId: string) {
-        this.logger.verbose(`Assigning subscription id to customer: ${customerId}`);
         try {
             const customer = await this.customerModel.findOne({ stripeCustomerId: customerId });
             if (!customer) {
@@ -163,7 +160,6 @@ export class CustomerService {
     }
 
     async findCustomerIdByAccountId(accountId: string) {
-        this.logger.verbose(`Finding customer id by account id: ${accountId}`);
         try {
             const customer = await this.customerModel.findOne({ accountId });
             if (!customer) {
@@ -171,7 +167,6 @@ export class CustomerService {
                 return null;
             }
 
-            this.logger.verbose(`Found customer id: ${customer.stripeCustomerId} for account id: ${accountId}`);
             return customer.stripeCustomerId;
         } catch (error) {
             this.logger.error(`Error finding customer id by account id: ${accountId}`, error.stack);

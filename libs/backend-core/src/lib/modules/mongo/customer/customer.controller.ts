@@ -53,7 +53,6 @@ export class CustomerController {
 
         try {
             event = stripe.webhooks.constructEvent(request['rawBody'], sig, process.env.STRIPE_WEBHOOK_SECRET);
-            this.logger.verbose(`Stripe webhook event: ${event}`);
         } catch (err) {
             this.logger.error(`Error constructing stripe webhook event: ${err.message}`, err.stack);
             return response.status(400).send(`Webhook Error: ${err.message}`);
@@ -150,7 +149,6 @@ export class CustomerController {
                 message = `Unhandled event type ${event.type}`;
         }
 
-        this.logger.verbose(`Success: ${event.id}`);
         return response.status(status).send(message);
     }
 }
