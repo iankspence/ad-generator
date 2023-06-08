@@ -28,6 +28,10 @@ export class UserSignInService {
 
     async signIn(user: any): Promise<{ user: any; token: string }> {
         this.logger.log(`Sign in attempt for user: ${user._doc.email}`);
+        this.logger.warn(`Sign in attempt for user: ${user._doc.email}`);
+        // this.logger.info(`Sign in attempt for user: ${user._doc.email}`);
+        this.logger.error(`Sign in attempt for user: ${user._doc.email}`);
+        this.logger.verbose(`Sign in attempt for user: ${user._doc.email}`);
 
         const result = {
             user: {

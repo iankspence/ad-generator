@@ -1,65 +1,44 @@
 import { Logger, Injectable, Scope } from '@nestjs/common';
-import * as winston from 'winston';
+import { Logtail } from "@logtail/node";
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class LoggerService extends Logger {
     context?: string;
-    private logger: winston.Logger;
     private env: string;
+    private logtail: Logtail;
 
     constructor() {
         super();
         this.env = (process.env.CONFIG_ENV || 'local').toUpperCase();
-
-        this.logger = winston.createLogger({
-            level: 'info',
-            format: winston.format.combine(
-                winston.format.timestamp(),
-                winston.format.printf(({ level, message, label, timestamp }) => {
-                    return `${timestamp} [${this.env}][${label}] ${level}: ${message}`;
-                })
-            ),
-            transports: [
-                new winston.transports.Console(),
-                new winston.transports.File({ filename: 'error.log', level: 'error' }),
-                new winston.transports.File({ filename: 'combined.log' }),
-            ],
-        });
+        this.logtail = new Logtail(process.env.LOG_SOURCE_TOKEN);
     }
 
     setContext(context: string) {
         this.context = context;
-        this.logger.format = winston.format.combine(
-            winston.format.label({ label: context }),
-            winston.format.timestamp(),
-            winston.format.printf(({ level, message, label, timestamp }) => {
-                return `${timestamp} [${this.env}][${label}] ${level}: ${message}`;
-            })
-        );
     }
 
-    log(message: string) {
+    async log(message: string) {
         super.log(message);
-        this.logger.info(message);
+        await this.logtail.log(message, 'LOG', {level: 'LOG',  env: this.env, context: this.context});
     }
 
-    error(message: string, trace?: string) {
+    async error(message: string, trace?: string) {
         super.error(message, trace);
-        this.logger.error(trace ? `${message} - ${trace}` : message);
+        await this.logtail.error(message, {level: 'ERROR', env: this.env, context: this.context});
     }
 
-    warn(message: string) {
+    async warn(message: string) {
         super.warn(message);
-        this.logger.warn(message);
+        await this.logtail.warn(message, {level: 'WARN', env: this.env, context: this.context});
     }
 
-    debug(message: string) {
+    async debug(message: string) {
         super.debug(message);
-        this.logger.debug(message);
+        await this.logtail.debug(message, {level: 'DEBUG', env: this.env, context: this.context});
     }
 
-    verbose(message: string) {
+    async verbose(message: string) {
         super.verbose(message);
-        this.logger.verbose(message);
+        await this.logtail.info(message, {level: 'VERBOSE', env: this.env, context: this.context});
     }
 }

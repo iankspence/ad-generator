@@ -1,41 +1,7 @@
-2023-06-03T19:08:19.135Z [UserSignInService] info: Sign in attempt for user: ian@chirocreative.ca
-2023-06-03T19:08:19.140Z [UserSignInService] info: Sign in successful for user: ian@chirocreative.ca
-2023-06-07T01:05:21.578Z [LOCAL][CustomerEventService] error: Failed to create invoice.payment_succeeded event for customer: cus_O2FIMQnMjgRwGk - ValidationError: CustomerEvent validation failed: stripeEventId: Path `stripeEventId` is required.
-    at model.Document.invalidate (/Users/ianspence/Desktop/codebase/monorepo/node_modules/mongoose/lib/document.js:3147:32)
-    at /Users/ianspence/Desktop/codebase/monorepo/node_modules/mongoose/lib/document.js:2940:17
-    at /Users/ianspence/Desktop/codebase/monorepo/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-2023-06-07T03:31:04.599Z [LOCAL][UserSignInService] info: Sign in attempt for user: ian@chirocreative.ca
-2023-06-07T03:31:04.608Z [LOCAL][UserSignInService] info: Sign in successful for user: ian@chirocreative.ca
-2023-06-07T03:33:00.784Z [LOCAL][UserSignInService] info: Sign in attempt for user: ian@reviewdrum.com
-2023-06-07T03:33:00.786Z [LOCAL][UserSignInService] info: Sign in successful for user: ian@reviewdrum.com
-2023-06-07T03:51:57.712Z [LOCAL][UserSignInService] info: Sign in attempt for user: ian@reviewdrum.com
-2023-06-07T03:51:57.718Z [LOCAL][UserSignInService] info: Sign in successful for user: ian@reviewdrum.com
-2023-06-07T04:29:05.792Z [LOCAL][CustomerEventService] error: Failed to create customer.subscription.created event for customer: cus_O2IaDXURyQELU2 - ValidationError: CustomerEvent validation failed: stripeEventId: Path `stripeEventId` is required.
-    at model.Document.invalidate (/Users/ianspence/Desktop/codebase/monorepo/node_modules/mongoose/lib/document.js:3147:32)
-    at /Users/ianspence/Desktop/codebase/monorepo/node_modules/mongoose/lib/document.js:2940:17
-    at /Users/ianspence/Desktop/codebase/monorepo/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-2023-06-07T04:29:06.023Z [LOCAL][CustomerEventService] error: Failed to create invoice.payment_succeeded event for customer: cus_O2IaDXURyQELU2 - ValidationError: CustomerEvent validation failed: stripeEventId: Path `stripeEventId` is required.
-    at model.Document.invalidate (/Users/ianspence/Desktop/codebase/monorepo/node_modules/mongoose/lib/document.js:3147:32)
-    at /Users/ianspence/Desktop/codebase/monorepo/node_modules/mongoose/lib/document.js:2940:17
-    at /Users/ianspence/Desktop/codebase/monorepo/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-2023-06-07T04:29:06.094Z [LOCAL][CustomerEventService] error: Failed to create customer.subscription.updated event for customer: cus_O2IaDXURyQELU2 - ValidationError: CustomerEvent validation failed: stripeEventId: Path `stripeEventId` is required.
-    at model.Document.invalidate (/Users/ianspence/Desktop/codebase/monorepo/node_modules/mongoose/lib/document.js:3147:32)
-    at /Users/ianspence/Desktop/codebase/monorepo/node_modules/mongoose/lib/document.js:2940:17
-    at /Users/ianspence/Desktop/codebase/monorepo/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-2023-06-07T04:36:01.375Z [LOCAL][CustomerService] error: Customer not found for stripeCustomerId: cus_O2IhAbhAJ12aLt
-2023-06-07T05:08:23.577Z [LOCAL][UserSignInService] info: Sign in attempt for user: ian@chirocreative.ca
-2023-06-07T05:08:23.583Z [LOCAL][UserSignInService] info: Sign in successful for user: ian@chirocreative.ca
-2023-06-07T05:08:50.637Z [LOCAL][UserSignInService] info: Sign in attempt for user: ian@reviewdrum.com
-2023-06-07T05:08:50.639Z [LOCAL][UserSignInService] info: Sign in successful for user: ian@reviewdrum.com
-2023-06-07T05:12:06.590Z [LOCAL][UserSignInService] info: Sign in attempt for user: ian@reviewdrum.com
-2023-06-07T05:12:06.592Z [LOCAL][UserSignInService] info: Sign in successful for user: ian@reviewdrum.com
-2023-06-07T05:12:42.054Z [LOCAL][CustomerService] error: Customer not found for stripeCustomerId: cus_O2JIQ2oXK7fGRh
-2023-06-07T05:20:15.924Z [LOCAL][UserSignInService] info: Sign in attempt for user: ian@reviewdrum.com
-2023-06-07T05:20:15.929Z [LOCAL][UserSignInService] info: Sign in successful for user: ian@reviewdrum.com
-2023-06-07T05:21:02.607Z [LOCAL][CustomerService] error: Customer not found for stripeCustomerId (updateSubscription): cus_O2JQkeycjZI8pf
-2023-06-07T05:31:25.571Z [LOCAL][UserSignInService] info: Sign in attempt for user: ian@reviewdrum.com
-2023-06-07T05:31:25.576Z [LOCAL][UserSignInService] info: Sign in successful for user: ian@reviewdrum.com
+LOG [UserSignInService] [LOCAL] - Sign in attempt for user: ian@reviewdrum.com
+VERBOSE [UserSignInService] [LOCAL] - Sign in attempt for user: ian@reviewdrum.com
+DEBUG [UserSignInService] [LOCAL] - Generating token for user: ian@reviewdrum.com
+VERBOSE [UserSignInService] [LOCAL] - Generated token for user: ian@reviewdrum.com
+LOG [UserSignInService] [LOCAL] - Sign in successful for user: ian@reviewdrum.com
+WARN [UserSignInService] [LOCAL] - Sign in attempt for user: ian@reviewdrum.com
+ERROR [UserSignInService] [LOCAL] - Sign in attempt for user: ian@reviewdrum.com
