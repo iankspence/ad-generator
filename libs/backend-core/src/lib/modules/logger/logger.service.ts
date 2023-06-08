@@ -17,28 +17,27 @@ export class LoggerService extends Logger {
         this.context = context;
     }
 
+    setMessageEnv(level: string, message: string) {
+        return `[${this.env}] - ${message}`
+    }
+
     async log(message: string) {
-        super.log(message);
-        await this.logtail.log(message, 'LOG', {level: 'LOG',  env: this.env, context: this.context});
+        super.log(this.setMessageEnv('LOG', message));
     }
 
     async error(message: string, trace?: string) {
-        super.error(message, trace);
-        await this.logtail.error(message, {level: 'ERROR', env: this.env, context: this.context});
+        super.error(this.setMessageEnv('ERROR', message), trace);
     }
 
     async warn(message: string) {
-        super.warn(message);
-        await this.logtail.warn(message, {level: 'WARN', env: this.env, context: this.context});
+        super.warn(this.setMessageEnv('WARN', message));
     }
 
     async debug(message: string) {
-        super.debug(message);
-        await this.logtail.debug(message, {level: 'DEBUG', env: this.env, context: this.context});
+        super.debug(this.setMessageEnv('DEBUG', message));
     }
 
     async verbose(message: string) {
-        super.verbose(message);
-        await this.logtail.info(message, {level: 'VERBOSE', env: this.env, context: this.context});
+        super.verbose(this.setMessageEnv('VERBOSE', message));
     }
 }
