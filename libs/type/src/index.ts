@@ -35,6 +35,7 @@ export * from './lib/dto/mongo/customer/change-subscription.dto';
 export * from './lib/dto/mongo/customer/create-checkout-session.dto';
 export * from './lib/dto/mongo/customer/deactivate-subscription.dto';
 export * from './lib/dto/mongo/customer/find-customer-subscription-status-by-account-id.dto';
+export * from './lib/dto/mongo/customer/find-next-billing-date-by-account-id.dto';
 export * from './lib/dto/mongo/customer/reactivate-subscription.dto';
 
 export * from './lib/dto/mongo/hook/update-hook-text-edit.dto';

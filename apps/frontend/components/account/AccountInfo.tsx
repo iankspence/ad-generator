@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import LogoUpload from './LogoUpload';
 import UserContext from "../../contexts/UserContext";
 import { Button } from '@mui/material';
@@ -11,13 +11,32 @@ import ChangeSubscription from './ChangeSubscription';
 import { reactivateUser } from '../../utils/api/mongo/user/register/reactivateUserApi';
 import { reactivateSubscription } from '../../utils/api/mongo/customer/reactivateSubscriptionApi';
 import { deactivateSubscription } from '../../utils/api/mongo/customer/deactivateSubscriptionApi';
+import { findNextBillingDateByAccountId } from '../../utils/api/mongo/customer/findNextBillingDateByAccountIdApi';
 
 export default function AccountInfo({ accountId, refreshAccount, setRefreshAccount }) {
     const { account, user, subscriptionStatus, setUser, subscriptionTier } = useContext(UserContext);
     const [openCheckoutModal, setOpenCheckoutModal] = useState(false);
     const [openChangeSubscriptionModal, setOpenChangeSubscriptionModal ] = useState(false);
+    const [ nextBillingDate, setNextBillingDate ] = useState(null);
 
     const router = useRouter();
+
+    useEffect(() => {
+        const findNextBillingDate = async () => {
+            try {
+                const nextBillingDate = await findNextBillingDateByAccountId({
+                    accountId: account._id.toString(),
+                });
+                setNextBillingDate(nextBillingDate);
+            } catch (error) {
+                console.error("Failed to find next billing date. Please try again later.", error);
+            }
+        }
+
+        if (subscriptionStatus) {
+            findNextBillingDate();
+        }
+    }, [account]);
 
     const handleAdminDeleteAccount = async () => {
         if (window.confirm("Are you sure you want to delete this account? This operation cannot be undone.")) {
@@ -138,6 +157,17 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
                     )}
                 </div>
 
+                <div className="flex">
+                    <p className="font-semibold py-2 w-1/2">Next Billing Date:</p>
+
+                    {subscriptionStatus && account && account.isActive ? (
+                        <p className="py-2 w-1/2">{nextBillingDate}</p>
+                    ) : (
+                        <p className="py-2 w-1/2">N/A</p>
+                    )}
+
+                </div>
+
                 {user.roles.includes('client') && (
                     <div className="flex">
                         {subscriptionStatus ?
@@ -152,6 +182,8 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
                         }
                     </div>
                 )}
+
+
 
             </div>
 

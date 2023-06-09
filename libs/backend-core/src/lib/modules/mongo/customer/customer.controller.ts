@@ -5,6 +5,7 @@ import {
     CreateCheckoutSessionDto,
     DeactivateSubscriptionDto,
     FindCustomerSubscriptionStatusByAccountIdDto,
+    FindNextBillingDateByAccountIdDto,
     ReactivateSubscriptionDto,
 } from '@monorepo/type';
 import { Req, Res } from '@nestjs/common';
@@ -82,6 +83,13 @@ export class CustomerController {
             this.logger.error('Error deactivating subscription', error.stack);
             throw error;
         }
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('client')
+    @Post('find-next-billing-date-by-account-id')
+    async findNextBillingDateByAccountId(@Body() findNextBillingDateByAccountIdDto: FindNextBillingDateByAccountIdDto) {
+        return this.customerService.findNextBillingDateByAccountId(findNextBillingDateByAccountIdDto.accountId);
     }
 
     @Post('webhook')

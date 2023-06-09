@@ -283,4 +283,33 @@ export class CustomerService {
             throw error;
         }
     }
+
+
+    async findNextBillingDateByAccountId(accountId: string): Promise<Date | null> {
+        try {
+            const stripeCustomerId = await this.findCustomerIdByAccountId(accountId);
+            const customer = await this.customerModel.findOne({ stripeCustomerId });
+            if (!customer) {
+                this.logger.error(`Customer not found for stripeCustomerId (findNextBillingDateByAccountId): ${stripeCustomerId}`);
+                return null;
+            }
+
+            if (!customer.subscriptionId) {
+                this.logger.error(`Subscription not found for stripeCustomerId (findNextBillingDateByAccountId): ${stripeCustomerId}`);
+                return null;
+            }
+
+            const subscription = await this.stripe.subscriptions.retrieve(customer.subscriptionId);
+
+            if (subscription.current_period_end) {
+                return new Date(subscription.current_period_end * 1000);
+            }
+
+            this.logger.error(`Unable to find next billing date for subscriptionId: ${customer.subscriptionId}`);
+            return null;
+        } catch (error) {
+            this.logger.error(`Error finding next billing date for accountId: ${accountId}`, error.stack);
+            throw error;
+        }
+    }
 }
