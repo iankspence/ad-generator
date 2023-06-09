@@ -34,6 +34,9 @@ export class User implements UserMethods {
     @Prop({ required: false, default: null })
     resetPasswordExpires!: Date | null;
 
+    @Prop({ required: true, default: true })
+    isActive!: boolean
+
     comparePassword!: (candidatePassword: string) => Promise<boolean>;
 }
 

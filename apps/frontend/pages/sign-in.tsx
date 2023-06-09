@@ -23,7 +23,7 @@ export function SignInPage() {
         try {
             const user = await signIn(email, password);
             setUser(user);
-            await Router.push('/reviews');
+            await Router.push('/account');
         } catch (error) {
             console.error('Failed to sign in:', error);
         }

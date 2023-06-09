@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import { CustomerService } from '../../customer/customer.service';
+import { LoggerService } from '../../../logger/logger.service';
 
 @Injectable()
 export class UserRegisterService {
@@ -15,7 +16,10 @@ export class UserRegisterService {
         private readonly accountModelService: AccountModelService,
         private readonly userMailerService: UserMailerService,
         private readonly customerService: CustomerService,
-    ) {}
+        private readonly logger: LoggerService,
+    ) {
+        this.logger.setContext('UserRegisterService');
+    }
 
     async register(registerUserDto: RegisterUserDto): Promise<UserDocument> {
 
@@ -25,6 +29,7 @@ export class UserRegisterService {
             password: registerUserDto.password,
             roles: registerUserDto.roles || ['client'],
             emailVerificationToken: uuidv4(),
+            isActive: true
         });
 
         await this.userMailerService.sendVerificationEmail(user.email, user.emailVerificationToken);
@@ -53,5 +58,34 @@ export class UserRegisterService {
         });
 
         return createdUser.save();
+    }
+
+    async deactivate(userId: string): Promise<UserDocument> {
+
+        const { active } = await this.customerService.findCustomerSubscriptionStatusByUserId(userId);
+
+        if (!active) {
+            const user = await this.userModel.findOneAndUpdate(
+                { _id: userId },
+                { isActive: false },
+                { new: true },
+            );
+            this.logger.log(`User ${userId} without subscription has been deactivated.`);
+
+            return user;
+        } else {
+
+            this.logger.verbose(`User: ${userId} has an active subscription but has been deactivated. Attempting to cancel subscription at the end of this cycle`)
+            await this.customerService.cancelSubscriptionAtPeriodEnd(userId);
+            const user = await this.userModel.findOneAndUpdate(
+                { _id: userId },
+                { isActive: false },
+                { new: true },
+            );
+
+            this.logger.log(`Cancellation success. User: ${userId} is deactivated and subscription will end at the end of the current billing period.`);
+            return user;
+        }
+
     }
 }

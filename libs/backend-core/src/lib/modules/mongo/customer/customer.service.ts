@@ -108,6 +108,23 @@ export class CustomerService {
         }
     }
 
+    async findCustomerSubscriptionStatusByUserId(userId: string): Promise<{ active: boolean }> {
+        try {
+            return this.customerModel.findOne({ userId }).then(customer => {
+                if (!customer) {
+                    return { active: false };
+                }
+
+                return this.isSubscriptionActive(customer.stripeCustomerId).then(active => {
+                    return { active: active.isActive };
+                });
+            });
+        } catch (error) {
+            this.logger.error(`Error finding customer subscription status for userId: ${userId}`, error.stack);
+            throw error;
+        }
+    }
+
     async createCheckoutSession(createCheckoutSessionDto: CreateCheckoutSessionDto): Promise<Stripe.Checkout.Session> {
         const payment_method_types: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] = ['card'];
         const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [{
@@ -171,6 +188,32 @@ export class CustomerService {
             return customer.stripeCustomerId;
         } catch (error) {
             this.logger.error(`Error finding customer id by account id: ${accountId}`, error.stack);
+            throw error;
+        }
+    }
+
+    async cancelSubscriptionAtPeriodEnd(userId: string): Promise<Stripe.Subscription> {
+        try {
+            const customer = await this.customerModel.findOne({ userId });
+            if (!customer) {
+                this.logger.error(`Customer not found for userId (cancelSubscriptionAtPeriodEnd): ${userId}`);
+                return null;
+            }
+
+            if (!customer.subscriptionId) {
+                this.logger.error(`Subscription not found for userId (cancelSubscriptionAtPeriodEnd): ${userId}`);
+                return null;
+            }
+
+            const subscription = await this.stripe.subscriptions.update(
+                customer.subscriptionId,
+                { cancel_at_period_end: true }
+            );
+
+            this.logger.log(`Subscription for userId: ${userId} set to end at period end.`);
+            return subscription;
+        } catch (error) {
+            this.logger.error(`Error cancelling subscription at period end for userId: ${userId}`, error.stack);
             throw error;
         }
     }

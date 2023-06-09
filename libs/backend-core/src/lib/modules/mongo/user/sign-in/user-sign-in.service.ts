@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoggerService } from '../../../logger/logger.service';
+import { CustomerService } from '../../customer/customer.service';
 
 @Injectable()
 export class UserSignInService {
     constructor(
         private readonly jwtService: JwtService,
         private readonly logger: LoggerService,
+        private readonly customerService: CustomerService,
     ) {
         this.logger.setContext('UserSignInService');
     }
@@ -25,6 +27,14 @@ export class UserSignInService {
     }
 
     async signIn(user: any): Promise<{ user: any; token: string }> {
+
+        if (!user._doc.isActive) {
+            const { active } = await this.customerService.findCustomerSubscriptionStatusByUserId(user._doc._id);
+            if (!active) {
+                this.logger.warn("Your account has been deactivated and you do not have an active subscription.");
+                return null;
+            }
+        }
 
         const result = {
             user: {
