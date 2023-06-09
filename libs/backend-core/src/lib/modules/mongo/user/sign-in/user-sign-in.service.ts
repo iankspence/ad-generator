@@ -31,7 +31,7 @@ export class UserSignInService {
         if (!user._doc.isActive) {
             const { active } = await this.customerService.findCustomerSubscriptionStatusByUserId(user._doc._id);
             if (!active) {
-                this.logger.warn("Your account has been deactivated and you do not have an active subscription.");
+                this.logger.warn(`User ${user._doc._id} has been deactivated and you do not have an active subscription - denying sign-in.`);
                 return null;
             }
         }

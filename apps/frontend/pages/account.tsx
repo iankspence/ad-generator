@@ -72,13 +72,14 @@ export function AccountPage() {
             <div className="min-h-screen bg-reviewDrumLightGray flex items-center justify-center">
                 <div className="w-1/2 bg-white rounded-lg shadow-lg p-8">
 
-                    {subscriptionStatus && !user.isActive && (
+                    { subscriptionStatus && user && !user.isActive && (
                         <div className="pt-2 text-right">
                             <span className="text-sm text-red-500">
                                 Warning: Your access will end at the end of the current billing cycle.
                             </span>
                         </div>
                     )}
+
 
                     { (user.roles.includes('admin') || user.roles.includes('content-manager')) ?
                         <div className="pb-8">

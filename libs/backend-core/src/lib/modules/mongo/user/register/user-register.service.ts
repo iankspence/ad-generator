@@ -75,7 +75,7 @@ export class UserRegisterService {
             return user;
         } else {
 
-            this.logger.verbose(`User: ${userId} has an active subscription but has been deactivated. Attempting to cancel subscription at the end of this cycle`)
+            this.logger.verbose(`User: ${userId} has an active subscription but has been deactivated. Attempting to cancel subscription at the end of this cycle.`)
             await this.customerService.cancelSubscriptionAtPeriodEnd(userId);
             const user = await this.userModel.findOneAndUpdate(
                 { _id: userId },
@@ -83,7 +83,7 @@ export class UserRegisterService {
                 { new: true },
             );
 
-            this.logger.log(`Cancellation success. User: ${userId} is deactivated and subscription will end at the end of the current billing period.`);
+            this.logger.log(`Cancellation success. User: ${userId} is deactivated and subscription will end at the end of the current cycle.`);
             return user;
         }
 
