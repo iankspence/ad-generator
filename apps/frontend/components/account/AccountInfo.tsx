@@ -33,10 +33,8 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
             }
         }
 
-        if (subscriptionStatus) {
-            findNextBillingDate();
-        }
-    }, [account]);
+        findNextBillingDate();
+    }, [account, subscriptionStatus]);
 
     const handleAdminDeleteAccount = async () => {
         if (window.confirm("Are you sure you want to delete this account? This operation cannot be undone.")) {
