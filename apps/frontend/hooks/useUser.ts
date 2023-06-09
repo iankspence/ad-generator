@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext } from 'react';
 import { getAccounts } from '../utils/api/mongo/account/getAccountsApi';
 import { getCurrentUser } from '../utils/api/mongo/user/sign-in/getCurrentUserApi';
 import UserContext from '../contexts/UserContext';
@@ -17,7 +17,6 @@ export const useUser = () => {
             const { active, priceId } = await findCustomerSubscriptionStatusByAccountId({
                 accountId: account._id.toString(),
             });
-            console.log('status:', active)
             setSubscriptionStatus(active);
             const subscriptionTier = findSubscriptionTierByPriceId(priceId);
             setSubscriptionTier(subscriptionTier);
@@ -26,7 +25,6 @@ export const useUser = () => {
 
     useEffect(() => {
         fetchAndSetSubscriptionStatus();
-
     }, [account]);
 
     const fetchAndSetDefaultAccount = async () => {
