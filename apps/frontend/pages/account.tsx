@@ -66,6 +66,10 @@ export function AccountPage() {
         return <NoAccess />;
     }
 
+    console.log("subscriptionStatus", subscriptionStatus);
+    console.log("user", user);
+    console.log("user.isActive", user.isActive);
+
     return (
         <>
             <TopNav />
