@@ -5,7 +5,7 @@ import { PricingCard } from '../pricing/PricingCard';
 import { changeSubscription } from '../../utils/api/mongo/customer/changeSubscriptionApi';
 import { reactivateUser } from '../../utils/api/mongo/user/register/reactivateUserApi';
 
-export function ChangeSubscription({ accountId, userId, openModal, setOpenModal }) {
+export function ChangeSubscription({ accountId, userId, openModal, setOpenModal, refreshAccount, setRefreshAccount }) {
     const [annualPayment, setAnnualPayment] = useState(false);
 
     const handleChangeSubscription = async (annualPayment, price) => {
@@ -26,6 +26,7 @@ export function ChangeSubscription({ accountId, userId, openModal, setOpenModal 
                     userId: userId,
                     accountId: accountId.toString()
                 });
+                setRefreshAccount(!refreshAccount);
 
                 setOpenModal(false);
                 alert('Subscription changed successfully!');
