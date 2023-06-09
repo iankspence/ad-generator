@@ -1,1 +1,1 @@
-export const API_URL = process.env.NEXT_PUBLIC_BACKEND_URI + '/api';
+export const API_URL = process.env.NEXT_PUBLIC_BACKEND_URI;

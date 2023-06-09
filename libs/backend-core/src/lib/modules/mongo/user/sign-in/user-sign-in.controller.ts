@@ -20,9 +20,9 @@ export class UserSignInController {
             const { user, token } = await this.userSignInService.signIn(req.user);
             res.cookie('userCookie', token, {
                 httpOnly: true,
-                sameSite: 'none', // 'strict',
+                sameSite: 'strict',
                 secure: true,
-                maxAge: 3600 * 1000
+                maxAge: 3600 * 1000,
             });
             res.json(user);
         } catch (err) {
