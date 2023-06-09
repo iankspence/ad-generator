@@ -255,4 +255,32 @@ export class CustomerService {
         }
     }
 
+    async reactivateSubscription(accountId: string): Promise<Stripe.Subscription> {
+        try {
+            this.logger.verbose(`Reactivating subscription for accountId: ${accountId}`);
+
+            const stripeCustomerId = await this.findCustomerIdByAccountId(accountId);
+            const customer = await this.customerModel.findOne({ stripeCustomerId });
+            if (!customer) {
+                this.logger.error(`Customer not found for stripeCustomerId (reactivateSubscription): ${stripeCustomerId}`);
+                return null;
+            }
+
+            if (!customer.subscriptionId) {
+                this.logger.error(`Subscription not found for stripeCustomerId (reactivateSubscription): ${stripeCustomerId}`);
+                return null;
+            }
+
+            const subscription = await this.stripe.subscriptions.update(
+                customer.subscriptionId,
+                { cancel_at_period_end: false }
+            );
+
+            this.logger.log(`Subscription for stripeCustomerId: ${stripeCustomerId} reactivated.`);
+            return subscription;
+        } catch (error) {
+            this.logger.error(`Error reactivating subscription for accountId: ${accountId}`, error.stack);
+            throw error;
+        }
+    }
 }

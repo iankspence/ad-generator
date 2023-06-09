@@ -8,6 +8,8 @@ import { deactivateUser } from '../../utils/api/mongo/user/register/deactivateUs
 import { deleteAccount } from '../../utils/api/mongo/account/deleteAccountApi';
 import { signOut } from '../../utils/api/mongo/user/sign-in/signOutApi';
 import ChangeSubscription from './ChangeSubscription';
+import { reactivateUser } from '../../utils/api/mongo/user/register/reactivateUserApi';
+import { reactivateSubscription } from '../../utils/api/mongo/customer/reactivateSubscriptionApi';
 
 export default function AccountInfo({ accountId, refreshAccount, setRefreshAccount }) {
     const { account, user, subscriptionStatus, setUser, subscriptionTier } = useContext(UserContext);
@@ -54,6 +56,28 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
             }
         }
     };
+
+    const handleReactivateSubscription = async () => {
+        if (window.confirm("Are you sure you want to reactivate your subscription?  You will continue to be charged according to your previous billing cycle.")) {
+            try {
+
+                await reactivateSubscription({
+                    accountId: account._id.toString(),
+                });
+
+                if (!account.isActive) {
+                    await reactivateUser({
+                        userId: user._id.toString(),
+                        accountId: account._id.toString(),
+                    });
+                    setRefreshAccount(!refreshAccount);
+                }
+
+            } catch (error) {
+                console.error("Failed to reactivate subscription. Please try again later.", error);
+            }
+        }
+    }
 
     const handleChangeSubscription = () => {
         setOpenChangeSubscriptionModal(true);
@@ -135,34 +159,46 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
 
             {user.roles.includes('client') && (
                 <>
-                    <div className="text-right pt-12">
-                        {subscriptionStatus && (
-                            <button
-                                onClick={handleChangeSubscription}
-                                className={`text-sm underline text-reviewDrumDarkGray`}
-                            >
-                                Change Subscription
-                            </button>
-                        )}
-                    </div>
+                    {subscriptionStatus && account && account.isActive && (
+                        <>
+                            <div className="text-right pt-12">
+                                <button
+                                    onClick={handleChangeSubscription}
+                                    className={`text-sm underline text-reviewDrumDarkGray`}
+                                >
+                                    Change Subscription
+                                </button>
+                            </div>
 
-                    <div className="text-right pt-4">
-                        <button
-                            onClick={handleDeactivateAccount}
-                            className={`text-sm underline text-reviewDrumMedGray`}
-                            disabled={!account}
-                        >
-                            {subscriptionStatus ? "Cancel Subscription" : "Delete Account"}
-                        </button>
-                    </div>
+                            <div className="text-right pt-4">
+                                <button
+                                    onClick={handleDeactivateAccount}
+                                    className={`text-sm underline text-reviewDrumMedGray`}
+                                >
+                                    Cancel Subscription
+                                </button>
+                            </div>
+                        </>
+                    )}
 
-                    <div className="text-right">
-                        {subscriptionStatus && account && !account.isActive && (
-                            <span className="text-sm text-reviewDrumDarkGray">
-                                Warning: Your access will end at the end of the current billing cycle.
-                            </span>
-                        )}
-                    </div>
+                    {subscriptionStatus && account && !account.isActive && (
+                        <>
+                            <div className="text-right pt-4">
+                                <button
+                                    onClick={handleReactivateSubscription}
+                                    className={`text-sm underline text-reviewDrumMedGray`}
+                                >
+                                    Reactivate Subscription
+                                </button>
+
+                            </div>
+                            <div className="text-right">
+                                <span className="text-sm text-reviewDrumDarkGray">
+                                    Warning: Your access will end at the end of the current billing cycle.
+                                </span>
+                            </div>
+                        </>
+                    )}
 
                 </>
             )}

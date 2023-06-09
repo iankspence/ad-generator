@@ -1,6 +1,11 @@
 import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { CustomerService } from './customer.service';
-import { ChangeSubscriptionDto, CreateCheckoutSessionDto, FindCustomerSubscriptionStatusByAccountIdDto } from '@monorepo/type';
+import {
+    ChangeSubscriptionDto,
+    CreateCheckoutSessionDto,
+    FindCustomerSubscriptionStatusByAccountIdDto,
+    ReactivateSubscriptionDto,
+} from '@monorepo/type';
 import { Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
@@ -48,6 +53,20 @@ export class CustomerController {
     @Post('change-subscription')
     async changeSubscription(@Body() changeSubscriptionDto: ChangeSubscriptionDto) {
         return this.customerService.changeSubscription(changeSubscriptionDto.accountId, changeSubscriptionDto.newPriceId);
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('client')
+    @Post('reactivate-subscription')
+    async reactivateSubscription(@Body() reactivateSubscriptionDto: ReactivateSubscriptionDto) {
+        try {
+            const subscription = await this.customerService.reactivateSubscription(reactivateSubscriptionDto.accountId);
+            this.logger.log(`Subscription reactivated: ${subscription.id}`);
+            return subscription;
+        } catch (error) {
+            this.logger.error('Error reactivating subscription', error.stack);
+            throw error;
+        }
     }
 
     @Post('webhook')
