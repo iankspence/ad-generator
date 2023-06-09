@@ -31,6 +31,7 @@ export * from './lib/dto/mongo/close/update-close-text-edit.dto';
 
 export * from './lib/dto/mongo/copy/update-copy-text-edit.dto';
 
+export * from './lib/dto/mongo/customer/change-subscription.dto';
 export * from './lib/dto/mongo/customer/create-checkout-session.dto';
 export * from './lib/dto/mongo/customer/find-customer-subscription-status-by-account-id.dto';
 

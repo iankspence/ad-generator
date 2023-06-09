@@ -218,4 +218,40 @@ export class CustomerService {
         }
     }
 
+    async changeSubscription(accountId: string, newPriceId: string): Promise<Stripe.Subscription> {
+        try {
+            this.logger.verbose(`Changing subscription for accountId: ${accountId} to priceId: ${newPriceId}`);
+            const stripeCustomerId = await this.findCustomerIdByAccountId(accountId);
+            const customer = await this.customerModel.findOne({ stripeCustomerId });
+            if (!customer) {
+                this.logger.error(`Customer not found for stripeCustomerId (changeSubscription): ${stripeCustomerId}`);
+                return null;
+            }
+
+            if (!customer.subscriptionId) {
+                this.logger.error(`Subscription not found for stripeCustomerId (changeSubscription): ${stripeCustomerId}`);
+                return null;
+            }
+
+            const subscription = await this.stripe.subscriptions.retrieve(customer.subscriptionId);
+
+            const item = subscription.items.data[0];
+            const updatedSubscription = await this.stripe.subscriptions.update(
+                subscription.id,
+                {
+                    items: [{
+                        id: item.id,
+                        price: newPriceId,
+                    }],
+                }
+            );
+
+            this.logger.log(`Subscription for stripeCustomerId: ${stripeCustomerId} updated from priceId: ${item.price.id} to ${newPriceId}.`);
+            return updatedSubscription;
+        } catch (error) {
+            this.logger.error(`Error changing subscription for accountId: ${accountId} to priceId: ${newPriceId}`, error.stack);
+            throw error;
+        }
+    }
+
 }

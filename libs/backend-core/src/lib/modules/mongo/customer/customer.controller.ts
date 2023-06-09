@@ -1,6 +1,6 @@
 import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { CustomerService } from './customer.service';
-import { CreateCheckoutSessionDto, FindCustomerSubscriptionStatusByAccountIdDto } from '@monorepo/type';
+import { ChangeSubscriptionDto, CreateCheckoutSessionDto, FindCustomerSubscriptionStatusByAccountIdDto } from '@monorepo/type';
 import { Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
@@ -41,6 +41,13 @@ export class CustomerController {
     @Post('find-customer-subscription-status-by-account-id')
     findCustomerSubscriptionStatusByAccountId(@Body() findCustomerSubscriptionStatusByAccountIdDto: FindCustomerSubscriptionStatusByAccountIdDto) {
         return this.customerService.findCustomerSubscriptionStatusByAccountId(findCustomerSubscriptionStatusByAccountIdDto.accountId);
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('client')
+    @Post('change-subscription')
+    async changeSubscription(@Body() changeSubscriptionDto: ChangeSubscriptionDto) {
+        return this.customerService.changeSubscription(changeSubscriptionDto.accountId, changeSubscriptionDto.newPriceId);
     }
 
     @Post('webhook')
