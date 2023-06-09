@@ -36,7 +36,7 @@ export class AccountModelService {
     ) {}
 
     async create(createAccountDto: CreateAccountDto): Promise<AccountDocument> {
-        const createdAccount = new this.accountModel(createAccountDto);
+        const createdAccount = new this.accountModel({ ...createAccountDto, isActive: true });
         return createdAccount.save();
     }
 
@@ -167,5 +167,11 @@ export class AccountModelService {
 
     async findAccountsByManagerId(findAccountsByManagerIdDto: FindAccountsByManagerIdDto): Promise<AccountDocument[]> {
         return this.accountModel.find({ managerUserId: findAccountsByManagerIdDto.managerUserId }).exec();
+    }
+
+    async deactivateAccount(accountId: string): Promise<Account | null> {
+        return this.accountModel.findOneAndUpdate({ _id: accountId }, {
+            isActive: false,
+        }, { new: true }).exec();
     }
 }

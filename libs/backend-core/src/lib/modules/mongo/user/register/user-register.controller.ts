@@ -17,6 +17,6 @@ export class UserRegisterController {
     @Roles('client')
     @Post('deactivate')
     async deactivate(@Body() deactivateUserDto: DeactivateUserDto) {
-        return await this.userRegisterService.deactivate(deactivateUserDto.userId);
+        return await this.userRegisterService.deactivate(deactivateUserDto);
     }
 }

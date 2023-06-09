@@ -46,6 +46,9 @@ export class Account {
 
     @Prop({required: true, default: '#808080' })
     secondaryColor!: string
+
+    @Prop({ required: true, default: true })
+    isActive!: boolean;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);

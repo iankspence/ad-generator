@@ -42,11 +42,16 @@ export function AccountPage() {
             try {
                 await deactivateUser({
                     userId: user._id.toString(),
+                    accountId: account._id.toString(),
                 });
 
-                await signOut();
-                setUser(null);
-                await router.push('/sign-in');
+                if (!subscriptionStatus) {
+                    await signOut();
+                    setUser(null);
+                    router.push('sign-in');
+                } else {
+                    setRefreshAccount(!refreshAccount);
+                }
 
             } catch (error) {
                 console.error("Failed to deactivate user. Please try again later.", error);
@@ -67,7 +72,6 @@ export function AccountPage() {
             <TopNav />
             <div className="min-h-screen bg-reviewDrumLightGray flex items-center justify-center">
                 <div className="w-1/2 bg-white rounded-lg shadow-lg p-8">
-
 
                     { (user.roles.includes('admin') || user.roles.includes('content-manager')) ?
                         <div className="pb-8">
@@ -103,27 +107,25 @@ export function AccountPage() {
                         : <></>
                     }
 
+
+
                     {account && <AccountInfo accountId={account._id} refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount} />}
 
-
                     {user.roles.includes('client') && (
-                        <div className="pt-2 text-right">
+                        <div className="pt-8 text-right">
                             <button
                                 onClick={handleDeactivateAccount}
-                                className={`text-sm underline ${account ? 'text-red-500' : 'text-gray-500'}`}
+                                className={`text-sm underline ${account ? 'text-gray-500' : 'text-gray-500'}`}
                                 disabled={!account}
                             >
                                 {subscriptionStatus ? "Delete Account and End Subscription" : "Delete Account"}
-
-
                             </button>
                         </div>
                     )}
 
-
-                    { subscriptionStatus && user && !user.isActive && (
+                    { subscriptionStatus && account && !account.isActive && (
                         <div className="pt-2 text-right">
-                            <span className="text-sm text-red-500">
+                            <span className="text-sm text-grey-500">
                                 Warning: Your access will end at the end of the current billing cycle.
                             </span>
                         </div>

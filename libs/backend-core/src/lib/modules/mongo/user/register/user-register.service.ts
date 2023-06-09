@@ -1,6 +1,6 @@
 import { AccountModelService } from '../../account/account-model.service';
 import { UserMailerService } from '../user-mailer.service';
-import { User, UserDocument, RegisterUserDto } from '@monorepo/type';
+import { User, UserDocument, RegisterUserDto, DeactivateUserDto } from '@monorepo/type';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
@@ -60,7 +60,8 @@ export class UserRegisterService {
         return createdUser.save();
     }
 
-    async deactivate(userId: string): Promise<UserDocument> {
+    async deactivate(deactivateUserDto: DeactivateUserDto): Promise<UserDocument> {
+        const { userId, accountId } = deactivateUserDto;
 
         const { active } = await this.customerService.findCustomerSubscriptionStatusByUserId(userId);
 
@@ -70,8 +71,9 @@ export class UserRegisterService {
                 { isActive: false },
                 { new: true },
             );
-            this.logger.log(`User ${userId} without subscription has been deactivated.`);
+            await this.accountModelService.deactivateAccount(accountId)
 
+            this.logger.log(`User: ${userId} and account: ${accountId} have no subscription and have been deactivated.`);
             return user;
         } else {
 
@@ -82,8 +84,9 @@ export class UserRegisterService {
                 { isActive: false },
                 { new: true },
             );
+            await this.accountModelService.deactivateAccount(accountId)
 
-            this.logger.log(`Cancellation success. User: ${userId} is deactivated and subscription will end at the end of the current cycle.`);
+            this.logger.log(`Cancellation success. User: ${userId} and account: ${accountId} are deactivated and their subscription will end at the end of the current cycle.`);
             return user;
         }
 
