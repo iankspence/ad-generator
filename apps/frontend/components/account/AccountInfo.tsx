@@ -241,7 +241,7 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
                             </div>
                             <div className="text-right">
                                 <span className="text-sm text-reviewDrumDarkGray">
-                                    Warning: Your access will be lost at the end of the current billing cycle.
+                                    Warning: Your account will be deleted at the end of the current billing cycle.
                                 </span>
                             </div>
                         </>
