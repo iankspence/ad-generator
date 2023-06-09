@@ -10,6 +10,7 @@ import { signOut } from '../../utils/api/mongo/user/sign-in/signOutApi';
 import ChangeSubscription from './ChangeSubscription';
 import { reactivateUser } from '../../utils/api/mongo/user/register/reactivateUserApi';
 import { reactivateSubscription } from '../../utils/api/mongo/customer/reactivateSubscriptionApi';
+import { deactivateSubscription } from '../../utils/api/mongo/customer/deactivateSubscriptionApi';
 
 export default function AccountInfo({ accountId, refreshAccount, setRefreshAccount }) {
     const { account, user, subscriptionStatus, setUser, subscriptionTier } = useContext(UserContext);
@@ -38,6 +39,11 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
 
         if (window.confirm(message)) {
             try {
+
+                await deactivateSubscription({
+                    accountId: account._id.toString(),
+                });
+
                 await deactivateUser({
                     userId: user._id.toString(),
                     accountId: account._id.toString(),
@@ -205,7 +211,7 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
                             </div>
                             <div className="text-right">
                                 <span className="text-sm text-reviewDrumDarkGray">
-                                    Warning: Your access will end at the end of the current billing cycle.
+                                    Warning: Your access will be lost at the end of the current billing cycle.
                                 </span>
                             </div>
                         </>

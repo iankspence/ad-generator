@@ -3,6 +3,7 @@ import { CustomerService } from './customer.service';
 import {
     ChangeSubscriptionDto,
     CreateCheckoutSessionDto,
+    DeactivateSubscriptionDto,
     FindCustomerSubscriptionStatusByAccountIdDto,
     ReactivateSubscriptionDto,
 } from '@monorepo/type';
@@ -65,6 +66,20 @@ export class CustomerController {
             return subscription;
         } catch (error) {
             this.logger.error('Error reactivating subscription', error.stack);
+            throw error;
+        }
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('client')
+    @Post('deactivate-subscription')
+    async deactivateSubscription(@Body() deactivateSubscriptionDto: DeactivateSubscriptionDto) {
+        try {
+            const subscription = await this.customerService.deactivateSubscription(deactivateSubscriptionDto.accountId);
+            this.logger.log(`Subscription deactivated: ${subscription.id}`);
+            return subscription;
+        } catch (error) {
+            this.logger.error('Error deactivating subscription', error.stack);
             throw error;
         }
     }

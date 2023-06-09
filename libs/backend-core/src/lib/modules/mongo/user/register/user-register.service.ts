@@ -63,43 +63,30 @@ export class UserRegisterService {
     async deactivate(deactivateUserDto: DeactivateUserDto): Promise<UserDocument> {
         const { userId, accountId } = deactivateUserDto;
 
-        const { active } = await this.customerService.findCustomerSubscriptionStatusByUserId(userId);
+        const user = await this.userModel.findOneAndUpdate(
+            { _id: userId },
+            { isActive: false },
+            { new: true }
+        );
 
-        if (!active) {
-            const user = await this.userModel.findOneAndUpdate(
-                { _id: userId },
-                { isActive: false },
-                { new: true },
-            );
-            await this.accountModelService.deactivateAccount(accountId)
+        await this.accountModelService.deactivateAccount(accountId)
 
-            this.logger.log(`User: ${userId} and account: ${accountId} have no subscription and have been deactivated.`);
-            return user;
-        } else {
+        this.logger.log(`User: ${userId} and account: ${accountId} have been deactivated.`);
 
-            this.logger.verbose(`User: ${userId} has an active subscription but has been deactivated. Attempting to cancel subscription at the end of this cycle.`)
-            await this.customerService.cancelSubscriptionAtPeriodEnd(userId);
-            const user = await this.userModel.findOneAndUpdate(
-                { _id: userId },
-                { isActive: false },
-                { new: true },
-            );
-            await this.accountModelService.deactivateAccount(accountId)
-
-            this.logger.log(`Cancellation success. User: ${userId} and account: ${accountId} are deactivated and their subscription will end at the end of the current cycle.`);
-            return user;
-        }
+        return user;
     }
 
     async reactivate(reactivateUserDto): Promise<UserDocument> {
+        const { userId, accountId } = reactivateUserDto;
+
         const user = await this.userModel.findOneAndUpdate(
-            { _id: reactivateUserDto.userId },
+            { _id: userId },
             { isActive: true },
             { new: true },
         );
-        await this.accountModelService.reactivateAccount(reactivateUserDto.accountId)
+        await this.accountModelService.reactivateAccount(accountId)
 
-        this.logger.log(`User: ${reactivateUserDto.userId} and account: ${reactivateUserDto.accountId} have been reactivated.`);
+        this.logger.log(`User: ${userId} and account: ${accountId} have been reactivated.`);
         return user;
     }
 }

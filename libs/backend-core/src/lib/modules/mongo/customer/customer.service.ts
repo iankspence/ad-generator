@@ -192,32 +192,6 @@ export class CustomerService {
         }
     }
 
-    async cancelSubscriptionAtPeriodEnd(userId: string): Promise<Stripe.Subscription> {
-        try {
-            const customer = await this.customerModel.findOne({ userId });
-            if (!customer) {
-                this.logger.error(`Customer not found for userId (cancelSubscriptionAtPeriodEnd): ${userId}`);
-                return null;
-            }
-
-            if (!customer.subscriptionId) {
-                this.logger.error(`Subscription not found for userId (cancelSubscriptionAtPeriodEnd): ${userId}`);
-                return null;
-            }
-
-            const subscription = await this.stripe.subscriptions.update(
-                customer.subscriptionId,
-                { cancel_at_period_end: true }
-            );
-
-            this.logger.log(`Subscription for userId: ${userId} set to end at period end.`);
-            return subscription;
-        } catch (error) {
-            this.logger.error(`Error cancelling subscription at period end for userId: ${userId}`, error.stack);
-            throw error;
-        }
-    }
-
     async changeSubscription(accountId: string, newPriceId: string): Promise<Stripe.Subscription> {
         try {
             this.logger.verbose(`Changing subscription for accountId: ${accountId} to priceId: ${newPriceId}`);
@@ -251,6 +225,32 @@ export class CustomerService {
             return updatedSubscription;
         } catch (error) {
             this.logger.error(`Error changing subscription for accountId: ${accountId} to priceId: ${newPriceId}`, error.stack);
+            throw error;
+        }
+    }
+
+    async deactivateSubscription(accountId: string): Promise<Stripe.Subscription> {
+        try {
+            const customer = await this.customerModel.findOne({ accountId });
+            if (!customer) {
+                this.logger.error(`Customer not found for accountId: ${accountId}`);
+                return null;
+            }
+
+            if (!customer.subscriptionId) {
+                this.logger.error(`Subscription not found for accountId: ${accountId}`);
+                return null;
+            }
+
+            const subscription = await this.stripe.subscriptions.update(
+                customer.subscriptionId,
+                { cancel_at_period_end: true }
+            );
+
+            this.logger.log(`Subscription for accountId: ${accountId} set to cancel at period end.`);
+            return subscription;
+        } catch (error) {
+            this.logger.error(`Error cancelling subscription at period end for accountId: ${accountId}`, error.stack);
             throw error;
         }
     }
