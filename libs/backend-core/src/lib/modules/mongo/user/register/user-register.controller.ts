@@ -1,5 +1,5 @@
 import { UserRegisterService } from './user-register.service';
-import { DeactivateUserDto, RegisterUserDto } from '@monorepo/type';
+import { DeactivateUserDto, ReactivateUserDto, RegisterUserDto } from '@monorepo/type';
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../../auth/jwt-auth.guard';
 import { RolesGuard } from '../../../auth/roles.guard';
@@ -18,5 +18,12 @@ export class UserRegisterController {
     @Post('deactivate')
     async deactivate(@Body() deactivateUserDto: DeactivateUserDto) {
         return await this.userRegisterService.deactivate(deactivateUserDto);
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('client')
+    @Post('reactivate')
+    async reactivate(@Body() reactivateUserDto: ReactivateUserDto) {
+        return await this.userRegisterService.reactivate(reactivateUserDto);
     }
 }

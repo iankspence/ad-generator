@@ -3,20 +3,35 @@ import { Dialog, DialogTitle, Switch, Grid, DialogContent, FormControlLabel } fr
 import { pricingData } from '../../utils/constants/pricingData';
 import { PricingCard } from '../pricing/PricingCard';
 import { changeSubscription } from '../../utils/api/mongo/customer/changeSubscriptionApi';
+import { reactivateUser } from '../../utils/api/mongo/user/register/reactivateUserApi';
 
-export function ChangeSubscription({ accountId, openModal, setOpenModal }) {
+export function ChangeSubscription({ accountId, userId, openModal, setOpenModal }) {
     const [annualPayment, setAnnualPayment] = useState(false);
 
     const handleChangeSubscription = async (annualPayment, price) => {
-        try {
-            const priceId = annualPayment ? price.annualPriceId : price.monthlyPriceId;
-            await changeSubscription({
-                accountId: accountId.toString(),
-                newPriceId: priceId,
-            });
-            console.log('Successfully changed subscription.');
-        } catch (error) {
-            alert('Failed to change subscription. Please try again later.');
+        const confirmMessage = `You are about to change your subscription. Please note that according to Stripe's policy:\n
+    - If you upgrade your subscription, you'll be charged the prorated difference between the two plans.\n
+    - If you downgrade your subscription, you'll be credited the prorated difference towards future payments.\n
+    Do you wish to continue?`;
+
+        if (window.confirm(confirmMessage)) {
+            try {
+                const priceId = annualPayment ? price.annualPriceId : price.monthlyPriceId;
+                await changeSubscription({
+                    accountId: accountId.toString(),
+                    newPriceId: priceId,
+                });
+                console.log('Successfully changed subscription.');
+                await reactivateUser({
+                    userId: userId,
+                    accountId: accountId.toString()
+                });
+
+                setOpenModal(false);
+                alert('Subscription changed successfully!');
+            } catch (error) {
+                alert('Failed to change subscription. Please try again later.');
+            }
         }
     };
 

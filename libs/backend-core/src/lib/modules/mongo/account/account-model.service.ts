@@ -174,4 +174,10 @@ export class AccountModelService {
             isActive: false,
         }, { new: true }).exec();
     }
+
+    async reactivateAccount(accountId: string): Promise<Account | null> {
+        return this.accountModel.findOneAndUpdate({ _id: accountId }, {
+            isActive: true,
+        }, { new: true }).exec();
+    }
 }

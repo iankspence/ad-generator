@@ -89,6 +89,17 @@ export class UserRegisterService {
             this.logger.log(`Cancellation success. User: ${userId} and account: ${accountId} are deactivated and their subscription will end at the end of the current cycle.`);
             return user;
         }
+    }
 
+    async reactivate(reactivateUserDto): Promise<UserDocument> {
+        const user = await this.userModel.findOneAndUpdate(
+            { _id: reactivateUserDto.userId },
+            { isActive: true },
+            { new: true },
+        );
+        await this.accountModelService.reactivateAccount(reactivateUserDto.accountId)
+
+        this.logger.log(`User: ${reactivateUserDto.userId} and account: ${reactivateUserDto.accountId} have been reactivated.`);
+        return user;
     }
 }

@@ -47,6 +47,7 @@ export * from './lib/dto/mongo/review/update-review-text-edit.dto';
 
 export * from './lib/dto/mongo/user/register/deactivate-user.dto';
 export * from './lib/dto/mongo/user/forgot-password/user-reset-password.dto';
+export * from './lib/dto/mongo/user/register/reactivate-user.dto';
 export * from './lib/dto/mongo/user/register/register-user.dto';
 export * from './lib/dto/mongo/user/sign-in/user-sign-in.dto';
 export * from './lib/dto/mongo/user/verify-email/verify-email.dto';

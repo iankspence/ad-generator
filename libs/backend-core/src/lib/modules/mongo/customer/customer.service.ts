@@ -221,6 +221,7 @@ export class CustomerService {
     async changeSubscription(accountId: string, newPriceId: string): Promise<Stripe.Subscription> {
         try {
             this.logger.verbose(`Changing subscription for accountId: ${accountId} to priceId: ${newPriceId}`);
+
             const stripeCustomerId = await this.findCustomerIdByAccountId(accountId);
             const customer = await this.customerModel.findOne({ stripeCustomerId });
             if (!customer) {
