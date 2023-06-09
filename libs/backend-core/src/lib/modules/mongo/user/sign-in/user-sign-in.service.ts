@@ -42,6 +42,7 @@ export class UserSignInService {
                 emailVerified: user._doc.emailVerified,
                 email: user._doc.email,
                 roles: user._doc.roles,
+                isActive: user._doc.isActive,
             },
             token: await this.generateToken(user),
         };

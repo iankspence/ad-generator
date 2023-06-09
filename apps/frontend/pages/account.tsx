@@ -36,21 +36,17 @@ export function AccountPage() {
     const handleDeactivateAccount = async () => {
         const message = subscriptionStatus ?
             "You currently have an ongoing subscription. If you cancel your account and subscription, you will lose access to your account at the end of the current billing cycle." :
-            "You are about to permanently delete your account and sign out - are you sure you want to do this?";
+            "You are about to permanently delete your account and will be signed out - are you sure you want to do this?";
 
         if (window.confirm(message)) {
             try {
-                const newUser = await deactivateUser({
+                await deactivateUser({
                     userId: user._id.toString(),
                 });
 
-                if (!subscriptionStatus) {
-                    await signOut();
-                    setUser(null);
-                    await router.push('/sign-in');
-                } else {
-                    setUser(newUser);
-                }
+                await signOut();
+                setUser(null);
+                await router.push('/sign-in');
 
             } catch (error) {
                 console.error("Failed to deactivate user. Please try again later.", error);
@@ -66,23 +62,12 @@ export function AccountPage() {
         return <NoAccess />;
     }
 
-    console.log("subscriptionStatus", subscriptionStatus);
-    console.log("user", user);
-    console.log("user.isActive", user.isActive);
-
     return (
         <>
             <TopNav />
             <div className="min-h-screen bg-reviewDrumLightGray flex items-center justify-center">
                 <div className="w-1/2 bg-white rounded-lg shadow-lg p-8">
 
-                    { subscriptionStatus && user && !user.isActive && (
-                        <div className="pt-2 text-right">
-                            <span className="text-sm text-red-500">
-                                Warning: Your access will end at the end of the current billing cycle.
-                            </span>
-                        </div>
-                    )}
 
                     { (user.roles.includes('admin') || user.roles.includes('content-manager')) ?
                         <div className="pb-8">
@@ -118,6 +103,9 @@ export function AccountPage() {
                         : <></>
                     }
 
+                    {account && <AccountInfo accountId={account._id} refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount} />}
+
+
                     {user.roles.includes('client') && (
                         <div className="pt-2 text-right">
                             <button
@@ -126,11 +114,21 @@ export function AccountPage() {
                                 disabled={!account}
                             >
                                 {subscriptionStatus ? "Delete Account and End Subscription" : "Delete Account"}
+
+
                             </button>
                         </div>
                     )}
 
-                    {account && <AccountInfo accountId={account._id} refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount} />}
+
+                    { subscriptionStatus && user && !user.isActive && (
+                        <div className="pt-2 text-right">
+                            <span className="text-sm text-red-500">
+                                Warning: Your access will end at the end of the current billing cycle.
+                            </span>
+                        </div>
+                    )}
+
                 </div>
             </div>
         </>
