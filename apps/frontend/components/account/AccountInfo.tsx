@@ -178,7 +178,7 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
             )}
 
             <CheckoutSelection accountId={accountId} openModal={openCheckoutModal} setOpenModal={setOpenCheckoutModal} />
-            <ChangeSubscription accountId={accountId} openModal={openChangeSubscriptionModal} setOpenModal={setOpenChangeSubscriptionModal} />
+            <ChangeSubscription accountId={accountId} userId={user?._id.toString()} openModal={openChangeSubscriptionModal} setOpenModal={setOpenChangeSubscriptionModal} />
         </>
     );
 }
