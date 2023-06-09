@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import TopNav from '../components/top-nav/TopNav';
 import UserContext from '../contexts/UserContext';
 import NewAccountForm from "../components/account/NewAccountForm";
@@ -10,42 +10,12 @@ import { useUser } from '../hooks/useUser';
 import { deleteAccount } from '../utils/api/mongo/account/deleteAccountApi';
 import UnassignedAccountPicker from '../components/account/UnassignedAccountPicker';
 import useAccounts from '../hooks/useAccounts';
-import createCheckoutSession from '../utils/api/mongo/customer/createCheckoutSessionApi';
-import { Dialog, DialogTitle, Switch, Grid, DialogContent, FormControlLabel } from '@mui/material';
-import { PricingData, pricingData } from '../utils/constants/pricingData';
-import { PricingCard } from '../components/pricing/PricingCard';
+import CheckoutSelection from '../components/account/CheckoutSelection';
 
 export function AccountPage() {
     const { user, account, setAccount } = useContext(UserContext);
     const { accounts, refreshAccount, setRefreshAccount } = useAccounts();
-    const [annualPayment, setAnnualPayment] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
     useUser();
-
-    const handleConnectPayment = async (annualPayment: boolean, price: PricingData) => {
-        try {
-            const priceId = annualPayment ? price.annualPriceId : price.monthlyPriceId;
-            await createCheckoutSession({
-                accountId: account._id.toString(),
-                priceId,
-            });
-            console.log('Successfully connected payment.');
-        } catch (error) {
-            alert('Failed to connect payment. Please try again later.');
-        }
-    };
-
-    const handleToggle = () => {
-        setAnnualPayment(!annualPayment);
-    };
-
-    const handleOpenModal = () => {
-        setOpenModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setOpenModal(false);
-    };
 
     const handleDeleteAccount = async () => {
         if (window.confirm("Are you sure you want to delete this account? This operation cannot be undone.")) {
@@ -107,29 +77,7 @@ export function AccountPage() {
                         : <></>
                     }
 
-                    <Dialog open={openModal} onClose={handleCloseModal}>
-                        <DialogTitle>Select a Plan</DialogTitle>
-                        <DialogContent>
-                            <FormControlLabel
-                                control={<Switch checked={annualPayment} onChange={handleToggle} />}
-                                label="Annual Payment"
-                            />
-                            <Grid container justifyContent="center" spacing={2}>
-                                {pricingData.map((price: PricingData, index) => (
-                                    <Grid key={index} item xs={12} sm={6} md={4}>
-                                        <PricingCard
-                                            price={price}
-                                            annualPayment={annualPayment}
-                                            buttonText="Select"
-                                            onClick={() => handleConnectPayment(annualPayment, price)}
-                                        />
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        </DialogContent>
-                    </Dialog>
-
-                    {account && <AccountInfo refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount} handleOpenModal={handleOpenModal}/>}
+                    {account && <AccountInfo accountId={account._id} refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount} />}
                 </div>
             </div>
         </>
