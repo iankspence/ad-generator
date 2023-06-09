@@ -181,6 +181,17 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
                         </>
                     )}
 
+                    {!subscriptionStatus && account && account.isActive && (
+                        <div className="text-right pt-4">
+                            <button
+                                onClick={handleDeactivateAccount}
+                                className={`text-sm underline text-reviewDrumMedGray`}
+                            >
+                                Delete Account
+                            </button>
+                        </div>
+                    )}
+
                     {subscriptionStatus && account && !account.isActive && (
                         <>
                             <div className="text-right pt-4">
