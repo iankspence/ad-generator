@@ -5,7 +5,6 @@ import { Button } from '@mui/material';
 import { CheckoutSelection } from './CheckoutSelection';
 import { useRouter } from 'next/router';
 import { deactivateUser } from '../../utils/api/mongo/user/register/deactivateUserApi';
-import { deleteAccount } from '../../utils/api/mongo/account/deleteAccountApi';
 import { signOut } from '../../utils/api/mongo/user/sign-in/signOutApi';
 import ChangeSubscription from './ChangeSubscription';
 import { reactivateUser } from '../../utils/api/mongo/user/register/reactivateUserApi';
@@ -166,20 +165,20 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
 
                 </div>
 
-                {user.roles.includes('client') && (
+                { user.roles.includes('client') && (
                     <div className="flex">
-                        {subscriptionStatus &&
+                        {subscriptionStatus ?
+                            <p className="font-semibold py-2 w-1/2">Subscription Tier:</p> :
                             <p className="font-semibold py-2 w-1/2">Payment:</p>
                         }
-                        {subscriptionStatus &&
+                        {subscriptionStatus ?
+                            <p className="py-2 w-1/2">{subscriptionTier}</p> :
                             <div className="pb-2 pt-4 -translate-y-1.5">
                                 <Button type="button" variant="contained" color="inherit" className="w-full" onClick={handleOpenCheckoutModal}>Connect Payment</Button>
                             </div>
                         }
                     </div>
                 )}
-
-
 
             </div>
 
@@ -217,6 +216,7 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
                             </button>
                         </div>
                     )}
+
 
                     {subscriptionStatus && account && !account.isActive && (
                         <>
