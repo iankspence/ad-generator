@@ -10,7 +10,9 @@ import { reactivateUser } from '../../utils/api/mongo/user/register/reactivateUs
 import { reactivateSubscription } from '../../utils/api/mongo/customer/reactivateSubscriptionApi';
 import { deactivateSubscription } from '../../utils/api/mongo/customer/deactivateSubscriptionApi';
 import { findNextBillingDateByAccountId } from '../../utils/api/mongo/customer/findNextBillingDateByAccountIdApi';
-import moment from 'moment';
+import { findLatLonByCityAndProvinceState } from '../../utils/api/mongo/city/findLatLonByCityAndProvinceStateApi';
+import { DateTime } from 'luxon';
+import geoTz from 'geo-tz';
 
 export default function AccountInfo({ accountId, refreshAccount, setRefreshAccount }) {
     const { account, user, subscriptionStatus, setUser, subscriptionTier } = useContext(UserContext);
@@ -20,25 +22,30 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
 
     const router = useRouter();
 
-    const calculateDaysUntilNextBillingDate = (nextBillingDateString) => {
-        const today = moment();
-        const nextBillingDateObject = moment(nextBillingDateString);
-        return nextBillingDateObject.diff(today, 'days');
-    }
-
     useEffect(() => {
-
         const findNextBillingDate = async () => {
             try {
+                if (!account) return;
+
+                const { lat, lon } = await findLatLonByCityAndProvinceState({
+                    city: account.city,
+                    provinceState: account.provinceState,
+                });
+
+                const timezone = geoTz.find(lat, lon)[0];
+
                 const nextBillingDate = await findNextBillingDateByAccountId({
                     accountId: account._id.toString(),
                 });
 
-                setNextBillingDate(calculateDaysUntilNextBillingDate(nextBillingDate));
+                const nextBillingDateObject = DateTime.fromISO(nextBillingDate, { zone: timezone });
+                const formattedNextBillingDate = nextBillingDateObject.toLocaleString(DateTime.DATETIME_FULL);
+
+                setNextBillingDate(formattedNextBillingDate);
             } catch (error) {
                 console.error("Failed to find next billing date. Please try again later.", error);
             }
-        }
+        };
 
         if (!account || !subscriptionStatus) return;
 

@@ -24,6 +24,7 @@ export * from './lib/dto/mongo/card/find-cards-by-account-id.dto';
 export * from './lib/dto/mongo/card/save-canvases-to-s3.dto';
 
 export * from './lib/dto/mongo/city/find-cities-by-province-state.dto';
+export * from './lib/dto/mongo/city/find-lat-lon-by-city-and-province-state.dto';
 
 export * from './lib/dto/mongo/claim/update-claim-text-edit.dto';
 
