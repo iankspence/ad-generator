@@ -84,11 +84,10 @@ export class CustomerController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('client')
+    @UseGuards(JwtAuthGuard)
     @Post('find-next-billing-date-by-account-id')
     async findNextBillingDateByAccountId(@Body() findNextBillingDateByAccountIdDto: FindNextBillingDateByAccountIdDto) {
-        return this.customerService.findNextBillingDateByAccountId(findNextBillingDateByAccountIdDto.accountId);
+        return this.customerService.findNextBillingDateByAccountId(findNextBillingDateByAccountIdDto);
     }
 
     @Post('webhook')

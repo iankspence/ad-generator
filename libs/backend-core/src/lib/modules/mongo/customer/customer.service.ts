@@ -1,9 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateCheckoutSessionDto, Customer, CustomerDocument } from '@monorepo/type';
+import {
+    CreateCheckoutSessionDto,
+    Customer,
+    CustomerDocument,
+    FindNextBillingDateByAccountIdDto,
+} from '@monorepo/type';
 import Stripe from 'stripe';
 import { LoggerService } from '../../logger/logger.service';
+import { CityService } from '../city/city.service';
+import geoTz from 'geo-tz';
+import { DateTime } from 'luxon';
 
 interface SubscriptionStatus {
     isActive: boolean;
@@ -16,6 +24,7 @@ export class CustomerService {
 
     constructor(
         @InjectModel(Customer.name) private readonly customerModel: Model<CustomerDocument>,
+        private readonly cityService: CityService,
         private readonly logger: LoggerService,
     ) {
         this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
@@ -284,7 +293,9 @@ export class CustomerService {
         }
     }
 
-    async findNextBillingDateByAccountId(accountId: string): Promise<Date | null> {
+
+    async findNextBillingDateByAccountId(findNextBillingDateByAccountIdDto: FindNextBillingDateByAccountIdDto): Promise<string | null> {
+        const { accountId, city, provinceState } = findNextBillingDateByAccountIdDto;
         try {
             const stripeCustomerId = await this.findCustomerIdByAccountId(accountId);
             const customer = await this.customerModel.findOne({ stripeCustomerId });
@@ -301,7 +312,14 @@ export class CustomerService {
             const subscription = await this.stripe.subscriptions.retrieve(customer.subscriptionId);
 
             if (subscription.current_period_end) {
-                return new Date(subscription.current_period_end * 1000);
+
+                const { lat, lon } = await this.cityService.findLatLonByCityAndProvinceState({ city, provinceState });
+                const timezone = geoTz.find(lat, lon)[0];
+                const nextBillingDateObject = DateTime.fromMillis(subscription.current_period_end * 1000, { zone: timezone });
+                const nextBillingDate = nextBillingDateObject.toLocaleString(DateTime.DATE_FULL);
+                this.logger.log(`Next billing date for subscriptionId: ${customer.subscriptionId} is ${nextBillingDate}`);
+
+                return nextBillingDate;
             }
 
             this.logger.error(`Unable to find next billing date for subscriptionId: ${customer.subscriptionId}`);

@@ -10,9 +10,6 @@ import { reactivateUser } from '../../utils/api/mongo/user/register/reactivateUs
 import { reactivateSubscription } from '../../utils/api/mongo/customer/reactivateSubscriptionApi';
 import { deactivateSubscription } from '../../utils/api/mongo/customer/deactivateSubscriptionApi';
 import { findNextBillingDateByAccountId } from '../../utils/api/mongo/customer/findNextBillingDateByAccountIdApi';
-import { findLatLonByCityAndProvinceState } from '../../utils/api/mongo/city/findLatLonByCityAndProvinceStateApi';
-import { DateTime } from 'luxon';
-import geoTz from 'geo-tz';
 
 export default function AccountInfo({ accountId, refreshAccount, setRefreshAccount }) {
     const { account, user, subscriptionStatus, setUser, subscriptionTier } = useContext(UserContext);
@@ -27,21 +24,13 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
             try {
                 if (!account) return;
 
-                const { lat, lon } = await findLatLonByCityAndProvinceState({
+                const nextBillingDate = await findNextBillingDateByAccountId({
+                    accountId: account._id.toString(),
                     city: account.city,
                     provinceState: account.provinceState,
                 });
 
-                const timezone = geoTz.find(lat, lon)[0];
-
-                const nextBillingDate = await findNextBillingDateByAccountId({
-                    accountId: account._id.toString(),
-                });
-
-                const nextBillingDateObject = DateTime.fromISO(nextBillingDate, { zone: timezone });
-                const formattedNextBillingDate = nextBillingDateObject.toLocaleString(DateTime.DATETIME_FULL);
-
-                setNextBillingDate(formattedNextBillingDate);
+                setNextBillingDate(nextBillingDate);
             } catch (error) {
                 console.error("Failed to find next billing date. Please try again later.", error);
             }
@@ -244,7 +233,6 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
 
                 </>
             )}
-
 
             <CheckoutSelection accountId={accountId} openModal={openCheckoutModal} setOpenModal={setOpenCheckoutModal} />
             <ChangeSubscription accountId={accountId} userId={user?._id.toString()} openModal={openChangeSubscriptionModal} setOpenModal={setOpenChangeSubscriptionModal} refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount} />
