@@ -19,10 +19,10 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
     }, [showPassword]);
 
     useEffect(() => {
-        // Fetch the countries when the component mounts
         const fetchCountries = async () => {
             try {
-                const countries = await getCountries();
+                let countries = await getCountries();
+                countries = countries.sort((a, b) => a.name.localeCompare(b.name)); // sort countries
                 setCountries(countries);
             } catch (error) {
                 console.error('Error fetching countries:', error);
@@ -35,9 +35,10 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
         if (formData.country) {
             const fetchStates = async () => {
                 try {
-                    const provinceStates = await findProvinceStateByCountryApi({
+                    let provinceStates = await findProvinceStateByCountryApi({
                         country: formData.country,
                     });
+                    provinceStates = provinceStates.sort((a, b) => a.name.localeCompare(b.name)); // sort province states
                     setProvinceStates(provinceStates);
                 } catch (error) {
                     console.error('Error fetching states:', error);
@@ -51,9 +52,10 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
         if (formData.provinceState) {
             const fetchCities = async () => {
                 try {
-                    const cities = await findCitiesByProvinceStateApi({
+                    let cities = await findCitiesByProvinceStateApi({
                         provinceState: formData.provinceState,
                     });
+                    cities = cities.sort((a, b) => a.name.localeCompare(b.name)); // sort cities
                     setCities(cities);
                 } catch (error) {
                     console.error('Error fetching cities:', error);
