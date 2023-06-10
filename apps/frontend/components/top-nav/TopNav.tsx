@@ -17,8 +17,14 @@ const TopNav = () => {
     };
 
     return (
-        <nav className="bg-black py-2 text-white flex flex-col md:flex-row ">
-            <div className="flex-1 flex justify-center sm:justify-end md:flex-wrap md:items-center w-full lg:y-4">
+        <nav className="bg-reviewDrumDarkGray py-2 text-white flex flex-col md:flex-row lg:flex-row">
+            <div className="flex justify-start items-center mb-2 md:mb-0 lg:mb-0 flex-shrink-0">
+                <LinkItem href="/home">
+                    <span className="text-reviewDrumMedGray">Review</span>
+                    <span className="text-reviewDrumOrange">Drum</span>
+                </LinkItem>
+            </div>
+            <div className="flex-1 flex justify-center sm:justify-end md:flex-wrap lg:flex-nowrap md:items-center lg:items-center w-full lg:y-4">
                 {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client')) ? (
                     <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 sm:pr-12">
                         {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client') && subscriptionStatus) ?

@@ -58,7 +58,7 @@ const HomePage: React.FC = () => {
                             {text.content.map((paragraph, i) => (
                                 <React.Fragment key={i}>
                                     <Typography variant={isMobile ? 'h6' : 'h4'}
-                                                sx={{ fontSize: isMobile ? (isMediumScreen ? (isLargeScreen ? '1.8rem' : '1.36rem') : '1.18rem') : '2rem', color: '#000000' }}>
+                                                sx={{ fontSize: isMobile ? (isMediumScreen ? (isLargeScreen ? '1.8rem' : '1.36rem') : '1.18rem') : '2rem', color: `${reviewDrumDarkGray}` }}>
                                         {boldWords(paragraph, wordsToBold)}
                                     </Typography>
                                     <br />
