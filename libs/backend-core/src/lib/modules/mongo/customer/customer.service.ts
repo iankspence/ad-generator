@@ -316,7 +316,7 @@ export class CustomerService {
                 const { lat, lon } = await this.cityService.findLatLonByCityAndProvinceState(city, provinceState);
                 const timezone = geoTz.find(lat, lon)[0];
                 const nextBillingDateObject = DateTime.fromMillis(subscription.current_period_end * 1000, { zone: timezone });
-                const nextBillingDate = nextBillingDateObject.toLocaleString(DateTime.DATE_FULL);
+                const nextBillingDate = nextBillingDateObject.toLocaleString(DateTime.DATETIME_FULL);
                 this.logger.log(`Next billing date for subscriptionId: ${customer.subscriptionId} is ${nextBillingDate}`);
 
                 return nextBillingDate;
