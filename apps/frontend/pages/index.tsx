@@ -1,9 +1,9 @@
-import LandingPage from './landing';
+import HomePage from './home';
 
 export function Index() {
     return (
         <div>
-            <LandingPage />
+            <HomePage />
         </div>
     );
 }
