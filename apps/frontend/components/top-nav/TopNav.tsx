@@ -19,7 +19,7 @@ const TopNav = () => {
     return (
         <nav className="bg-reviewDrumDarkGray py-2 text-white flex flex-col md:flex-row lg:flex-row">
             <div className="flex justify-start items-center mb-2 md:mb-0 lg:mb-0 flex-shrink-0">
-                <LinkItem href="/home">
+                <LinkItem href="/">
                     <span className="text-reviewDrumMedGray">Review</span>
                     <span className="text-reviewDrumOrange">Drum</span>
                 </LinkItem>

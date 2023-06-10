@@ -50,9 +50,9 @@ const HomePage: React.FC = () => {
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '10px' : '20px', marginX: isMobile ? '10px' : '20px' }}>
                 {textBlocks.map((text, index) => (
-                    <Box key={index} sx={{ height: `${isMobile ? '52vh' : '700px'}`, padding: '25px', backgroundImage: `linear-gradient(to right top, ${reviewDrumLightGray}, ${reviewDrumOrange})`, boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
+                    <Box key={index} sx={{ height: `${isMobile ? '500px' : '700px'}`, padding: '25px', backgroundImage: `linear-gradient(to right top, ${reviewDrumLightGray}, ${reviewDrumOrange})`, boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
                         <Box sx={{ maxWidth: `${(index !== 1) ? '580px' : '540px' }`, overflow: 'hidden' }}>
-                            <Typography variant={isMobile ? 'h3' : 'h1'} sx={{ fontWeight: 'normal', color: reviewDrumDarkGray, marginBottom: `${(index===0) ? '3vh' : '1vh' }`}}>
+                            <Typography variant={isMobile ? 'h3' : 'h1'} sx={{ fontWeight: 'normal', color: reviewDrumDarkGray, marginBottom: `${(index===0) ? '4vh' : '1vh' }`}}>
                                 {boldWords(text.title, wordsToBold)}
                             </Typography>
                             {text.content.map((paragraph, i) => (
