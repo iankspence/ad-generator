@@ -44,7 +44,6 @@ export class CustomerController {
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('client')
     @Post('find-customer-subscription-status-by-account-id')
     findCustomerSubscriptionStatusByAccountId(@Body() findCustomerSubscriptionStatusByAccountIdDto: FindCustomerSubscriptionStatusByAccountIdDto) {
         return this.customerService.findCustomerSubscriptionStatusByAccountId(findCustomerSubscriptionStatusByAccountIdDto.accountId);

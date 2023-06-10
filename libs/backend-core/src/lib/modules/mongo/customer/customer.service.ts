@@ -132,7 +132,7 @@ export class CustomerService {
             quantity: 1
         }];
         const mode = 'subscription';
-        const success_url = process.env.FRONTEND_URI + '/account';
+        const success_url = process.env.FRONTEND_URI + '/updated-subscription';
         const cancel_url = process.env.FRONTEND_URI + '/account';
 
         try {
@@ -283,7 +283,6 @@ export class CustomerService {
             throw error;
         }
     }
-
 
     async findNextBillingDateByAccountId(accountId: string): Promise<Date | null> {
         try {

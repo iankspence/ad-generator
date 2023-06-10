@@ -4,8 +4,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import KeyIcon from '@mui/icons-material/Key';
 import Box from '@mui/material/Box';
-import ScrapeGoogleMapsButton from '../buttons/ScrapeGoogleMapsButton';
-import ScrapeRateMdsButton from '../buttons/ScrapeRateMdsButton';
 import ChangeAudienceButton from '../ChangeAudienceButton';
 import UserContext from '../../../contexts/UserContext';
 import { CampaignContext } from '../../../contexts/CampaignContext';

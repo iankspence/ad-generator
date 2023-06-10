@@ -4,9 +4,12 @@ import { pricingData } from '../../utils/constants/pricingData';
 import { PricingCard } from '../pricing/PricingCard';
 import { changeSubscription } from '../../utils/api/mongo/customer/changeSubscriptionApi';
 import { reactivateUser } from '../../utils/api/mongo/user/register/reactivateUserApi';
+import {useRouter } from 'next/router';
 
 export function ChangeSubscription({ accountId, userId, openModal, setOpenModal, refreshAccount, setRefreshAccount }) {
     const [annualPayment, setAnnualPayment] = useState(false);
+    const router = useRouter();
+
 
     const handleChangeSubscription = async (annualPayment, price) => {
         const confirmMessage = `You are about to change your subscription. Please note that according to Stripe's policy:\n
@@ -27,9 +30,9 @@ export function ChangeSubscription({ accountId, userId, openModal, setOpenModal,
                     accountId: accountId.toString()
                 });
                 setRefreshAccount(!refreshAccount);
-
                 setOpenModal(false);
-                alert('Subscription changed successfully!');
+                router.push('/updated-subscription');
+
             } catch (error) {
                 alert('Failed to change subscription. Please try again later.');
             }

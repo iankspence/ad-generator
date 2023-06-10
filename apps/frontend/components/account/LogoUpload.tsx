@@ -68,7 +68,7 @@ const LogoUpload = ({ refreshAccount, setRefreshAccount }) => {
 
                         <div {...getRootProps()} className="flex justify-center items-center w-full h-48 border-2 border-dashed border-gray-300 rounded cursor-pointer hover:border-gray-400">
                             <input {...getInputProps()} />
-                            {account?.logo ? <img src={account?.logo} alt="Uploaded Logo" /> : <p>Drag and drop a logo or click to select a file</p>}
+                            {account?.logo ? <img src={account?.logo} alt="Uploaded Logo" /> : <p className="text-center p-6">Drag and drop a logo or click to select a file</p>}
                         </div>
                     </>
 

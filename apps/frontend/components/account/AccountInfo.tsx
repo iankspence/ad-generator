@@ -22,6 +22,7 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
     const router = useRouter();
 
     useEffect(() => {
+
         const findNextBillingDate = async () => {
             try {
                 const nextBillingDate = await findNextBillingDateByAccountId({
@@ -33,21 +34,12 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
             }
         }
 
+        if (!account || !subscriptionStatus) return;
+
         findNextBillingDate();
     }, [account, subscriptionStatus]);
 
-    const handleAdminDeleteAccount = async () => {
-        if (window.confirm("Are you sure you want to delete this account? This operation cannot be undone.")) {
-            try {
-                await deleteAccount({
-                    accountId: account._id.toString(),
-                });
-                setRefreshAccount(!refreshAccount);
-            } catch (error) {
-                console.error("Failed to delete account. Please try again later.", error);
-            }
-        }
-    };
+
 
     const handleDeactivateAccount = async () => {
         const message = subscriptionStatus ?
@@ -166,14 +158,20 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
 
                 </div>
 
+                <div className="flex">
+
+                    <p className="font-semibold py-2 w-1/2">Subscription Tier:</p>
+
+                    <p className="py-2 w-1/2">{subscriptionTier ? subscriptionTier : 'N/A'}</p>
+
+                </div>
+
                 {user.roles.includes('client') && (
                     <div className="flex">
-                        {subscriptionStatus ?
-                            <p className="font-semibold py-2 w-1/2">Subscription Tier:</p> :
+                        {subscriptionStatus &&
                             <p className="font-semibold py-2 w-1/2">Payment:</p>
                         }
-                        {subscriptionStatus ?
-                            <p className="py-2 w-1/2">{subscriptionTier}</p> :
+                        {subscriptionStatus &&
                             <div className="pb-2 pt-4 -translate-y-1.5">
                                 <Button type="button" variant="contained" color="inherit" className="w-full" onClick={handleOpenCheckoutModal}>Connect Payment</Button>
                             </div>
@@ -184,14 +182,6 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
 
 
             </div>
-
-            {account && (
-                <div className="flex mt-2">
-                    <div className="w-full">
-                        <LogoUpload refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount}/>
-                    </div>
-                </div>
-            )}
 
             {user.roles.includes('client') && (
                 <>
@@ -250,15 +240,6 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
                 </>
             )}
 
-            {user.roles.includes('admin') && (
-                <button
-                    onClick={handleAdminDeleteAccount}
-                    className={`text-sm underline text-red-500`}
-                    disabled={!account}
-                >
-                    Delete Account (Admin Only)
-                </button>
-            )}
 
             <CheckoutSelection accountId={accountId} openModal={openCheckoutModal} setOpenModal={setOpenCheckoutModal} />
             <ChangeSubscription accountId={accountId} userId={user?._id.toString()} openModal={openChangeSubscriptionModal} setOpenModal={setOpenChangeSubscriptionModal} refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount} />
