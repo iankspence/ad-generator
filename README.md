@@ -148,10 +148,9 @@ export class CustomerService {
 
 #### Logging Output
 The logger will output the following information:
+- `source` - the source of the log (e.g. `backend-dev`)
 - `timestamp` - the timestamp of the log
 - `level` - the log level
 - `context` - the context of the logger
 - `message` - the message to log
 - `trace` - the stack trace (if available)
-
-

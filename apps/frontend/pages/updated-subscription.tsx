@@ -24,18 +24,6 @@ export default function SubscriptionUpdated() {
                 <h1 className="text-3xl font-semibold text-center mb-4">Thank You For Your Subscription!</h1>
                 <p className="mb-4">{`We're thrilled to have you onboard and are excited to work with you.`}</p>
 
-                {(subscriptionTier === 'practitioner') && (
-                    <p className="mb-4">{`Within 3 business days, your ads will be uploaded to your 'deliveries' tab where they will be available for the duration of your subscription.  You'll receive an email as soon as they're ready.`}</p>
-                )}
-
-                {(subscriptionTier === 'team') && (
-                    <p className="mb-4">{`Within 3 business days, your ads will be uploaded to your 'deliveries' tab where they will be available for the duration of your subscription.  You'll receive an email as soon as they're ready.`}</p>
-                )}
-
-                {(subscriptionTier === 'clinic') && (
-                    <p className="mb-4">{`Within 3 business days, we'll create and request approval for our initial ad set.`}</p>
-                )}
-
                 <Button type="button" variant="contained" color="inherit" className="w-full mt-6" onClick={handleGoToAccount}>Go To Account</Button>
             </div>
         </div>

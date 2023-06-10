@@ -42,7 +42,7 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
 
     const handleDeactivateAccount = async () => {
         const message = subscriptionStatus ?
-            "You currently have an ongoing subscription. If you cancel your account and subscription, you will lose access to your account at the end of the current billing cycle.  Are you sure you want to do this?" :
+            "You currently have an ongoing subscription. If you cancel your subscription you will lose access to your account at the end of the current billing cycle.  Are you sure you want to do this?" :
             "You are about to permanently delete your account and will be signed out.  Are you sure you want to do this?";
 
         if (window.confirm(message)) {
