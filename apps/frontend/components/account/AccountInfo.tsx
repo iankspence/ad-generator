@@ -22,8 +22,6 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
     useEffect(() => {
         const findNextBillingDate = async () => {
             try {
-                if (!account) return;
-
                 const nextBillingDate = await findNextBillingDateByAccountId({
                     accountId: account._id.toString(),
                     city: account.city,
