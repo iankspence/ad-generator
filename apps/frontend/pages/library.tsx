@@ -9,7 +9,6 @@ import PdfGrid from "../components/library/grid/PdfGrid";
 import FacebookGrid from "../components/library/grid/FacebookGrid";
 import LoadingScreen from "../components/loading-screen/LoadingScreen";
 import { FindAdsByAccountIdDto } from "@monorepo/type";
-import NoAccess from "../components/loading-screen/NoAccess";
 import { useUser } from '../hooks/useUser';
 
 const Library = () => {
@@ -51,10 +50,6 @@ const Library = () => {
     };
 
     if ( !user || !user?.roles ) return <LoadingScreen />;
-
-    if (!user?.roles.includes('admin') && !user?.roles.includes('content-manager')) {
-        return <NoAccess />;
-    }
 
     return (
         <>

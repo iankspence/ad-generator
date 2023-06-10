@@ -7,7 +7,6 @@ import { findReviewsByAccountId } from '../utils/api/mongo/review/findReviewsByA
 import { formatAudienceData } from '../components/reviews/formatAudienceData';
 import PrivateAccessButton from '../components/reviews/floating-buttons/PrivateAccessButton';
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
-import NoAccess from '../components/loading-screen/NoAccess';
 import { useUser } from '../hooks/useUser';
 
 function ReviewsPage() {
@@ -30,10 +29,6 @@ function ReviewsPage() {
     const tableData = formatAudienceData(reviews);
 
     if ( !user || !user?.roles ) return <LoadingScreen />;
-
-    if (!user?.roles.includes('admin') && !user?.roles.includes('content-manager') && !user?.roles.includes('client')) {
-        return <NoAccess />;
-    }
 
     return (
         <>

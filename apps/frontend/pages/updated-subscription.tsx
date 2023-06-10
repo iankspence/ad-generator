@@ -4,7 +4,6 @@ import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useUser } from '../hooks/useUser';
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
-import NoAccess from '../components/loading-screen/NoAccess';
 
 export default function SubscriptionUpdated() {
     const { user, subscriptionTier } = useContext(UserContext);
@@ -17,10 +16,6 @@ export default function SubscriptionUpdated() {
 
     if (!user || !user?.roles) {
         return <LoadingScreen />;
-    }
-
-    if (!user?.roles.includes('admin') && !user?.roles.includes('content-manager') && !user?.roles.includes('client')) {
-        return <NoAccess />;
     }
 
     return (

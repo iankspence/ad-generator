@@ -8,9 +8,11 @@ import {
     findCustomerSubscriptionStatusByAccountId,
 } from '../utils/api/mongo/customer/findCustomerSubscriptionStatusByAccountIdApi';
 import { findSubscriptionTierByPriceId } from '../utils/api/mongo/customer/findSubscriptionTierByPriceId';
+import { useRouter } from 'next/router';
 
 export const useUser = () => {
     const { user, setUser, account, setAccount, setSubscriptionStatus, setSubscriptionTier } = useContext(UserContext);
+    const router = useRouter();
 
     const fetchAndSetSubscriptionStatus = async () => {
         if (account) {
@@ -67,11 +69,15 @@ export const useUser = () => {
                 setUser(currentUser);
             } catch (error) {
                 console.error('Error fetching current user:', error);
+                if (error.response && error.response.status === 401) {
+                    router.push('/sign-in');
+                }
             }
         };
 
         fetchAndSetCurrentUser();
     }, []);
+
 
     useEffect(() => {
         fetchAndSetDefaultAccount();

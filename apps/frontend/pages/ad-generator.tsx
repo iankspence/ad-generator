@@ -6,7 +6,6 @@ import { findTextByAccountId } from '../utils/api/mongo/account/findTextByAccoun
 import React, { useContext, useEffect } from 'react';
 import { FindTextByAccountIdDto } from '@monorepo/type';
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
-import NoAccess from '../components/loading-screen/NoAccess';
 import { useUser } from '../hooks/useUser';
 
 function AdGeneratorPage() {
@@ -34,10 +33,6 @@ function AdGeneratorPage() {
     }, [account]);
 
     if ( !user || !user?.roles ) return <LoadingScreen />;
-
-    if (!user?.roles.includes('admin') && !user?.roles.includes('content-manager')) {
-        return <NoAccess />;
-    }
 
     return (
         <div className="bg-reviewDrumLightGray">

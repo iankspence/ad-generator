@@ -3,7 +3,6 @@ import TopNav from '../components/top-nav/TopNav';
 import UserContext from '../contexts/UserContext';
 import AccountInfo from "../components/account/AccountInfo";
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
-import NoAccess from '../components/loading-screen/NoAccess';
 import { useUser } from '../hooks/useUser';
 import useAccounts from '../hooks/useAccounts';
 import PrivateAccountButton  from '../components/account/PrivateAccountButton';
@@ -11,14 +10,11 @@ import PrivateAccountButton  from '../components/account/PrivateAccountButton';
 export function AccountPage() {
     const { user, account } = useContext(UserContext);
     const { refreshAccount, setRefreshAccount } = useAccounts();
+
     useUser();
 
     if (!user || !user?.roles) {
         return <LoadingScreen />;
-    }
-
-    if (!user?.roles.includes('admin') && !user?.roles.includes('content-manager') && !user?.roles.includes('client')) {
-        return <NoAccess />;
     }
 
     return (
