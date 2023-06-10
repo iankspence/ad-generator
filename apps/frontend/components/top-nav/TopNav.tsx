@@ -2,7 +2,7 @@ import UserContext from '../../contexts/UserContext';
 import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
 import { signOut } from '../../utils/api/mongo/user/sign-in/signOutApi';
-import { LinkItem } from './LinkItem';
+import LinkItem from './LinkItem';
 
 const TopNav = () => {
     const router = useRouter();
@@ -17,16 +17,16 @@ const TopNav = () => {
     };
 
     return (
-        <nav className="bg-reviewDrumDarkGray py-2 text-white flex flex-col md:flex-row lg:flex-row">
-            <div className="flex justify-start items-center mb-2 md:mb-0 lg:mb-0 flex-shrink-0">
+        <nav className="bg-reviewDrumDarkGray py-2 text-white flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-2 md:mb-0 md:pl-3">   {/* Add left padding here */}
                 <LinkItem href="/">
                     <span className="text-reviewDrumMedGray">Review</span>
                     <span className="text-reviewDrumOrange">Drum</span>
                 </LinkItem>
             </div>
-            <div className="flex-1 flex justify-center sm:justify-end md:flex-wrap lg:flex-nowrap md:items-center lg:items-center w-full lg:y-4">
+            <div className="md:flex md:flex-row md:justify-end md:items-center w-full">
                 {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client')) ? (
-                    <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 sm:pr-12">
+                    <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 md:pr-12">
                         {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client') && subscriptionStatus) ?
                             <LinkItem href="/reviews">Reviews</LinkItem>
                             : null
@@ -48,7 +48,7 @@ const TopNav = () => {
                         </span>
                     </div>
                 ) : (
-                    <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-10 sm:pr-12">
+                    <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-10 md:pr-12">
                         <LinkItem href="/learn-how">Learn How</LinkItem>
                         <LinkItem href="/steps">Steps</LinkItem>
                         <LinkItem href="/pricing">Pricing</LinkItem>
