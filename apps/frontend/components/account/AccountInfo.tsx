@@ -147,7 +147,7 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
                 </div>
 
                 <div className="flex">
-                    <p className="font-semibold py-2 w-1/2">Service Renewal Date:</p>
+                    <p className="font-semibold py-2 w-1/2">Service Renewal:</p>
 
                     {subscriptionStatus && account && account.isActive ? (
                         <p className="py-2 w-1/2">{nextBillingDate}</p>
