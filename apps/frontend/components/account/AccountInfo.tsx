@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import LogoUpload from './LogoUpload';
 import UserContext from "../../contexts/UserContext";
 import { Button } from '@mui/material';
 import { CheckoutSelection } from './CheckoutSelection';
@@ -11,6 +10,7 @@ import { reactivateUser } from '../../utils/api/mongo/user/register/reactivateUs
 import { reactivateSubscription } from '../../utils/api/mongo/customer/reactivateSubscriptionApi';
 import { deactivateSubscription } from '../../utils/api/mongo/customer/deactivateSubscriptionApi';
 import { findNextBillingDateByAccountId } from '../../utils/api/mongo/customer/findNextBillingDateByAccountIdApi';
+import moment from 'moment';
 
 export default function AccountInfo({ accountId, refreshAccount, setRefreshAccount }) {
     const { account, user, subscriptionStatus, setUser, subscriptionTier } = useContext(UserContext);
@@ -20,6 +20,12 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
 
     const router = useRouter();
 
+    const calculateDaysUntilNextBillingDate = (nextBillingDateString) => {
+        const today = moment();
+        const nextBillingDateObject = moment(nextBillingDateString);
+        return nextBillingDateObject.diff(today, 'days');
+    }
+
     useEffect(() => {
 
         const findNextBillingDate = async () => {
@@ -27,7 +33,8 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
                 const nextBillingDate = await findNextBillingDateByAccountId({
                     accountId: account._id.toString(),
                 });
-                setNextBillingDate(nextBillingDate);
+
+                setNextBillingDate(calculateDaysUntilNextBillingDate(nextBillingDate));
             } catch (error) {
                 console.error("Failed to find next billing date. Please try again later.", error);
             }
@@ -37,7 +44,6 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
 
         findNextBillingDate();
     }, [account, subscriptionStatus]);
-
 
 
     const handleDeactivateAccount = async () => {
@@ -150,20 +156,12 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
                     <p className="font-semibold py-2 w-1/2">Next Billing Date:</p>
 
                     {subscriptionStatus && account && account.isActive ? (
-                        <p className="py-2 w-1/2">{nextBillingDate}</p>
+                        <p className="py-2 w-1/2">{`${nextBillingDate} days from today`}</p>
                     ) : (
                         <p className="py-2 w-1/2">N/A</p>
                     )}
-
                 </div>
 
-                <div className="flex">
-
-                    <p className="font-semibold py-2 w-1/2">Subscription Tier:</p>
-
-                    <p className="py-2 w-1/2">{subscriptionTier ? subscriptionTier : 'N/A'}</p>
-
-                </div>
 
                 { user.roles.includes('client') && (
                     <div className="flex">
