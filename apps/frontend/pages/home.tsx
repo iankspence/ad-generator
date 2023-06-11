@@ -1,24 +1,25 @@
-import React from 'react';
-import { Typography, useTheme, useMediaQuery } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Typography, useTheme, useMediaQuery, Button } from '@mui/material';
 import Box from '@mui/system/Box';
 import TopNav from '../components/top-nav/TopNav';
+import Link from 'next/link';
 
 const textBlocks = [
     {
         title: 'We believe true stories make the best ads.',
-        content: ['This belief inspires us to transform online reviews into Facebook ads, helping chiropractors grow their online brand in the digital age.'],
+        content: ['This belief inspires us to transform authentic reviews into Facebook ads, helping chiropractors grow their brand in the digital age.'],
     },
     {
         title: 'We serve practitioners',
         content: [
-            'who understand that the easiest way to attract and retain patients in 2023 is through a strong online presence.',
-            `We only serve clinics rated 4.2 stars or higher across 50+ reviews so that folks in need find the best care possible.`,
+            'who understand their excellence at work needs to be coupled with a strong online presence.',
+            `We only serve top-tier practices who are rated 4.2 stars or higher with over 50 reviews (Google/RateMDs).`,
         ],
     },
     {
         title: 'We provide digital ad services',
         content: [
-            `for communicating success stories to targeted audiences within your local community.`,
+            `for communicating true stories to targeted audiences within your local community.`,
             `From coming up with the ad creative, to handling the ad account, we've got you covered.`,
         ],
     },
@@ -30,14 +31,55 @@ const boldWords = (sentence, words) => {
     );
 }
 
-const wordsToBold = ['true', 'local', 'covered.', 'stories', 'only', 'patients', 'account,', 'transform', 'Facebook', 'ads,', 'best', 'creative,', 'inspires', 'ads.', '4.2', 'stars', 'retain', 'success', 'targeted', 'audiences', 'attract', '50+', 'reviews', 'authentic', 'presence', 'chiropractors', 'practitioners', 'community.', 'reviews', 'online', 'brand', 'digital', 'care', 'possible.', 'ad', 'services', 'age.', 'strong', 'presence.', 'community'];
+const wordsToBold = ['true', '50', 'local', 'chiropractors', 'covered.', 'stories', 'patients', 'account,', 'brand', 'excellence', 'coupled', 'best', 'creative,', 'ads.', '4.2', 'stars', 'retain', 'success', 'targeted', 'audiences', 'attract', '50+', 'reviews', 'authentic', 'presence', 'practitioners', 'community.', 'reviews', 'online', 'digital', 'care', 'possible.', 'ad', 'services', 'age.', 'strong', 'presence.', 'community'];
 
 const HomePage: React.FC = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const isMediumScreen = useMediaQuery('(min-width:412px)'); // Custom breakpoint
-    const isLargeScreen = useMediaQuery('(min-width:573px)'); // Another custom breakpoint
+    const isMediumScreen = useMediaQuery('(min-width:412px)');
+    const isLargeScreen = useMediaQuery('(min-width:573px)');
 
+    const [cardRefs, setCardRefs] = useState([]);
+
+    const [thirdCardVisible, setThirdCardVisible] = useState(false);
+
+    useEffect(() => {
+        setCardRefs(refs =>
+            Array(textBlocks.length)
+                .fill(0)
+                .map((_, i) => refs[i] || React.createRef())
+        );
+    }, []);
+
+    useEffect(() => {
+        const checkVisibility = () => {
+            if (!cardRefs) {
+                return;
+            }
+            const percentages = cardRefs.map((ref) => {
+                if (ref.current) {
+                    const rect = ref.current.getBoundingClientRect();
+
+                    const elementHeight = rect.height;
+                    const visible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+
+                    if (visible) {
+                        return 100;
+                    } else {
+                        return Math.max(0, Math.min(elementHeight, window.innerHeight - rect.top, rect.bottom - window.innerHeight) / elementHeight * 100);
+                    }
+                } else {
+                    return 0;
+                }
+            });
+
+            setThirdCardVisible(percentages[2] > 0);
+        };
+
+        window.addEventListener('scroll', checkVisibility);
+        return () => window.removeEventListener('scroll', checkVisibility);
+
+    }, [cardRefs]);
 
     const reviewDrumDarkGray = '#1E1E1E'
     const reviewDrumLightGray = '#D9D9D9';
@@ -50,9 +92,9 @@ const HomePage: React.FC = () => {
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '10px' : '20px', marginX: isMobile ? '10px' : '20px' }}>
                 {textBlocks.map((text, index) => (
-                    <Box key={index} sx={{ height: `${isMobile ? '500px' : '700px'}`, padding: '25px', backgroundImage: `linear-gradient(to right top, ${reviewDrumLightGray}, ${reviewDrumOrange})`, boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
+                    <Box ref={cardRefs[index]} key={index} sx={{ height: `${isMobile ? '500px' : '700px'}`, padding: '25px', backgroundImage: `linear-gradient(to right top, ${reviewDrumLightGray}, ${reviewDrumOrange})`, boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', position: 'relative' }}>
                         <Box sx={{ maxWidth: `${(index !== 1) ? '580px' : '540px' }`, overflow: 'hidden' }}>
-                            <Typography variant={isMobile ? 'h3' : 'h1'} sx={{ fontWeight: 'normal', color: reviewDrumDarkGray, marginBottom: `${(index===0) ? '4vh' : '1vh' }`}}>
+                            <Typography variant={isMobile ? 'h3' : 'h1'} sx={{ fontWeight: 'normal', color: reviewDrumDarkGray, marginBottom: `${(index===0) ? '5vh' : '1vh' }`}}>
                                 {boldWords(text.title, wordsToBold)}
                             </Typography>
                             {text.content.map((paragraph, i) => (
@@ -62,20 +104,52 @@ const HomePage: React.FC = () => {
                                         {boldWords(paragraph, wordsToBold)}
                                     </Typography>
                                     <br />
-                                    <br />
+
+                                    {index === 1 && !isMobile &&
+                                        <>
+                                            <br />
+                                        </>
+                                    }
+                                    {index === 2 && <br />}
                                 </React.Fragment>
                             ))}
-
-
                         </Box>
+
+                        {index === 1 &&
+                            <Link href="/learn-how" passHref>
+                                <Button
+                                    sx={{
+                                        width: `${isMobile ? '88%' : '500px'}`,
+                                        height: `${isMobile ? '56px' : '80px'}`,
+                                        fontSize: `${isMobile ? '1.2rem' : '2rem'}`,
+                                        position: 'absolute',
+                                        bottom: `${isMobile ? '10px' : '20px'}`,
+                                        left: `${isMobile ? '19px' : '25px'}`,
+                                        backgroundColor: `${reviewDrumOrange}`,
+                                        color: 'white',
+                                        borderRadius: '5px',
+                                        marginTop: '15px',
+                                        transition: 'all 0.3s ease-in-out',
+                                        opacity: thirdCardVisible ? `${isMobile ? 1 : 0.9}` : 0.6,
+                                        boxShadow: thirdCardVisible ? `${isMobile ? '0px 5px 20px rgba(0, 0, 0, 0.3)' : '0px 5px 20px rgba(0, 0, 0, 0.2)'}` : 'none',
+                                        '&:hover': {
+                                            backgroundColor: `${reviewDrumOrange}`,
+                                            color: 'white',
+                                            boxShadow: '0px 5px 20px rgba(0, 0, 0, 0.3)',
+                                            opacity: 1,
+                                        },
+                                    }}
+                                >
+                                    Learn How
+                                </Button>
+                            </Link>
+                        }
                     </Box>
                 ))}
             </Box>
             <div className="py-4"></div>
 
-
         </>
-
     );
 };
 

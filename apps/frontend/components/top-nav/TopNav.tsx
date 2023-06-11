@@ -18,7 +18,7 @@ const TopNav = () => {
 
     return (
         <nav className="bg-reviewDrumDarkGray py-2 text-white flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-2 md:mb-0 md:pl-3">   {/* Add left padding here */}
+            <div className="mb-2 md:mb-0 md:pl-3">
                 <LinkItem href="/">
                     <span className="text-reviewDrumMedGray">Review</span>
                     <span className="text-reviewDrumOrange">Drum</span>

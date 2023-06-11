@@ -8,7 +8,7 @@ export function PricingCard({ price, annualPayment, buttonText, onClick }) {
                     <Typography variant="h5" component="div" gutterBottom className="mb-2">
                         {price.tier}
                     </Typography>
-                    <Typography variant="h6" component="p" className="font-bold mb-2">
+                    <Typography variant="body1" component="p" className="font-bold mb-2">
                         {annualPayment ? `${price.annual} /yr` : `${price.monthly} /mo`}
                     </Typography>
                 </div>
