@@ -1,4 +1,4 @@
-import TopNav from '../components/top-nav/TopNav';
+import TopNav from '../components/nav-bars/TopNav';
 import { register } from '../utils/api/mongo/user/register/registerApi';
 import React, { useState } from 'react';
 import RegisterForm from '../components/register/RegisterForm';

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, useTheme, useMediaQuery, Button } from '@mui/material';
 import Box from '@mui/system/Box';
-import TopNav from '../components/top-nav/TopNav';
+import TopNav from '../components/nav-bars/TopNav';
 import Link from 'next/link';
+import BottomNav from '../components/nav-bars/BottomNav';
 
 const textBlocks = [
     {
@@ -12,15 +13,15 @@ const textBlocks = [
     {
         title: 'We serve practitioners',
         content: [
-            'who understand their excellence at work needs to be coupled with a strong online presence.',
+            'who understand that excellence at work needs to be coupled with a strong online presence.',
             `We only serve top-tier practices who are rated 4.2 stars or higher with over 50 reviews (Google/RateMDs).`,
         ],
     },
     {
         title: 'We provide digital ad services',
         content: [
-            `for communicating true stories to targeted audiences within your local community.`,
-            `From coming up with the ad creative, to handling the ad account, we've got you covered.`,
+            `for sharing true stories with targeted audiences in your local community.`,
+            `From coming up with your ad creative, to handling your ad account, we've got you covered.`,
         ],
     },
 ];
@@ -31,7 +32,7 @@ const boldWords = (sentence, words) => {
     );
 }
 
-const wordsToBold = ['true', '50', 'local', 'chiropractors', 'covered.', 'stories', 'patients', 'account,', 'brand', 'excellence', 'coupled', 'best', 'creative,', 'ads.', '4.2', 'stars', 'retain', 'success', 'targeted', 'audiences', 'attract', '50+', 'reviews', 'authentic', 'presence', 'practitioners', 'community.', 'reviews', 'online', 'digital', 'care', 'possible.', 'ad', 'services', 'age.', 'strong', 'presence.', 'community'];
+const wordsToBold = ['true', '50', 'local', 'chiropractors', 'covered.', 'stories', 'patients', 'account,', 'brand', 'top-tier', 'excellence', 'coupled', 'best', 'creative,', 'ads.', '4.2', 'stars', 'retain', 'success', 'targeted', 'audiences', 'attract', '50+', 'reviews', 'authentic', 'presence', 'practitioners', 'community.', 'reviews', 'online', 'digital', 'care', 'possible.', 'ad', 'services', 'age.', 'strong', 'presence.', 'community'];
 
 const HomePage: React.FC = () => {
     const theme = useTheme();
@@ -88,7 +89,7 @@ const HomePage: React.FC = () => {
     return (
         <>
             <TopNav />
-            <div className="py-4"></div>
+            <div className={`${isMobile? "py-2" : "py-4"}`}></div>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '10px' : '20px', marginX: isMobile ? '10px' : '20px' }}>
                 {textBlocks.map((text, index) => (
@@ -116,7 +117,7 @@ const HomePage: React.FC = () => {
                         </Box>
 
                         {index === 1 &&
-                            <Link href="/learn-how" passHref>
+                            <Link href="/learn-more" passHref>
                                 <Button
                                     sx={{
                                         width: `${isMobile ? '88%' : '500px'}`,
@@ -140,15 +141,15 @@ const HomePage: React.FC = () => {
                                         },
                                     }}
                                 >
-                                    Learn How
+                                    Learn More
                                 </Button>
                             </Link>
                         }
                     </Box>
                 ))}
             </Box>
-            <div className="py-4"></div>
-
+            <div className={`${isMobile? "py-2" : "py-4"}`}></div>
+            <BottomNav />
         </>
     );
 };

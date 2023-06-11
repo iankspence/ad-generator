@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TopNav from '../components/top-nav/TopNav';
+import TopNav from '../components/nav-bars/TopNav';
 import {
     Typography,
     FormControlLabel,
@@ -51,7 +51,7 @@ export function PricingPage() {
                     ))}
                 </Grid>
 
-                <Box mt={6} mx={12}>
+                <Box mt={6} mx={1}>
                     <Typography variant="h5" component="h2" gutterBottom>
                         Frequently Asked Questions
                     </Typography>

@@ -1,5 +1,5 @@
 import ContentGenerator from '../components/pixi/content-generator/ContentGenerator';
-import TopNav from '../components/top-nav/TopNav';
+import TopNav from '../components/nav-bars/TopNav';
 import { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';
 import { findTextByAccountId } from '../utils/api/mongo/account/findTextByAccountIdApi';

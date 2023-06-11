@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import ReviewsAudienceTable from '../components/reviews/ReviewsAudienceTable';
-import TopNav from '../components/top-nav/TopNav';
+import TopNav from '../components/nav-bars/TopNav';
 import { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';
 import { findReviewsByAccountId } from '../utils/api/mongo/review/findReviewsByAccountIdApi';

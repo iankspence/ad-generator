@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import { Grid } from "@mui/material";
-import TopNav from "../components/top-nav/TopNav";
+import TopNav from "../components/nav-bars/TopNav";
 import { findAdsByAccountId } from "../utils/api/mongo/ad/findAdsByAccountIdApi";
 import UserContext from "../contexts/UserContext";
 import {CampaignContext} from "../contexts/CampaignContext";

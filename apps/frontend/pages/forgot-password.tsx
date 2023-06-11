@@ -1,4 +1,4 @@
-import TopNav from '../components/top-nav/TopNav';
+import TopNav from '../components/nav-bars/TopNav';
 import { forgotPassword } from '../utils/api/mongo/user/forgot-password/forgotPasswordApi';
 import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';

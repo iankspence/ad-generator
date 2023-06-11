@@ -1,4 +1,4 @@
-import TopNav from '../components/top-nav/TopNav';
+import TopNav from '../components/nav-bars/TopNav';
 import React from 'react';
 
 export function LearnMorePage() {

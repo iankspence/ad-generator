@@ -1,4 +1,4 @@
-import TopNav from '../components/top-nav/TopNav';
+import TopNav from '../components/nav-bars/TopNav';
 import UserContext from '../contexts/UserContext';
 import { signIn } from '../utils/api/mongo/user/sign-in/signInApi';
 import React, { useState, useContext, useEffect } from 'react';

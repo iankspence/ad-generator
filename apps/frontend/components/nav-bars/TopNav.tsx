@@ -17,7 +17,7 @@ const TopNav = () => {
     };
 
     return (
-        <nav className="bg-reviewDrumDarkGray py-2 text-white flex flex-col md:flex-row justify-between items-center">
+        <nav className="bg-reviewDrumDarkGray py-2 text-white flex flex-col md:flex-row justify-between items-center sticky top-0 z-50">
             <div className="mb-2 md:mb-0 md:pl-3">
                 <LinkItem href="/">
                     <span className="text-reviewDrumMedGray">Review</span>
@@ -49,8 +49,7 @@ const TopNav = () => {
                     </div>
                 ) : (
                     <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-10 md:pr-12">
-                        <LinkItem href="/learn-how">Learn How</LinkItem>
-                        <LinkItem href="/steps">Steps</LinkItem>
+                        <LinkItem href="/learn-more">Learn More</LinkItem>
                         <LinkItem href="/pricing">Pricing</LinkItem>
                         <LinkItem href="/sign-in">Sign In</LinkItem>
                     </div>

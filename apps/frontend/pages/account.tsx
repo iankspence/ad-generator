@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import TopNav from '../components/top-nav/TopNav';
+import TopNav from '../components/nav-bars/TopNav';
 import UserContext from '../contexts/UserContext';
 import AccountInfo from "../components/account/AccountInfo";
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
