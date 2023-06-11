@@ -2,6 +2,7 @@ import TopNav from '../components/nav-bars/TopNav';
 import { resetPassword } from '../utils/api/mongo/user/forgot-password/resetPasswordApi';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
+import BottomNav from '../components/nav-bars/BottomNav';
 
 export function ResetPasswordPage() {
     const router = useRouter();
@@ -69,6 +70,7 @@ export function ResetPasswordPage() {
                     </form>
                 </div>
             </div>
+            <BottomNav />
         </div>
     );
 }

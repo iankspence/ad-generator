@@ -3,6 +3,7 @@ import { forgotPassword } from '../utils/api/mongo/user/forgot-password/forgotPa
 import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import Link from 'next/link';
+import BottomNav from '../components/nav-bars/BottomNav';
 
 export function ForgotPasswordPage() {
     const [email, setEmail] = useState('');
@@ -46,6 +47,7 @@ export function ForgotPasswordPage() {
                     </div>
                 </form>
             </div>
+            <BottomNav />
         </div>
     );
 }

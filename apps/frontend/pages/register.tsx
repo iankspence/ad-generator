@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import RegisterForm from '../components/register/RegisterForm';
 import RegisterSuccessPopup from '../components/register/RegisterSuccessPopup';
 import { useRouter } from 'next/router';
+import BottomNav from '../components/nav-bars/BottomNav';
 
 export function RegisterPage() {
     const [formData, setFormData] = useState({
@@ -64,6 +65,7 @@ export function RegisterPage() {
                 />
                 <RegisterSuccessPopup open={showPopup} handleClose={closePopupAndRedirect} />
             </div>
+            <BottomNav />
         </div>
     );
 }

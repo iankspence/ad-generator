@@ -2,7 +2,7 @@ import TopNav from '../components/nav-bars/TopNav';
 import React from 'react';
 import BottomNav from '../components/nav-bars/BottomNav';
 
-export function LearnMorePage() {
+export function AboutPage() {
     return (
         <div>
             <TopNav />
@@ -16,4 +16,4 @@ export function LearnMorePage() {
     );
 }
 
-export default LearnMorePage;
+export default AboutPage;

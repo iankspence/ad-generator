@@ -13,6 +13,7 @@ import { faqs } from '../utils/constants/faqs';
 import { PricingCard } from '../components/pricing/PricingCard';
 import { pricingData } from '../utils/constants/pricingData';
 import { useRouter } from 'next/router';
+import BottomNav from '../components/nav-bars/BottomNav';
 
 export function PricingPage() {
     const [annualPayment, setAnnualPayment] = useState(false);
@@ -74,6 +75,8 @@ export function PricingPage() {
                 </div>
 
             </div>
+
+            <BottomNav />
 
         </div>
     );

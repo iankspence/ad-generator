@@ -8,6 +8,7 @@ import { formatAudienceData } from '../components/reviews/formatAudienceData';
 import PrivateAccessButton from '../components/reviews/floating-buttons/PrivateAccessButton';
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
 import { useUser } from '../hooks/useUser';
+import BottomNav from '../components/nav-bars/BottomNav';
 
 function ReviewsPage() {
     const { user, account} = useContext(UserContext);
@@ -43,6 +44,7 @@ function ReviewsPage() {
                 user && (user.roles.includes('admin') || user.roles.includes('content-manager')) && selectedAudiencePosition !== null &&
                 <PrivateAccessButton refreshReviews={refreshReviews} setRefreshReviews={setRefreshReviews} />
             }
+            <BottomNav />
         </>
     );
 }

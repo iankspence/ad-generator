@@ -7,6 +7,7 @@ import React, { useContext, useEffect } from 'react';
 import { FindTextByAccountIdDto } from '@monorepo/type';
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
 import { useUser } from '../hooks/useUser';
+import BottomNav from '../components/nav-bars/BottomNav';
 
 function AdGeneratorPage() {
     const { account, user } = useContext(UserContext);
@@ -46,6 +47,7 @@ function AdGeneratorPage() {
                     </div>
                 </div>
             </div>
+            <BottomNav />
         </div>
     );
 }

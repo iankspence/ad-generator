@@ -50,6 +50,7 @@ const TopNav = () => {
                 ) : (
                     <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-10 md:pr-12">
                         <LinkItem href="/learn-more">Learn More</LinkItem>
+                        <LinkItem href="/about">About</LinkItem>
                         <LinkItem href="/pricing">Pricing</LinkItem>
                         <LinkItem href="/sign-in">Sign In</LinkItem>
                     </div>

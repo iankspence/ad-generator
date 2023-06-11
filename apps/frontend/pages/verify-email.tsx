@@ -2,6 +2,7 @@ import { verifyEmail } from '../utils/api/mongo/user/verify-email/verifyEmailApi
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { VerifyEmailDto } from '@monorepo/type';
+import BottomNav from '../components/nav-bars/BottomNav';
 
 export default function VerifyEmail() {
     const router = useRouter();
@@ -51,6 +52,7 @@ export default function VerifyEmail() {
                     <p>There was an error verifying your email. Please try again or contact support.</p>
                 </div>
             )}
+            <BottomNav />
         </div>
     );
 }

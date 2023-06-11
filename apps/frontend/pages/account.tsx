@@ -6,6 +6,7 @@ import LoadingScreen from '../components/loading-screen/LoadingScreen';
 import { useUser } from '../hooks/useUser';
 import useAccounts from '../hooks/useAccounts';
 import PrivateAccountButton  from '../components/account/PrivateAccountButton';
+import BottomNav from '../components/nav-bars/BottomNav';
 
 export function AccountPage() {
     const { user, account } = useContext(UserContext);
@@ -30,6 +31,7 @@ export function AccountPage() {
                     {account && <AccountInfo accountId={account._id} refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount} />}
                 </div>
             </div>
+            <BottomNav />
         </>
     );
 }

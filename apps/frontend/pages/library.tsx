@@ -10,6 +10,7 @@ import FacebookGrid from "../components/library/grid/FacebookGrid";
 import LoadingScreen from "../components/loading-screen/LoadingScreen";
 import { FindAdsByAccountIdDto } from "@monorepo/type";
 import { useUser } from '../hooks/useUser';
+import BottomNav from "../components/nav-bars/BottomNav";
 
 const Library = () => {
     const { account, user } = useContext(UserContext);
@@ -87,6 +88,7 @@ const Library = () => {
                     />
                 </Grid>
             </div>
+            <BottomNav />
         </>
     );
 };

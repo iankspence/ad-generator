@@ -5,7 +5,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import Router from 'next/router';
 import { TextField, Button, IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import Link from 'next/link'; // Importing Link from next/link
+import Link from 'next/link';
+import BottomNav from '../components/nav-bars/BottomNav';
 
 export function SignInPage() {
     const [email, setEmail] = useState('');
@@ -86,6 +87,7 @@ export function SignInPage() {
                     </div>
                 </form>
             </div>
+            <BottomNav />
         </div>
     );
 }

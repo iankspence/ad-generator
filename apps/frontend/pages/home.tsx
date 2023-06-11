@@ -130,7 +130,7 @@ const HomePage: React.FC = () => {
                                         color: 'white',
                                         borderRadius: '5px',
                                         marginTop: '15px',
-                                        transition: 'all 0.3s ease-in-out',
+                                        transition: 'all 0.5s ease-in-out',
                                         opacity: thirdCardVisible ? `${isMobile ? 1 : 0.9}` : 0.6,
                                         boxShadow: thirdCardVisible ? `${isMobile ? '0px 5px 20px rgba(0, 0, 0, 0.3)' : '0px 5px 20px rgba(0, 0, 0, 0.2)'}` : 'none',
                                         '&:hover': {
