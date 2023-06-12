@@ -1,10 +1,8 @@
-import TopNav from '../components/nav-bars/TopNav';
 import { register } from '../utils/api/mongo/user/register/registerApi';
 import React, { useState } from 'react';
 import RegisterForm from '../components/register/RegisterForm';
 import RegisterSuccessPopup from '../components/register/RegisterSuccessPopup';
 import { useRouter } from 'next/router';
-import BottomNav from '../components/nav-bars/BottomNav';
 
 export function RegisterPage() {
     const [formData, setFormData] = useState({
@@ -53,7 +51,6 @@ export function RegisterPage() {
 
     return (
         <div>
-            <TopNav />
             <div className="min-h-screen bg-reviewDrumLightGray flex flex-col items-center justify-start overflow-auto pt-8">
                 <h1 className="text-3xl mb-4 mt-4 text-center font-semibold text-reviewDrumDarkGray">Register</h1>
                 <RegisterForm
@@ -65,7 +62,6 @@ export function RegisterPage() {
                 />
                 <RegisterSuccessPopup open={showPopup} handleClose={closePopupAndRedirect} />
             </div>
-            <BottomNav />
         </div>
     );
 }

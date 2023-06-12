@@ -23,7 +23,11 @@ const PrivacyPolicy = () => {
         });
     };
 
-    return createPolicyDiv();
+    return (
+        <div className="bg-reviewDrumLightGray min-h-screen">
+            {createPolicyDiv()}
+        </div>
+    );
 }
 
 export default PrivacyPolicy;

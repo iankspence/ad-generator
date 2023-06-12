@@ -1,8 +1,6 @@
-import TopNav from '../components/nav-bars/TopNav';
 import { resetPassword } from '../utils/api/mongo/user/forgot-password/resetPasswordApi';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
-import BottomNav from '../components/nav-bars/BottomNav';
 
 export function ResetPasswordPage() {
     const router = useRouter();
@@ -40,7 +38,6 @@ export function ResetPasswordPage() {
 
     return (
         <div>
-            <TopNav />
             <div className="bg-black min-h-screen text-white px-8 py-4">
                 <h1 className="text-3xl mb-4 mt-4 text-center font-semibold">Reset Password</h1>
                 <div className="w-full max-w-md mx-auto">
@@ -70,7 +67,6 @@ export function ResetPasswordPage() {
                     </form>
                 </div>
             </div>
-            <BottomNav />
         </div>
     );
 }

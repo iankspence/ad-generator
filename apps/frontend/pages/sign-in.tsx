@@ -32,7 +32,6 @@ export function SignInPage() {
 
     return (
         <div>
-            <TopNav />
             <div className="min-h-screen bg-reviewDrumLightGray flex flex-col items-center justify-start overflow-auto pt-8">
                 <h1 className="text-3xl mb-4 mt-4 text-center font-semibold text-reviewDrumDarkGray">Sign In</h1>
                 <form onSubmit={handleSubmit} className="w-full max-w-sm mx-auto mt-4 bg-white p-8 rounded-lg shadow-lg">
@@ -87,7 +86,6 @@ export function SignInPage() {
                     </div>
                 </form>
             </div>
-            <BottomNav />
         </div>
     );
 }

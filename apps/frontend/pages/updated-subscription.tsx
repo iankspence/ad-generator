@@ -4,7 +4,6 @@ import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useUser } from '../hooks/useUser';
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
-import BottomNav from '../components/nav-bars/BottomNav';
 
 export default function SubscriptionUpdated() {
     const { user } = useContext(UserContext);
@@ -27,7 +26,6 @@ export default function SubscriptionUpdated() {
 
                 <Button type="button" variant="contained" color="inherit" className="w-full mt-6" onClick={handleGoToAccount}>Go To Account</Button>
             </div>
-            <BottomNav />
         </div>
     );
 }

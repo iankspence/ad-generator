@@ -1,4 +1,4 @@
-import React, { useState, CSSProperties, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useMediaQuery } from '@mui/material';
 import UserContext from '../../contexts/UserContext';
 import { useRouter } from 'next/router';
@@ -11,9 +11,9 @@ const TopNav = () => {
     const router = useRouter();
     const { user, setUser, subscriptionStatus } = useContext(UserContext);
     const isMobile = useMediaQuery('(max-width:780px)');
-    const pathsHideByDefault = ['/', '/register', '/ad-generator', '/library', '/reset-password', '/forgot-password', '/updated-subscription', '/sign-in']; // adjust this array to meet your needs
+    const pathsHideByDefault = ['/', '/register', '/ad-generator', '/library', '/reset-password', '/forgot-password', '/updated-subscription', '/sign-in', '/privacy', '/terms', '/cookies'];
     const [showLinks, setShowLinks] = useState(!pathsHideByDefault.includes(router.pathname));
-    const [hovered, setHovered] = useState(false);
+    const [isHovered, setIsHovered] = useState(false); // Add new state
 
     const handleSignOut = () => {
         if (window.confirm('Are you sure you want to sign out?')) {
@@ -33,15 +33,25 @@ const TopNav = () => {
         return () => {
             router.events.off('routeChangeComplete', handleRouteChange);
         }
-    }, []);
+    }, [router.pathname]);
 
     const handleRouteChange = () => {
         setShowLinks(!pathsHideByDefault.includes(router.pathname));
     };
 
+    const navStyle = {
+        transition: 'opacity 0.5s',
+        opacity: isHovered || router.pathname !== '/ad-generator' ? 1 : 0,
+    };
+
     return (
-        <nav className="bg-reviewDrumDarkGray py-2 text-white flex flex-col md:flex-row justify-between items-center sticky top-0 z-50">
-            <div className="flex items-center justify-center my-0 md:mb-0 md:pl-3" style={{marginBottom: showLinks ? '6px' : '0px', position: 'relative'} }>
+        <nav
+            className="bg-reviewDrumDarkGray py-2 text-white flex flex-col md:flex-row justify-between items-center sticky top-0 z-50"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            style={navStyle}
+        >
+            <div className="flex items-center justify-center my-0 md:mb-0 md:pl-3" style={{marginBottom: `${ isMobile ? `${showLinks ? '6px': '0px'}` : '0px'}`, position: 'relative'} }>
                 <LinkItem href="/">
                     <span className="text-reviewDrumMedGray">Review</span>
                     <span className="text-reviewDrumOrange">Drum</span>
@@ -57,9 +67,9 @@ const TopNav = () => {
                 }
             </div>
             {(showLinks || !isMobile) && (
-                <div className={`flex ${isMobile ? 'flex-col space-y-2' : 'md:flex-row md:space-y-0 md:space-x-2 md:pr-4'} md:justify-end md:items-center w-full`}>
+                <div className={`flex ${isMobile ? 'flex-col space-y-2' : 'md:flex-row md:space-y-0 md:space-x-10 md:pr-12'} md:justify-end md:items-center w-full`}>
                     {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client')) ? (
-                        <>
+                        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-10 md:pr-12">
                             {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client') && subscriptionStatus) ?
                                 <LinkItem href="/reviews">Reviews</LinkItem>
                                 : null
@@ -73,13 +83,8 @@ const TopNav = () => {
                             ) : null
                             }
                             <LinkItem href="/account">Account</LinkItem>
-
-                            <span className="inline-block ml-2 text-white cursor-pointer">
-                                <a onClick={handleSignOut} id="signout">
-                                    Sign Out
-                                </a>
-                            </span>
-                        </>
+                            <LinkItem onClick={handleSignOut}>Sign Out</LinkItem>
+                        </div>
                     ) : (
                         <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-10 md:pr-12">
                             <LinkItem href="/learn-more">Learn More</LinkItem>

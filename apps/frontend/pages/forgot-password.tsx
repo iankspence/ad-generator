@@ -1,9 +1,7 @@
-import TopNav from '../components/nav-bars/TopNav';
 import { forgotPassword } from '../utils/api/mongo/user/forgot-password/forgotPasswordApi';
 import React, { useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import Link from 'next/link';
-import BottomNav from '../components/nav-bars/BottomNav';
 
 export function ForgotPasswordPage() {
     const [email, setEmail] = useState('');
@@ -20,7 +18,6 @@ export function ForgotPasswordPage() {
 
     return (
         <div>
-            <TopNav />
             <div className="min-h-screen bg-reviewDrumLightGray flex flex-col items-center justify-start overflow-auto pt-8">
                 <h1 className="text-3xl mb-4 mt-4 text-center font-semibold text-reviewDrumDarkGray">Forgot Your Password</h1>
                 <form onSubmit={handleSubmit} className="w-full max-w-sm mx-auto mt-4 bg-white p-8 rounded-lg shadow-lg">
@@ -47,7 +44,6 @@ export function ForgotPasswordPage() {
                     </div>
                 </form>
             </div>
-            <BottomNav />
         </div>
     );
 }

@@ -5,25 +5,28 @@ import { UserProvider } from '../contexts/UserContext';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import TopNav from '../components/nav-bars/TopNav';
+import BottomNav from '../components/nav-bars/BottomNav';
 
 const theme = createTheme();
 
 function CustomApp({ Component, pageProps }: AppProps) {
-
-
-
     return (
         <UserProvider>
             <CampaignProvider>
                 <PixiProvider>
                     <Head>
-                        <title>Chiro Creative</title>
+                        <title>ReviewDrum</title>
                     </Head>
                     <ThemeProvider theme={theme}>
                         <CssBaseline />
-                        <main className="app">
-                            <Component {...pageProps} />
-                        </main>
+                        <div className="flex flex-col min-h-screen bg-reviewDrumDarkGray">
+                            <TopNav />
+                            <main className="flex-grow">
+                                <Component {...pageProps} />
+                            </main>
+                            <BottomNav />
+                        </div>
                     </ThemeProvider>
                 </PixiProvider>
             </CampaignProvider>

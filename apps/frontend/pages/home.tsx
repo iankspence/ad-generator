@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, useTheme, useMediaQuery, Button } from '@mui/material';
 import Box from '@mui/system/Box';
-import TopNav from '../components/nav-bars/TopNav';
 import Link from 'next/link';
-import BottomNav from '../components/nav-bars/BottomNav';
 
 const textBlocks = [
     {
@@ -88,7 +86,6 @@ const HomePage: React.FC = () => {
 
     return (
         <>
-            <TopNav />
             <div className={`${isMobile? "py-2" : "py-4"}`}></div>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '10px' : '20px', marginX: isMobile ? '10px' : '20px' }}>
@@ -149,7 +146,6 @@ const HomePage: React.FC = () => {
                 ))}
             </Box>
             <div className={`${isMobile? "py-2" : "py-4"}`}></div>
-            <BottomNav />
         </>
     );
 };

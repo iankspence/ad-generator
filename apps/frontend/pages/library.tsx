@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
 import { Grid } from "@mui/material";
-import TopNav from "../components/nav-bars/TopNav";
 import { findAdsByAccountId } from "../utils/api/mongo/ad/findAdsByAccountIdApi";
 import UserContext from "../contexts/UserContext";
 import {CampaignContext} from "../contexts/CampaignContext";
@@ -10,7 +9,6 @@ import FacebookGrid from "../components/library/grid/FacebookGrid";
 import LoadingScreen from "../components/loading-screen/LoadingScreen";
 import { FindAdsByAccountIdDto } from "@monorepo/type";
 import { useUser } from '../hooks/useUser';
-import BottomNav from "../components/nav-bars/BottomNav";
 
 const Library = () => {
     const { account, user } = useContext(UserContext);
@@ -53,10 +51,8 @@ const Library = () => {
     if ( !user || !user?.roles ) return <LoadingScreen />;
 
     return (
-        <>
-            <TopNav />
-
-            <div style={{ flexGrow: 1, paddingTop: 8, paddingBottom: 8, paddingLeft: 8 }}>
+        <div className="bg-reviewDrumLightGray min-h-screen">
+            <div style={{ flexGrow: 1, paddingTop: 8, paddingBottom: 8, paddingLeft: 8, }}>
                 <Grid container spacing={0}>
                     <AdsGrid
                         handleResize={handleResize}
@@ -88,8 +84,7 @@ const Library = () => {
                     />
                 </Grid>
             </div>
-            <BottomNav />
-        </>
+        </div>
     );
 };
 

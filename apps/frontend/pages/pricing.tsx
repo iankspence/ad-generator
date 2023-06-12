@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import TopNav from '../components/nav-bars/TopNav';
 import {
     Typography,
     FormControlLabel,
@@ -13,7 +12,6 @@ import { faqs } from '../utils/constants/faqs';
 import { PricingCard } from '../components/pricing/PricingCard';
 import { pricingData } from '../utils/constants/pricingData';
 import { useRouter } from 'next/router';
-import BottomNav from '../components/nav-bars/BottomNav';
 
 export function PricingPage() {
     const [annualPayment, setAnnualPayment] = useState(false);
@@ -29,7 +27,6 @@ export function PricingPage() {
 
     return (
         <div>
-            <TopNav />
             <div className="min-h-screen bg-reviewDrumLightGray flex flex-col items-center justify-start overflow-auto p-8">
                 <h1 className="text-3xl mb-4 mt-4 text-center font-semibold text-reviewDrumDarkGray">Our Pricing</h1>
                 <p className="text-center mb-6">Choose the plan that suits your needs.</p>
@@ -75,9 +72,6 @@ export function PricingPage() {
                 </div>
 
             </div>
-
-            <BottomNav />
-
         </div>
     );
 }
