@@ -10,8 +10,6 @@ export class AdService {
     async createAd(adNameDateTime: string, userId: string, accountId: string, cardIds: Ad["cardIds"], cardLocations: Ad["cardLocations"], copyText: string, copyTextEdited: string, bestFitAudience: number, bestFitReasoning: string, source: string, reviewDate: string, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions: Ad["filteredTextPositions"], themeId: Ad["themeId"]): Promise<Ad> {
         const newAd = new this.adModel({ adNameDateTime, userId, accountId, cardIds, cardLocations, copyText,  copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate, adStatus: 'fresh', userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions, themeId});
 
-        console.log('newAd', newAd)
-
         return newAd.save();
     }
 
