@@ -77,9 +77,6 @@ export class CardService {
                     orderedCanvasName = canvasName;
             }
 
-            console.log('canvasName: copy: ', canvasName, copy)
-
-            // use the newAdNameDateTime for the new key
             const newKey = editAd ? `${folderName}/${newAdNameDateTime}/${orderedCanvasName}.png` : `${folderName}/${adNameDateTime}/${orderedCanvasName}.png`;
             const params = {
                 Bucket: process.env.S3_BUCKET_NAME,
@@ -93,9 +90,6 @@ export class CardService {
 
                 let savedCard;
                 if (editAd) {
-                    // If editing, update existing card
-
-                    // cardLocation is the old cardLocation
 
                     savedCard = await this.cardModel.findOneAndUpdate(
                         {
@@ -105,7 +99,7 @@ export class CardService {
                             cardName: canvasName
                         },
                         {
-                            cardLocation: `${process.env.CF_DOMAIN}/${newKey}`,
+                            cardLocation: newKey,
                             sourceTextId,
                             sourceText,
                             sourceTextEdited,
@@ -123,10 +117,9 @@ export class CardService {
                     }
                     if (savedCard) {
                         const oldCardLocation = editAd.cardLocations.find(card => card.canvasName === canvasName).cardLocation;
-                        const oldKey = oldCardLocation.split(`${process.env.CF_DOMAIN}/`)[1];
                         const deleteParams = {
                             Bucket: process.env.S3_BUCKET_NAME,
-                            Key: oldKey
+                            Key: oldCardLocation
                         };
                         try {
                             await s3.send(new DeleteObjectCommand(deleteParams));
@@ -144,7 +137,7 @@ export class CardService {
                         sourceTextId,
                         sourceText,
                         sourceTextEdited,
-                        cardLocation: `${process.env.CF_DOMAIN}/${newKey}`,
+                        cardLocation: newKey,
                         backgroundImageLocation,
                         maskLocations,
                         themeId,
@@ -179,7 +172,6 @@ export class CardService {
         const freshCopy = await this.copyModel.findById(copy._id); // ensures an edited copy is used
 
         if (editAd) {
-            console.log('updating an existing ad:', userControlledAttributes)
 
             const updatedAd = await this.adService.updateAd(
                 editAd,
@@ -206,8 +198,6 @@ export class CardService {
 
             return results;
         }
-
-        console.log('creating an ad with userControlledAttributes:', userControlledAttributes)
 
         const ad = await this.adService.createAd(
             adNameDateTime,
@@ -254,7 +244,7 @@ export class CardService {
 
             const oldCardParams = {
                 Bucket: process.env.S3_BUCKET_NAME,
-                Key: oldCard.cardLocation.replace(`${process.env.CF_DOMAIN}/`, '')
+                Key: oldCard.cardLocation
             };
 
             const oldCardData = await s3.send(new GetObjectCommand(oldCardParams));
@@ -279,7 +269,7 @@ export class CardService {
 
             await s3.send(new PutObjectCommand(newCardParams));
 
-            oldCard.cardLocation = `${process.env.CF_DOMAIN}/${newKey}`;
+            oldCard.cardLocation = newKey
             const newCard = await oldCard.save();
 
             newCardIds.push({
@@ -312,7 +302,6 @@ export class CardService {
             adToCopy.themeId,
         );
 
-        console.log('New ad created in Mongo: ', newAd)
         return newAd;
     }
 
@@ -326,7 +315,7 @@ export class CardService {
         // deleting the cards related to the ad
         for (const card of ad.cardIds) {
             const cardToDelete = await this.cardModel.findById(card.cardId);
-            const cardKey = cardToDelete.cardLocation.replace(`${process.env.CF_DOMAIN}/`, '');
+            const cardKey = cardToDelete.cardLocation
 
             // List all objects in the card's folder
             const listObjectsResponse = await s3.send(

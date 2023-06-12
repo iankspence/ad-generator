@@ -45,7 +45,7 @@ export class PdfService {
 
             ad.cardLocations.forEach(location => {
                 if (location) {
-                    imageLocations.push(location.cardLocation);
+                    imageLocations.push(`${process.env.CF_DOMAIN}/${location.cardLocation}`);
                 }
             });
 
@@ -115,7 +115,7 @@ export class PdfService {
 
                 // Save the location of the PDF in the database
                 const adSetToUpdate = await this.adSetModel.findById(createPdfJob.adSet._id);
-                adSetToUpdate.pdfLocation =  `${process.env.CF_DOMAIN}/${key}`;
+                adSetToUpdate.pdfLocation = key
 
                 await adSetToUpdate.save();
 

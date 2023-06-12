@@ -33,12 +33,11 @@ async function bootstrap() {
     app.use(cookieParser());
 
     app.use(bodyParser.json({
+        limit: '50mb',
         verify: (req, res, buf) => {
             req['rawBody'] = buf;
         }
     }));
-
-    app.use(bodyParser.json({ limit: '50mb' }));
 
     const port = process.env.PORT || 3333;
     await app.listen(port);

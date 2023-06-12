@@ -13,7 +13,7 @@ export const useImage = (appRef, canvasName) => {
         container.name = `image-${canvasName}`;
         app.stage.addChild(container);
 
-        const image = PIXI.Sprite.from(backgroundImageLocation);
+        const image = PIXI.Sprite.from(`${process.env.NEXT_PUBLIC_CF_DOMAIN}/${backgroundImageLocation}`);
 
         image.anchor.set(0.5);
         image.x = app.screen.width / 2;

@@ -82,10 +82,7 @@ const HomePage: React.FC = () => {
 
     const reviewDrumDarkGray = '#1E1E1E'
     const reviewDrumLightGray = '#D9D9D9';
-    const reviewDrumOrange = '#FFA726'
-
-    // very very light blue #E6F0FF
-    const reviewDrumBlue = '#E6F0FF'
+    const reviewDrumOrange = '#FFA726';
 
     return (
         <div className="bg-orange-100 min-h-screen">

@@ -92,7 +92,7 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
                 <CardMedia
                     onClick={handleCardClick}
                     component="img"
-                    image={cardLocation}
+                    image={`${process.env.NEXT_PUBLIC_CF_DOMAIN}/${cardLocation}`}
                     alt={ad?.copyTextEdited || ad?.copyText}
                 />
 

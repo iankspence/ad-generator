@@ -16,10 +16,12 @@ const useMask = (appRef, canvasName, size) => {
 
     const fetchMaskTextures = async (maskNames) => {
         try {
+
             const masks = await findMasksByNames({ maskNames });
             const maskLocations = []
             const textures = await Promise.all(masks.map(async (mask) => {
-                const resource = await PIXI.autoDetectResource(mask.maskLocation).load();
+                console.log(`${process.env.NEXT_PUBLIC_CF_DOMAIN}/${mask.maskLocation}`)
+                const resource = await PIXI.autoDetectResource(`${process.env.NEXT_PUBLIC_CF_DOMAIN}/${mask.maskLocation}`).load();
                 const baseTexture = new PIXI.BaseTexture(resource);
 
                 maskLocations.push({

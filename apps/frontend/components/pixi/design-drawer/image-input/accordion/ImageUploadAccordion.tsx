@@ -18,7 +18,7 @@ const ImageUploadAccordion = () => {
     };
 
     const handleImageSelect = (image) => {
-        updateBackgroundImageLocation(image.backgroundImageLocation);
+        updateBackgroundImageLocation(`${image.backgroundImageLocation}`);
         handleCloseDialog();
     };
 

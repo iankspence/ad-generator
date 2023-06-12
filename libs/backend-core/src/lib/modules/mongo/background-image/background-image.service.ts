@@ -67,6 +67,6 @@ export class BackgroundImageService {
             throw error;
         }
 
-        return `${process.env.CF_DOMAIN}/${key}`;
+        return key;
     }
 }

@@ -23,7 +23,7 @@ const ImageSelectionDialog = ({ open, onClose, onSelect }) => {
                                     <CardMedia
                                         component="img"
                                         height="140"
-                                        image={image.backgroundImagePreviewLocation}
+                                        image={`${process.env.NEXT_PUBLIC_CF_DOMAIN}/${image.backgroundImagePreviewLocation}`}
                                         alt={image.backgroundImageName}
                                     />
                                 </CardActionArea>
