@@ -38,7 +38,7 @@ const BottomNav = () => {
 
     return (
         <nav
-            className={`bg-reviewDrumDarkGray py-2 text-white flex ${isMobile ? 'flex-col-reverse' : 'flex-row'} justify-between items-center sticky bottom-0 z-50`}
+            className={`bg-reviewDrumDarkGray py-2 text-white flex ${isMobile ? 'flex-col-reverse' : 'flex-row'} justify-between items-center fixed bottom-0 z-50 w-full`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             style={navStyle}

@@ -80,6 +80,10 @@ const HomePage: React.FC = () => {
 
     }, [cardRefs]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const reviewDrumDarkGray = '#1E1E1E'
     const reviewDrumLightGray = '#D9D9D9';
     const reviewDrumOrange = '#FFA726';
