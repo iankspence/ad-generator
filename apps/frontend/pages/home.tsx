@@ -84,9 +84,12 @@ const HomePage: React.FC = () => {
     const reviewDrumLightGray = '#D9D9D9';
     const reviewDrumOrange = '#FFA726'
 
+    // very very light blue #E6F0FF
+    const reviewDrumBlue = '#E6F0FF'
+
     return (
-        <>
-            <div className={`${isMobile? "py-2" : "py-4"}`}></div>
+        <div className="bg-orange-100 min-h-screen">
+            <div className={`${isMobile? "py-2" : "py-4"}`} ></div>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '10px' : '20px', marginX: isMobile ? '10px' : '20px' }}>
                 {textBlocks.map((text, index) => (
@@ -146,7 +149,7 @@ const HomePage: React.FC = () => {
                 ))}
             </Box>
             <div className={`${isMobile? "py-2" : "py-4"}`}></div>
-        </>
+        </div>
     );
 };
 
