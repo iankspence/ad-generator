@@ -45,7 +45,7 @@ const PrivateAccountButton = () => {
 
     return (
         <Box>
-            <div className="fixed bottom-8 left-8 z-10 bg-reviewDrumMedGray hover:gray-100 rounded-full">
+            <div className="fixed top-12 left-8 z-10 bg-reviewDrumMedGray hover:gray-100 rounded-full">
                 <IconButton
                     onClick={handleDrawerOpen}
                     className="text-reviewDrumDarkGray"

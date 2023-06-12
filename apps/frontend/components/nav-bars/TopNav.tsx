@@ -1,9 +1,8 @@
-import React, { useState, CSSProperties, useContext } from 'react';
+import React, { useState, CSSProperties, useContext, useEffect } from 'react';
 import { useMediaQuery } from '@mui/material';
 import UserContext from '../../contexts/UserContext';
 import { useRouter } from 'next/router';
 import { signOut } from '../../utils/api/mongo/user/sign-in/signOutApi';
-import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import LinkItem from './LinkItem';
@@ -12,7 +11,8 @@ const TopNav = () => {
     const router = useRouter();
     const { user, setUser, subscriptionStatus } = useContext(UserContext);
     const isMobile = useMediaQuery('(max-width:780px)');
-    const [showLinks, setShowLinks] = useState(true);
+    const pathsHideByDefault = ['/', '/register', '/ad-generator', '/library', '/reset-password', '/forgot-password', '/updated-subscription', '/sign-in']; // adjust this array to meet your needs
+    const [showLinks, setShowLinks] = useState(!pathsHideByDefault.includes(router.pathname));
     const [hovered, setHovered] = useState(false);
 
     const handleSignOut = () => {
@@ -27,44 +27,37 @@ const TopNav = () => {
         setShowLinks(!showLinks);
     };
 
-    const iconButtonContainerStyle: CSSProperties = {
-        position: 'fixed' as const,
-        top: '10px',
-        right: '15px',
-        borderRadius: '50%',
-        zIndex: 60,
-        backgroundColor: hovered ? 'inherit' : 'inherit',
-        width: '48px', // default size of IconButton
-        height: '48px', // default size of IconButton
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    };
+    // Listener for route changes to hide/show links
+    useEffect(() => {
+        router.events.on('routeChangeComplete', handleRouteChange);
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange);
+        }
+    }, []);
 
-    const iconStyle: CSSProperties = {
-        fontSize: '32px' // Adjust this value to your liking
+    const handleRouteChange = () => {
+        setShowLinks(!pathsHideByDefault.includes(router.pathname));
     };
 
     return (
         <nav className="bg-reviewDrumDarkGray py-2 text-white flex flex-col md:flex-row justify-between items-center sticky top-0 z-50">
-            <div className="mb-2 md:mb-0 md:pl-3">
+            <div className="flex items-center justify-center my-0 md:mb-0 md:pl-3" style={{marginBottom: showLinks ? '6px' : '0px', position: 'relative'} }>
                 <LinkItem href="/">
                     <span className="text-reviewDrumMedGray">Review</span>
                     <span className="text-reviewDrumOrange">Drum</span>
                 </LinkItem>
+                {isMobile &&
+                    <div style={{position: 'absolute', right: '-30px'}}>
+                        {(showLinks ?
+                                <ExpandLessIcon color="inherit" onClick={toggleShowLinks} />
+                                :
+                                <ExpandMoreIcon color="inherit" onClick={toggleShowLinks} />
+                        )}
+                    </div>
+                }
             </div>
-            {isMobile &&
-                <div
-                    style={iconButtonContainerStyle}
-                    onMouseEnter={() => setHovered(true)}
-                    onMouseLeave={() => setHovered(false)}>
-                    <IconButton color="inherit" onClick={toggleShowLinks}>
-                        {showLinks ? <ExpandMoreIcon style={iconStyle} /> : <ExpandLessIcon style={iconStyle} />}
-                    </IconButton>
-                </div>
-            }
             {(showLinks || !isMobile) && (
-                <div className={`flex ${isMobile ? 'flex-col space-y-2' : 'md:flex-row md:space-y-0 md:space-x-2 md:pr-12'} md:justify-end md:items-center w-full`}>
+                <div className={`flex ${isMobile ? 'flex-col space-y-2' : 'md:flex-row md:space-y-0 md:space-x-2 md:pr-4'} md:justify-end md:items-center w-full`}>
                     {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client')) ? (
                         <>
                             {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client') && subscriptionStatus) ?

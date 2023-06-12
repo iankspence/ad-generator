@@ -27,7 +27,7 @@ const PrivateAccessButton = ({ refreshReviews, setRefreshReviews }) => {
 
     return (
         <Box>
-            <div className="fixed bottom-8 left-8 z-10 bg-reviewDrumMedGray hover:gray-100 rounded-full">
+            <div className="fixed top-12 left-8 z-10 bg-reviewDrumMedGray hover:gray-100 rounded-full">
                 <IconButton
                     onClick={handleDrawerOpen}
                     className="text-reviewDrumDarkGray"
@@ -56,7 +56,7 @@ const PrivateAccessButton = ({ refreshReviews, setRefreshReviews }) => {
             >
                 <Box>
                     <Typography variant="h6" gutterBottom>
-                        Private Access
+                        Admin Access
                     </Typography>
                     <ReviewConnector
                         userId={user?._id?.toString()}
