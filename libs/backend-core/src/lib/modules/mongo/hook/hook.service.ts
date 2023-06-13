@@ -8,7 +8,7 @@ export class HookService {
     constructor(@InjectModel(Hook.name) private readonly hookModel: Model<HookDocument>) {}
 
     async findHooksByAccountId(accountId: string): Promise<HookDocument[]> {
-        return this.hookModel.find({ accountId: accountId }).exec();
+        return this.hookModel.find({ accountId: accountId }).sort({ createdAt: 1 }).exec();
     }
 
     async updateTextEdit(hook: Partial<HookDocument>): Promise<HookDocument> {

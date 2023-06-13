@@ -45,7 +45,6 @@ const LibraryCardBottomButtonGroup = ({ ad, isSelected, refreshAds }) => {
 
     const handleCreateAdSetFromSelectedAds = (event) => {
         event.stopPropagation();
-        console.log('create ad set from selected ads');
         try {
             const adIds = selectedAds.map((ad) => ad._id);
             const createAdSetForPdfDeliveryDto: CreateAdSetForPdfDeliveryDto = {
@@ -59,7 +58,6 @@ const LibraryCardBottomButtonGroup = ({ ad, isSelected, refreshAds }) => {
             }
 
             const newAdSet = createAdSetForPdfDelivery(createAdSetForPdfDeliveryDto);
-            console.log('newAdSet', newAdSet);
             updateSelectedAds([]);
             const resetTime = 7000 * adIds.length;
             setTimeout(() => {

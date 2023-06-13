@@ -8,7 +8,7 @@ export class ReviewService {
     constructor(@InjectModel(Review.name) private reviewModel: Model<ReviewDocument>) {}
 
     async findReviewsByAccountId(accountId: string): Promise<ReviewDocument[]> {
-        return this.reviewModel.find({ accountId }).exec();
+        return this.reviewModel.find({ accountId }).sort({ createdAt: 1 }).exec();
     }
 
     async updateReviewAudience(updateReviewAudienceDto: UpdateReviewAudienceDto): Promise<ReviewDocument> {

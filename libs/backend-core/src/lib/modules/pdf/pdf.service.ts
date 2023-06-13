@@ -8,6 +8,7 @@ import PDFDocument from 'pdfkit';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { formatDateString } from '../../utils/formatDateString';
+import { LoggerService } from '../logger/logger.service';
 
 const s3 = new S3Client({
     region: process.env.S3_REGION
@@ -16,10 +17,13 @@ const s3 = new S3Client({
 @Injectable()
 export class PdfService {
     constructor(
-        private adService: AdService,
-        private accountModelService: AccountModelService,
         @InjectModel(AdSet.name) private adSetModel: Model<AdSetDocument>,
-    ) {}
+        private accountModelService: AccountModelService,
+        private adService: AdService,
+        private logger: LoggerService
+    ) {
+        this.logger.setContext('PdfService');
+    }
 
     async createPdf(createPdfJob: CreatePdfJob): Promise<void> {
 
@@ -27,7 +31,8 @@ export class PdfService {
             adSetId: createPdfJob.adSet._id.toString()
         });
         if (!ads) {
-            throw new Error(`ad set ads not found`);
+            this.logger.error(`ad set ads not found`);
+            return;
         }
 
         const account = await this.accountModelService.findOneById(createPdfJob.accountId);
@@ -37,7 +42,7 @@ export class PdfService {
 
         doc.on('data', buffers.push.bind(buffers));
 
-        let pageNumber = 0; // Initialize the page number
+        let pageNumber = 0;
 
         for (const ad of ads) {
 
@@ -59,7 +64,6 @@ export class PdfService {
             const imageWidth = (pageWidth - 2 * border - imageSpace) / 2;
             const textSpace = 35;
 
-            // Add the ad copy and audience
             const adCopy = ad.copyTextEdited ? ad.copyTextEdited : ad.copyText;
             const source = ad.source;
             const reviewDate = ad.reviewDate;
@@ -81,7 +85,6 @@ export class PdfService {
 
             const textHeight = doc.y + textSpace;
 
-            // Draw the 2x2 images
             for (let i = 0; i < images.length; i++) {
                 const x = border + (i % 2) * (imageWidth + imageSpace);
                 const y = textHeight + Math.floor(i / 2) * (imageWidth + imageSpace);
@@ -89,17 +92,16 @@ export class PdfService {
             }
 
             if (ads.indexOf(ad) !== ads.length - 1) {
-                doc.addPage(); // add new page only if the current ad is not the last one
+                doc.addPage();
             }
         }
 
         doc.on('end', async () => {
-            console.log('creatingPdf - end event');
-            const pdfData = Buffer.concat(buffers);
+            this.logger.verbose(`creatingPdf - end event with adSetNameDateTime: ${createPdfJob.adSet.nameDateTime} `);
 
             const folderName = `ads/${account.country}/${account.provinceState}/${account.city}/${account.companyName}/PDFs`
+            const pdfData = Buffer.concat(buffers);
 
-            // Define the S3 key and parameters
             const key = `${folderName}/${createPdfJob.adSet.nameDateTime}.pdf`;
             const params = {
                 Bucket: process.env.S3_BUCKET_NAME,
@@ -108,19 +110,17 @@ export class PdfService {
                 ContentType: 'application/pdf'
             };
 
-            // Upload the PDF to S3
             try {
                 const result = await s3.send(new PutObjectCommand(params));
-                console.log('PDF uploaded to S3:', result);
+                this.logger.log(`PDF uploaded to S3 - status code: ${result.$metadata.httpStatusCode}`);
 
-                // Save the location of the PDF in the database
                 const adSetToUpdate = await this.adSetModel.findById(createPdfJob.adSet._id);
-                adSetToUpdate.pdfLocation = key
+                adSetToUpdate.pdfLocation =  key
 
                 await adSetToUpdate.save();
 
             } catch (error) {
-                console.error('Error uploading PDF to S3:', error);
+                this.logger.error('Error uploading PDF to S3:', error);
                 throw error;
             }
         });

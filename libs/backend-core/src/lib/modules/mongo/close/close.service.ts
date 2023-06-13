@@ -8,7 +8,7 @@ export class CloseService {
     constructor(@InjectModel(Close.name) private readonly closeModel: Model<CloseDocument>) {}
 
     async findClosesByAccountId(accountId: string): Promise<CloseDocument[]> {
-        return this.closeModel.find({ accountId: accountId }).exec();
+        return this.closeModel.find({ accountId: accountId }).sort({ createdAt: 1 }).exec();
     }
 
     async updateTextEdit(close: Partial<CloseDocument>): Promise<CloseDocument> {

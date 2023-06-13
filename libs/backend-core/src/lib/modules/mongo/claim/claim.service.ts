@@ -8,7 +8,7 @@ export class ClaimService {
     constructor(@InjectModel(Claim.name) private readonly claimModel: Model<ClaimDocument>) {}
 
     async findClaimsByAccountId(accountId: string): Promise<ClaimDocument[]> {
-        return this.claimModel.find({ accountId: accountId }).exec();
+        return this.claimModel.find({ accountId: accountId }).sort({ createdAt: 1 }).exec();
     }
 
     async updateTextEdit(claim: Partial<ClaimDocument>): Promise<Claim> {

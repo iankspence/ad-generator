@@ -8,7 +8,7 @@ export class CopyService {
     constructor(@InjectModel(Copy.name) private readonly copyModel: Model<CopyDocument>) {}
 
     async findCopiesByAccountId(accountId: string): Promise<CopyDocument[]> {
-        return this.copyModel.find({ accountId }).exec();
+        return this.copyModel.find({ accountId }).sort({ createdAt: 1 }).exec();
     }
 
     async updateTextEdit(copy: Partial<CopyDocument>): Promise<CopyDocument> {

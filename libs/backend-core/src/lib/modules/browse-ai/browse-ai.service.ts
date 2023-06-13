@@ -1,4 +1,4 @@
-import { ReviewQueueProducerService } from '../bull/review-queue/review-queue-producer.service';
+import { ReviewQueueProducerService } from '../bull/review-queue/producer/review-queue-producer.service';
 import { AccountModelService } from '../mongo/account/account-model.service';
 import { BrowseAiJob, BrowseAiJobDocument, ReviewDocument, StartRobotJobDto } from '@monorepo/type';
 import { HttpService } from '@nestjs/axios';

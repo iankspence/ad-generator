@@ -2,7 +2,7 @@ import { AdSet, AdSetDocument, CreateAdSetForPdfDeliveryDto, CreatePdfJob } from
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { PdfQueueProducerService } from '../../bull/pdf-queue/pdf-queue-producer.service';
+import { PdfQueueProducerService } from '../../bull/pdf-queue/producer/pdf-queue-producer.service';
 import { AdService } from '../ad/ad.service';
 import { createNameDateTime } from '../../../utils/createNameDateTime';
 import { CardService } from '../card/card.service';
