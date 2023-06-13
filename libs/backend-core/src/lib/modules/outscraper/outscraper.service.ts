@@ -24,7 +24,7 @@ export class OutscraperService {
             sort: 'newest',
             language: 'en',
             region: 'CA',
-            reviewsLimit: 3,
+            reviewsLimit: scrapeGoogleMapsReviewsDto.reviewsLimit,
             ignoreEmpty: true,
             async: true,
         }

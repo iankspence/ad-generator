@@ -11,8 +11,9 @@ interface Props {
     setAccount: (account: AccountDocument | Partial<AccountDocument>) => void;
     isLoading: boolean;
     setIsLoading: (isLoading: boolean) => void;
+    reviewsLimit: number;
 }
-export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, account, setAccount, isLoading, setIsLoading }) => {
+export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, account, setAccount, isLoading, setIsLoading, reviewsLimit }) => {
     const [showGoogleQueryForm, setShowGoogleQueryForm] = useState(false);
     const [googleQuery, setGoogleQuery] = useState('');
 
@@ -35,6 +36,7 @@ export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, account, setAc
                     userId,
                     accountId: account._id.toString(),
                     query: googleQuery,
+                    reviewsLimit: reviewsLimit,
                 }
 
                 console.log('getGoogleMapsReviewsDto (button): ', getGoogleMapsReviewsDto)
