@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { Queue } from 'bull';
 import { CreatePdfJob } from '@monorepo/type';
 import { LoggerService } from '../../../logger/logger.service';
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class PdfQueueProducerService {
@@ -16,8 +15,6 @@ export class PdfQueueProducerService {
 
     async addCreatePdfJob(createPdfJob: CreatePdfJob) {
         this.logger.log(`Adding create-pdf job for ad set ${createPdfJob.adSet._id} to pdf-queue`);
-        await this.pdfQueue.add(`${process.env.CONFIG_ENV}-create-pdf`, createPdfJob, {
-            jobId: `${process.env.CONFIG_ENV}-create-pdf-${uuidv4()}`
-        });
+        await this.pdfQueue.add(`${process.env.CONFIG_ENV}-create-pdf`, createPdfJob, {priority: 1});
     }
 }
