@@ -108,7 +108,7 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setDeliveryWidth, ads
 
             if (updatedAdStatus) {
                 try {
-                    updateAdStatusByAdSetId({
+                    await updateAdStatusByAdSetId({
                         adSetId: adSetId,
                         adStatus: updatedAdStatus
                     });
@@ -117,7 +117,9 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setDeliveryWidth, ads
                     alert("Failed to update ad. Please try again later.");
                 }
 
-                refreshAds();
+                setTimeout(() => {
+                    refreshAds();
+                }, 7000);
             }
         }
 
@@ -235,7 +237,7 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setDeliveryWidth, ads
 
                                                 <IconButton
                                                     onClick={handleApprovalClick(adSetId)}
-                                                    style={{padding: '0', opacity: mostCommonAdStatus === 'pdf' ? '30%' : '100%' ,  color: mostCommonAdStatus === 'pdf' ? 'grey' : mostCommonAdStatus === 'review' ? 'lightyellow' : mostCommonAdStatus === 'approved' ? 'green' : 'grey'}}
+                                                    style={{padding: '0', opacity: mostCommonAdStatus === 'pdf' ? '30%' : '100%' ,  color: mostCommonAdStatus === 'pdf' ? 'grey' : mostCommonAdStatus === 'review' ? 'orange' : mostCommonAdStatus === 'approved' ? 'green' : 'grey'}}
                                                 >
                                                     <AddTaskOutlinedIcon />
                                                 </IconButton>
