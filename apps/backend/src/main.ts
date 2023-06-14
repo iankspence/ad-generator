@@ -33,7 +33,7 @@ async function bootstrap() {
     app.use(cookieParser());
 
     app.use(bodyParser.json({
-        limit: '50mb',
+        limit: '80mb',
         verify: (req, res, buf) => {
             req['rawBody'] = buf;
         }

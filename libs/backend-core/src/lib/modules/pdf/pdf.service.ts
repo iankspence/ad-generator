@@ -71,7 +71,7 @@ export class PdfService {
             pageNumber++;
 
             doc.fontSize(14)
-                .text(`${pageNumber} of ${ads.length}`, doc.page.width - 120, border, { align: 'right' });
+                .text(`${pageNumber} of ${ads.length}`, doc.page.width - 125, border, { align: 'right' });
 
             doc.fontSize(14)
                 .text("Review Date: ", border, border, { underline: false, continued: true })

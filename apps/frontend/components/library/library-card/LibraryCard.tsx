@@ -68,7 +68,11 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
             if (isSelected(ad)) {
                 updateSelectedAds(selectedAds.filter(selectedAd => selectedAd._id !== ad._id));
             } else {
-                updateSelectedAds([...selectedAds, ad]);
+                if (selectedAds.length < 10) {
+                    updateSelectedAds([...selectedAds, ad]);
+                } else {
+                    alert('You can select a maximum of 10 ads.');
+                }
             }
         }
     };

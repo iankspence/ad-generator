@@ -132,20 +132,20 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
                                     >
                                         <Typography>{adSet.adSetNameDateTime} - {mostCommonAudienceName}</Typography>
                                         {pdfWidth > 2 && (
-                                            <>
+                                            <div style={{ marginLeft: 'auto', marginRight: '12px', display: 'flex', gap: '16px' }}>
                                                 <IconButton
                                                     onClick={handleCopyAdSetClick(adSet.ads)}
-                                                    style={{padding: '0', position: 'relative', top: '50%', right: '-10%', opacity: '30%'}}
+                                                    style={{padding: '0', opacity: '30%'}}
                                                 >
                                                     <ContentCopyOutlinedIcon />
                                                 </IconButton>
                                                 <IconButton
                                                     onClick={handleDeleteAdSetClick(adSetId)}
-                                                    style={{padding: '0', position: 'relative', top: '50%', right: '-2%', opacity: '30%'}}
+                                                    style={{padding: '0', opacity: '30%'}}
                                                 >
                                                     <HighlightOffOutlinedIcon />
                                                 </IconButton>
-                                            </>
+                                            </div>
                                         )}
                                     </AccordionSummary>
                                     <AccordionDetails>
