@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, Switch, Grid, DialogContent, FormControlLabel } from '@mui/material';
+import { useTheme, useMediaQuery } from '@mui/material';
 import { pricingData } from '../../utils/constants/pricingData';
 import { PricingCard } from '../pricing/PricingCard';
 import createCheckoutSession from '../../utils/api/mongo/customer/createCheckoutSessionApi';
+import { theme } from '../../utils/theme';
 
 export function CheckoutSelection({ accountId, openModal, setOpenModal }) {
     const [annualPayment, setAnnualPayment] = useState(false);
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleConnectPayment = async (annualPayment, price) => {
         try {
@@ -33,7 +36,7 @@ export function CheckoutSelection({ accountId, openModal, setOpenModal }) {
             open={openModal}
             onClose={handleCloseModal}
             PaperProps={{
-                style: { width: '80%', height: '60%', maxHeight: 'none', maxWidth: 'none' },
+                style: { width: isMobile ? '100%' : '80%', margin: isMobile ? '10px' : '4px',  padding: isMobile ? '1px' : '4px', height: '60%', maxHeight: 'none', maxWidth: 'none' },
             }}
         >
             <DialogTitle className="text-center text-2xl font-bold my-4">Select a Plan</DialogTitle>

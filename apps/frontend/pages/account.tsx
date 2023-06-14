@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useTheme, useMediaQuery } from '@mui/material';
 import UserContext from '../contexts/UserContext';
 import AccountInfo from "../components/account/AccountInfo";
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
@@ -12,6 +13,9 @@ export function AccountPage() {
 
     useUser();
 
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
     if (!user || !user?.roles) {
         return <LoadingScreen />;
     }
@@ -19,7 +23,7 @@ export function AccountPage() {
     return (
         <>
             <div className="min-h-screen bg-reviewDrumLightGray flex items-center justify-center">
-                <div className="w-1/2 bg-white rounded-lg shadow-lg p-8">
+                <div className={`${isMobile ? 'w-11/12' : 'w-1/2'} ${isMobile ? 'text-xs' : 'text-md'} bg-white rounded-lg shadow-lg ${isMobile ? 'p-4' : 'p-8'}`}>
 
                     {(user?.roles.includes('admin') || user?.roles.includes('content-manager')) &&
                         <PrivateAccountButton/>
