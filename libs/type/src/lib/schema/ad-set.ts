@@ -31,7 +31,6 @@ export class AdSet {
 
     @Prop({ required: false })
     pdfLocation?: string;
-
 }
 
 export const AdSetSchema = SchemaFactory.createForClass(AdSet);

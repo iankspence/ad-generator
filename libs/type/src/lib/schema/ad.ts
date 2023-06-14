@@ -77,7 +77,7 @@ export class Ad {
     reviewDate!: string;
 
     @Prop({ required: true, type: String })
-    adStatus!: 'fresh' | 'pdf' | 'facebook'
+    adStatus!: 'fresh' | 'pdf' | 'review' | 'approved' | 'delivered'
 
     @Prop({ required: false })
     adSetId?: string;

@@ -2,6 +2,7 @@ import {
     CreateAdSetForPdfDeliveryDto,
     DeleteAdSetAndAdsAndCardsDto,
     FindPdfLocationByAdSetIdDto,
+    UpdateAdStatusByAdSetIdDto,
 } from '@monorepo/type';
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { AdSetService } from './ad-set.service';
@@ -32,5 +33,12 @@ export class AdSetController {
     @Post('find-pdf-location-by-ad-set-id')
     async findPdfLocationByAdSetId(@Body() findPdfLocationByAdSetIdDto: FindPdfLocationByAdSetIdDto) {
         return await this.adSetService.findPdfLocationByAdSetId(findPdfLocationByAdSetIdDto.adSetId);
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'content-manager')
+    @Post('update-ad-status-by-ad-set-id')
+    async updateAdStatusByAdSetId(@Body() updateAdStatusByAdSetIdDto: UpdateAdStatusByAdSetIdDto) {
+        return await this.adSetService.updateAdStatusByAdSetId(updateAdStatusByAdSetIdDto);
     }
 }

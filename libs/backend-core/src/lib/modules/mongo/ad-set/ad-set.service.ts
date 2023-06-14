@@ -1,4 +1,4 @@
-import { AdSet, AdSetDocument, CreateAdSetForPdfDeliveryDto } from '@monorepo/type';
+import { AdSet, AdSetDocument, CreateAdSetForPdfDeliveryDto, UpdateAdStatusByAdSetIdDto } from '@monorepo/type';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -70,5 +70,18 @@ export class AdSetService {
         }
 
         return join(process.env.CF_DOMAIN, adSet.pdfLocation);
+    }
+
+    async updateAdStatusByAdSetId(updateAdStatusByAdSetIdDto: UpdateAdStatusByAdSetIdDto): Promise<void> {
+        const adSet = await this.findById(updateAdStatusByAdSetIdDto.adSetId);
+        if (!adSet) {
+            throw new NotFoundException('Ad Set not found');
+        }
+
+        for (const adId of adSet.adIds) {
+            const ad = await this.adService.findById(adId);
+            ad.adStatus = updateAdStatusByAdSetIdDto.adStatus;
+            await ad.save();
+        }
     }
 }

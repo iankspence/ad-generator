@@ -18,6 +18,7 @@ export * from './lib/dto/mongo/ad/find-ads-by-account-id.dto';
 export * from './lib/dto/mongo/ad-set/create-ad-set-for-pdf-delivery.dto';
 export * from './lib/dto/mongo/ad-set/delete-ad-set-and-ads-and-cards.dto';
 export * from './lib/dto/mongo/ad-set/find-pdf-location-by-ad-set-id.dto';
+export * from './lib/dto/mongo/ad-set/update-ad-status-by-ad-set-id.dto';
 
 export * from './lib/dto/mongo/background-image/upload-background-image.dto';
 

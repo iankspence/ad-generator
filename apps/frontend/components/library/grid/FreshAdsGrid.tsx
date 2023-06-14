@@ -9,7 +9,7 @@ import UserContext from "../../../contexts/UserContext";
 import AudienceSelector from '../../pixi/design-drawer/text-input/selector/AudienceSelector';
 import { FindAdsByAccountIdDto } from '@monorepo/type';
 
-const AdsGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads, adsWidth, refreshAds }) => {
+const FreshAdsGrid = ({ handleResize, setAdsWidth, setPdfWidth, setDeliveryWidth, ads, adsWidth, refreshAds }) => {
 
     const { updateAds, selectedAudiencePosition } = useContext(CampaignContext);
     const { account } = useContext(UserContext);
@@ -49,7 +49,7 @@ const AdsGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
                         backgroundColor: '#fff',
                         borderRadius: '0 5px 5px 0',
                     }}
-                    onClick={() => handleResize(setAdsWidth, setPdfWidth, setFacebookWidth)}
+                    onClick={() => handleResize(setAdsWidth, setPdfWidth, setDeliveryWidth)}
                 >
                     {
                         adsWidth === 2 &&
@@ -64,7 +64,7 @@ const AdsGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
                                 backgroundColor: '#fff',
                                 borderRadius: '0 5px 5px 0',
                             }}
-                            onClick={() => handleResize(setAdsWidth, setPdfWidth, setFacebookWidth)}
+                            onClick={() => handleResize(setAdsWidth, setPdfWidth, setDeliveryWidth)}
                         >
 
                         </Grid>
@@ -80,4 +80,4 @@ const AdsGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
     );
 };
 
-export default AdsGrid;
+export default FreshAdsGrid;

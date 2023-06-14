@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails, IconButton } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -12,10 +12,14 @@ import { deleteAdSetAndAdsAndCards } from '../../../utils/api/mongo/ad-set/delet
 import { DeleteAdSetAndAdsAndCardsDto } from '@monorepo/type';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import { copyCardsAndAd } from '../../../utils/api/mongo/card/copyCardsAndAdApi';
-import SimCardDownloadIcon from '@mui/icons-material/SimCardDownload';
 import { findPdfLocationByAdSetId } from '../../../utils/api/mongo/ad-set/findPdfLocationByAdSetIdApi';
+import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutlined';
+import UserContext from '../../../contexts/UserContext';
+import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
+import { updateAdStatusByAdSetId } from '../../../utils/api/mongo/ad-set/updateAdStatusByAdSetIdApi';  // import the required icon
 
-const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads, pdfWidth, facebookWidth, refreshAds }) => {
+const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setDeliveryWidth, ads, pdfWidth, deliveryWidth, refreshAds }) => {
+    const { user } = useContext(UserContext);
     const groupAdsByAdSet = (ads) => {
         return ads.reduce((groups, ad) => {
             const groupId = ad.adSetId;
@@ -72,10 +76,57 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
         return mostCommonAudience ? audiences[mostCommonAudience-1].name : null;
     };
 
+    const getMostCommonAdStatus = (ads) => {
+        const adStatusCounts = ads.reduce((counts, ad) => {
+            const status = ad.adStatus;
+            if (!counts[status]) {
+                counts[status] = 0;
+            }
+            counts[status]++;
+            return counts;
+        }, {});
+
+        let maxCount = 0;
+        let mostCommonAdStatus = null;
+        for (const status in adStatusCounts) {
+            if (adStatusCounts[status] > maxCount) {
+                maxCount = adStatusCounts[status];
+                mostCommonAdStatus = status;
+            }
+        }
+
+        return mostCommonAdStatus;
+    };
+
+    const handleApprovalClick = (adSetId) => async (event) => {
+        event.stopPropagation();
+
+        const updatedAdStatus = user.roles.includes('admin') ? 'approved' : user.roles.includes('content-manager') ? 'review' : null;
+        const windowConfirmMessage = user.roles.includes('admin') ? "Are you sure you want to approve this ad set?" : user.roles.includes('content-manager') ? "Are you sure you want to submit this ad set for approval?" : null;
+
+        if (window.confirm(windowConfirmMessage)) {
+
+            if (updatedAdStatus) {
+                try {
+                    updateAdStatusByAdSetId({
+                        adSetId: adSetId,
+                        adStatus: updatedAdStatus
+                    });
+
+                } catch (error) {
+                    alert("Failed to update ad. Please try again later.");
+                }
+
+                refreshAds();
+            }
+        }
+
+    };
+
     const handleCopyAdSetClick = (adSetAds: AdDocument[]) => async (event) => {
         event.stopPropagation();
 
-        if (window.confirm("Are you sure you want to copy this Ad Set and its associated Ads?")) {
+        if (window.confirm("Are you sure you want to copy the ads from this ad set into Fresh Ads?")) {
             for (const ad of adSetAds) {
                 try {
                     const copyCardsAndAdDto: CopyCardsAndAdDto = {
@@ -117,7 +168,7 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
     return (
         <Grid container item xs={pdfWidth} style={getGridItemStyle(pdfWidth)}>
             {
-                pdfWidth === 2 && facebookWidth === 2 &&
+                pdfWidth === 2 && deliveryWidth === 2 &&
                 <Grid
                     item
                     xs={1}
@@ -129,7 +180,7 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
                         backgroundColor: '#fff',
                         borderRadius: '5px 0 0 5px',
                     }}
-                    onClick={() => handleResize(setPdfWidth, setAdsWidth, setFacebookWidth)}
+                    onClick={() => handleResize(setPdfWidth, setAdsWidth, setDeliveryWidth)}
                 >
                     <KeyboardArrowLeftIcon
                         style={{
@@ -141,9 +192,10 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
             <Grid item xs={pdfWidth === 8 ? 12 : 11}>
                 <Typography variant="h6">PDF Ad Sets</Typography>
                 {
-                    Object.entries(groupAdsByAdSet(ads.filter(ad => ad.adStatus === 'pdf')))
+                    Object.entries(groupAdsByAdSet(ads.filter(ad => (ad.adStatus === 'pdf') || (ad.adStatus === 'review') || (ad.adStatus === 'approved'))))
                         .map(([adSetId, adSet]: [string, { ads: AdDocument[], adSetNameDateTime: string }], index) => {
                             const mostCommonAudienceName = getMostCommonAudienceName(adSet.ads);
+                            const mostCommonAdStatus = getMostCommonAdStatus(adSet.ads);
                             return (
                                 <Accordion key={index}>
                                     <AccordionSummary
@@ -154,24 +206,38 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
                                         <Typography>{adSet.adSetNameDateTime} - {mostCommonAudienceName}</Typography>
                                         {pdfWidth > 2 && (
                                             <div style={{ marginLeft: 'auto', marginRight: '12px', display: 'flex', gap: '16px' }}>
-                                                <IconButton
-                                                    onClick={handleDownloadClick(adSetId)}
-                                                    style={{padding: '0', opacity: '30%'}}
-                                                    aria-label="download"
-                                                >
-                                                    <SimCardDownloadIcon />
-                                                </IconButton>
+
+                                                {
+                                                    ((mostCommonAdStatus === 'pdf') || (mostCommonAdStatus === 'review')) &&
+                                                    <IconButton
+                                                        onClick={handleDeleteAdSetClick(adSetId)}
+                                                        style={{padding: '0', opacity: '30%'}}
+                                                    >
+                                                        <HighlightOffOutlinedIcon />
+                                                    </IconButton>
+                                                }
+
                                                 <IconButton
                                                     onClick={handleCopyAdSetClick(adSet.ads)}
                                                     style={{padding: '0', opacity: '30%'}}
                                                 >
                                                     <ContentCopyOutlinedIcon />
                                                 </IconButton>
+
+
                                                 <IconButton
-                                                    onClick={handleDeleteAdSetClick(adSetId)}
+                                                    onClick={handleDownloadClick(adSetId)}
                                                     style={{padding: '0', opacity: '30%'}}
+                                                    aria-label="download"
                                                 >
-                                                    <HighlightOffOutlinedIcon />
+                                                    <SimCardDownloadOutlinedIcon />
+                                                </IconButton>
+
+                                                <IconButton
+                                                    onClick={handleApprovalClick(adSetId)}
+                                                    style={{padding: '0', opacity: mostCommonAdStatus === 'pdf' ? '30%' : '100%' ,  color: mostCommonAdStatus === 'pdf' ? 'grey' : mostCommonAdStatus === 'review' ? 'lightyellow' : mostCommonAdStatus === 'approved' ? 'green' : 'grey'}}
+                                                >
+                                                    <AddTaskOutlinedIcon />
                                                 </IconButton>
                                             </div>
                                         )}
@@ -189,7 +255,7 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
                 }
             </Grid>
             {
-                pdfWidth === 2 && facebookWidth === 8 &&
+                pdfWidth === 2 && deliveryWidth === 8 &&
                 <Grid
                     item
                     xs={1}
@@ -201,7 +267,7 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
                         backgroundColor: '#fff',
                         borderRadius: '0 5px 5px 0',
                     }}
-                    onClick={() => handleResize(setPdfWidth, setAdsWidth, setFacebookWidth)}
+                    onClick={() => handleResize(setPdfWidth, setAdsWidth, setDeliveryWidth)}
                 >
                     <KeyboardArrowRightIcon
                         style={{

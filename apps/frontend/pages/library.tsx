@@ -3,9 +3,9 @@ import { Grid } from "@mui/material";
 import { findAdsByAccountId } from "../utils/api/mongo/ad/findAdsByAccountIdApi";
 import UserContext from "../contexts/UserContext";
 import {CampaignContext} from "../contexts/CampaignContext";
-import AdsGrid from "../components/library/grid/AdsGrid";
+import FreshAdsGrid from "../components/library/grid/FreshAdsGrid";
 import PdfGrid from "../components/library/grid/PdfGrid";
-import FacebookGrid from "../components/library/grid/FacebookGrid";
+import DeliveryGrid from "../components/library/grid/DeliveryGrid";
 import LoadingScreen from "../components/loading-screen/LoadingScreen";
 import { FindAdsByAccountIdDto } from "@monorepo/type";
 import { useUser } from '../hooks/useUser';
@@ -15,7 +15,7 @@ const Library = () => {
     const { ads, updateAds } = useContext(CampaignContext);
     const [adsWidth, setAdsWidth] = useState(2);
     const [pdfWidth, setPdfWidth] = useState(8);
-    const [facebookWidth, setFacebookWidth] = useState(2);
+    const [deliveryWidth, setDeliveryWidth] = useState(2);
 
     useUser();
 
@@ -54,11 +54,11 @@ const Library = () => {
         <div className="bg-reviewDrumLightGray min-h-screen">
             <div style={{ flexGrow: 1, paddingTop: 8, paddingBottom: 8, paddingLeft: 8, }}>
                 <Grid container spacing={0}>
-                    <AdsGrid
+                    <FreshAdsGrid
                         handleResize={handleResize}
                         setAdsWidth={setAdsWidth}
                         setPdfWidth={setPdfWidth}
-                        setFacebookWidth={setFacebookWidth}
+                        setDeliveryWidth={setDeliveryWidth}
                         ads={ads}
                         adsWidth={adsWidth}
                         refreshAds={refreshAds}
@@ -67,19 +67,19 @@ const Library = () => {
                         handleResize={handleResize}
                         setAdsWidth={setAdsWidth}
                         setPdfWidth={setPdfWidth}
-                        setFacebookWidth={setFacebookWidth}
+                        setDeliveryWidth={setDeliveryWidth}
                         ads={ads}
                         pdfWidth={pdfWidth}
-                        facebookWidth={facebookWidth}
+                        deliveryWidth={deliveryWidth}
                         refreshAds={refreshAds}
                     />
-                    <FacebookGrid
+                    <DeliveryGrid
                         handleResize={handleResize}
                         setAdsWidth={setAdsWidth}
                         setPdfWidth={setPdfWidth}
-                        setFacebookWidth={setFacebookWidth}
+                        setDeliveryWidth={setDeliveryWidth}
                         ads={ads}
-                        facebookWidth={facebookWidth}
+                        deliveryWidth={deliveryWidth}
                         refreshAds={refreshAds}
                     />
                 </Grid>
