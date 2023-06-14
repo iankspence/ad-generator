@@ -5,7 +5,13 @@ import * as fs from 'fs';
 import * as path from 'path';
 import sharp from 'sharp';
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { BackgroundImage, BackgroundImageDocument } from '@monorepo/type';
+import {
+    BackgroundImage,
+    BackgroundImageDocument,
+    UploadBackgroundImageDto,
+    UploadedFileInterface,
+} from '@monorepo/type';
+import { LoggerService } from '../../logger/logger.service';
 
 const s3 = new S3Client({
     region: process.env.S3_REGION,
@@ -13,10 +19,35 @@ const s3 = new S3Client({
 
 @Injectable()
 export class BackgroundImageService {
-    constructor(@InjectModel(BackgroundImage.name) private backgroundImageModel: Model<BackgroundImageDocument>) {}
+    constructor(@InjectModel(BackgroundImage.name) private backgroundImageModel: Model<BackgroundImageDocument>,
+                private readonly logger: LoggerService
+    ) {
+        this.logger.setContext('BackgroundImageService');
+    }
 
     async getBackgroundImages(): Promise<BackgroundImageDocument[]> {
         return await this.backgroundImageModel.find().exec();
+    }
+
+    async uploadImage(file: UploadedFileInterface, uploadBackgroundImageDto: UploadBackgroundImageDto): Promise<void> {
+        console.log("File object: ", file);
+
+        const { accountId } = uploadBackgroundImageDto;
+        const fileExtension = path.extname(file.originalname).toLowerCase();
+        if (this.isFileSupported(fileExtension)) {
+            const imageName = path.basename(file.originalname, fileExtension);
+            const fullImageLocation = await this.uploadFileToS3(file.buffer, `background-images/full/${imageName}${fileExtension}`, fileExtension, true);
+            this.logger.log(`Uploaded full image to S3: ${fullImageLocation} for account: ${accountId}`);
+            const previewImageBuffer = await sharp(file.buffer)
+                .resize({
+                    height: 140,
+                    fit: sharp.fit.inside,
+                })
+                .toBuffer();
+            const previewImageLocation = await this.uploadFileToS3(previewImageBuffer, `background-images/preview/${imageName}${fileExtension}`, fileExtension, true);
+            await this.createBackgroundImage(accountId, fullImageLocation, previewImageLocation);
+            this.logger.log(`Uploaded preview image to S3: ${previewImageLocation} for account: ${accountId}`);
+        }
     }
 
     async uploadImagesFromDirectory(directoryPath: string): Promise<void> {
