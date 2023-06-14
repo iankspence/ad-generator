@@ -21,7 +21,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ href, children, className = "", onC
     return (
         <span
             className={`inline-block text-center items-center whitespace-nowrap md:mx-2
-        ${router.asPath === href ? 'text-blue-500' : 'text-white'} ${className}`}
+        ${router.asPath === href ? 'text-blue-500' : ['/privacy', '/terms', '/cookies'].includes(href) ? 'text-reviewDrumMedGray' : 'text-white'  } ${className}`}
             onClick={handleClick}
         >
       <Link href={href ? href : '#'}>

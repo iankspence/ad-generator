@@ -10,7 +10,7 @@ import LinkItem from './LinkItem';
 const TopNav = () => {
     const router = useRouter();
     const { user, setUser, subscriptionStatus } = useContext(UserContext);
-    const isMobile = useMediaQuery('(max-width:780px)');
+    const isMobile = useMediaQuery('(max-width:768px)');
     const pathsHideByDefault = ['/', '/register', '/ad-generator', '/library', '/reset-password', '/forgot-password', '/updated-subscription', '/sign-in', '/privacy', '/terms', '/cookies'];
     const [showLinks, setShowLinks] = useState(!pathsHideByDefault.includes(router.pathname));
     const [isHovered, setIsHovered] = useState(false); // Add new state
@@ -67,9 +67,9 @@ const TopNav = () => {
                 }
             </div>
             {(showLinks || !isMobile) && (
-                <div className={`flex ${isMobile ? 'flex-col space-y-2' : 'md:flex-row md:space-y-0 md:space-x-10 md:pr-12'} md:justify-end md:items-center w-full`}>
+                <div className={`flex ${isMobile ? 'flex-col space-y-2' : 'md:flex-row md:space-y-0 md:space-x-8 md:pr-2'} md:justify-end md:items-center w-full`}>
                     {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client')) ? (
-                        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-10 md:pr-12">
+                        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8 md:pr-2">
                             {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client') && subscriptionStatus) ?
                                 <LinkItem href="/reviews">Reviews</LinkItem>
                                 : null

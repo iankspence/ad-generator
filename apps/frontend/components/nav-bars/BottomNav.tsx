@@ -46,13 +46,13 @@ const BottomNav = () => {
             <div className={`md:pl-3 text-center flex justify-between`} style={{ alignItems: 'center' }}>
                 <span className="text-reviewDrumMedGray">Copyright © 2023 - ReviewDrum Inc.</span>
                 {isMobile &&
-                    <IconButton color="inherit" onClick={toggleShowLinks} style={{ padding: '2px' }}>
+                    <IconButton color="inherit" onClick={toggleShowLinks} style={{ padding: '0px' }}>
                         {showLinks ? <ExpandMoreIcon style={iconStyle} /> : <ExpandLessIcon style={iconStyle} />}
                     </IconButton>
                 }
             </div>
             {(showLinks || !isMobile) &&
-                <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-10 md:pr-6 text-center md:text-right">
+                <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-8 md:pr-2 text-center md:text-right text-reviewDrumMedGray">
                     <LinkItem href="/privacy">Privacy Policy</LinkItem>
                     <LinkItem href="/terms">Terms of Service</LinkItem>
                     <LinkItem href="/cookies">Cookies Policy</LinkItem>
