@@ -5,7 +5,7 @@ import {
     Switch,
     Grid,
     Box,
-    Accordion, AccordionSummary, AccordionDetails,
+    Accordion, AccordionSummary, AccordionDetails, Button
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { faqs } from '../utils/constants/faqs';
@@ -23,6 +23,10 @@ export function PricingPage() {
 
     const navigateToRegister = () => {
         router.push('/register');
+    };
+
+    const handleDemoClick = () => {
+        window.open('https://calendly.com/ian-xtq/discovery-call', '_blank');
     };
 
     return (
@@ -49,27 +53,42 @@ export function PricingPage() {
                     ))}
                 </Grid>
 
-                <Box mt={6} mx={1}>
-                    <Typography variant="h5" component="h2" gutterBottom>
-                        Frequently Asked Questions
-                    </Typography>
-                    {faqs.map((faq, index) => (
-                        <Accordion key={index}>
-                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                <Typography>{faq.question}</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography>{faq.answer}</Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                    ))}
-                </Box>
-
                 <div className="text-center mt-4">
                     <Typography variant="caption" display="block" gutterBottom>
                         *Please note: Due to the nature of our services, we do not provide refunds on any products.
                     </Typography>
                 </div>
+
+                <Box mt={6} mx={1}>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="h5" component="h2">
+                                Frequently Asked Questions
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            {faqs.map((faq, index) => (
+                                <Accordion key={index}>
+                                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                        <Typography>{faq.question}</Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <Typography>{faq.answer}</Typography>
+                                    </AccordionDetails>
+                                </Accordion>
+                            ))}
+                        </AccordionDetails>
+                    </Accordion>
+                </Box>
+
+                <Box mt={6} mx={1} mb={6} textAlign="center">
+                    <Typography variant="h5" component="h2" gutterBottom>
+                        Want to Learn More?
+                    </Typography>
+                    <Button variant="contained" color="inherit" onClick={handleDemoClick}>
+                        Book a Discovery Call
+                    </Button>
+                </Box>
 
             </div>
         </div>
