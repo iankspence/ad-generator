@@ -1,4 +1,4 @@
-import { AdSet, AdSetDocument, CreateAdSetForPdfDeliveryDto, CreatePdfJob } from '@monorepo/type';
+import { AdSet, AdSetDocument, CreateAdSetForPdfDeliveryDto } from '@monorepo/type';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -6,6 +6,12 @@ import { PdfQueueProducerService } from '../../bull/pdf-queue/producer/pdf-queue
 import { AdService } from '../ad/ad.service';
 import { createNameDateTime } from '../../../utils/createNameDateTime';
 import { CardService } from '../card/card.service';
+import { join } from 'path';
+import { S3Client } from '@aws-sdk/client-s3';
+
+const s3 = new S3Client({
+    region: process.env.S3_REGION
+});
 
 @Injectable()
 export class AdSetService {
@@ -55,5 +61,14 @@ export class AdSetService {
         }
 
         await this.adSetModel.deleteOne({ _id: adSetId });
+    }
+
+    async findPdfLocationByAdSetId(adsetId: string): Promise<string> {
+        const adSet = await this.findById(adsetId);
+        if (!adSet) {
+            throw new NotFoundException('Ad Set not found');
+        }
+
+        return join(process.env.CF_DOMAIN, adSet.pdfLocation);
     }
 }

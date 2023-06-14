@@ -12,6 +12,8 @@ import { deleteAdSetAndAdsAndCards } from '../../../utils/api/mongo/ad-set/delet
 import { DeleteAdSetAndAdsAndCardsDto } from '@monorepo/type';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import { copyCardsAndAd } from '../../../utils/api/mongo/card/copyCardsAndAdApi';
+import SimCardDownloadIcon from '@mui/icons-material/SimCardDownload';
+import { findPdfLocationByAdSetId } from '../../../utils/api/mongo/ad-set/findPdfLocationByAdSetIdApi';
 
 const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads, pdfWidth, facebookWidth, refreshAds }) => {
     const groupAdsByAdSet = (ads) => {
@@ -91,6 +93,25 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
         }
     };
 
+    const handleDownloadClick = (adSetId: string) => async (event) => {
+        event.stopPropagation();
+        if (window.confirm("Are you sure you want to download this PDF?")) {
+            try {
+                const pdfUrl = await findPdfLocationByAdSetId({
+                    adSetId,
+                });
+
+                const link = document.createElement('a');
+                link.href = pdfUrl;
+                link.setAttribute('target', '_blank'); // This will open the link in a new tab
+                document.body.appendChild(link);
+                link.click();
+            } catch (error) {
+                alert("Failed to download PDF. Please try again later.");
+            }
+        }
+    };
+
     if (!ads.length) return null;
 
     return (
@@ -133,6 +154,13 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
                                         <Typography>{adSet.adSetNameDateTime} - {mostCommonAudienceName}</Typography>
                                         {pdfWidth > 2 && (
                                             <div style={{ marginLeft: 'auto', marginRight: '12px', display: 'flex', gap: '16px' }}>
+                                                <IconButton
+                                                    onClick={handleDownloadClick(adSetId)}
+                                                    style={{padding: '0', opacity: '30%'}}
+                                                    aria-label="download"
+                                                >
+                                                    <SimCardDownloadIcon />
+                                                </IconButton>
                                                 <IconButton
                                                     onClick={handleCopyAdSetClick(adSet.ads)}
                                                     style={{padding: '0', opacity: '30%'}}
