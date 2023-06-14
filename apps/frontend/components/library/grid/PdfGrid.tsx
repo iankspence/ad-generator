@@ -131,18 +131,22 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setFacebookWidth, ads
                                         id="panel1a-header"
                                     >
                                         <Typography>{adSet.adSetNameDateTime} - {mostCommonAudienceName}</Typography>
-                                        <IconButton
-                                            onClick={handleCopyAdSetClick(adSet.ads)}
-                                            style={{padding: '0', position: 'relative', top: '50%', right: '-10%', opacity: '30%'}}
-                                        >
-                                            <ContentCopyOutlinedIcon />
-                                        </IconButton>
-                                        <IconButton
-                                            onClick={handleDeleteAdSetClick(adSetId)}
-                                            style={{padding: '0', position: 'relative', top: '50%', right: '-2%', opacity: '30%'}}
-                                        >
-                                            <HighlightOffOutlinedIcon />
-                                        </IconButton>
+                                        {pdfWidth > 2 && (
+                                            <>
+                                                <IconButton
+                                                    onClick={handleCopyAdSetClick(adSet.ads)}
+                                                    style={{padding: '0', position: 'relative', top: '50%', right: '-10%', opacity: '30%'}}
+                                                >
+                                                    <ContentCopyOutlinedIcon />
+                                                </IconButton>
+                                                <IconButton
+                                                    onClick={handleDeleteAdSetClick(adSetId)}
+                                                    style={{padding: '0', position: 'relative', top: '50%', right: '-2%', opacity: '30%'}}
+                                                >
+                                                    <HighlightOffOutlinedIcon />
+                                                </IconButton>
+                                            </>
+                                        )}
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <div style={{display: "flex", flexDirection: "column"}}>
