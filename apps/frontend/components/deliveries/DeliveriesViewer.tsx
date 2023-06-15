@@ -1,32 +1,92 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails, Button } from "@mui/material";
+import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails, useMediaQuery, useTheme, IconButton, Box } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import RenderLibraryCards from '../library/library-card/RenderLibraryCards';
-import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
-import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
+import RenderDeliveryCards from './RenderDeliveryCards';
+import { findHookTextByAdId } from '../../utils/api/mongo/ad/findHookTextByAdIdApi';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 
-const cards = ['hook', 'claim', 'review', 'close'];
 
-export default function DeliveriesViewer({ ads, singleCanvasView, toggleCanvasView }) {
-    const [currentCards, setCurrentCards] = useState({});
+export default function DeliveriesViewer({ ads, setRefreshAds }) { // getHookText is a new prop
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const [singleCanvasView, setSingleCanvasView] = useState(isMobile);
+    const [expanded, setExpanded] = useState<string | false>(false);
+    const [adAccordions, setAdAccordions] = useState<Record<string, {ad: any, title: string}[]>>({});
+    const [adExpanded, setAdExpanded] = useState<Record<string, boolean>>({}); // New state to track the expanded state of each ad
 
-    useEffect(() => {
-        if (!singleCanvasView) {
-            // Reset all cards to the first one when switch to four canvas view
-            const newCurrentCards = {};
-            for (const ad of ads) {
-                newCurrentCards[ad.id] = 0;
-            }
-            setCurrentCards(newCurrentCards);
+    const handleChange = (panel: string) => (event: React.ChangeEvent<unknown>, newExpanded: boolean) => {
+        setExpanded(newExpanded ? panel : false);
+
+        if (newExpanded) {
+            setAdExpanded({});
         }
-    }, [singleCanvasView, ads]);
-
-    const handlePrevious = (id) => {
-        setCurrentCards({...currentCards, [id]: currentCards[id] - 1});
     };
 
-    const handleNext = (id) => {
-        setCurrentCards({...currentCards, [id]: currentCards[id] + 1});
+    const handleAdChange = (id: string) => (event: React.ChangeEvent<unknown>, isExpanded: boolean) => {
+        setAdExpanded({...adExpanded, [id]: isExpanded });
+    };
+
+    useEffect(() => {
+        setSingleCanvasView(isMobile);
+    }, [isMobile]);
+
+    useEffect(() => {
+
+        const groupAdsByDate = async () => {
+            const groupedAds: Record<string, {ad: any, title: string}[]> = {};
+            for (const ad of ads) {
+                const dateKey = ad.deliveryDate
+
+                const hookText = await findHookTextByAdId({
+                    adId: ad._id.toString(),
+                });
+
+                if (!groupedAds[dateKey]) {
+                    groupedAds[dateKey] = [];
+                }
+                groupedAds[dateKey].push({ ad, title: hookText });
+            }
+            setAdAccordions(groupedAds);
+        };
+
+        groupAdsByDate();
+    }, [ads]);
+
+    const refresh = () => {
+        setRefreshAds(true);
+    }
+
+    const handleDownload = async (ads: {ad: any, title: string}[], date: string) => {
+
+        console.log('ads - handleDownload', ads);
+
+        const zip = new JSZip();
+        const cfDomain = process.env.NEXT_PUBLIC_CF_DOMAIN;
+
+        for (const { ad, title } of ads) {
+            // Create a folder for each ad
+            const folder = zip.folder(`${title} - ${ad._id}`);
+
+            // Add the ad images to the folder
+            for (let i = 0; i < ad.cardLocations.length; i++) {
+                // Construct the URL to the image file
+                const imageUrl = `${cfDomain}/${ad.cardLocations[i].cardLocation}`;
+
+                // Fetch the image, convert it to Blob, and add it to the folder
+                const response = await fetch(imageUrl);
+                const blob = await response.blob();
+                folder.file(`image${i + 1}.png`, blob);  // Note: +1 to image filename so they're not zero-indexed.
+            }
+
+            // Add the ad copy text file to the folder
+            folder.file('adCopy.txt', ad.copyText);
+        }
+
+        // Generate the ZIP file and trigger the download
+        const content = await zip.generateAsync({ type: 'blob' });
+        saveAs(content, `${date} Ads.zip`);
     };
 
     return (
@@ -34,37 +94,42 @@ export default function DeliveriesViewer({ ads, singleCanvasView, toggleCanvasVi
             <Grid container>
                 <Grid item xs={12}>
                     <Typography variant="h6">Deliveries</Typography>
-                    {ads.map((ad) => (
-                        <Accordion key={ad.id}>
+                    {Object.entries(adAccordions).map(([date, ads]) => (
+                        <Accordion key={date} expanded={expanded === date} onChange={handleChange(date)}>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography>Delivered</Typography>
+                                <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
+                                    <Typography>{date}</Typography>
+                                    <IconButton
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            if (window.confirm('Are you sure you want to download the ads?')) {
+                                                handleDownload(ads, date);
+                                            }
+                                        }}
+                                    >
+                                        <FileDownloadOutlinedIcon />
+                                    </IconButton>
+                                </Box>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <div style={{ padding: "16px" }}>
-                                    {RenderLibraryCards(ad, singleCanvasView ? 2 : 8, toggleCanvasView)}
-                                </div>
-                                {singleCanvasView && (
-                                    <div className="flex fixed inset-x-0 bottom-8 z-10 justify-center">
-                                        <div className="space-x-4">
-                                            <Button
-                                                onClick={() => handlePrevious(ad.id)}
-                                                disabled={currentCards[ad.id] <= 0}
-                                            >
-                                                <ArrowBackOutlinedIcon />
-                                            </Button>
-                                            <Button
-                                                onClick={() => handleNext(ad.id)}
-                                                disabled={currentCards[ad.id] >= cards.length - 1}
-                                            >
-                                                <ArrowForwardOutlinedIcon />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                )}
+                                {(ads as {ad: any, title: string}[]).map(({ ad, title }) => (
+                                    <Accordion key={ad._id.toString()} expanded={adExpanded[ad._id.toString()] || false} onChange={handleAdChange(ad._id.toString())}>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls={`panel2a-content-${ad._id.toString()}`}
+                                            id={`panel2a-header-${ad._id.toString()}`}
+                                        >
+                                            <Typography>{title}</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <RenderDeliveryCards ad={ad} width={singleCanvasView ? 1 : 4} refreshAds={refresh}  />
+                                        </AccordionDetails>
+                                    </Accordion>
+                                ))}
                             </AccordionDetails>
                         </Accordion>
                     ))}

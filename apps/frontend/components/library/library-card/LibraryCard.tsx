@@ -15,6 +15,7 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
     const { selectedAds, updateSelectedAds } = useContext(CampaignContext);
     const { updateEditAd, updateBackgroundImageLocation, updateFreezeEditAdAttributes, updateShowFreezeEditAttributeButton } = useContext(PixiContext)
     const router = useRouter();
+    const currentRoute = router.pathname;
 
     const handleCopyClick = async (event) => {
         event.stopPropagation();
@@ -117,13 +118,15 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
                             <HighlightOffOutlinedIcon />
                         </IconButton>
                     }
-                    <IconButton
-                        onClick={handleCopyClick}
-                        style={{padding: '0', position: 'absolute', top: '3%', right: ad?.adStatus === 'fresh' ? '17%' : '3%', opacity: '30%'}}
-                        aria-label="copy"
-                    >
-                        <ContentCopyOutlinedIcon />
-                    </IconButton>
+                    {currentRoute !== '/deliveries' &&
+                        <IconButton
+                            onClick={handleCopyClick}
+                            style={{padding: '0', position: 'absolute', top: '3%', right: ad?.adStatus === 'fresh' ? '17%' : '3%', opacity: '30%'}}
+                            aria-label="copy"
+                        >
+                            <ContentCopyOutlinedIcon />
+                        </IconButton>
+                    }
                 </>
 
             </div>
@@ -133,3 +136,4 @@ const LibraryCard = ({ ad, cardLocation, refreshAds }) => {
 };
 
 export default LibraryCard;
+

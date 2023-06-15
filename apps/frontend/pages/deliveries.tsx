@@ -12,6 +12,7 @@ import Crop169RoundedIcon from '@mui/icons-material/Crop169Rounded';
 
 export default function Deliveries() {
     const [singleCanvasView, setSingleCanvasView] = useState(true);
+    const [refreshAds, setRefreshAds] = useState(false);
 
     const handleCanvasViewToggle = (event, viewMode) => {
         setSingleCanvasView(Boolean(viewMode));
@@ -32,25 +33,15 @@ export default function Deliveries() {
             updateAds(deliveredAds);
         };
         fetchAds();
-    }, [account]);
+
+    }, [account, refreshAds]);
 
     if (!account) return <LoadingScreen />;
 
     return (
         <div className="bg-reviewDrumLightGray min-h-screen">
-            <div style={{ color: '#000', backgroundColor: '#fff' }}>
-                <ToggleButtonGroup value={singleCanvasView} exclusive onChange={handleCanvasViewToggle} size="small">
-                    <ToggleButton value="false" aria-label="four-canvas">
-                        <Crop169RoundedIcon />
-                    </ToggleButton>
-                    <ToggleButton value="true" aria-label="single-canvas">
-                        <CropDinRoundedIcon />
-                    </ToggleButton>
-                </ToggleButtonGroup>
-            </div>
-
             <div style={{ flexGrow: 1, padding: 8 }}>
-                <DeliveriesViewer ads={ads} singleCanvasView={singleCanvasView} toggleCanvasView={handleCanvasViewToggle} />
+                <DeliveriesViewer ads={ads} setRefreshAds={setRefreshAds}/>
             </div>
         </div>
     );

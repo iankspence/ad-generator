@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { IconButton, CardContent, Typography } from '@mui/material';
+import { IconButton, CardContent, Typography, useMediaQuery } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -9,6 +9,9 @@ import { createAdSetForPdfDelivery } from '../../../utils/api/mongo/ad-set/creat
 import { getBestFitAudienceNameAgeRangeAndInterests } from '../../../utils/audience/getBestFitAudienceNameAgeRangeAndInterests';
 import { formatDateString } from '../../../utils/formatDateString';
 import { CreateAdSetForPdfDeliveryDto } from '@monorepo/type';
+import { useRouter } from 'next/router';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 
 const LibraryCardBottomButtonGroup = ({ ad, isSelected, refreshAds }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -20,6 +23,44 @@ const LibraryCardBottomButtonGroup = ({ ad, isSelected, refreshAds }) => {
     const bestFitAudience = ad?.bestFitAudience || null;
 
     const { bestFitAudienceName, ageRange, interests } = getBestFitAudienceNameAgeRangeAndInterests(ad);
+
+    const router = useRouter();
+    const currentRoute = router.pathname;
+    const isMobile = useMediaQuery('(max-width:600px)');  // adjust the value based on your definition of 'mobile view'
+
+    const [currentCard, setCurrentCard] = useState('hook'); // Add this line if you don't have a similar state variable
+
+    const handleCardNavigationClick = (direction) => {
+        switch (currentCard) {
+            case 'hook':
+                if (direction === 'right') {
+                    setCurrentCard('claim');
+                }
+                break;
+            case 'claim':
+                if (direction === 'left') {
+                    setCurrentCard('hook');
+                } else if (direction === 'right') {
+                    setCurrentCard('review');
+                }
+                break;
+            case 'review':
+                if (direction === 'left') {
+                    setCurrentCard('claim');
+                } else if (direction === 'right') {
+                    setCurrentCard('close');
+                }
+                break;
+            case 'close':
+                if (direction === 'left') {
+                    setCurrentCard('review');
+                }
+                break;
+            default:
+                console.log('Invalid current card state');
+                break;
+        }
+    };
 
     const handleExpandClick = (event) => {
         event.stopPropagation();
@@ -43,8 +84,7 @@ const LibraryCardBottomButtonGroup = ({ ad, isSelected, refreshAds }) => {
         }
     }
 
-    const handleCreateAdSetFromSelectedAds = (event) => {
-        event.stopPropagation();
+    const handleCreateAdSetFromSelectedAds = () => {
         try {
             const adIds = selectedAds.map((ad) => ad._id);
             const createAdSetForPdfDeliveryDto: CreateAdSetForPdfDeliveryDto = {
@@ -57,7 +97,7 @@ const LibraryCardBottomButtonGroup = ({ ad, isSelected, refreshAds }) => {
                 interests,
             }
 
-            const newAdSet = createAdSetForPdfDelivery(createAdSetForPdfDeliveryDto);
+            createAdSetForPdfDelivery(createAdSetForPdfDeliveryDto);
             updateSelectedAds([]);
             const resetTime = 7000 * adIds.length;
             setTimeout(() => {

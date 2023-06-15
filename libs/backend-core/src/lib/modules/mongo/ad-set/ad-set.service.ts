@@ -139,7 +139,7 @@ export class AdSetService {
                     }
                 }
 
-                this.logger.log(`Resetting account.adsPaidWithoutDelivery to null for accountId: ${account.toString()}`)
+                this.logger.log(`Resetting account.adsPaidWithoutDelivery to null for accountId: ${account._id.toString()}`)
                 account.adsPaidWithoutDelivery -= deliveredCount;
                 if(account.adsPaidWithoutDelivery <= 0) {
                     account.adsPaidWithoutDelivery = null;

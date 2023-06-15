@@ -228,6 +228,10 @@ export class CardService {
         return this.cardModel.find({ accountId });
     }
 
+    async findCardsById(cardId: string) {
+        return this.cardModel.findById(cardId);
+    }
+
     async copyCardsAndAd(adId: string): Promise<Ad> {
         const adToCopy = await this.adService.findById(adId);
         const newCardIds = [];

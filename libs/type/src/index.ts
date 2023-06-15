@@ -14,6 +14,7 @@ export * from './lib/dto/mongo/account/update-account-logo-and-colors.dto';
 export * from './lib/dto/mongo/account/update-account-manager.dto';
 
 export * from './lib/dto/mongo/ad/find-ads-by-account-id.dto';
+export * from './lib/dto/mongo/ad/find-hook-text-by-ad-id.dto';
 
 export * from './lib/dto/mongo/ad-set/create-ad-set-for-pdf-delivery.dto';
 export * from './lib/dto/mongo/ad-set/delete-ad-set-and-ads-and-cards.dto';
