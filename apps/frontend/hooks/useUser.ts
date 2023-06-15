@@ -42,20 +42,22 @@ export const useUser = () => {
                 return;
             }
 
+            const accountIndex = Number(sessionStorage.getItem('accountIndex')) || 0;
+
             if (user.roles.includes('content-manager')) {
                 const accounts = await findAccountsByManagerId({
                     managerUserId: user._id.toString(),
                 })
                 if (accounts.length > 0) {
-                    setAccount(accounts[0]);
+                    setAccount(accounts[accountIndex]);
                 }
                 return;
             }
 
-            if ( user.roles.includes('admin') ) {
+            if (user.roles.includes('admin')) {
                 const accounts = await getAccounts();
                 if (accounts.length > 0) {
-                    setAccount(accounts[0]);
+                    setAccount(accounts[accountIndex]);
                 }
                 return;
             }

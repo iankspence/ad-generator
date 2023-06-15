@@ -71,7 +71,10 @@ const TopNav = () => {
                     {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client')) ? (
                         <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8 md:pr-2">
                             {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client') && subscriptionStatus) ?
-                                <LinkItem href="/reviews">Reviews</LinkItem>
+                                <>
+                                    <LinkItem href="/reviews">Reviews</LinkItem>
+                                    <LinkItem href="/deliveries">Deliveries</LinkItem>
+                                </>
                                 : null
                             }
 
@@ -86,7 +89,7 @@ const TopNav = () => {
                             <LinkItem onClick={handleSignOut}>Sign Out</LinkItem>
                         </div>
                     ) : (
-                        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-10 md:pr-12">
+                        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8 md:pr-2">
                             <LinkItem href="/learn-more">Learn More</LinkItem>
                             <LinkItem href="/about">About</LinkItem>
                             <LinkItem href="/pricing">Pricing</LinkItem>

@@ -4,17 +4,17 @@ import IconButton from '@mui/material/IconButton';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import SelectAccount from "../account/SelectAccount";
-import NewAccountForm from "../account/NewAccountForm";
-import UnassignedAccountPicker from '../account/UnassignedAccountPicker';
+import SelectAccount from "./SelectAccount";
+import NewAccountForm from "./NewAccountForm";
+import UnassignedAccountPicker from './UnassignedAccountPicker';
 import LogoUpload from './LogoUpload';
-import { deleteAccount } from '../../utils/api/mongo/account/deleteAccountApi';
+import { deleteAccount } from '../../../utils/api/mongo/account/deleteAccountApi';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import UserContext from '../../contexts/UserContext';
-import useAccounts from '../../hooks/useAccounts';
+import UserContext from '../../../contexts/UserContext';
+import useAccounts from '../../../hooks/useAccounts';
 
 const PrivateAccountButton = () => {
     const { user, account, setAccount } = useContext(UserContext);

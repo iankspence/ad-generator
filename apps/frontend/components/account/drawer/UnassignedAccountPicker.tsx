@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { updateAccountManager } from "../../utils/api/mongo/account/updateAccountManagerApi";
-import { findUnassignedAccounts } from "../../utils/api/mongo/account/findUnassignedAccountsApi";
-import UserContext from "../../contexts/UserContext";
+import { updateAccountManager } from "../../../utils/api/mongo/account/updateAccountManagerApi";
+import { findUnassignedAccounts } from "../../../utils/api/mongo/account/findUnassignedAccountsApi";
+import UserContext from "../../../contexts/UserContext";
 
 export function UnassignedAccountPicker() {
     const [unassignedAccounts, setUnassignedAccounts] = useState([]);

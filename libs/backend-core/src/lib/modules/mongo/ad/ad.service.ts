@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { Ad, AdDocument} from '@monorepo/type';
 
 @Injectable()
@@ -61,12 +61,32 @@ export class AdService {
         }
     }
 
-
     async deleteAd(adId: string): Promise<void> {
         const ad = await this.adModel.findById(adId);
         if (!ad) {
             throw new NotFoundException('Ad not found');
         }
         await this.adModel.deleteOne({ _id: adId });
+    }
+
+    async updateAdStatus(adId: string, newStatus: "fresh" | "pdf" | "review" | "approved" | "delivered") {
+        const ad = await this.adModel.findById(adId);
+        if (!ad) throw new Error('No Ad found with provided ID');
+
+        ad.adStatus = newStatus;
+        return ad.save();
+    }
+
+    async deliverAdsIfPossible(accountId: string, numAds: number) {
+        const ads = await this.findAdsByAccountId(accountId);
+        const approvedAds = ads.filter(ad => ad.adStatus === 'approved');
+
+        if (approvedAds.length < numAds) return false;
+
+        for (let i = 0; i < numAds; i++) {
+            await this.updateAdStatus(approvedAds[i]._id.toString(), 'delivered');
+        }
+
+        return true;
     }
 }

@@ -1,9 +1,9 @@
 import React, {useCallback, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
 import ColorThief from 'colorthief';
-import { updateAccountLogoAndColors } from '../../utils/api/mongo/account/updateAccountLogoAndColorsApi';
-import UserContext from "../../contexts/UserContext";
-import { convertRgbToHex } from '../../utils/color/convertRgbToHex';
+import { updateAccountLogoAndColors } from '../../../utils/api/mongo/account/updateAccountLogoAndColorsApi';
+import UserContext from "../../../contexts/UserContext";
+import { convertRgbToHex } from '../../../utils/color/convertRgbToHex';
 import { UpdateAccountLogoAndColorsDto } from '@monorepo/type';
 
 const LogoUpload = ({ refreshAccount, setRefreshAccount }) => {

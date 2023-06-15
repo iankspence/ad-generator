@@ -60,7 +60,7 @@ export class AccountModelService {
         return deletedAccount;
     }
 
-    async findOneById(_id: string): Promise<Account> {
+    async findOneById(_id: string): Promise<AccountDocument> {
         return await this.accountModel.findOne({ _id: _id }).exec();
     }
 
@@ -178,6 +178,12 @@ export class AccountModelService {
     async reactivateAccount(accountId: string): Promise<Account | null> {
         return this.accountModel.findOneAndUpdate({ _id: accountId }, {
             isActive: true,
+        }, { new: true }).exec();
+    }
+
+    async updateAdsPaidWithoutDelivery(accountId: string, adsPaidWithoutDelivery: number): Promise<Account | null> {
+        return this.accountModel.findOneAndUpdate({ _id: accountId }, {
+            adsPaidWithoutDelivery,
         }, { new: true }).exec();
     }
 }

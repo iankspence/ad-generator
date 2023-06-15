@@ -194,7 +194,7 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setDeliveryWidth, ads
             <Grid item xs={pdfWidth === 8 ? 12 : 11}>
                 <Typography variant="h6">PDF Ad Sets</Typography>
                 {
-                    Object.entries(groupAdsByAdSet(ads.filter(ad => (ad.adStatus === 'pdf') || (ad.adStatus === 'review') || (ad.adStatus === 'approved'))))
+                    Object.entries(groupAdsByAdSet(ads.filter(ad => (ad.adStatus === 'pdf') || (ad.adStatus === 'review') || (ad.adStatus === 'approved') || (ad.adStatus === 'delivered'))))
                         .map(([adSetId, adSet]: [string, { ads: AdDocument[], adSetNameDateTime: string }], index) => {
                             const mostCommonAudienceName = getMostCommonAudienceName(adSet.ads);
                             const mostCommonAdStatus = getMostCommonAdStatus(adSet.ads);
@@ -237,7 +237,7 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setDeliveryWidth, ads
 
                                                 <IconButton
                                                     onClick={handleApprovalClick(adSetId)}
-                                                    style={{padding: '0', opacity: mostCommonAdStatus === 'pdf' ? '30%' : '100%' ,  color: mostCommonAdStatus === 'pdf' ? 'grey' : mostCommonAdStatus === 'review' ? 'orange' : mostCommonAdStatus === 'approved' ? 'green' : 'grey'}}
+                                                    style={{padding: '0', opacity: mostCommonAdStatus === 'pdf' ? '30%' : '100%' ,  color: mostCommonAdStatus === 'pdf' ? 'grey' : mostCommonAdStatus === 'review' ? 'orange' : (mostCommonAdStatus === 'approved' || mostCommonAdStatus === 'delivered') ? 'green' : 'grey'}}
                                                 >
                                                     <AddTaskOutlinedIcon />
                                                 </IconButton>

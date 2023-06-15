@@ -49,6 +49,9 @@ export class Account {
 
     @Prop({ required: true, default: true })
     isActive!: boolean;
+
+    @Prop({ required: false, default: null })
+    adsPaidWithoutDelivery?: number | null;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);

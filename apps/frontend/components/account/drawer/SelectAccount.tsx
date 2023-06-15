@@ -14,7 +14,7 @@ const SelectAccount = ({ account, setAccount, accounts }) => {
     }, [account, accounts]);
 
     if (!accounts) {
-        return <div className="py-8" ></div>;
+        return <div className="py-8"></div>;
     }
 
     accounts?.sort((a, b) => {
@@ -29,13 +29,26 @@ const SelectAccount = ({ account, setAccount, accounts }) => {
             onChange={(event, newValue) => {
                 setValue(newValue);
                 setAccount(newValue);
+                const newIndex = accounts.findIndex(account => account._id === newValue._id);
+                sessionStorage.setItem('accountIndex', newIndex.toString());
             }}
             options={accounts}
             groupBy={(option) => `${option.country}, ${option.provinceState}, ${option.city}`}
-            getOptionLabel={(option) => option.companyName}
+            getOptionLabel={(option) => {
+                let label = option.companyName;
+                if (option.adsPaidWithoutDelivery) {
+                    label += ` (${option.adsPaidWithoutDelivery} ads paid without delivery)`;
+                }
+                return label;
+            }}
             style={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Select Account" variant="outlined" />}
             isOptionEqualToValue={(option, value) => option._id === value._id}
+            renderOption={(props, option, state) => (
+                <li {...props} style={{backgroundColor: option.adsPaidWithoutDelivery ? 'orange' : undefined}}>
+                    {option.companyName}{option.adsPaidWithoutDelivery && ` (${option.adsPaidWithoutDelivery} ads paid without delivery)`}
+                </li>
+            )}
         />
     );
 }

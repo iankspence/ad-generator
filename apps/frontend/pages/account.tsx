@@ -5,7 +5,7 @@ import AccountInfo from "../components/account/AccountInfo";
 import LoadingScreen from '../components/loading-screen/LoadingScreen';
 import { useUser } from '../hooks/useUser';
 import useAccounts from '../hooks/useAccounts';
-import PrivateAccountButton  from '../components/account/PrivateAccountButton';
+import PrivateAccountButton  from '../components/account/drawer/PrivateAccountButton';
 
 export function AccountPage() {
     const { user, account } = useContext(UserContext);
