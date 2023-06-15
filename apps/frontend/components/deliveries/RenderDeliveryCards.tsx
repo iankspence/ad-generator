@@ -23,6 +23,7 @@ const RenderDeliveryCards = ({ ad, width, refreshAds }) => {
                 ad={ad}
                 cardLocations={cardLocations}
                 refreshAds={refreshAds}
+                initialCard="hook"
             />
         );
     } else {
