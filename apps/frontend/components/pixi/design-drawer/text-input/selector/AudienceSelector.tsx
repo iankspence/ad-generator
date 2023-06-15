@@ -32,7 +32,7 @@ const AudienceSelector = ({countTarget}) => {
                 >
                     {audiences.map((audience, index) => (
                         <MenuItem key={audience.name} value={index + 1} style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left'}}>
-                            <Typography align="left">
+                            <Typography align="left" variant="caption">
                                 [{getAudienceCount(countTarget, reviews, ads, index + 1)}] {audience.name}
                             </Typography>
                         </MenuItem>

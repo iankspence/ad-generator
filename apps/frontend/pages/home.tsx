@@ -19,7 +19,7 @@ const textBlocks = [
         title: 'We provide digital ad services',
         content: [
             `for sharing true stories with targeted audiences in your local community.`,
-            `From coming up with your ad creative, to handling your ad account, we've got you covered.`,
+            `From coming up with your ad creative, to managing your ad account, we have you covered.`,
         ],
     },
 ];

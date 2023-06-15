@@ -1,56 +1,42 @@
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Hidden from '@mui/material/Hidden';
 import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import ReviewViewer from './ReviewViewer';
 
 const ReviewsAudienceTable = ({ audienceData }) => {
-    return (
-        <>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                    <TableHead>
-                        <TableRow>
-                            {[
-                                'Audience Name',
-                                'Google',
-                                'RateMDs',
-                                'Total',
-                                'Age Range',
-                                'Interests',
-                            ].map((header, index) => (
-                                <TableCell key={index}>
-                                    {header}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {audienceData.map((row, index) => (
-                            <TableRow key={index}>
-                                <TableCell component="th" scope="row">
-                                    {row.name}
-                                </TableCell>
+    const headers = ['Audience Name', 'Google', 'RateMDs', 'Total', 'Age Range', 'Interests'];
 
-                                {['googleReviews', 'rateMDsReviews', 'totalReviews', 'age'].map((field, fieldIndex) => (
-                                    <TableCell key={fieldIndex}>
-                                        {row[field]}
-                                    </TableCell>
-                                ))}
-                                <TableCell>
-                                    {row.interests}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+    return (
+        <div className="p-2">
+            <Box sx={{width: '100%'}}>
+                {audienceData.map((row, rowIndex) => (
+                    <Box key={rowIndex} p={2} sx={{
+                        backgroundColor: rowIndex % 2 === 0 ? '#F2F2F2' : 'white',
+                        borderRadius: 2 // change this value to adjust the rounding
+                    }}>
+                        <Grid container spacing={2}>
+                            {headers.map((header, headerIndex) => (
+                                <Grid item xs={12} sm={2} key={headerIndex}>
+                                    <Hidden xsDown>
+                                        <Typography variant="subtitle1" sx={{fontWeight: 'bold'}}>{header}</Typography>
+                                    </Hidden>
+                                    <Typography variant="caption">
+                                        {headerIndex === 0 ? row.name || '0' :
+                                            headerIndex < 4 ? (row[headers[headerIndex].toLowerCase() + 'Reviews'] || '0') :
+                                                headerIndex === 4 ? (row.age || '0') :
+                                                    (row.interests || '0')}
+                                    </Typography>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Box>
+                ))}
+            </Box>
             <ReviewViewer />
-        </>
+        </div>
     );
 };
 

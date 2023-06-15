@@ -113,8 +113,6 @@ export class AdService {
         const ad = await this.adModel.findById(adId);
         if (!ad) return null;
 
-        console.log('ad.cardIds', ad.cardIds);
-
         const hookCardRelation = ad.cardIds.find(relation => relation.canvasName === 'hook');
         if (!hookCardRelation) return null;
 

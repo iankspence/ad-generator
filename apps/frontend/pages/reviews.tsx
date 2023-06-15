@@ -32,7 +32,7 @@ function ReviewsPage() {
     return (
         <>
             <div className="min-h-screen bg-reviewDrumLightGray flex flex-col items-center justify-start overflow-auto pt-8">
-                <div className="w-full md:w-5/6 bg-white rounded-lg shadow-lg p-8 mb-8">
+                <div className="w-11/12 md:w-5/6 bg-white rounded-lg shadow-lg p-6 mb-8">
                     <h1 className="text-3xl font-semibold mb-8">Reviews</h1>
                     <ReviewsAudienceTable audienceData={tableData}/>
                 </div>
