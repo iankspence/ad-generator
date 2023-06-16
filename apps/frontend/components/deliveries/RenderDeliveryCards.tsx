@@ -2,7 +2,7 @@ import React from 'react';
 import DeliveryCard from './DeliveryCard';
 import { Grid } from '@mui/material';
 
-const RenderDeliveryCards = ({ ad, width, refreshAds }) => {
+const RenderDeliveryCards = ({ ad, width }) => {
     const cardLocations = {
         hook: null,
         claim: null,
@@ -22,7 +22,6 @@ const RenderDeliveryCards = ({ ad, width, refreshAds }) => {
                 key={ad._id}
                 ad={ad}
                 cardLocations={cardLocations}
-                refreshAds={refreshAds}
                 initialCard="hook"
             />
         );
@@ -35,7 +34,6 @@ const RenderDeliveryCards = ({ ad, width, refreshAds }) => {
                             key={`${ad._id}-${card}`}
                             ad={ad}
                             cardLocations={cardLocations}
-                            refreshAds={refreshAds}
                             initialCard={card}
                         />
                     </Grid>

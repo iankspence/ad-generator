@@ -8,7 +8,7 @@ import { saveAs } from 'file-saver';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 
 
-export default function DeliveriesViewer({ ads, setRefreshAds }) { // getHookText is a new prop
+export default function DeliveriesViewer({ ads }) { // getHookText is a new prop
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [singleCanvasView, setSingleCanvasView] = useState(isMobile);
@@ -53,10 +53,6 @@ export default function DeliveriesViewer({ ads, setRefreshAds }) { // getHookTex
 
         groupAdsByDate();
     }, [ads]);
-
-    const refresh = () => {
-        setRefreshAds(true);
-    }
 
     const handleDownload = async (ads: {ad: any, title: string}[], date: string) => {
 
@@ -126,7 +122,7 @@ export default function DeliveriesViewer({ ads, setRefreshAds }) { // getHookTex
                                             <Typography>{title}</Typography>
                                         </AccordionSummary>
                                         <AccordionDetails>
-                                            <RenderDeliveryCards ad={ad} width={singleCanvasView ? 1 : 4} refreshAds={refresh}  />
+                                            <RenderDeliveryCards ad={ad} width={singleCanvasView ? 1 : 4} />
                                         </AccordionDetails>
                                     </Accordion>
                                 ))}

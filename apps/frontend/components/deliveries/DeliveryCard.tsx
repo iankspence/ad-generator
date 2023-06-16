@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardMedia } from '@mui/material';
 import DeliveryCardBottomButtonGroup from './DeliveryCardBottomButtonGroup';
 
-const DeliveryCard = ({ ad, cardLocations, refreshAds, initialCard }) => {
+const DeliveryCard = ({ ad, cardLocations, initialCard }) => {
     const [currentCard, setCurrentCard] = useState(initialCard || 'hook');
 
     const handleNext = () => {

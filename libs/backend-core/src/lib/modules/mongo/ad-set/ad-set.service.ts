@@ -15,6 +15,9 @@ import { createNameDateTime } from '../../../utils/createNameDateTime';
 import { CardService } from '../card/card.service';
 import { join } from 'path';
 import { LoggerService } from '../../logger/logger.service';
+import geoTz from 'geo-tz';
+import { CityService } from '../city/city.service';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class AdSetService {
@@ -24,7 +27,8 @@ export class AdSetService {
         private adService: AdService,
         private pdfQueueProducerService: PdfQueueProducerService,
         private cardService: CardService,
-        private logger: LoggerService
+        private readonly cityService: CityService,
+        private logger: LoggerService,
     ) {
         this.logger.setContext('AdSetService');
     }
@@ -92,6 +96,10 @@ export class AdSetService {
             this.logger.error(`Account not found: ${adSet.accountId}`)
             return null;
         }
+        const { city, provinceState } = account;
+        const { lat, lon } = await this.cityService.findLatLonByCityAndProvinceState(city, provinceState);
+        const timezone = geoTz.find(lat, lon)[0];
+        const dateTime = DateTime.now().setZone(timezone).toLocaleString(DateTime.DATETIME_FULL);
 
         for (const adId of adSet.adIds) {
             const ad = await this.adService.findById(adId);
@@ -121,6 +129,7 @@ export class AdSetService {
                     }
                     this.logger.log(`Delivering pre-existing 'approved' ads (not in the new ad set): ${approvedAd._id.toString()}`)
                     approvedAd.adStatus = 'delivered';
+                    approvedAd.deliveryDate = dateTime;
                     await approvedAd.save();
                     deliveredCount++;
                 }
@@ -134,6 +143,8 @@ export class AdSetService {
                             break;
                         }
                         approvedAd.adStatus = 'delivered';
+                        approvedAd.deliveryDate = dateTime;
+
                         await approvedAd.save();
                         deliveredCount++;
                     }

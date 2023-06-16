@@ -6,7 +6,7 @@ import { Account, AccountSchema, AdSet, AdSetSchema } from '@monorepo/type';
 import { AdModule } from '../ad/ad.module';
 import { BullConfigModule } from '../../bull/bull.module';
 import { CardModule } from '../card/card.module';
-import { AccountModule } from '../account/account.module';
+import { CityModule } from '../city/city.module';
 
 @Module({
     imports: [
@@ -15,6 +15,7 @@ import { AccountModule } from '../account/account.module';
         AdModule,
         forwardRef(() => BullConfigModule),
         CardModule,
+        CityModule
     ],
     controllers: [AdSetController],
     providers: [AdSetService],
