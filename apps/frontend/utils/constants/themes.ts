@@ -345,7 +345,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 2,
+                        minMaxDistance: 1,
                     }
                 },
                 {
@@ -354,7 +354,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 3,
+                        minMaxDistance: 2,
                     }
                 },
                 {
@@ -383,7 +383,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 2,
+                        minMaxDistance: 1,
                     }
                 },
                 {
@@ -392,7 +392,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 3,
+                        minMaxDistance: 2,
                     }
                 },
                 {
@@ -549,7 +549,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 2,
+                        minMaxDistance: 1,
                     }
                 },
                 {
@@ -558,7 +558,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 3,
+                        minMaxDistance: 2,
                     }
                 },
                 {
@@ -587,7 +587,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 2,
+                        minMaxDistance: 1,
                     }
                 },
                 {
@@ -596,7 +596,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 3,
+                        minMaxDistance: 2,
                     }
                 },
                 {

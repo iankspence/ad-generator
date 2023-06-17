@@ -39,8 +39,6 @@ export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, account, setAc
                     reviewsLimit: reviewsLimit,
                 }
 
-                console.log('getGoogleMapsReviewsDto (button): ', getGoogleMapsReviewsDto)
-
                 await getGoogleMapsReviews(getGoogleMapsReviewsDto);
 
                 const addGoogleQueryDto: AddGoogleQueryDto = {

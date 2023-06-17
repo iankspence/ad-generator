@@ -9,14 +9,12 @@ import { useUser } from '../hooks/useUser';
 import { FindTextByAccountIdDto } from '@monorepo/type';
 
 function AdGeneratorPage() {
-    const router = useRouter(); // add router
+    const router = useRouter();
     const { account, user } = useContext(UserContext);
     const { updateReviews, updateHooks, updateCopies, updateClaims, updateCloses } = useContext(CampaignContext);
-    const [navHovered, setNavHovered] = useState(false); // add this state
+    const [navHovered, setNavHovered] = useState(false);
 
     useUser();
-
-    // Add this effect
     useEffect(() => {
         const handleRouteChange = () => {
             setNavHovered(false);
