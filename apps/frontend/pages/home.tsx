@@ -89,7 +89,7 @@ const HomePage: React.FC = () => {
     const reviewDrumOrange = '#FFA726';
 
     return (
-        <div className="bg-orange-100 min-h-screen">
+        <div className="bg-white min-h-screen">
             <div className={`${isMobile? "py-2" : "py-4"}`} ></div>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '10px' : '20px', marginX: isMobile ? '10px' : '20px' }}>
