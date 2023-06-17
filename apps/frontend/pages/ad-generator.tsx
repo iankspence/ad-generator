@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'; // add useState
 import { useRouter } from 'next/router'; // add useRouter
-import ContentGenerator from '../components/pixi/content-generator/ContentGenerator';
+import ContentGenerator from '../components/ad-generator/content-generator/ContentGenerator';
 import { CampaignContext } from '../contexts/CampaignContext';
 import UserContext from '../contexts/UserContext';
 import { findTextByAccountId } from '../utils/api/mongo/account/findTextByAccountIdApi';

@@ -4,7 +4,7 @@ import { onDragStart } from './onDragStart';
 import * as PIXI from 'pixi.js';
 import {useEffect, useCallback, useContext} from 'react';
 import {PixiContext} from "../../contexts/PixiContext";
-import {findImageContainer} from "../../components/pixi/utils/findImageContainer";
+import {findImageContainer} from "../../components/ad-generator/utils/findImageContainer";
 
 export interface DraggableContainer extends PIXI.Container {
     dragging: boolean;

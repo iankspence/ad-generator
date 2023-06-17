@@ -6,7 +6,7 @@ import { getGridItemStyle } from './getGridItemStyle';
 import {CampaignContext} from "../../../contexts/CampaignContext";
 import { findAdsByAccountId } from '../../../utils/api/mongo/ad/findAdsByAccountIdApi';
 import UserContext from "../../../contexts/UserContext";
-import AudienceSelector from '../../pixi/design-drawer/text-input/selector/AudienceSelector';
+import AudienceSelector from '../../ad-generator/design-drawer/text-input/selector/AudienceSelector';
 import { FindAdsByAccountIdDto } from '@monorepo/type';
 
 const FreshAdsGrid = ({ handleResize, setAdsWidth, setPdfWidth, setDeliveryWidth, ads, adsWidth, refreshAds }) => {

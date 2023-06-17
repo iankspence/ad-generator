@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { PixiContext } from '../../contexts/PixiContext';
 import UserContext from "../../contexts/UserContext";
 import { CampaignContext } from "../../contexts/CampaignContext";
-import { getFilteredTextArrays } from "../../components/pixi/utils/text/getFilteredTextArrays";
+import { getFilteredTextArrays } from "../../components/ad-generator/utils/text/getFilteredTextArrays";
 import { saveAllApps } from './saveAllApps';
 
 const useSave = (width = 1080, height = 1080) => {

@@ -17,6 +17,7 @@ import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutl
 import UserContext from '../../../contexts/UserContext';
 import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
 import { updateAdStatusByAdSetId } from '../../../utils/api/mongo/ad-set/updateAdStatusByAdSetIdApi';  // import the required icon
+import { saveAs } from 'file-saver';
 
 const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setDeliveryWidth, ads, pdfWidth, deliveryWidth, refreshAds }) => {
     const { user } = useContext(UserContext);
@@ -150,15 +151,17 @@ const PdfGrid = ({ handleResize, setAdsWidth, setPdfWidth, setDeliveryWidth, ads
         event.stopPropagation();
         if (window.confirm("Are you sure you want to download this PDF?")) {
             try {
-                const pdfUrl = await findPdfLocationByAdSetId({
-                    adSetId,
-                });
+                const pdfUrl = await findPdfLocationByAdSetId({ adSetId });
 
-                const link = document.createElement('a');
-                link.href = pdfUrl;
-                link.setAttribute('target', '_blank'); // This will open the link in a new tab
-                document.body.appendChild(link);
-                link.click();
+                // Fetch the PDF file from the server
+                const response = await fetch(pdfUrl);
+                if (!response.ok) throw new Error("Failed to download PDF. Please try again later.");
+
+                // Convert the response data to a Blob
+                const blob = await response.blob();
+
+                // Trigger the download
+                saveAs(blob, `${adSetId}.pdf`);
             } catch (error) {
                 alert("Failed to download PDF. Please try again later.");
             }

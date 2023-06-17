@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { PixiContext } from '../contexts/PixiContext';
-import { addMaskLayer } from '../components/pixi/utils/addMaskLayer';
+import { addMaskLayer } from '../components/ad-generator/utils/addMaskLayer';
 import { findMasksByNames } from '../utils/api/mongo/mask/findMasksByNamesApi';
 import * as PIXI from 'pixi.js';
-import { findMaskChildren } from '../components/pixi/utils/findMaskChildren';
-import { getSelectedTheme } from "../components/pixi/utils/getSelectedTheme";
+import { findMaskChildren } from '../components/ad-generator/utils/findMaskChildren';
+import { getSelectedTheme } from "../components/ad-generator/utils/getSelectedTheme";
 import UserContext from "../contexts/UserContext";
 import { generateAutoColor } from "../utils/color/generateAutoColor";
 

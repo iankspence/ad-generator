@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import TextSelector from '../pixi/design-drawer/text-input/selector/TextSelector';
-import AudienceSelector from '../pixi/design-drawer/text-input/selector/AudienceSelector';
+import TextSelector from '../ad-generator/design-drawer/text-input/selector/TextSelector';
+import AudienceSelector from '../ad-generator/design-drawer/text-input/selector/AudienceSelector';
 import { CampaignContext } from '../../contexts/CampaignContext';
 import { useTheme, useMediaQuery, Box } from '@mui/material';
 

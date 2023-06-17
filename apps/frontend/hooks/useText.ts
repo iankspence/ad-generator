@@ -1,9 +1,9 @@
 import { CampaignContext } from '../contexts/CampaignContext';
 import { PixiContext } from '../contexts/PixiContext';
 import { useContext, useEffect, useState } from 'react';
-import setCanvasText from "../components/pixi/utils/text/setCanvasText";
-import {getTextSettings} from "../components/pixi/utils/text/getTextSettings";
-import {getFilteredTextArrays} from "../components/pixi/utils/text/getFilteredTextArrays";
+import setCanvasText from "../components/ad-generator/utils/text/setCanvasText";
+import {getTextSettings} from "../components/ad-generator/utils/text/getTextSettings";
+import {getFilteredTextArrays} from "../components/ad-generator/utils/text/getFilteredTextArrays";
 import UserContext from '../contexts/UserContext';
 import {useRouter} from "next/router";
 
