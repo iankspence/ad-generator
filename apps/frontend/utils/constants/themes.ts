@@ -363,7 +363,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     }
                 },
                 {
@@ -401,7 +401,7 @@ export const themes = [
                         sourceType: 'primary',
                         paletteType: 'adjacent',
                         minMaxType: 'min',
-                        minMaxDistance: 1,
+                        minMaxDistance: 0,
                     }
                 },
                 {
