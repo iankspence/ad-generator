@@ -27,12 +27,12 @@ export class UserMailerService {
 <p>If you did not sign up for this account, no further action is required. If you have any questions, feel free to reach out to our support team.</p>
 <p>Thank you for joining us!</p>
 <p>Cheers,</p>
-<p>The Chiro Creative Team</p>
+<p>The ReviewDrum Team</p>
 `;
 
         sendSmtpEmail.sender = {
-            email: 'ian@chirocreative.ca',
-            name: 'Chiro Creative',
+            email: 'ian@reviewdrum.com',
+            name: 'ReviewDrum',
         };
 
         await this.transactionalEmailsApi.sendTransacEmail(sendSmtpEmail);
@@ -46,8 +46,8 @@ export class UserMailerService {
         sendSmtpEmail.subject = 'Reset Password';
         sendSmtpEmail.htmlContent = `<p>Please click the link below to reset your password:</p><p><a href="${resetPasswordLink}">${resetPasswordLink}</a></p>`;
         sendSmtpEmail.sender = {
-            email: 'ian@chirocreative.ca',
-            name: 'Chiro Creative',
+            email: 'ian@reviewdrum.com',
+            name: 'ReviewDrum',
         };
 
         await this.transactionalEmailsApi.sendTransacEmail(sendSmtpEmail);
