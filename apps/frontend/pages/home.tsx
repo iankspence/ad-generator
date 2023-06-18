@@ -118,7 +118,7 @@ const HomePage: React.FC = () => {
                         </Box>
 
                         {index === 1 &&
-                            <Link href="/learn-more" passHref>
+                            <Link href="/how-it-works" passHref>
                                 <Button
                                     sx={{
                                         width: `${isMobile ? '88%' : '500px'}`,

@@ -59,28 +59,6 @@ export function PricingPage() {
                     </Typography>
                 </div>
 
-                <Box mt={6} mx={1}>
-                    <Accordion>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography variant="h5" component="h2">
-                                Frequently Asked Questions
-                            </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            {faqs.map((faq, index) => (
-                                <Accordion key={index}>
-                                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                        <Typography>{faq.question}</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <Typography>{faq.answer}</Typography>
-                                    </AccordionDetails>
-                                </Accordion>
-                            ))}
-                        </AccordionDetails>
-                    </Accordion>
-                </Box>
-
                 <Box mt={6} mx={1} mb={6} textAlign="center">
                     <Typography variant="h5" component="h2" gutterBottom>
                         Want to Learn More?
