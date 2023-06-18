@@ -1,6 +1,8 @@
 import { Card, CardContent, Typography, CardActions, Button, List, ListItem, ListItemText } from '@mui/material';
 
 export function PricingCard({ price, annualPayment, buttonText, onClick }) {
+    const reviewDrumOrange = '#FFA726';
+
     return (
         <Card elevation={3} className="flex flex-col h-full">
             <CardContent className="flex flex-col flex-grow">
@@ -24,7 +26,21 @@ export function PricingCard({ price, annualPayment, buttonText, onClick }) {
                 </List>
             </CardContent>
             <CardActions className="mb-2" style={{ justifyContent: 'center' }}>
-                <Button size="large" fullWidth variant="contained" color="inherit" onClick={onClick}>
+                <Button
+                    size="large"
+                    fullWidth
+                    variant="contained"
+                    onClick={onClick}
+                    sx={{
+                        backgroundColor: reviewDrumOrange,
+                        color: 'white',
+                        transition: 'all 0.5s ease-in-out',
+                        '&:hover': {
+                            backgroundColor: reviewDrumOrange,
+                            color: 'white',
+                        },
+                    }}
+                >
                     {buttonText}
                 </Button>
             </CardActions>

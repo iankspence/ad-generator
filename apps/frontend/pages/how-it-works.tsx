@@ -41,12 +41,26 @@ const HowItWorksPage: React.FC = () => {
     const reviewDrumDarkGray = '#1E1E1E';
     const reviewDrumOrange = '#FFA726';
 
+    const handleEntered = (node) => {
+        const yCoordinate = node.getBoundingClientRect().top + window.pageYOffset;
+        const yOffset = -120; // adjust this value based on the size of your nav
+
+        window.scrollTo({ top: yCoordinate + yOffset, behavior: 'smooth' });
+    };
+
     return (
         <div className="bg-reviewDrumLightGray min-h-screen">
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '20px', marginX: isMobile ? '5px' : '20px', padding: isMobile? '15px': '50px' }}>
                 <Typography variant="h3" align="center" sx={{ fontWeight: 'bold', color: reviewDrumDarkGray, marginBottom: theme.spacing(3) }}>How it Works</Typography>
                 {['register', 'download', 'manage'].map((type) => (
-                    <Accordion key={type} sx={{ width: '100%', marginBottom: theme.spacing(3), padding: isMobile ? '5px' : '25px' }}>
+                    <Accordion
+                        key={type}
+                        sx={{ width: '100%', marginBottom: theme.spacing(3), padding: isMobile ? '5px' : '25px' }}
+                        TransitionProps={{
+                            unmountOnExit: true,
+                            onEntered: handleEntered,
+                        }}
+                    >
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant={isMobile ? "h6" : "h5"}>{typeNames[type]}</Typography>
                         </AccordionSummary>

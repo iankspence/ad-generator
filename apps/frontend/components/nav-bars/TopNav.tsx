@@ -11,9 +11,9 @@ const TopNav = () => {
     const router = useRouter();
     const { user, setUser, subscriptionStatus } = useContext(UserContext);
     const isMobile = useMediaQuery('(max-width:768px)');
-    const pathsHideByDefault = ['/', '/register', '/ad-generator', '/library', '/reset-password', '/forgot-password', '/updated-subscription', '/sign-in', '/privacy', '/terms', '/cookies'];
+    const pathsHideByDefault = ['/', '/register', '/ad-generator', '/library', '/reset-password', '/forgot-password', '/updated-subscription', '/sign-in', '/how-it-works', '/faq', '/privacy', '/terms', '/cookies'];
     const [showLinks, setShowLinks] = useState(!pathsHideByDefault.includes(router.pathname));
-    const [isHovered, setIsHovered] = useState(false); // Add new state
+    const [isHovered, setIsHovered] = useState(false);
 
     const handleSignOut = () => {
         if (window.confirm('Are you sure you want to sign out?')) {
@@ -27,7 +27,6 @@ const TopNav = () => {
         setShowLinks(!showLinks);
     };
 
-    // Listener for route changes to hide/show links
     useEffect(() => {
         router.events.on('routeChangeComplete', handleRouteChange);
         return () => {
@@ -90,7 +89,7 @@ const TopNav = () => {
                         </div>
                     ) : (
                         <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8 md:pr-2">
-                            <LinkItem href="/how-it-works">How it Works</LinkItem>
+                            <LinkItem href="/how-it-works">How It Works</LinkItem>
                             <LinkItem href="/faq">FAQ</LinkItem>
                             <LinkItem href="/pricing">Pricing</LinkItem>
                             <LinkItem href="/sign-in">Sign In</LinkItem>
