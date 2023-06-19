@@ -2,7 +2,7 @@ import UserContext from '../contexts/UserContext';
 import { signIn } from '../utils/api/mongo/user/sign-in/signInApi';
 import React, { useState, useContext, useEffect } from 'react';
 import Router from 'next/router';
-import { TextField, Button, IconButton, InputAdornment, Snackbar } from '@mui/material';
+import { TextField, Button, IconButton, InputAdornment, } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Link from 'next/link';
 import Alert from '@mui/material/Alert';
@@ -52,6 +52,7 @@ export function SignInPage() {
                     </div>
 
                     <TextField
+                        id="email-field"
                         fullWidth
                         label="Email"
                         type="email"
@@ -64,6 +65,7 @@ export function SignInPage() {
                     <div className="mb-4"></div>
 
                     <TextField
+                        id="password-field"
                         fullWidth
                         label="Password"
                         type={passwordFieldType}

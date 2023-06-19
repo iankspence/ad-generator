@@ -114,6 +114,7 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
             {step === 1 && (
                 <>
                     <TextField
+                        id="company-name-field"  // provide unique IDs for each field
                         fullWidth
                         label="Company Name"
                         name="companyName"
@@ -126,6 +127,7 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
                     <div className="mb-4"></div>
 
                     <TextField
+                        id="email-field"
                         fullWidth
                         label="Email"
                         name="email"
@@ -141,6 +143,7 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
                     <div className="mb-4"></div>
 
                     <TextField
+                        id="password-field"
                         fullWidth
                         label="Password"
                         type={passwordFieldType}
@@ -234,8 +237,6 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
                             ))}
                         </Select>
                     </FormControl>
-
-
 
                     <div className="mb-4"></div>
                     <Button type="button" variant="contained" color="inherit" className="w-1/2" onClick={handleBack}>
