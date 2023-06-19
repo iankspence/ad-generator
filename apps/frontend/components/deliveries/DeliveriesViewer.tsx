@@ -14,7 +14,7 @@ export default function DeliveriesViewer({ ads }) { // getHookText is a new prop
     const [singleCanvasView, setSingleCanvasView] = useState(isMobile);
     const [expanded, setExpanded] = useState<string | false>(false);
     const [adAccordions, setAdAccordions] = useState<Record<string, {ad: any, title: string}[]>>({});
-    const [adExpanded, setAdExpanded] = useState<Record<string, boolean>>({}); // New state to track the expanded state of each ad
+    const [adExpanded, setAdExpanded] = useState<Record<string, boolean>>({});
 
     const handleChange = (panel: string) => (event: React.ChangeEvent<unknown>, newExpanded: boolean) => {
         setExpanded(newExpanded ? panel : false);
