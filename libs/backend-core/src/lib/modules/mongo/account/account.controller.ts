@@ -5,7 +5,7 @@ import {
     AddGoogleQueryDto,
     AddRateMdsLinkDto,
     CreateAccountDto, DeleteAccountDto, FindAccountByUserIdDto, FindAccountsByManagerIdDto,
-    FindTextByAccountIdDto, UpdateAccountLogoAndColorsDto, UpdateAccountManagerDto,
+    FindTextByAccountIdDto, UpdateAccountLogoAndColorsDto, UpdateAccountManagerDto, UpdateAdsPaidWithoutDeliveryDto,
 } from '@monorepo/type';
 import {
     Controller,
@@ -103,5 +103,12 @@ export class AccountController {
     @Post('find-accounts-by-manager-id')
     async findAccountsByManagerId(@Body() findAccountsByManagerId: FindAccountsByManagerIdDto): Promise<AccountDocument[]> {
         return this.accountModelService.findAccountsByManagerId(findAccountsByManagerId);
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'content-manager')
+    @Post('update-ads-paid-without-delivery')
+    async updateAdsPaidWithoutDelivery(@Body() updateAdsPaidWithoutDeliveryDto: UpdateAdsPaidWithoutDeliveryDto): Promise<Account> {
+        return this.accountModelService.updateAdsPaidWithoutDelivery(updateAdsPaidWithoutDeliveryDto.accountId, updateAdsPaidWithoutDeliveryDto.adsPaidWithoutDelivery);
     }
 }

@@ -12,6 +12,7 @@ export * from './lib/dto/mongo/account/find-accounts-by-manager-id.dto';
 export * from './lib/dto/mongo/account/find-account-by-user-id.dto';
 export * from './lib/dto/mongo/account/update-account-logo-and-colors.dto';
 export * from './lib/dto/mongo/account/update-account-manager.dto';
+export * from './lib/dto/mongo/account/update-ads-paid-without-delivery-dto';
 
 export * from './lib/dto/mongo/ad/find-ads-by-account-id.dto';
 export * from './lib/dto/mongo/ad/find-hook-text-by-ad-id.dto';

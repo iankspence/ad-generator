@@ -11,7 +11,7 @@ const TopNav = () => {
     const router = useRouter();
     const { user, setUser, subscriptionStatus } = useContext(UserContext);
     const isMobile = useMediaQuery('(max-width:768px)');
-    const pathsHideByDefault = ['/', '/register', '/ad-generator', '/library', '/reset-password', '/forgot-password', '/updated-subscription', '/sign-in', '/how-it-works', '/faq', '/privacy', '/terms', '/cookies'];
+    const pathsHideByDefault = ['/', '/register', '/ad-generator', '/library', '/reset-password', '/forgot-password', '/updated-subscription', '/sign-in', 'pricing', '/how-it-works', '/faq', '/privacy', '/terms', '/cookies'];
     const [showLinks, setShowLinks] = useState(!pathsHideByDefault.includes(router.pathname));
     const [isHovered, setIsHovered] = useState(false);
 
@@ -72,6 +72,11 @@ const TopNav = () => {
                             {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client') && subscriptionStatus) ?
                                 <>
                                     <LinkItem href="/reviews">Reviews</LinkItem>
+                                </>
+                                : null
+                            }
+                            {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client') ) ?
+                                <>
                                     <LinkItem href="/deliveries">Deliveries</LinkItem>
                                 </>
                                 : null

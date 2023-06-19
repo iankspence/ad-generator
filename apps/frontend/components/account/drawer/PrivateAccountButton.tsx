@@ -15,6 +15,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import UserContext from '../../../contexts/UserContext';
 import useAccounts from '../../../hooks/useAccounts';
+import AdsPaidWithoutDelivery from './AdsPaidWithoutDelivery';
 
 const PrivateAccountButton = () => {
     const { user, account, setAccount } = useContext(UserContext);
@@ -136,6 +137,15 @@ const PrivateAccountButton = () => {
                         </AccordionSummary>
                         <AccordionDetails>
                             <UnassignedAccountPicker />
+                        </AccordionDetails>
+                    </Accordion>
+
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography>Ads Paid Without Delivery</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <AdsPaidWithoutDelivery account={account} refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount} />
                         </AccordionDetails>
                     </Accordion>
 

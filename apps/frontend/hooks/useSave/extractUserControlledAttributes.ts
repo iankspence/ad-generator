@@ -25,4 +25,5 @@ export const extractUserControlledAttributes = (app, backgroundImageLocation) =>
 
     });
     return {childrenNames, imageControls, textControls};
+
 };

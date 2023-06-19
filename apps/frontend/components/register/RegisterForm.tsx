@@ -1,9 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, Button, IconButton, InputAdornment, Select, MenuItem, FormControl, InputLabel, OutlinedInput } from '@mui/material';
+import {
+    TextField,
+    Button,
+    IconButton,
+    InputAdornment,
+    Select,
+    MenuItem,
+    FormControl,
+    InputLabel,
+    OutlinedInput,
+    Checkbox, FormControlLabel,
+} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { getCountries } from '../../utils/api/mongo/country/getCountriesApi';
 import { findProvinceStateByCountryApi } from '../../utils/api/mongo/province-state/findProvinceStateByCountryApi';
 import { findCitiesByProvinceStateApi } from '../../utils/api/mongo/city/findCitiesByProvinceStateApi';
+import Link from 'next/link';
 
 const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setShowPassword }) => {
     const [passwordFieldType, setPasswordFieldType] = useState("password");
@@ -13,6 +25,7 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
     const [step, setStep] = useState(1);
     const [passwordError, setPasswordError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [termsAccepted, setTermsAccepted] = useState(false);
 
     useEffect(() => {
         setPasswordFieldType(showPassword ? "text" : "password");
@@ -83,6 +96,11 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
             return;
         }
 
+        if ( !termsAccepted ) {
+            alert("You need to accept the terms and conditions");
+            return;
+        }
+
         setEmailError('');
         setStep(step + 1);
     }
@@ -144,6 +162,21 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
                         autoComplete="false"
                     />
 
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={termsAccepted}
+                                onChange={(e) => setTermsAccepted(e.target.checked)}
+                            />
+                        }
+                        label={
+                            <span>
+                                I agree with the{' '}
+                                <Link href="/terms" style={{ color: 'blue' }}>terms and conditions</Link>
+                            </span>
+                        }
+                    />
+
                     <div className="mb-4"></div>
                     <Button type="button" variant="contained" color="inherit" className="w-full" onClick={handleNext}>
                         Next
@@ -201,6 +234,8 @@ const RegisterForm = ({ formData, handleChange, handleSubmit, showPassword, setS
                             ))}
                         </Select>
                     </FormControl>
+
+
 
                     <div className="mb-4"></div>
                     <Button type="button" variant="contained" color="inherit" className="w-1/2" onClick={handleBack}>

@@ -55,7 +55,7 @@ const BottomNav = () => {
                 <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-8 md:pr-2 text-center md:text-right text-reviewDrumMedGray">
                     <LinkItem href="/privacy">Privacy Policy</LinkItem>
                     <LinkItem href="/terms">Terms of Service</LinkItem>
-                    <LinkItem href="/cookies">Cookies Policy</LinkItem>
+                    {/*<LinkItem href="/cookies">Cookies Policy</LinkItem>*/}
                     <div className="p-1/8"></div>
                 </div>
             }
