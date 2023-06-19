@@ -1,18 +1,18 @@
-import TopNav from '../components/nav-bars/TopNav';
 import UserContext from '../contexts/UserContext';
 import { signIn } from '../utils/api/mongo/user/sign-in/signInApi';
 import React, { useState, useContext, useEffect } from 'react';
 import Router from 'next/router';
-import { TextField, Button, IconButton, InputAdornment } from '@mui/material';
+import { TextField, Button, IconButton, InputAdornment, Snackbar } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Link from 'next/link';
-import BottomNav from '../components/nav-bars/BottomNav';
+import Alert from '@mui/material/Alert';
 
 export function SignInPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [passwordFieldType, setPasswordFieldType] = useState("password");
+    const [signInError, setSignInError] = useState('');
     const { setUser } = useContext(UserContext);
 
     useEffect(() => {
@@ -27,6 +27,14 @@ export function SignInPage() {
             await Router.push('/account');
         } catch (error) {
             console.error('Failed to sign in:', error);
+            if (error.response && error.response.status === 401) {
+                setSignInError('Incorrect email or password.');
+            } else {
+                setSignInError('An unexpected error has occurred. Please try again later.');
+            }
+            setTimeout(() => {
+                setSignInError('');
+            }, 5000); // 5 seconds
         }
     };
 
@@ -79,6 +87,12 @@ export function SignInPage() {
                     <Button type="submit" variant="contained" color="inherit" className="w-full">
                         Sign In
                     </Button>
+
+                    {signInError &&
+                        <Alert severity="error" onClose={() => { setSignInError(''); }}>
+                            {signInError}
+                        </Alert>
+                    }
                     <div className="mt-6 text-center">
                         <Link href="/forgot-password" className="underline text-blue-500 hover:text-blue-700">
                             Forgot your password?

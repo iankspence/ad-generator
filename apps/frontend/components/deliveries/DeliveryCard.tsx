@@ -62,7 +62,7 @@ const DeliveryCard = ({ ad, cardLocations, initialCard }) => {
                     alt={ad?.copyTextEdited || ad?.copyText}
                 />
             </div>
-            {(( user.roles.includes('admin') || user.roles.includes('content-manager') ) && router.pathname === '/deliveries' ) &&
+            {(( user?.roles.includes('admin') || user?.roles.includes('content-manager') ) && router.pathname === '/deliveries' ) &&
                 <IconButton
                     onClick={handleCopyClick}
                     style={{padding: '0', position: 'absolute', top: '6%', right: '7%', opacity: '15%'}}
