@@ -1,10 +1,12 @@
-import { Autocomplete } from '@mui/material';
-import { TextField } from '@mui/material';
+import { Button, Modal, Box } from '@mui/material';
 import { AccountDocument } from "@monorepo/type";
 import { useEffect, useState } from 'react';
+import AccountsList from './AccountsList';
+import AccountSelector from './AccountSelector';
 
 const SelectAccount = ({ account, setAccount, accounts }) => {
     const [value, setValue] = useState<AccountDocument | null>(null);
+    const [open, setOpen] = useState(false); // Modal open/close state
 
     useEffect(() => {
         if (accounts && account?._id) {
@@ -23,33 +25,32 @@ const SelectAccount = ({ account, setAccount, accounts }) => {
         return aKey.localeCompare(bKey);
     });
 
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
     return (
-        <Autocomplete
-            value={value}
-            onChange={(event, newValue) => {
-                setValue(newValue);
-                setAccount(newValue);
-                const newIndex = accounts.findIndex(account => account._id === newValue._id);
-                sessionStorage.setItem('accountIndex', newIndex.toString());
-            }}
-            options={accounts}
-            groupBy={(option) => `${option.country}, ${option.provinceState}, ${option.city}`}
-            getOptionLabel={(option) => {
-                let label = option.companyName;
-                if (option.adsPaidWithoutDelivery) {
-                    label += ` (${option.adsPaidWithoutDelivery} ads paid without delivery)`;
-                }
-                return label;
-            }}
-            style={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Select Account" variant="outlined" />}
-            isOptionEqualToValue={(option, value) => option._id === value._id}
-            renderOption={(props, option, state) => (
-                <li {...props} style={{backgroundColor: option.adsPaidWithoutDelivery ? 'orange' : undefined}}>
-                    {option.companyName}{option.adsPaidWithoutDelivery && ` (${option.adsPaidWithoutDelivery} ads paid without delivery)`}
-                </li>
-            )}
-        />
+        <div>
+            <AccountSelector account={account} setAccount={setAccount} accounts={accounts} />
+
+            <div className="py-2"></div>
+            <Button onClick={handleOpen}>View Account List</Button>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Box sx={{ width: '85%', height: '85%', overflow: 'auto' }}>
+                    <AccountsList accounts={accounts} />
+                    <Button onClick={handleClose} style={{ margin: '20px auto', display: 'block', color: 'white' }}>Close Account List</Button>
+                </Box>
+            </Modal>
+        </div>
     );
 }
 

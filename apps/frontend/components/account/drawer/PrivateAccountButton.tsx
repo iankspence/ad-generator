@@ -142,14 +142,12 @@ const PrivateAccountButton = () => {
 
                     <Accordion>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography>Ads Paid Without Delivery</Typography>
+                            <Typography>Set Ads Paid Without Delivery</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <AdsPaidWithoutDelivery account={account} refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount} />
                         </AccordionDetails>
                     </Accordion>
-
-
                 </Box>
             </Drawer>
         </Box>
