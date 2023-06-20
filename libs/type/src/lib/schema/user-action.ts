@@ -20,7 +20,9 @@ export class UserAction {
     @Prop({ required: true })
     action!:
         'register' |
+        'verify-email' |
         'sign-in' |
+        'get-current-user' |
         'sign-out' |
         'customer-event' |
         'download-ads' |
@@ -54,7 +56,7 @@ export class UserAction {
             ll: [number],
             metro: number,
             area: number,
-        }
+        } | string,
     }
 
     @Prop({ required: false, default: null })

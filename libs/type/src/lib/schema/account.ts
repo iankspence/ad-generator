@@ -5,8 +5,8 @@ export interface AccountDocument extends Account, Document<Types.ObjectId> {}
 
 @Schema({ timestamps: true })
 export class Account {
-    @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-    userId!: Types.ObjectId;
+    @Prop({ type: String, ref: 'User', required: true })
+    userId!: string;
 
     @Prop({ required: false, default: null })
     managerUserId?: string | null;

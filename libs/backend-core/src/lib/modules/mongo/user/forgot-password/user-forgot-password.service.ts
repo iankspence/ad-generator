@@ -5,16 +5,21 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
+import { LoggerService } from '../../../logger/logger.service';
 
 @Injectable()
 export class UserForgotPasswordService {
     constructor(
         @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
         private readonly userMailerService: UserMailerService,
-    ) {}
+        private readonly logger: LoggerService,
+    ) {
+        this.logger.setContext('UserForgotPasswordService');
+    }
 
     async sendResetPasswordEmail(email: string): Promise<{ message: string }> {
         const user = await this.findByEmail(email);
+        this.logger.log(`User: ${user._id} has requested a password reset`);
 
         if (!user) {
             throw new Error('Email not found');
@@ -39,22 +44,18 @@ export class UserForgotPasswordService {
 
     async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<{ message: string }> {
         const { token, newPassword } = resetPasswordDto;
-
-        // Find the user by the token
         const user = await this.userModel.findOne({ resetPasswordToken: token });
 
         if (!user) {
             throw new NotFoundException('User not found');
         }
-
-        // Update the user's password
         user.password = await bcrypt.hash(newPassword, 10);
-
-        // Clear the token
         user.resetPasswordToken = null;
         user.resetPasswordExpires = null;
 
         await user.save();
+
+        this.logger.log(`User: ${user._id} has successfully reset their password`);
 
         return { message: 'Password successfully reset' };
     }
