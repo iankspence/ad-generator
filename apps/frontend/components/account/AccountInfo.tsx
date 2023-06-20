@@ -24,8 +24,7 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
             try {
                 const nextBillingDate = await findNextBillingDateByAccountId({
                     accountId: account._id.toString(),
-                    city: account.city,
-                    provinceState: account.provinceState,
+                    timezone: account.timezone
                 });
 
                 setNextBillingDate(nextBillingDate);

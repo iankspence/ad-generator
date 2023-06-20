@@ -295,7 +295,7 @@ export class CustomerService {
 
 
     async findNextBillingDateByAccountId(findNextBillingDateByAccountIdDto: FindNextBillingDateByAccountIdDto): Promise<string | null> {
-        const { accountId, city, provinceState } = findNextBillingDateByAccountIdDto;
+        const { accountId, timezone } = findNextBillingDateByAccountIdDto;
         try {
             const stripeCustomerId = await this.findCustomerIdByAccountId(accountId);
             const customer = await this.customerModel.findOne({ stripeCustomerId });
@@ -313,8 +313,6 @@ export class CustomerService {
 
             if (subscription.current_period_end) {
 
-                const { lat, lon } = await this.cityService.findLatLonByCityAndProvinceState(city, provinceState);
-                const timezone = geoTz.find(lat, lon)[0];
                 const nextBillingDateObject = DateTime.fromMillis(subscription.current_period_end * 1000, { zone: timezone });
                 const nextBillingDate = nextBillingDateObject.toLocaleString(DateTime.DATETIME_FULL);
                 this.logger.log(`Next billing date for subscriptionId: ${customer.subscriptionId} is ${nextBillingDate}`);

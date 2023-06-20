@@ -10,6 +10,7 @@ import { CustomerService } from '../../customer/customer.service';
 import { LoggerService } from '../../../logger/logger.service';
 import { UserActionService } from '../../user-action/user-action.service';
 import { Request } from 'express';
+import geoTz from 'geo-tz';
 
 @Injectable()
 export class UserRegisterService {
@@ -51,7 +52,7 @@ export class UserRegisterService {
             userId: user._id.toString(),
             accountId: account._id.toString(),
             context: 'UserRegisterService',
-            dateTime: new Date().toString(),
+            dateTime: new Date(),
             action: 'register',
         }, req);
 
@@ -59,7 +60,6 @@ export class UserRegisterService {
 
         return user;
     }
-
 
     async create(userRegisterDto: Partial<User>): Promise<UserDocument> {
         const { password } = userRegisterDto;

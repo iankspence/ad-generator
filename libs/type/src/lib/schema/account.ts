@@ -24,6 +24,9 @@ export class Account {
     city!: string;
 
     @Prop({ required: false, default: null })
+    timezone?: string | null;
+
+    @Prop({ required: false, default: null })
     googleQuery?: string | null;
 
     @Prop({ type: [String], required: false, default: [] })

@@ -11,6 +11,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AdSetModule } from '../ad-set/ad-set.module';
 import { AdModule } from '../ad/ad.module';
 import { CardModule } from '../card/card.module';
+import { CityModule } from '../city/city.module';
 
 @Module({
     imports: [
@@ -22,7 +23,8 @@ import { CardModule } from '../card/card.module';
         CloseModule,
         forwardRef(() => AdSetModule),
         AdModule,
-        CardModule
+        CardModule,
+        CityModule,
     ],
     controllers: [AccountController],
     providers: [AccountModelService],

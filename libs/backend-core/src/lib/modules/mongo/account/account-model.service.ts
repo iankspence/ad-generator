@@ -20,6 +20,8 @@ import { Model, Types } from 'mongoose';
 import { AdSetService } from '../ad-set/ad-set.service';
 import { AdService } from '../ad/ad.service';
 import { CardService } from '../card/card.service';
+import geoTz from 'geo-tz';
+import { CityService } from '../city/city.service';
 
 @Injectable()
 export class AccountModelService {
@@ -33,10 +35,15 @@ export class AccountModelService {
         private readonly adSetService: AdSetService,
         private readonly adService: AdService,
         private readonly cardService: CardService,
+        private readonly cityService: CityService,
     ) {}
 
     async create(createAccountDto: CreateAccountDto): Promise<AccountDocument> {
-        const createdAccount = new this.accountModel({ ...createAccountDto, isActive: true });
+
+        const { lat, lon } = await this.cityService.findLatLonByCityAndProvinceState(createAccountDto.city, createAccountDto.provinceState);
+        const timezone = geoTz.find(lat, lon)[0];
+
+        const createdAccount = new this.accountModel({ ...createAccountDto, timezone, isActive: true });
         return createdAccount.save();
     }
 

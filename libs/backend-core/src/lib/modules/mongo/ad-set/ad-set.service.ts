@@ -96,10 +96,7 @@ export class AdSetService {
             this.logger.error(`Account not found: ${adSet.accountId}`)
             return null;
         }
-        const { city, provinceState } = account;
-        const { lat, lon } = await this.cityService.findLatLonByCityAndProvinceState(city, provinceState);
-        const timezone = geoTz.find(lat, lon)[0];
-        const dateTime = DateTime.now().setZone(timezone).toLocaleString(DateTime.DATETIME_FULL);
+        const dateTime = DateTime.now().setZone(account.timezone).toLocaleString(DateTime.DATETIME_FULL);
 
         for (const adId of adSet.adIds) {
             const ad = await this.adService.findById(adId);

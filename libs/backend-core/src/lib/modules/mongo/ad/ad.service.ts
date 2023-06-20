@@ -85,11 +85,7 @@ export class AdService {
         if (newStatus === 'delivered') {
             const account = await this.accountModel.findById(accountId);
             if (!account) throw new Error('No Account found with provided ID');
-
-            const { city, provinceState } = account;
-            const { lat, lon } = await this.cityService.findLatLonByCityAndProvinceState(city, provinceState);
-            const timezone = geoTz.find(lat, lon)[0];
-            ad.deliveryDate = DateTime.now().setZone(timezone).toLocaleString(DateTime.DATETIME_FULL);
+            ad.deliveryDate = DateTime.now().setZone(account.timezone).toLocaleString(DateTime.DATETIME_FULL);
         }
 
         ad.adStatus = newStatus;
