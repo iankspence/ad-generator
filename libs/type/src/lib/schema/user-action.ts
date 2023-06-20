@@ -17,6 +17,9 @@ export class UserAction {
     @Prop({ required: true })
     dateTime!: Date;
 
+    @Prop({ required: false, default: null })
+    managerUserId?: string | null;
+
     @Prop({ required: true })
     action!:
         'register' |
@@ -24,7 +27,10 @@ export class UserAction {
         'sign-in' |
         'get-current-user' |
         'sign-out' |
-        'customer-event' |
+        'invoice-payment-succeeded' |
+        'customer-subscription-created' |
+        'customer-subscription-updated' |
+        'customer-subscription-deleted' |
         'download-ads' |
         'submit-reviews-scrape' |
         'save-ad' |
@@ -59,8 +65,6 @@ export class UserAction {
         } | string,
     }
 
-    @Prop({ required: false, default: null })
-    managerUserId?: string | null;
 }
 
 export const UserActionSchema = SchemaFactory.createForClass(UserAction);

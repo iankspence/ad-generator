@@ -5,6 +5,7 @@ import { Customer, CustomerDocument, CustomerEvent, CustomerEventDocument } from
 import { LoggerService } from '../../logger/logger.service'
 import { AdService } from '../ad/ad.service';
 import { AccountModelService } from '../account/account-model.service';
+import { UserActionService } from '../user-action/user-action.service';
 
 @Injectable()
 export class CustomerEventService {
@@ -13,6 +14,7 @@ export class CustomerEventService {
         @InjectModel(Customer.name) private customerModel: Model<CustomerDocument>,
         private readonly adService: AdService,
         private readonly accountService: AccountModelService,
+        private readonly userActionService: UserActionService,
         private readonly logger: LoggerService,
     ) {
         this.logger.setContext('CustomerEventService');
@@ -56,14 +58,14 @@ export class CustomerEventService {
         }
     }
 
-    async getAccountIdByCustomerId(customerId: string): Promise<string> {
+    async getUserIdAndAccountIdByCustomerId(customerId: string): Promise<{userId: string, accountId: string}> {
         try {
             const customer = await this.customerModel.findOne({ stripeCustomerId: customerId });
             if (!customer) {
                 this.logger.error(`Customer not found for customer ID: ${customerId}`);
                 return null;
             }
-            return customer.accountId;
+            return { userId: customer.userId, accountId: customer.accountId}
         }
         catch (error) {
             this.logger.error(`Failed to get account ID by customer ID: ${customerId}`, error.stack);
@@ -73,7 +75,7 @@ export class CustomerEventService {
 
     async createInvoicePaymentSucceededEvent(invoice: any, eventId: string) {
         try {
-            const accountId = await this.getAccountIdByCustomerId(invoice.customer);
+            const {userId, accountId} = await this.getUserIdAndAccountIdByCustomerId(invoice.customer);
 
             const invoiceDescription = invoice.lines.data[0].description;
             let numAdsToDeliver = 0;
@@ -101,6 +103,15 @@ export class CustomerEventService {
 
             await customerEvent.save();
             this.logger.log(`Created invoice.payment_succeeded event for customer: ${invoice.customer}`);
+
+            await this.userActionService.createUserAction({
+                userId,
+                accountId,
+                context: 'CustomerEventService',
+                dateTime: new Date(),
+                action: `invoice-payment-succeeded`,
+            })
+
         } catch (error) {
             this.logger.error(`Failed to create invoice.payment_succeeded event for customer: ${invoice.customer}`, error.stack);
             throw error;
@@ -118,6 +129,16 @@ export class CustomerEventService {
 
             await customerEvent.save();
             this.logger.log(`Created customer.subscription.created event for customer: ${subscription.customer}`);
+
+            const {userId, accountId} = await this.getUserIdAndAccountIdByCustomerId(subscription.customer);
+            await this.userActionService.createUserAction({
+                userId,
+                accountId,
+                context: 'CustomerEventService',
+                dateTime: new Date(),
+                action: `customer-subscription-created`,
+            })
+
         } catch (error) {
             this.logger.error(`Failed to create customer.subscription.created event for customer: ${subscription.customer}`, error.stack);
             throw error;
@@ -135,6 +156,16 @@ export class CustomerEventService {
 
             await customerEvent.save();
             this.logger.log(`Created customer.subscription.updated event for customer: ${subscription.customer}`);
+
+            const {userId, accountId} = await this.getUserIdAndAccountIdByCustomerId(subscription.customer);
+
+            await this.userActionService.createUserAction({
+                userId,
+                accountId,
+                context: 'CustomerEventService',
+                dateTime: new Date(),
+                action: `customer-subscription-updated`,
+            })
         } catch (error) {
             this.logger.error(`Failed to create customer.subscription.updated event for customer: ${subscription.customer}`, error.stack);
             throw error;
@@ -152,6 +183,16 @@ export class CustomerEventService {
 
             await customerEvent.save();
             this.logger.log(`Created customer.subscription.deleted event for customer: ${subscription.customer}`);
+
+            const {userId, accountId} = await this.getUserIdAndAccountIdByCustomerId(subscription.customer);
+
+            await this.userActionService.createUserAction({
+                userId,
+                accountId,
+                context: 'CustomerEventService',
+                dateTime: new Date(),
+                action: `customer-subscription-deleted`,
+            })
         } catch (error) {
             this.logger.error(`Failed to create customer.subscription.deleted event for customer: ${subscription.customer}`, error.stack);
             throw error;

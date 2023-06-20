@@ -10,7 +10,6 @@ import {
 import Stripe from 'stripe';
 import { LoggerService } from '../../logger/logger.service';
 import { CityService } from '../city/city.service';
-import geoTz from 'geo-tz';
 import { DateTime } from 'luxon';
 
 interface SubscriptionStatus {
