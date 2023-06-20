@@ -18,7 +18,7 @@ const AccountsList = ({ accounts }) => {
             for (const account of accounts) {
                 const ads = await findAdsByAccountId({ accountId: account._id });
 
-                const adStatusCounts = { fresh: 0, pdf: 0, review: 0, approved: 0, delivered: 0 }; // Added 'review'
+                const adStatusCounts = { fresh: 0, pdf: 0, review: 0, approved: 0, delivered: 0 };
                 for (const ad of ads) {
                     adStatusCounts[ad.adStatus]++;
                 }

@@ -88,6 +88,7 @@ export * from './lib/schema/mask';
 export * from './lib/schema/province-state';
 export * from './lib/schema/review';
 export * from './lib/schema/user';
+export * from './lib/schema/user-action';
 
 
 // Interface

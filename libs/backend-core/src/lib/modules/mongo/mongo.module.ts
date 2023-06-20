@@ -13,6 +13,7 @@ import { HookModule } from './hook/hook.module';
 import { MaskModule } from './mask/mask.module';
 import { ProvinceStateModule } from './province-state/province-state.module';
 import { ReviewModule } from './review/review.module';
+import { UserActionModule } from './user-action/user-action.module';
 import { UserModule } from './user/user.module';
 import { Module } from '@nestjs/common';
 
@@ -34,6 +35,7 @@ import { Module } from '@nestjs/common';
         CityModule,
         CustomerModule,
         CustomerEventModule,
+        UserActionModule,
     ],
 })
 export class MongoModule {}
