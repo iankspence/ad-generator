@@ -18,9 +18,6 @@ export class UserAction {
     dateTime!: string
 
     @Prop({ required: true })
-    role!: 'client' | 'content-manager' | 'admin';
-
-    @Prop({ required: true })
     action!:
         'register' |
         'sign-in' |
@@ -44,14 +41,20 @@ export class UserAction {
         userAgent: string,
         referrer: string,
         url: string,
-        page: string,
         os: string,
         browser: string,
         device: string,
-        screen: string,
-        viewport: string,
-        visitor: number,
-        countryFromIp: string,
+        geo: {
+            range: [number],
+            country: string,
+            region: string,
+            eu: string,
+            timezone: string,
+            city: string,
+            ll: [number],
+            metro: number,
+            area: number,
+        }
     }
 
     @Prop({ required: false, default: null })

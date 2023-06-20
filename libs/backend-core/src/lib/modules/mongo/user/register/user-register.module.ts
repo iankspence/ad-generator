@@ -7,6 +7,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CustomerModule } from '../../customer/customer.module';
+import { UserActionModule } from '../../user-action/user-action.module';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { CustomerModule } from '../../customer/customer.module';
         UserMailerModule,
         AccountModule,
         CustomerModule,
+        UserActionModule
     ],
     controllers: [UserRegisterController],
     providers: [UserRegisterService],

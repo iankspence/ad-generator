@@ -22,7 +22,7 @@ export class UserSignInController {
                 httpOnly: true,
                 sameSite: 'strict',
                 secure: true,
-                maxAge: 3600 * 1000,
+                maxAge: 3600 * 1000 * 24 * 7, // 7 days
             });
             res.json(user);
         } catch (err) {

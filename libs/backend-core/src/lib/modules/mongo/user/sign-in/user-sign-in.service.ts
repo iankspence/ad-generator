@@ -21,7 +21,7 @@ export class UserSignInService {
             roles: user._doc.roles,
         };
 
-        const token = this.jwtService.sign(payload, { expiresIn: '1h' });
+        const token = this.jwtService.sign(payload, { expiresIn: '7d' });
         this.logger.log(`Generated token for user: ${user._doc.email}`);
         return token;
     }

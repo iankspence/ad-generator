@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserAction, UserActionDocument } from '@monorepo/type';
+import { Request } from 'express';
+import * as useragent from 'useragent';
+import * as geoip from 'geoip-lite';
 
 @Injectable()
 export class UserActionService {
@@ -9,16 +12,27 @@ export class UserActionService {
         @InjectModel(UserAction.name) private userActionModel: Model<UserActionDocument>,
     ) {}
 
-    async createUserAction(userId: string, accountId: string, context: string, dateTime: string, role: 'client' | 'content-manager' | 'admin', action: 'register' | 'sign-in' | 'sign-out' | 'customer-event' | 'download-ads' | 'submit-reviews-scrape' | 'save-ad' | 'copy-ad' | 'delete-ad' | 'create-pdf-ad-set' | 'submit-pdf-ad-set-for-review' | 'approve-pdf-ad-set' | 'deliver-ad' | 'set-ads-paid-without-delivery', actionDetails: { ip: string, userAgent: string, referrer: string, url: string, page: string, os: string, browser: string, device: string, screen: string, viewport: string, visitor: number, countryFromIp: string }, managerUserId?: string | null): Promise<UserActionDocument> {
+    async createUserAction(createUserActionRequest: Partial<UserActionDocument>, req: Request): Promise<UserActionDocument> {
+        const userAgent = useragent.parse(req.headers['user-agent']);
+        const geoData = geoip.lookup(req.ip);
+
         const userAction = new this.userActionModel({
-            userId,
-            accountId,
-            context,
-            dateTime,
-            role,
-            action,
-            actionDetails,
-            managerUserId
+            userId: createUserActionRequest.userId,
+            accountId: createUserActionRequest.accountId,
+            context: createUserActionRequest.context,
+            dateTime: createUserActionRequest.dateTime,
+            action: createUserActionRequest.action,
+            actionDetails: {
+                ip: req.ip,
+                userAgent: req.headers['user-agent'],
+                referrer: req.headers.referer,
+                url: req.originalUrl,
+                os: userAgent.os.toString(),
+                browser: userAgent.toAgent(),
+                device: userAgent.device.toString(),
+                geo: geoData
+            },
+            managerUserId: createUserActionRequest.managerUserId
         });
 
         return userAction.save();

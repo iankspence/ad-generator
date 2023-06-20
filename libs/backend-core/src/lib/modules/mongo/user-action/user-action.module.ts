@@ -8,5 +8,6 @@ import { UserAction, UserActionSchema } from '@monorepo/type';
     imports: [MongooseModule.forFeature([{ name: UserAction.name, schema: UserActionSchema }])],
     controllers: [UserActionController],
     providers: [UserActionService],
+    exports: [UserActionService],
 })
 export class UserActionModule {}

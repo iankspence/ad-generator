@@ -8,6 +8,8 @@ import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import { CustomerService } from '../../customer/customer.service';
 import { LoggerService } from '../../../logger/logger.service';
+import { UserActionService } from '../../user-action/user-action.service';
+import { Request } from 'express';
 
 @Injectable()
 export class UserRegisterService {
@@ -16,13 +18,13 @@ export class UserRegisterService {
         private readonly accountModelService: AccountModelService,
         private readonly userMailerService: UserMailerService,
         private readonly customerService: CustomerService,
+        private readonly userActionService: UserActionService,
         private readonly logger: LoggerService,
     ) {
         this.logger.setContext('UserRegisterService');
     }
 
-    async register(registerUserDto: RegisterUserDto): Promise<UserDocument> {
-
+    async register(registerUserDto: RegisterUserDto, req: Request): Promise<UserDocument> {
         const user = await this.create({
             companyName: registerUserDto.companyName,
             email: registerUserDto.email,
@@ -45,8 +47,19 @@ export class UserRegisterService {
 
         await this.customerService.create(user._id.toString(), account._id.toString());
 
+        await this.userActionService.createUserAction({
+            userId: user._id.toString(),
+            accountId: account._id.toString(),
+            context: 'UserRegisterService',
+            dateTime: new Date().toString(),
+            action: 'register',
+        }, req);
+
+        this.logger.log(`User: ${user._id} and account: ${account._id} have been created.`);
+
         return user;
     }
+
 
     async create(userRegisterDto: Partial<User>): Promise<UserDocument> {
         const { password } = userRegisterDto;
