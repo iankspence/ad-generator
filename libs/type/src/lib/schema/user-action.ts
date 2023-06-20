@@ -15,7 +15,7 @@ export class UserAction {
     context!: string
 
     @Prop({ required: true })
-    dateTime!: string
+    dateTime!: Date;
 
     @Prop({ required: true })
     action!:
