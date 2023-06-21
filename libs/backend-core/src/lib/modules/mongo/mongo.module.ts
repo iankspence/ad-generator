@@ -1,6 +1,7 @@
 import { AccountModule } from './account/account.module';
 import { AdSetModule } from './ad-set/ad-set.module';
 import { AdModule } from './ad/ad.module';
+import { ApplicationModule } from './application/application.module';
 import { BackgroundImageModule } from './background-image/background-image.module';
 import { CityModule } from './city/city.module';
 import { ClaimModule } from './claim/claim.module';
@@ -36,6 +37,7 @@ import { Module } from '@nestjs/common';
         CustomerModule,
         CustomerEventModule,
         UserActionModule,
+        ApplicationModule,
     ],
 })
 export class MongoModule {}

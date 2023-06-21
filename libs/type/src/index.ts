@@ -22,6 +22,8 @@ export * from './lib/dto/mongo/ad-set/delete-ad-set-and-ads-and-cards.dto';
 export * from './lib/dto/mongo/ad-set/find-pdf-location-by-ad-set-id.dto';
 export * from './lib/dto/mongo/ad-set/update-ad-status-by-ad-set-id.dto';
 
+export * from './lib/dto/mongo/application/create-application.dto';
+
 export * from './lib/dto/mongo/background-image/upload-background-image.dto';
 
 export * from './lib/dto/mongo/card/copy-cards-and-ad.dto';
@@ -75,6 +77,7 @@ export * from './lib/dto/outscraper/scrape-google-maps-reviews.dto';
 export * from './lib/schema/account';
 export * from './lib/schema/ad';
 export * from './lib/schema/ad-set';
+export * from './lib/schema/application'
 export * from './lib/schema/background-image';
 export * from './lib/schema/browse-ai-job';
 export * from './lib/schema/card';
