@@ -2,10 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Account, AccountDocument, Ad, AdDocument, Card, CardDocument} from '@monorepo/type';
-import geoTz from 'geo-tz';
-import { CityService } from '../city/city.service';
 import { DateTime } from 'luxon';
-import { CardService } from '../card/card.service';
+import { UserActionService } from '../user-action/user-action.service';
+import { LoggerService } from '../../logger/logger.service';
 
 @Injectable()
 export class AdService {
@@ -13,12 +12,16 @@ export class AdService {
         @InjectModel(Ad.name) private adModel: Model<AdDocument>,
         @InjectModel(Account.name) private accountModel: Model<AccountDocument>,
         @InjectModel(Card.name) private cardModel: Model<CardDocument>,
-        private readonly cityService: CityService,
-) {}
+        private readonly userActionService: UserActionService,
+        private readonly logger: LoggerService
+    ) {
+        this.logger.setContext(AdService.name);
+    }
 
     async createAd(adNameDateTime: string, userId: string, accountId: string, cardIds: Ad["cardIds"], cardLocations: Ad["cardLocations"], copyText: string, copyTextEdited: string, bestFitAudience: number, bestFitReasoning: string, source: string, reviewDate: string, userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions: Ad["filteredTextPositions"], themeId: Ad["themeId"]): Promise<Ad> {
         const newAd = new this.adModel({ adNameDateTime, userId, accountId, cardIds, cardLocations, copyText,  copyTextEdited, bestFitAudience, bestFitReasoning, source, reviewDate, adStatus: 'fresh', userControlledAttributes, xRanges, yRanges, lineHeightMultipliers, filteredTextPositions, themeId});
 
+        this.logger.log(`creating ad for account: ${accountId} and user: ${userId}`);
         return newAd.save();
     }
 
@@ -78,7 +81,7 @@ export class AdService {
         await this.adModel.deleteOne({ _id: adId });
     }
 
-    async updateAdStatus(adId: string, accountId: string, newStatus: "fresh" | "pdf" | "review" | "approved" | "delivered") {
+    async updateAdStatus(adId: string, userId: string, accountId: string, newStatus: "fresh" | "pdf" | "review" | "approved" | "delivered") {
         const ad = await this.adModel.findById(adId);
         if (!ad) throw new Error('No Ad found with provided ID');
 
@@ -88,20 +91,28 @@ export class AdService {
             ad.deliveryDate = DateTime.now().setZone(account.timezone).toLocaleString(DateTime.DATETIME_FULL);
         }
 
+        await this.userActionService.createUserAction({
+            userId,
+            accountId,
+            context: AdService.name,
+            dateTime: new Date(),
+            action: `set-${newStatus}-ad-status`,
+            managerUserId: userId
+        });
+
         ad.adStatus = newStatus;
         return ad.save();
     }
 
-    async deliverAdsIfPossible(accountId: string, numAds: number) {
+    async deliverAdsIfPossible(userId: string, accountId: string, numAds: number) {
         const ads = await this.findAdsByAccountId(accountId);
         const approvedAds = ads.filter(ad => ad.adStatus === 'approved');
 
         if (approvedAds.length < numAds) return false;
 
         for (let i = 0; i < numAds; i++) {
-            await this.updateAdStatus(approvedAds[i]._id.toString(), accountId, 'delivered');
+            await this.updateAdStatus(approvedAds[i]._id.toString(), userId, accountId, 'delivered');
         }
-
         return true;
     }
 

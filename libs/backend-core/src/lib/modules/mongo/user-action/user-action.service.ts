@@ -12,14 +12,13 @@ export class UserActionService {
     constructor(
         @InjectModel(UserAction.name) private userActionModel: Model<UserActionDocument>,
         private readonly logger: LoggerService
-    ) {}
+    ) {
+        this.logger.setContext('UserActionService');
+    }
 
     async createUserAction(createUserActionRequest: Partial<UserActionDocument>, req?: Request): Promise<UserActionDocument> {
 
-        console.log('creating user action')
         if (req) {
-            console.log('req exists')
-
             const userAgent = useragent.parse(req.headers['user-agent']);
             const geoData = geoip.lookup(req.ip);
 
@@ -72,13 +71,9 @@ export class UserActionService {
                 managerUserId: createUserActionRequest.managerUserId? createUserActionRequest.managerUserId : ''
             });
 
-            console.log('user action: ', userAction)
-
             this.logger.log((`created user action: ${createUserActionRequest.action} for user: ${createUserActionRequest.userId} and account: ${createUserActionRequest.accountId}`));
-
             return userAction.save();
         }
-
     }
 
     async getUserActions(userId: string, accountId: string): Promise<UserActionDocument[]> {

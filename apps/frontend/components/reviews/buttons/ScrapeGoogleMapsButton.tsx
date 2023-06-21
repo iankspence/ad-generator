@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import { AccountDocument, AddGoogleQueryDto, ScrapeGoogleMapsReviewsDto } from '@monorepo/type';
 import { addGoogleQuery } from '../../../utils/api/mongo/account/addGoogleQueryApi';
 import { getGoogleMapsReviews } from '../../../utils/api/outscraper/getGoogleMapsReviewsApi';
+import { createUserAction } from '../../../utils/api/mongo/user-action/createUserActionApi';
 
 interface Props {
     userId: string;
@@ -48,6 +49,16 @@ export const ScrapeGoogleMapsButton: React.FC<Props> = ({ userId, account, setAc
 
                 const updatedAccount = await addGoogleQuery(addGoogleQueryDto);
                 setAccount(updatedAccount);
+
+                await createUserAction({
+                    userId,
+                    accountId: account._id.toString(),
+                    context: ScrapeGoogleMapsButton.name,
+                    dateTime: new Date(),
+                    managerUserId: account.managerUserId,
+                    action: 'submit-reviews-scrape',
+                })
+
                 toggleGoogleQueryForm();
             } catch (error) {
                 console.error('Error fetching Google Maps Reviews:', error);

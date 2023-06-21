@@ -7,6 +7,7 @@ import { AdModule } from '../ad/ad.module';
 import { BullConfigModule } from '../../bull/bull.module';
 import { CardModule } from '../card/card.module';
 import { CityModule } from '../city/city.module';
+import { UserActionModule } from '../user-action/user-action.module';
 
 @Module({
     imports: [
@@ -15,7 +16,8 @@ import { CityModule } from '../city/city.module';
         AdModule,
         forwardRef(() => BullConfigModule),
         CardModule,
-        CityModule
+        CityModule,
+        UserActionModule
     ],
     controllers: [AdSetController],
     providers: [AdSetService],

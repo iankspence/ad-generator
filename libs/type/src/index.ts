@@ -61,6 +61,8 @@ export * from './lib/dto/mongo/user/register/register-user.dto';
 export * from './lib/dto/mongo/user/sign-in/user-sign-in.dto';
 export * from './lib/dto/mongo/user/verify-email/verify-email.dto';
 
+export * from './lib/dto/mongo/user-action/create-user-action.dto';
+
 export * from './lib/dto/open-ai/classify-review-prompt.dto'
 export * from './lib/dto/open-ai/extract-hooks-from-review.dto'
 export * from './lib/dto/open-ai/generate-claim-copy-close.dto'

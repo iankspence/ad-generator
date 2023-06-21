@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import { AccountDocument, AddRateMdsLinkDto, StartRobotJobDto } from '@monorepo/type';
 import { startRobotJob } from '../../../utils/api/browse-ai/startRobotJobApi';
 import { addRateMdsLink } from '../../../utils/api/mongo/account/addRateMdsLinkApi';
+import { createUserAction } from '../../../utils/api/mongo/user-action/createUserActionApi';
 
 interface Props {
     userId: string;
@@ -58,6 +59,16 @@ export const ScrapeRateMdsButton: React.FC<Props> = ({ userId, account, setAccou
                 }
                 const updatedAccount = await addRateMdsLink(addRateMdsLinkDto);
                 setAccount(updatedAccount);
+
+                await createUserAction({
+                    userId,
+                    accountId,
+                    context: ScrapeRateMdsButton.name,
+                    dateTime: new Date(),
+                    managerUserId: account.managerUserId,
+                    action: 'submit-reviews-scrape',
+                })
+
                 toggleRateMdsForm();
             } catch (error) {
                 console.error('Error updating RateMds Link:', error);

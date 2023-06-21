@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails, useMediaQuery, useTheme, IconButton, Box } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import RenderDeliveryCards from './RenderDeliveryCards';
@@ -6,6 +6,8 @@ import { findHookTextByAdId } from '../../utils/api/mongo/ad/findHookTextByAdIdA
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import { createUserAction } from '../../utils/api/mongo/user-action/createUserActionApi';
+import UserContext from '../../contexts/UserContext';
 
 
 export default function DeliveriesViewer({ ads }) { // getHookText is a new prop
@@ -15,6 +17,8 @@ export default function DeliveriesViewer({ ads }) { // getHookText is a new prop
     const [expanded, setExpanded] = useState<string | false>(false);
     const [adAccordions, setAdAccordions] = useState<Record<string, {ad: any, title: string}[]>>({});
     const [adExpanded, setAdExpanded] = useState<Record<string, boolean>>({});
+
+    const { user, account } = useContext(UserContext);
 
     const handleChange = (panel: string) => (event: React.ChangeEvent<unknown>, newExpanded: boolean) => {
         setExpanded(newExpanded ? panel : false);
@@ -83,6 +87,15 @@ export default function DeliveriesViewer({ ads }) { // getHookText is a new prop
         // Generate the ZIP file and trigger the download
         const content = await zip.generateAsync({ type: 'blob' });
         saveAs(content, `${date} Ads.zip`);
+
+        await createUserAction({
+            userId: user._id.toString(),
+            accountId: account._id.toString(),
+            context: 'DeliveriesViewer',
+            dateTime: new Date(),
+            action: 'download-ads',
+            managerUserId: account.managerUserId? account.managerUserId.toString() : '',
+        });
     };
 
     return (

@@ -33,15 +33,14 @@ export class UserAction {
         'customer-subscription-deleted' |
         'download-ads' |
         'submit-reviews-scrape' |
-        'save-ad' |
+        'create-ad' |
         'copy-ad' |
         'delete-ad' |
-        'create-pdf-ad-set' |
-        'submit-pdf-ad-set-for-review' |
-        'approve-pdf-ad-set' |
-        'deliver-ad' |
-        'set-ads-paid-without-delivery'
-    ;
+        'set-fresh-ad-status' |
+        'set-pdf-ad-status' |
+        'set-review-ad-status' |
+        'set-approved-ad-status' |
+        'set-delivered-ad-status';
 
     @Prop({ required: true, type: Object })
     actionDetails!: {
@@ -64,7 +63,6 @@ export class UserAction {
             area: number,
         } | string,
     }
-
 }
 
 export const UserActionSchema = SchemaFactory.createForClass(UserAction);

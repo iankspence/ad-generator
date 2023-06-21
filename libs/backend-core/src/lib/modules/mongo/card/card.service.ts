@@ -12,6 +12,7 @@ import { Model, Types } from 'mongoose';
 import {AdService} from "../ad/ad.service";
 import { createNameDateTime } from '../../../utils/createNameDateTime';
 import { Readable } from 'stream';
+import { UserActionService } from '../user-action/user-action.service';
 
 const s3 = new S3Client({
     region: process.env.S3_REGION
@@ -23,6 +24,7 @@ export class CardService {
         @InjectModel(Card.name) private readonly cardModel: Model<CardDocument>,
         @InjectModel(Copy.name) private readonly copyModel: Model<CopyDocument>,
         private readonly adService: AdService,
+        private readonly userActionService: UserActionService,
 ) {}
 
     async saveCanvases(saveCanvasesToS3Dto: SaveCanvasesToS3Dto) {
@@ -221,6 +223,15 @@ export class CardService {
 
         results.push({ad});
 
+        await this.userActionService.createUserAction({
+            userId: ad.userId,
+            accountId: ad.accountId,
+            context: CardService.name,
+            dateTime: new Date(),
+            managerUserId: ad.userId,
+            action: 'create-ad'
+        });
+
         return results;
     }
 
@@ -286,7 +297,16 @@ export class CardService {
             });
         }
 
-        const newAd = await this.adService.createAd(
+        await this.userActionService.createUserAction({
+            userId: adToCopy.userId,
+            accountId: adToCopy.accountId,
+            context: CardService.name,
+            dateTime: new Date(),
+            managerUserId: adToCopy.userId,
+            action: 'copy-ad'
+        })
+
+        return this.adService.createAd(
             newAdNameDateTime,
             adToCopy.userId,
             adToCopy.accountId,
@@ -305,8 +325,6 @@ export class CardService {
             adToCopy.filteredTextPositions,
             adToCopy.themeId,
         );
-
-        return newAd;
     }
 
 
@@ -316,12 +334,10 @@ export class CardService {
             throw new NotFoundException('Ad not found');
         }
 
-        // deleting the cards related to the ad
         for (const card of ad.cardIds) {
             const cardToDelete = await this.cardModel.findById(card.cardId);
             const cardKey = cardToDelete.cardLocation
 
-            // List all objects in the card's folder
             const listObjectsResponse = await s3.send(
                 new ListObjectsV2Command({
                     Bucket: process.env.S3_BUCKET_NAME,
@@ -329,7 +345,6 @@ export class CardService {
                 })
             );
 
-            // Delete all objects in the card's folder
             for (const object of listObjectsResponse.Contents) {
                 await s3.send(
                     new DeleteObjectCommand({
@@ -339,11 +354,18 @@ export class CardService {
                 );
             }
 
-            // delete card from MongoDB
             await this.cardModel.deleteOne({ _id: card.cardId });
         }
 
-        // deleting the ad
+        await this.userActionService.createUserAction({
+            userId: ad.userId,
+            accountId: ad.accountId,
+            context: CardService.name,
+            dateTime: new Date(),
+            managerUserId: ad.userId,
+            action: 'delete-ad'
+        })
+
         await this.adService.deleteAd(adId);
     }
 }

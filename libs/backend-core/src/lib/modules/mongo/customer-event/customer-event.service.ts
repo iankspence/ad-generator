@@ -82,7 +82,7 @@ export class CustomerEventService {
             if (invoiceDescription.includes('Practitioner')) numAdsToDeliver = 2;
             else if (invoiceDescription.includes('Team') || invoiceDescription.includes('Clinic')) numAdsToDeliver = 4;
 
-            const deliverySuccess = await this.adService.deliverAdsIfPossible(accountId, numAdsToDeliver);
+            const deliverySuccess = await this.adService.deliverAdsIfPossible(userId, accountId, numAdsToDeliver);
 
             if (!deliverySuccess) {
                 this.logger.verbose(`Not enough 'approved' ads for an instant delivery upon invoice success for customer: ${invoice.customer} and account: ${accountId}`);

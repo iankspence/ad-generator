@@ -15,9 +15,9 @@ import { createNameDateTime } from '../../../utils/createNameDateTime';
 import { CardService } from '../card/card.service';
 import { join } from 'path';
 import { LoggerService } from '../../logger/logger.service';
-import geoTz from 'geo-tz';
 import { CityService } from '../city/city.service';
 import { DateTime } from 'luxon';
+import { UserActionService } from '../user-action/user-action.service';
 
 @Injectable()
 export class AdSetService {
@@ -28,6 +28,7 @@ export class AdSetService {
         private pdfQueueProducerService: PdfQueueProducerService,
         private cardService: CardService,
         private readonly cityService: CityService,
+        private readonly userActionService: UserActionService,
         private logger: LoggerService,
     ) {
         this.logger.setContext('AdSetService');
@@ -51,6 +52,15 @@ export class AdSetService {
             updatedAd.adSetId = createdAdSet._id.toString();
             updatedAd.adSetNameDateTime = nameDateTime;
             await updatedAd.save();
+
+            await this.userActionService.createUserAction({
+                userId: adSetData.userId,
+                accountId: adSetData.accountId,
+                context: AdService.name,
+                dateTime: new Date(),
+                action: `set-pdf-ad-status`,
+                managerUserId: adSetData.userId
+            });
         }
 
         await this.pdfQueueProducerService.addCreatePdfJob({
@@ -101,6 +111,14 @@ export class AdSetService {
         for (const adId of adSet.adIds) {
             const ad = await this.adService.findById(adId);
             ad.adStatus = updateAdStatusByAdSetIdDto.adStatus;
+            await this.userActionService.createUserAction({
+                userId: ad.userId,
+                accountId: ad.accountId,
+                context: AdSetService.name,
+                dateTime: new Date(),
+                action: `set-${updateAdStatusByAdSetIdDto.adStatus}-ad-status`,
+                managerUserId: ad.userId
+            });
             await ad.save();
             this.logger.log(`Ad.adStatus updated for ad: ${adId} to ${updateAdStatusByAdSetIdDto.adStatus}`)
         }
@@ -129,6 +147,15 @@ export class AdSetService {
                     approvedAd.deliveryDate = dateTime;
                     await approvedAd.save();
                     deliveredCount++;
+
+                    await this.userActionService.createUserAction({
+                        userId: approvedAd.userId,
+                        accountId: approvedAd.accountId,
+                        context: AdSetService.name,
+                        dateTime: new Date(),
+                        action: `set-${approvedAd.adStatus}-ad-status`,
+                        managerUserId: approvedAd.userId
+                    });
                 }
 
                 if (deliveredCount < account.adsPaidWithoutDelivery) {
@@ -144,6 +171,15 @@ export class AdSetService {
 
                         await approvedAd.save();
                         deliveredCount++;
+
+                        await this.userActionService.createUserAction({
+                            userId: approvedAd.userId,
+                            accountId: approvedAd.accountId,
+                            context: AdSetService.name,
+                            dateTime: new Date(),
+                            action: `set-${approvedAd.adStatus}-ad-status`,
+                            managerUserId: approvedAd.userId
+                        });
                     }
                 }
 

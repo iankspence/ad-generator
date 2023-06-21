@@ -17,7 +17,7 @@ export const faqs = [
     },
     {
         question: "What happens when I change plans?",
-        answer: "Upon switching to the Clinic tier, we'll be in touch and our ad management will begin ASAP. After switching to the Practitioner or Team tier you'll start receiving the new ads with the next cycle.  We use Stripe who's policy is to refunds/charges based on how far along you are in you subscription, and what the difference in plan price is."
+        answer: "Upon switching to the Clinic tier, we'll email you within 3 business days to start your ad management. After switching to the Practitioner or Team tier you'll start receiving the new ads with the next cycle.  Regarding payment, we use Stripe who's policy is to issue refunds/charges based on how far along you are in you subscription, and what the difference in plan price is."
     },
     {
         question: "Can I cancel my subscription?",

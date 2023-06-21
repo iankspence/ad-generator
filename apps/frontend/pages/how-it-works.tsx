@@ -17,7 +17,7 @@ const steps = {
     ],
     manage: [
         { title: 'Manage your Account', description: 'View account details and manage your subscription.', imagePath: '/images/manage-1.png' },
-        { title: 'Change your Subscription', description: 'Change from one plan to another. (Stripe prorates the new price and will apply a credit/charge accordingly).', imagePath: '/images/manage-2.png' },
+        { title: 'Change your Subscription', description: 'Change from one plan to another. Stripe\'s prorated billing system will precisely apply a credit or charge, depending on the new plan\'s pricing.', imagePath: '/images/manage-2.png' },
         { title: 'Cancel your Subscription', description: 'Cancel your subscription and delete your account and the end of the current billing cycle.', imagePath: '/images/manage-3.png' },
     ]
 }
