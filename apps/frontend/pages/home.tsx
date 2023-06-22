@@ -6,7 +6,7 @@ import Link from 'next/link';
 const textBlocks = [
     {
         title: 'We believe true stories make the best ads.',
-        content: ['This belief inspires us to transform authentic reviews into Facebook ads, helping chiropractors grow their brand in the digital age.'],
+        content: ['This belief inspires us to transform authentic reviews into ads, helping chiropractors grow their brand in the digital age.'],
     },
     {
         title: 'We serve practitioners',

@@ -76,7 +76,7 @@ export function ApplyPage() {
                         </AccordionSummary>
                         <AccordionDetails>
                             <Typography>
-                                {'For the July 1st - August 31st 2023 cohort, we\'re offering a set number of clinics a 100% discount on our highest level service.  The reason we\'re doing this is to build our data pipeline to further increase the effectiveness of our ads.'}
+                                {'For the July 1st - August 31st 2023 cohort, we\'re offering a set number of clinics a 100% discount on our highest level service.'}
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
@@ -88,17 +88,6 @@ export function ApplyPage() {
                         <AccordionDetails>
                             <Typography>
                                 {'If you\'ve applied before the deadline, we\'ll reach out to you with our decision before the cohort begins.'}
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-
-                    <Accordion>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography>What criteria do you select for?</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <Typography>
-                                {'We only accept clinics with an average rating of 4.2+ over at least 40 reviews. Beyond this, we\'re limited to a select number of clinics, so we can maintain our high standard of ad quality and customer support.'}
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
