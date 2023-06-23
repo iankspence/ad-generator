@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, Switch, Grid, DialogContent, FormControlLabel } from '@mui/material';
-import { useTheme, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { pricingData } from '../../utils/constants/pricingData';
 import { PricingCard } from '../pricing/PricingCard';
 import createCheckoutSession from '../../utils/api/mongo/customer/createCheckoutSessionApi';

@@ -1,9 +1,7 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import { handleLetterSpacingChange } from './handleLetterSpacingChange';
-import * as PIXI from "pixi.js";
-import {mode} from "../../../../utils/mode";
 import {PixiContext} from "../../../../../../contexts/PixiContext";
 
 const LetterSpacingSlider = ({ textName, letterSpacing, setLetterSpacing }) => {

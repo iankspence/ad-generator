@@ -1,19 +1,10 @@
 import { Button, Modal, Box } from '@mui/material';
-import { AccountDocument } from "@monorepo/type";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AccountsList from './AccountsList';
 import AccountSelector from './AccountSelector';
 
 const SelectAccount = ({ account, setAccount, accounts }) => {
-    const [value, setValue] = useState<AccountDocument | null>(null);
-    const [open, setOpen] = useState(false); // Modal open/close state
-
-    useEffect(() => {
-        if (accounts && account?._id) {
-            const matchingAccount = accounts?.find(a => a._id === account?._id);
-            setValue(matchingAccount || null);
-        }
-    }, [account, accounts]);
+    const [open, setOpen] = useState(false);
 
     if (!accounts) {
         return <div className="py-8"></div>;

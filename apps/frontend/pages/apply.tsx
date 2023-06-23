@@ -13,7 +13,6 @@ export function ApplyPage() {
         email: '',
     });
 
-    const [errorMessage, setErrorMessage] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const router = useRouter();
 
@@ -36,7 +35,6 @@ export function ApplyPage() {
             setShowPopup(true);
         } catch (error) {
             console.error('Error applying:', error);
-            setErrorMessage(error.message || 'An error occurred. Please try again later.');
         }
     };
 

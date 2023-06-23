@@ -45,8 +45,10 @@ const TextInputAccordion = () => {
     const [currentCloseId, setCurrentCloseId] = useState(null);
     const [currentCopyId, setCurrentCopyId] = useState(null);
 
+    /* eslint-disable @typescript-eslint/no-empty-function */
     const onEditStart = () => {};
     const onEditRestore = () => {};
+    /* eslint-enable @typescript-eslint/no-empty-function */
 
     const onEditSubmit = async (text, canvasName) => {
         try {

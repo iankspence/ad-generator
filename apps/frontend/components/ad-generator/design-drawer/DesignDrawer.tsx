@@ -1,6 +1,3 @@
-import React, { useContext, useState } from 'react';
-import { CampaignContext } from '../../../contexts/CampaignContext';
-import { PixiContext } from '../../../contexts/PixiContext';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';

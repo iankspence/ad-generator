@@ -18,7 +18,7 @@ const ChangeAudienceButton: React.FC<ChangeAudienceButtonProps> = ({
     setRefreshReviews
      }) => {
     const { user } = useContext(UserContext);
-    const { reviewPosition, selectedAudiencePosition } = useContext(CampaignContext)
+    const { reviewPosition } = useContext(CampaignContext)
     const [showForm, setShowForm] = useState(false);
     const [newAudiencePosition, setNewAudiencePosition] = useState(0);
     const [newAudienceReasoning, setNewAudienceReasoning] = useState('');

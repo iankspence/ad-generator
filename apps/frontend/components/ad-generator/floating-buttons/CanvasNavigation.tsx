@@ -1,17 +1,8 @@
-import { PixiContext } from '../../../contexts/PixiContext';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
-import React, { useContext } from 'react';
+import React from 'react';
 
 export const CanvasNavigation = ({ onPrevious, onNext, visible, canNavigateLeft, canNavigateRight }) => {
-    const { activeCanvases, updateActiveCanvases } = useContext(PixiContext);
-
-    const handleButtonClick = (canvas) => {
-        const newSelectedCanvases = { ...activeCanvases, [canvas]: !activeCanvases[canvas] };
-
-        updateActiveCanvases(newSelectedCanvases);
-    };
-
     return (
         <div className={`${visible ? 'flex' : 'hidden'} fixed inset-x-0 bottom-8 z-10 justify-center`}>
             <div className="space-x-4">

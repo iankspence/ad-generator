@@ -6,14 +6,6 @@ import { PricingCard } from '../pricing/PricingCard';
 import { changeSubscription } from '../../utils/api/mongo/customer/changeSubscriptionApi';
 import { reactivateUser } from '../../utils/api/mongo/user/register/reactivateUserApi';
 import {useRouter } from 'next/router';
-import { makeStyles } from '@mui/styles';
-import { theme } from '../../utils/theme';
-
-const useStyles = makeStyles({
-    dialogContent: {
-        fontSize: theme.breakpoints.down('sm') ? '0.8em' : '1em',
-    },
-});
 
 export function ChangeSubscription({ accountId, userId, openModal, setOpenModal, refreshAccount, setRefreshAccount }) {
     const [annualPayment, setAnnualPayment] = useState(false);
@@ -21,7 +13,6 @@ export function ChangeSubscription({ accountId, userId, openModal, setOpenModal,
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
 
     const handleChangeSubscription = async (annualPayment, price) => {
         const confirmMessage = `You are about to change your subscription. Please note that according to Stripe's policy:\n

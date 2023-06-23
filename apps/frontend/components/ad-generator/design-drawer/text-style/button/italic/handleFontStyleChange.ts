@@ -1,4 +1,3 @@
-import {handlePaddingChange} from "./handleFontPaddingChange";
 import {handleTextStyleChange} from "../../utils/handleTextStyleChange";
 
 export const handleFontStyleChange = (event, newFontStyle, setFontStyle, textName, activeCanvases, canvasApps) => {

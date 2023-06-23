@@ -2,7 +2,6 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Hidden from '@mui/material/Hidden';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ReviewViewer from './ReviewViewer';
 

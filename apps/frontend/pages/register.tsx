@@ -14,7 +14,6 @@ export function RegisterPage() {
         provinceState: '',
     });
     const [showPassword, setShowPassword] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const router = useRouter();
 
@@ -40,7 +39,6 @@ export function RegisterPage() {
             setShowPopup(true);
         } catch (error) {
             console.error('Error registering:', error);
-            setErrorMessage(error.message || 'An error occurred. Please try again later.');
         }
     };
 

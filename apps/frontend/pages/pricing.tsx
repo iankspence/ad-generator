@@ -5,10 +5,8 @@ import {
     Switch,
     Grid,
     Box,
-    Accordion, AccordionSummary, AccordionDetails, Button
+    Button
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { faqs } from '../utils/constants/faqs';
 import { PricingCard } from '../components/pricing/PricingCard';
 import { pricingData } from '../utils/constants/pricingData';
 import { useRouter } from 'next/router';
