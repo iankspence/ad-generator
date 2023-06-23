@@ -98,7 +98,7 @@ const PrivateAccountButton = () => {
                                 <Typography>Upload Logo</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <LogoUpload refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount}/>
+                                <LogoUpload/>
                             </AccordionDetails>
                         </Accordion>
                     )}
