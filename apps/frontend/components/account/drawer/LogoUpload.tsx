@@ -11,7 +11,7 @@ const LogoUpload = () => {
     const { account, setAccount, user } = useContext(UserContext);
 
     const extractColors = (logoData) => {
-        const img = new window.Image();
+        const img = new Image();
 
         const colorThief = new ColorThief();
 

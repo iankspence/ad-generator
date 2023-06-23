@@ -23,7 +23,6 @@ import { CardService } from '../card/card.service';
 import geoTz from 'geo-tz';
 import { CityService } from '../city/city.service';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import * as fs from 'fs';
 
 const s3 = new S3Client({
     region: process.env.S3_REGION,
