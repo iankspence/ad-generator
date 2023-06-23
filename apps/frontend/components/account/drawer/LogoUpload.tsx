@@ -5,12 +5,14 @@ import { updateAccountLogoAndColors } from '../../../utils/api/mongo/account/upd
 import UserContext from "../../../contexts/UserContext";
 import { convertRgbToHex } from '../../../utils/color/convertRgbToHex';
 import { UpdateAccountLogoAndColorsDto } from '@monorepo/type';
+import { CardMedia, Card } from '@mui/material';
 
-const LogoUpload = ({ refreshAccount, setRefreshAccount }) => {
+const LogoUpload = () => {
     const { account, setAccount, user } = useContext(UserContext);
 
     const extractColors = (logoData) => {
         const img = new Image();
+
         const colorThief = new ColorThief();
 
         img.onload = async () => {
@@ -28,10 +30,9 @@ const LogoUpload = ({ refreshAccount, setRefreshAccount }) => {
                 secondaryColor,
             }
 
-            await updateAccountLogoAndColors(updateAccountLogoAndColorsDto);
+            const updatedAccount = await updateAccountLogoAndColors(updateAccountLogoAndColorsDto);
+            setAccount(updatedAccount);
 
-            setAccount({ ...account, logo: logoData, primaryColor, secondaryColor });
-            setRefreshAccount(!refreshAccount);
         };
         img.src = logoData;
     };
@@ -47,7 +48,9 @@ const LogoUpload = ({ refreshAccount, setRefreshAccount }) => {
         if (file) {
             reader.readAsDataURL(file);
         }
+
     }, [account]);
+
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
@@ -66,12 +69,21 @@ const LogoUpload = ({ refreshAccount, setRefreshAccount }) => {
                     <>
                         <p className="font-semibold py-2">Upload Logo:</p>
 
-                        <div {...getRootProps()} className="flex justify-center items-center w-full h-48 border-2 border-dashed border-gray-300 rounded cursor-pointer hover:border-gray-400">
+                        <Card>
+                            {account?.logo &&
+                                <CardMedia
+                                    component="img"
+                                    image={`${process.env.NEXT_PUBLIC_CF_DOMAIN}/${account.logo}`}
+                                    alt="Uploaded Logo"
+                                />
+                            }
+                        </Card>
+
+                        <div {...getRootProps()} className="flex justify-center items-center w-full h-12 mt-6 border-2 border-dashed border-gray-300 rounded cursor-pointer hover:border-gray-400">
                             <input {...getInputProps()} />
-                            {account?.logo ? <img src={account?.logo} alt="Uploaded Logo" /> : <p className="text-center p-6">Drag and drop a logo or click to select a file</p>}
+                            <p className="text-center p-6">Drag and drop a logo</p>
                         </div>
                     </>
-
                 ) : (
                     <></>
                 ))

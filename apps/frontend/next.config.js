@@ -32,3 +32,8 @@ const nextConfig = {
 
 module.exports = withNx(nextConfig);
 
+module.exports = {
+    images: {
+        domains: [process.env.NEXT_PUBLIC_CF_DOMAIN],
+    },
+}

@@ -22,6 +22,12 @@ import { AdService } from '../ad/ad.service';
 import { CardService } from '../card/card.service';
 import geoTz from 'geo-tz';
 import { CityService } from '../city/city.service';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import * as fs from 'fs';
+
+const s3 = new S3Client({
+    region: process.env.S3_REGION,
+});
 
 @Injectable()
 export class AccountModelService {
@@ -72,7 +78,35 @@ export class AccountModelService {
     }
 
     async updateAccountLogoAndColors(updateAccountLogoAndColorsDto: UpdateAccountLogoAndColorsDto): Promise<Account | null> {
-        return this.accountModel.findOneAndUpdate({ _id: updateAccountLogoAndColorsDto.accountId }, updateAccountLogoAndColorsDto, { new: true }).exec();
+        const account = await this.accountModel.findOne({ _id: updateAccountLogoAndColorsDto.accountId }).exec();
+
+        if (account) {
+            const base64Data = updateAccountLogoAndColorsDto.logo.replace(/^data:image\/\w+;base64,/, '');
+            const dataBuffer = Buffer.from(base64Data, 'base64');
+            const contentType = 'image/png';
+            const folderName = `logo/${account.country}/${account.provinceState}/${account.city}/${account.companyName}`;
+            const fileName = `${new Date()}.png`;
+
+            const upload = new PutObjectCommand({
+                Bucket: process.env.S3_BUCKET_NAME,
+                Key: `${folderName}/${fileName}`,
+                Body: dataBuffer,
+                ContentType: contentType
+            });
+            try {
+                await s3.send(upload);
+            } catch (error) {
+                console.error('Error uploading to S3:', error);
+                throw error;
+            }
+
+            // Update the logo field with the S3 path (without Cloudfront distribution)
+            updateAccountLogoAndColorsDto.logo = `${folderName}/${fileName}`;
+
+            return this.accountModel.findOneAndUpdate({ _id: updateAccountLogoAndColorsDto.accountId }, updateAccountLogoAndColorsDto, { new: true }).exec();
+        }
+
+        throw new NotFoundException(`Account with accountId ${updateAccountLogoAndColorsDto.accountId} not found`);
     }
 
     async getAccounts(): Promise<AccountDocument[]> {
