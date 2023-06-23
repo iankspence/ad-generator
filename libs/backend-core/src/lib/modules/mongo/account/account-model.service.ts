@@ -84,7 +84,7 @@ export class AccountModelService {
             const dataBuffer = Buffer.from(base64Data, 'base64');
             const contentType = 'image/png';
             const folderName = `logo/${account.country}/${account.provinceState}/${account.city}/${account.companyName}`;
-            const fileName = `${new Date()}.png`;
+            const fileName = `${Date.now()}.png`;
 
             const upload = new PutObjectCommand({
                 Bucket: process.env.S3_BUCKET_NAME,
