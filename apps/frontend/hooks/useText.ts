@@ -4,8 +4,6 @@ import { useContext, useEffect, useState } from 'react';
 import setCanvasText from "../components/ad-generator/utils/text/setCanvasText";
 import {getTextSettings} from "../components/ad-generator/utils/text/getTextSettings";
 import {getFilteredTextArrays} from "../components/ad-generator/utils/text/getFilteredTextArrays";
-import UserContext from '../contexts/UserContext';
-import {useRouter} from "next/router";
 
 export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) => {
     const {
@@ -22,9 +20,7 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
         selectedAudiencePosition,
     } = useContext(CampaignContext);
 
-    const router = useRouter();
-
-    const { selectedThemeId, xRanges, yRanges, lineHeightMultipliers, updateLineHeightMultipliers, canvasApps, editAd, backgroundImageLocation, updateRange } = useContext(PixiContext);
+    const { selectedThemeId, xRanges, yRanges, lineHeightMultipliers, editAd, backgroundImageLocation, updateRange } = useContext(PixiContext);
 
     const [currentReviewId, setCurrentReviewId] = useState(null);
     const [currentReviewTexts, setCurrentReviewTexts] = useState(['', '']);
@@ -33,8 +29,6 @@ export const useText = (appRef, canvasName, size, primaryColor, secondaryColor) 
     const [currentClaimTexts, setCurrentClaimTexts] = useState(['', '']);
     const [currentCloseTexts, setCurrentCloseTexts] = useState(['', '']);
     const [currentCopyTexts, setCurrentCopyTexts] = useState(['', '']);
-
-    const { account } = useContext(UserContext);
 
     useEffect(() => {
         if ( !appRef.current || !reviews || !reviewPosition || !hooks || !hookPosition || !claims || !closes || !copies || !selectedAudiencePosition ) return;

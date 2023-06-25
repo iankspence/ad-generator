@@ -1,15 +1,15 @@
-import * as PIXI from 'pixi.js';
 import findTextObject from './findTextObject';
 import { addQuotesToText } from "./addQuotesToText";
 import { updateTextStyleAndPosition } from "./updateTextStyleAndPosition";
 import { formatAuthor } from './author/formatAuthor';
+import * as PIXI from 'pixi.js';
 
 class MyHTMLText extends PIXI.HTMLText {
     themeId?: string;
     autoColor?: any
 }
 
-const setCanvasText = (
+const setCanvasText = async (
     canvasName,
     appRef,
     textArray,
@@ -78,7 +78,6 @@ const setCanvasText = (
     let mainTextObject = findTextObject(app, `text-${canvasName}-main`);
 
     if (!mainTextObject) {
-
         if (!mainStyleSettings.style.fill) {
             console.error('mainStyleSettings.style.fill is undefined');
             return;
@@ -107,11 +106,11 @@ const setCanvasText = (
             authorTextObject.resolution = 1080 / size;
 
             authorTextObject.themeId = authorStyleSettings.themeId;
+
             app.stage.addChild(authorTextObject);
         } else {
             authorTextObject.text = authorText;
             authorTextObject.style = authorStyleSettings.style;
-
         }
     }
 
@@ -121,11 +120,20 @@ const setCanvasText = (
     mainTextObject.x = mainUpdatedPosition.x;
     mainTextObject.y = mainUpdatedPosition.y;
 
+    if (mainTextObject.style.fontFamily === 'RobotoCondensed-Regular') {
+        await mainTextObject.style.loadFont('/fonts/RobotoCondensed-Regular.ttf', { family: 'RobotoCondensed-Regular' });
+    }
+
     if (authorTextObject) {
         authorTextObject.style = authorUpdatedStyle;
         authorTextObject.x = authorUpdatedPosition.x;
         authorTextObject.y = authorUpdatedPosition.y;
+
+        if (authorTextObject.style.fontFamily === 'RobotoCondensed-Regular') {
+            await authorTextObject.style.loadFont('/fonts/RobotoCondensed-Regular.ttf', { family: 'RobotoCondensed-Regular' });
+        }
     }
+
 };
 
 export default setCanvasText;

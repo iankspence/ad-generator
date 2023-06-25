@@ -8,6 +8,7 @@ import LoadingScreen from '../components/loading-screen/LoadingScreen';
 import { useUser } from '../hooks/useUser';
 import { FindTextByAccountIdDto } from '@monorepo/type';
 
+
 function AdGeneratorPage() {
     const router = useRouter();
     const { account, user } = useContext(UserContext);
