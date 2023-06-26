@@ -4,7 +4,7 @@ import { useMediaQuery } from '@mui/material';
 import { pricingData } from '../../utils/constants/pricingData';
 import { PricingCard } from '../pricing/PricingCard';
 import createCheckoutSession from '../../utils/api/mongo/customer/createCheckoutSessionApi';
-import { theme } from '../../utils/theme';
+import { theme } from '../../utils/tailwind/theme';
 
 export function CheckoutSelection({ accountId, openModal, setOpenModal }) {
     const [annualPayment, setAnnualPayment] = useState(false);

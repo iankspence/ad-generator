@@ -21,7 +21,7 @@ const FontFamilySelector = ({ fontFamily, setFontFamily, textName }) => {
             >
                 <MenuItem value="sans-serif">sans-serif</MenuItem>
                 <MenuItem value="Arial">Arial</MenuItem>
-                <MenuItem value="RobotoCondensed-Regular">RobotoCondensed-Regular</MenuItem>
+                <MenuItem value="RobotoCondensed-Regular" sx={{ color: 'orange' }}>RobotoCondensed-Regular</MenuItem>
                 <MenuItem value="Verdana">Verdana</MenuItem>
                 <MenuItem value="Trebuchet MS">Trebuchet MS</MenuItem>
                 <MenuItem value="Tahoma">Tahoma</MenuItem>

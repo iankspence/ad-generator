@@ -8,7 +8,6 @@ export interface PricingData {
     annualPriceId: string;
 }
 
-
 export const pricingData: PricingData[] = [
     {
         tier: 'Practitioner',

@@ -1,4 +1,4 @@
-import {themes} from "../../../utils/constants/themes";
+import {themes} from "../../../utils/themes/themes";
 
 export const getSelectedTheme = (selectedThemeId) => {
     return themes.find((theme) => theme.id === selectedThemeId);

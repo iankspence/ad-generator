@@ -2,7 +2,7 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 import * as React from 'react';
 import { ServerStyleSheets } from '@mui/styles';
 import createEmotionServer from '@emotion/server/create-instance';
-import createEmotionCache from '../utils/createEmotionCache';
+import createEmotionCache from '../utils/tailwind/createEmotionCache';
 import { CacheProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
 import { constructStyleTagsFromChunks } from '@emotion/server';

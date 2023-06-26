@@ -1,4 +1,4 @@
-import { themes } from '../../../utils/constants/themes';
+import { themes } from '../../../utils/themes/themes';
 import { MenuItem, Select, FormControl, InputLabel } from '@mui/material';
 import React from 'react';
 

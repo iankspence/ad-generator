@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import { createContext, useEffect, useState } from 'react';
 import EventEmitter from 'eventemitter3';
-import {themes} from "../utils/constants/themes";
+import {themes} from "../utils/themes/themes";
 import { AdDocument, UserControlledAttribute } from '@monorepo/type';
 
 interface ActiveCanvases {

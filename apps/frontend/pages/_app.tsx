@@ -7,7 +7,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import TopNav from '../components/nav-bars/TopNav';
 import BottomNav from '../components/nav-bars/BottomNav';
-import { theme } from '../utils/theme';
+import { theme } from '../utils/tailwind/theme';
 
 function CustomApp({ Component, pageProps }: AppProps) {
     return (

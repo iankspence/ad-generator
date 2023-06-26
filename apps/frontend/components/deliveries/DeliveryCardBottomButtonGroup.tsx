@@ -3,7 +3,7 @@ import { IconButton, CardContent, Typography, useMediaQuery } from '@mui/materia
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import { formatDateString } from '../../utils/formatDateString';
+import { formatDateString } from '../../utils/date/formatDateString';
 
 const DeliveryCardBottomButtonGroup = ({ ad, handleNext, handlePrevious, isNavBtnDisabled }) => {
     const [isExpanded, setIsExpanded] = useState(false);

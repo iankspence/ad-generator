@@ -7,7 +7,7 @@ import { CampaignContext } from '../../../contexts/CampaignContext';
 import UserContext from '../../../contexts/UserContext';
 import { createAdSetForPdfDelivery } from '../../../utils/api/mongo/ad-set/createAdSetForPdfDeliveryApi';
 import { getBestFitAudienceNameAgeRangeAndInterests } from '../../../utils/audience/getBestFitAudienceNameAgeRangeAndInterests';
-import { formatDateString } from '../../../utils/formatDateString';
+import { formatDateString } from '../../../utils/date/formatDateString';
 import { CreateAdSetForPdfDeliveryDto } from '@monorepo/type';
 
 const LibraryCardBottomButtonGroup = ({ ad, isSelected, refreshAds }) => {

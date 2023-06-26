@@ -7,7 +7,7 @@ import chroma from 'chroma-js';
  *
  * The first palette is a shade-tint palette of the input color.
  * The other two palettes are shade-tint palettes of the two split complementary colors to the input color.
- * Each palette contains 8 colors: the original color, three tints, and three shades.
+ * Each palette contains 8 colors.
  *
  * The function will throw an error if an invalid color is provided.
  *
