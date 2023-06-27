@@ -1,6 +1,7 @@
 import findTextObject from "./findTextObject";
 import {generateAutoColor} from "../../../../utils/color/generateAutoColor";
 import {getSelectedTheme} from "../getSelectedTheme";
+import { ThemeSettings } from '../../../../utils/themes/type/ThemeSettings';
 
 export const getTextSettings = (
     canvasName,
@@ -29,7 +30,7 @@ export const getTextSettings = (
                 return existingTextObject;
 
             const newThemeSettings = Object.values(selectedTheme.settings)
-                .flatMap((setting) => Object.values(setting))
+                .flatMap((setting: ThemeSettings) => Object.values(setting))
                 .find((text) => text.canvasName === canvasName && text.textName === textName);
 
             existingTextObject.style.fill = generateAutoColor(
@@ -60,7 +61,7 @@ export const getTextSettings = (
 
     // The first time the text is being added to the canvas, use autoColor
     const textDefaults = Object.values(selectedTheme.settings)
-        .flatMap((setting) => Object.values(setting))
+        .flatMap((setting: ThemeSettings) => Object.values(setting))
         .find((text) => text.canvasName === canvasName && text.textName === textName);
 
     if (textDefaults) {
