@@ -124,6 +124,10 @@ const setCanvasText = async (
         await mainTextObject.style.loadFont('/fonts/RobotoCondensed-Regular.ttf', { family: 'RobotoCondensed-Regular' });
     }
 
+    if (mainTextObject.style.fontFamily === 'Montserrat-Regular') {
+        await mainTextObject.style.loadFont('/fonts/Montserrat-Regular.ttf', { family: 'Montserrat-Regular' });
+    }
+
     if (authorTextObject) {
         authorTextObject.style = authorUpdatedStyle;
         authorTextObject.x = authorUpdatedPosition.x;
@@ -131,6 +135,10 @@ const setCanvasText = async (
 
         if (authorTextObject.style.fontFamily === 'RobotoCondensed-Regular') {
             await authorTextObject.style.loadFont('/fonts/RobotoCondensed-Regular.ttf', { family: 'RobotoCondensed-Regular' });
+        }
+
+        if (authorTextObject.style.fontFamily === 'Montserrat-Regular') {
+            await authorTextObject.style.loadFont('/fonts/Montserrat-Regular.ttf', { family: 'Montserrat-Regular' });
         }
     }
 
