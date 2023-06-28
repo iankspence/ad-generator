@@ -3,9 +3,10 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import TextureOutlinedIcon from '@mui/icons-material/TextureOutlined';
-import ImageUploadAccordion from './image-input/accordion/ImageUploadAccordion';
+import ImageAccordion from './image/accordion/ImageAccordion';
 import TextInputAccordion from './text-input/accordion/TextInputAccordion';
 import MasterTextStyleAccordion from './text-style/accordion/MasterTextStyleAccordion';
+import MaskAccordion from './mask/accordion/MaskAccordion';
 
 const DesignDrawer = ({ rightDrawerOpen, setRightDrawerOpen }) => {
 
@@ -51,7 +52,8 @@ const DesignDrawer = ({ rightDrawerOpen, setRightDrawerOpen }) => {
                         Design Elements
                     </Typography>
 
-                    <ImageUploadAccordion />
+                    <ImageAccordion />
+                    <MaskAccordion />
                     <TextInputAccordion />
                     <MasterTextStyleAccordion />
                 </Box>

@@ -2,13 +2,13 @@ import React, {useContext, useState, useCallback} from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ImageSelectionDialog from '../ImageSelectionDialog';
+import ImageSelectionDialog from '../selector/ImageSelectionDialog';
 import {PixiContext} from "../../../../../contexts/PixiContext";
 import { useDropzone } from 'react-dropzone';
 import UserContext from '../../../../../contexts/UserContext';
 import { uploadBackgroundImage } from '../../../../../utils/api/mongo/background-image/uploadBackgroundImageApi';
 
-const ImageUploadAccordion = () => {
+const ImageAccordion = () => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const { updateBackgroundImageLocation } = useContext(PixiContext);
     const { account } = useContext(UserContext);
@@ -48,7 +48,7 @@ const ImageUploadAccordion = () => {
     return (
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle1">Image Select</Typography>
+                <Typography variant="subtitle1">Image</Typography>
             </AccordionSummary>
             <AccordionDetails style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                 <Button variant="contained" color="inherit" onClick={handleOpenDialog}>
@@ -68,4 +68,4 @@ const ImageUploadAccordion = () => {
     );
 };
 
-export default ImageUploadAccordion;
+export default ImageAccordion;
