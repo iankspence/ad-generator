@@ -3,6 +3,8 @@ import { createContext, useEffect, useState } from 'react';
 import EventEmitter from 'eventemitter3';
 import {themes} from "../utils/themes/themes";
 import { AdDocument, UserControlledAttribute } from '@monorepo/type';
+import { ThemeMask } from '../utils/themes/type/ThemeMask';
+import { ThemeSettings } from '../utils/themes/type/ThemeSettings';
 
 interface ActiveCanvases {
     hook: boolean;
@@ -46,11 +48,15 @@ interface PixiContextProps {
 
     maskThemeOverrides: {
         [key: string]: {
+            shortMasks: ThemeMask[] | null;
+            tallMasks: ThemeMask[] | null;
             color: string | null;
         }
     }
     updateMaskThemeOverrides: (maskThemeOverrides: {
         [key: string]: {
+            shortMasks: ThemeMask[] | null;
+            tallMasks: ThemeMask[] | null;
             color: string | null;
         }
     }) => void;

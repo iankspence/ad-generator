@@ -8,6 +8,7 @@ import { getSelectedTheme } from "../components/ad-generator/utils/getSelectedTh
 import UserContext from "../contexts/UserContext";
 import { generateAutoColor } from "../utils/color/generateAutoColor";
 import { mode } from '../components/ad-generator/utils/mode';
+import { ThemeMask } from '../utils/themes/type/ThemeMask';
 
 const useMask = (appRef, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
@@ -101,10 +102,11 @@ const useMask = (appRef, canvasName, size) => {
                     if (maskThemeSettings[index]) {
 
                         const currentMaskOverrides = maskThemeOverrides[maskThemeSettings[index].name];
-                        // console.log('currentMaskOverrides: ', currentMaskOverrides)
 
                         if (modeOldThemeId !== selectedThemeId) { // when a new theme is selected, reset overrides and use autoColor
                             updateMaskThemeOverrides({ [maskThemeSettings[index].name]: {
+                                    shortMasks: maskThemeSettings[index].shortMasks,
+                                    tallMasks: maskThemeSettings[index].tallMasks,
                                     color: null
                                 } })
                             color = generateAutoColor(maskThemeSettings[index].autoColor, account?.primaryColor, account?.secondaryColor)

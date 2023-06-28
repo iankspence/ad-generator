@@ -3,47 +3,35 @@ import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {PixiContext} from "../../../../../contexts/PixiContext";
-import UserContext from '../../../../../contexts/UserContext';
 import { findMaskChildren } from '../../../utils/mask/findMaskChildren';
-import { getActiveCanvasNames } from '../../text-style/utils/getActiveCanvasNames';
-import ActiveCanvasButtonGroup from '../../text-style/button-group/active-canvas/ActiveCanvasButtonGroup';
 import MaskColorSelectionButton from '../button/MaskColourSelectionButton';
 
 const MaskAccordion = (app) => {
-    const { account } = useContext(UserContext);
-    const { activeCanvases, canvasApps } = useContext(PixiContext);
-
+    const { canvasApps } = useContext(PixiContext);
     const [activeMaskNames, setActiveMaskNames] = useState([]); // Create state variable
-    const [maskColor, setMaskColor] = useState({});
 
     useEffect(() => {
-        const activeCanvasNames = getActiveCanvasNames(activeCanvases);
-        const activeCanvasApps = activeCanvasNames.map((canvasName) => canvasApps[canvasName]);
+        const canvasNames = ['hook', 'claim', 'review', 'close']
 
-        let maskNames = activeCanvasApps.flatMap((canvasApp) => {
-            if (canvasApp) {
-                const maskChildren = findMaskChildren(canvasApp);
-                return maskChildren ? maskChildren.map((maskChild) => maskChild.name) : [];
-            }
-            return [];
-        })
+        let maskNames = canvasNames.flatMap((canvasName) => {
+            const maskChildren = findMaskChildren(canvasApps[canvasName]);
+            return maskChildren ? maskChildren.map((maskChild) => maskChild.name) : [];
+        });
 
-        // Transform mask names and remove duplicates
         maskNames = Array.from(new Set(
-            maskNames.map(maskName => maskName.split('-').slice(2).join('-')) // split, remove first two words, and rejoin
+            maskNames.map(maskName => maskName.split('-').slice(2).join('-')) // split, remove first two words, and rejoin (removes mask-canvasName same mask applied to all canvases)
         ));
 
-        setActiveMaskNames(maskNames); // Set state variable
+        setActiveMaskNames(maskNames);
 
-    }, [activeCanvases, canvasApps,]);
+    }, [canvasApps,]);
 
     return (
+
         <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="subtitle1">Mask</Typography>
             </AccordionSummary>
-
-            <ActiveCanvasButtonGroup />
 
             <AccordionDetails>
                 {activeMaskNames.map(maskName => (
@@ -52,7 +40,7 @@ const MaskAccordion = (app) => {
                             <Typography variant="subtitle1">{maskName}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <MaskColorSelectionButton fill={maskColor[maskName]} setFill={(color) => setMaskColor(prevState => ({...prevState, [maskName]: color}))} maskName={maskName} />
+                            <MaskColorSelectionButton maskName={maskName} />
                             {/*<PaletteColorSelectionButton setFill={(color) => setMaskColor(prevState => ({...prevState, [maskName]: color}))} />*/}
                         </AccordionDetails>
                     </Accordion>
