@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import {handleActiveButtonClick} from "./utils/handleActiveButtonClick";
 import React from "react";
 
-const renderCanvas = (index, canvasSize, rightDrawerOpen, canvases, singleCanvasView, currentCanvasIndex,  activeCanvases, updateActiveCanvases) => {
+const RenderCanvas = (index, canvasSize, rightDrawerOpen, canvases, singleCanvasView, currentCanvasIndex,  activeCanvases, updateActiveCanvases) => {
     const halfGridSize = canvasSize + 10;
     const fullGridSize = 2 * canvasSize + 10;
     const leftOffset = rightDrawerOpen
@@ -42,4 +42,4 @@ const renderCanvas = (index, canvasSize, rightDrawerOpen, canvases, singleCanvas
     );
 };
 
-export default renderCanvas;
+export default RenderCanvas;

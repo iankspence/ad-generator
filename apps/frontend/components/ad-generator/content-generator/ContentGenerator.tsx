@@ -10,7 +10,7 @@ import {handleThemeChange} from "./utils/handleThemeChange";
 import {handleToggleView} from "./utils/handleToggleView";
 import {handlePreviousCanvas} from "./utils/handlePreviousCanvas";
 import {handleNextCanvas} from "./utils/handleNextCanvas";
-import renderCanvas from "./renderCanvas";
+import renderCanvas from "./RenderCanvas";
 import FreezeEditAttributesButton from '../floating-buttons/FreezeEditAttributesButton';
 import AdCopyDisplay from '../ad-copy-display/AdCopyDisplay';
 
