@@ -4,8 +4,8 @@ import { PixiContext } from "../contexts/PixiContext";
 import { findCardsByAccountId } from '../utils/api/mongo/card/findCardsByAccountIdApi';
 import UserContext from "../contexts/UserContext";
 import {CampaignContext} from "../contexts/CampaignContext";
-import * as PIXI from "pixi.js";
 import { FindCardsByAccountIdDto } from '@monorepo/type';
+import { HtmlThemeText } from '../type/HtmlThemeText';
 
 const useEditStageChildren = (appRef, canvasName) => {
     const { editAd, updateBackgroundImageLocation, updateRange, updateLineHeightMultipliers, lineHeightMultipliers, updateCanvasApp, selectedThemeId, updateSelectedThemeId, xRanges, yRanges, userControlledAttributes, freezeEditAdAttributes } = useContext(PixiContext);
@@ -72,7 +72,7 @@ const useEditStageChildren = (appRef, canvasName) => {
                 const { name, text, style } = textControl;
                 const child = app?.stage?.children.find(child => child.name === name);
 
-                if (child instanceof PIXI.HTMLText || child instanceof PIXI.Text) {
+                if ( child instanceof HtmlThemeText ) {
                     child.text = text;
                     child.style = style;
                     updateCanvasApp(canvasName, app);

@@ -1,4 +1,4 @@
-import * as PIXI from "pixi.js";
+import { HtmlThemeText } from '../../../../../type/HtmlThemeText';
 
 export const handleTextStyleChange = (textName, newTextStyle, activeCanvases, canvasApps) => {
 
@@ -6,7 +6,7 @@ export const handleTextStyleChange = (textName, newTextStyle, activeCanvases, ca
         if (isActive) {
             const canvasApp = canvasApps[canvasName];
             if (canvasApp) {
-                const textObject = canvasApp.stage.getChildByName(`text-${canvasName}-${textName}`) as PIXI.HTMLText;
+                const textObject = canvasApp.stage.getChildByName(`text-${canvasName}-${textName}`) as HtmlThemeText;
                 if (textObject) {
                     Object.assign(textObject.style, newTextStyle);
                 }

@@ -2,12 +2,7 @@ import findTextObject from './findTextObject';
 import { addQuotesToText } from "./addQuotesToText";
 import { updateTextStyleAndPosition } from "./updateTextStyleAndPosition";
 import { formatAuthor } from './author/formatAuthor';
-import * as PIXI from 'pixi.js';
-
-class MyHTMLText extends PIXI.HTMLText {
-    themeId?: string;
-    autoColor?: any
-}
+import { HtmlThemeText } from '../../../../type/HtmlThemeText';
 
 const setCanvasText = async (
     canvasName,
@@ -83,7 +78,7 @@ const setCanvasText = async (
             return;
         }
 
-        mainTextObject = new MyHTMLText(mainText, mainStyleSettings.style);
+        mainTextObject = new HtmlThemeText(mainText, mainStyleSettings.style);
         mainTextObject.name = `text-${canvasName}-main`;
         mainTextObject.zIndex = 3;
         mainTextObject.resolution = 1080 / size;
@@ -100,7 +95,7 @@ const setCanvasText = async (
     if (authorText) {
         authorTextObject = findTextObject(app, `text-${canvasName}-author`);
         if (!authorTextObject) {
-            authorTextObject = new MyHTMLText(authorText, authorStyleSettings.style);
+            authorTextObject = new HtmlThemeText(authorText, authorStyleSettings.style);
             authorTextObject.name = `text-${canvasName}-author`;
             authorTextObject.zIndex = 3;
             authorTextObject.resolution = 1080 / size;

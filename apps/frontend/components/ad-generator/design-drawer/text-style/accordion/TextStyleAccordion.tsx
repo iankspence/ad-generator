@@ -21,6 +21,7 @@ import AlignButtonGroup from "../button-group/align/AlignButtonGroup";
 import PaddingSlider from "../slider/padding/PaddingSlider";
 import LetterSpacingSlider from "../slider/letter-spacing/LetterSpacingSlider";
 import LineHeightSlider from "../slider/line-height/LineHeightSlider";
+import { HtmlThemeText } from '../../../../../type/HtmlThemeText';
 
 const TextStyleAccordion = ({ textName }) => {
     const { account } = useContext(UserContext);
@@ -42,8 +43,7 @@ const TextStyleAccordion = ({ textName }) => {
             .map(([canvasName]) => {
                 const canvasApp = canvasApps[canvasName];
                 if (canvasApp) {
-                    const textObject = canvasApp.stage.getChildByName(`text-${canvasName}-${textName}`) as PIXI.HTMLText;
-                    return textObject;
+                    return canvasApp.stage.getChildByName(`text-${canvasName}-${textName}`) as HtmlThemeText
                 }
                 return null;
             })
