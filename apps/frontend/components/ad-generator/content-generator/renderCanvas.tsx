@@ -1,5 +1,5 @@
 import Button from "@mui/material/Button";
-import {handleActiveButtonClick} from "./handleActiveButtonClick";
+import {handleActiveButtonClick} from "./utils/handleActiveButtonClick";
 import React from "react";
 
 const renderCanvas = (index, canvasSize, rightDrawerOpen, canvases, singleCanvasView, currentCanvasIndex,  activeCanvases, updateActiveCanvases) => {
