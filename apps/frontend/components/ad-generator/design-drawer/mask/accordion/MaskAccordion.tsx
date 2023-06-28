@@ -4,17 +4,17 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {PixiContext} from "../../../../../contexts/PixiContext";
 import UserContext from '../../../../../contexts/UserContext';
-import { HtmlThemeText } from '../../../../../type/HtmlThemeText';
-import { mode } from '../../../utils/mode';
 import { findMaskChildren } from '../../../utils/mask/findMaskChildren';
 import { getActiveCanvasNames } from '../../text-style/utils/getActiveCanvasNames';
 import ActiveCanvasButtonGroup from '../../text-style/button-group/active-canvas/ActiveCanvasButtonGroup';
+import MaskColorSelectionButton from '../button/MaskColourSelectionButton';
 
 const MaskAccordion = (app) => {
     const { account } = useContext(UserContext);
     const { activeCanvases, canvasApps } = useContext(PixiContext);
 
     const [activeMaskNames, setActiveMaskNames] = useState([]); // Create state variable
+    const [maskColor, setMaskColor] = useState({});
 
     useEffect(() => {
         const activeCanvasNames = getActiveCanvasNames(activeCanvases);
@@ -30,13 +30,12 @@ const MaskAccordion = (app) => {
 
         // Transform mask names and remove duplicates
         maskNames = Array.from(new Set(
-            maskNames
-                .map(maskName => maskName.split('-').slice(2).join('-')) // split, remove first two words, and rejoin
+            maskNames.map(maskName => maskName.split('-').slice(2).join('-')) // split, remove first two words, and rejoin
         ));
 
         setActiveMaskNames(maskNames); // Set state variable
 
-    }, [activeCanvases, canvasApps]);
+    }, [activeCanvases, canvasApps,]);
 
     return (
         <Accordion>
@@ -46,16 +45,15 @@ const MaskAccordion = (app) => {
 
             <ActiveCanvasButtonGroup />
 
-            <AccordionDetails> {/* flexDirection set to column for vertical alignment of nested accordions */}
-                {activeMaskNames.map(maskName => ( // Map through the activeMaskNames
+            <AccordionDetails>
+                {activeMaskNames.map(maskName => (
                     <Accordion key={maskName}>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="subtitle1">{maskName}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-
-
-
+                            <MaskColorSelectionButton fill={maskColor[maskName]} setFill={(color) => setMaskColor(prevState => ({...prevState, [maskName]: color}))} maskName={maskName} />
+                            {/*<PaletteColorSelectionButton setFill={(color) => setMaskColor(prevState => ({...prevState, [maskName]: color}))} />*/}
                         </AccordionDetails>
                     </Accordion>
                 ))}

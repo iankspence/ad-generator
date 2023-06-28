@@ -60,8 +60,6 @@ export default function DeliveriesViewer({ ads }) { // getHookText is a new prop
 
     const handleDownload = async (ads: {ad: any, title: string}[], date: string) => {
 
-        console.log('ads - handleDownload', ads);
-
         const zip = new JSZip();
         const cfDomain = process.env.NEXT_PUBLIC_CF_DOMAIN;
 

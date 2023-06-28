@@ -4,7 +4,7 @@ import { styled } from '@mui/system';
 import { handleColorChange } from "../../utils/handleColorChange";
 import {PixiContext} from "../../../../../../contexts/PixiContext";
 
-const ColorSelectionButtonInput = styled('input')({
+export const ColorSelectionButtonInput = styled('input')({
     position: 'absolute',
     opacity: 0,
     zIndex: -1,
@@ -13,7 +13,7 @@ const ColorSelectionButtonInput = styled('input')({
     cursor: 'pointer',
 });
 
-const ColorDisplayButton = styled('button')(
+export const ColorDisplayButton = styled('button')(
     ({ theme, color }) => ({
         height: '23px',
         width: '100%',

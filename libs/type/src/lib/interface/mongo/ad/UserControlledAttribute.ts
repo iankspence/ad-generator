@@ -17,4 +17,8 @@ export interface UserControlledAttribute {
         text: string,
         style: PIXI.HTMLTextStyle,
     } [],
+    maskControls: {
+        name: string,
+        color: string | null
+    } [],
 }

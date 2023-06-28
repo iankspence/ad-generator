@@ -44,6 +44,17 @@ interface PixiContextProps {
         maskLocation: string;
     } []) => void;
 
+    maskThemeOverrides: {
+        [key: string]: {
+            color: string | null;
+        }
+    }
+    updateMaskThemeOverrides: (maskThemeOverrides: {
+        [key: string]: {
+            color: string | null;
+        }
+    }) => void;
+
     backgroundImageLocation: string;
     updateBackgroundImageLocation: (backgroundImageLocation: string) => void;
 
@@ -106,6 +117,9 @@ export const PixiContext = createContext<PixiContextProps>({
     maskLocations: [],
     updateMaskLocations: () => void 0,
 
+    maskThemeOverrides: {},
+    updateMaskThemeOverrides: () => void 0,
+
     backgroundImageLocation: '',
     updateBackgroundImageLocation: () => void 0,
 
@@ -140,6 +154,7 @@ export const PixiProvider = ({ children }) => {
     });
     const [displayTextBox, setDisplayTextBox] = useState(false);
     const [maskLocations, setMaskLocations] = useState([]);
+    const [maskThemeOverrides, setMaskThemeOverrides] = useState({});
     const [backgroundImageLocation, setBackgroundImageLocation] = useState('');
     const [userControlledAttributes, setUserControlledAttributes] = useState([]);
     const [ editAd, setEditAd ] = useState<AdDocument>(null);
@@ -174,6 +189,13 @@ export const PixiProvider = ({ children }) => {
         setCanvasApps((prev) => ({ ...prev, [key]: newApp }));
     }
 
+    const updateMaskThemeOverrides = (newMaskThemeOverrides: {
+        [key: string]: {
+            color: string | null;
+        }
+    }) => {
+        setMaskThemeOverrides( (prev) => ({ ...prev, ...newMaskThemeOverrides }) );
+    }
 
     return (
         <PixiContext.Provider
@@ -199,6 +221,8 @@ export const PixiProvider = ({ children }) => {
                 updateDisplayTextBox: setDisplayTextBox,
                 maskLocations,
                 updateMaskLocations: setMaskLocations,
+                maskThemeOverrides,
+                updateMaskThemeOverrides,
 
                 backgroundImageLocation,
                 updateBackgroundImageLocation: setBackgroundImageLocation,

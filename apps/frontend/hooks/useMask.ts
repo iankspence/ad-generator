@@ -7,10 +7,11 @@ import { findMaskChildren } from '../components/ad-generator/utils/mask/findMask
 import { getSelectedTheme } from "../components/ad-generator/utils/getSelectedTheme";
 import UserContext from "../contexts/UserContext";
 import { generateAutoColor } from "../utils/color/generateAutoColor";
+import { mode } from '../components/ad-generator/utils/mode';
 
 const useMask = (appRef, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
-    const { selectedThemeId, updateMaskLocations } = useContext(PixiContext);
+    const { selectedThemeId, updateMaskLocations, maskThemeOverrides, updateMaskThemeOverrides } = useContext(PixiContext);
     const selectedTheme = getSelectedTheme(selectedThemeId);
     const { account } = useContext(UserContext)
 
@@ -60,38 +61,85 @@ const useMask = (appRef, canvasName, size) => {
         const app = appRef.current;
         if (!app || !app.stage) return;
 
-        // Remove existing masks
+        const oldThemeIds = [];
+        // Remove existing masks (and check what themeId they had)
         const existingMasks = findMaskChildren(app);
         existingMasks.forEach((mask) => {
+            oldThemeIds.push(mask.themeId);
             app.stage.removeChild(mask);
         });
 
+        const modeOldThemeId = mode(oldThemeIds);
+
         if (selectedThemeId) {
+
             const selectedTheme = getSelectedTheme(selectedThemeId)
 
             if (selectedTheme) {
-                let masks;
+                let maskThemeSettings;
                 if (canvasName === 'review') {
-                    masks = selectedTheme.settings.tallMasks;
+                    maskThemeSettings = selectedTheme.settings.tallMasks;
                 } else {
-                    masks = selectedTheme.settings.shortMasks;
+                    maskThemeSettings = selectedTheme.settings.shortMasks;
                 }
 
+                console.log('all mask textures: ', maskTextures)
+                console.log('maskThemeOverrides: ', maskThemeOverrides)
                 maskTextures.forEach((texture, index) => {
-                    if (masks[index]) {
-                        const maskData = {
-                            name: masks[index].name,
-                            canvasName,
-                            texture,
-                            color: generateAutoColor(masks[index].autoColor, account?.primaryColor, account?.secondaryColor)
-                        };
-                        addMaskLayer(app, maskData, size);
+
+                    let color;
+
+                    if ( maskTextures.length !== maskThemeSettings.length) {
+                        return
+                    }
+
+                    console.log('maskTextures count: ', maskTextures.length)
+
+                    console.log('index: ', index)
+                    console.log('length of maskThemeSettings: ', maskThemeSettings.length)
+
+                    if (maskThemeSettings[index]) {
+
+                        const currentMaskOverrides = maskThemeOverrides[maskThemeSettings[index].name];
+                        // console.log('currentMaskOverrides: ', currentMaskOverrides)
+
+                        if (modeOldThemeId !== selectedThemeId) { // when a new theme is selected, reset overrides and use autoColor
+                            updateMaskThemeOverrides({ [maskThemeSettings[index].name]: {
+                                    color: null
+                                } })
+                            color = generateAutoColor(maskThemeSettings[index].autoColor, account?.primaryColor, account?.secondaryColor)
+                            // console.log('new theme selected, new colour: ', color)
+
+                        } else { // if the theme is the same, use the current overrides or autoColor if there are none
+                            // console.log('theme is the same, use overrides or autoColor if there are none')
+                            // console.log('currentMaskOverrides: ', currentMaskOverrides)
+                            if (currentMaskOverrides) {
+                                // console.log('currentMaskOverrides.color: ', currentMaskOverrides.color)
+
+                                color = currentMaskOverrides.color ? currentMaskOverrides.color : generateAutoColor(maskThemeSettings[index].autoColor, account?.primaryColor, account?.secondaryColor)
+                            }
+                            // console.log('color: ', color)
+
+                        }
+
+                        if (maskThemeSettings[index]) {
+                            const maskData = {
+                                name: maskThemeSettings[index].name,
+                                canvasName,
+                                selectedThemeId,
+                                texture,
+                                color
+                            };
+
+                            addMaskLayer(app, maskData, size);
+                        }
+
                     }
                 });
             }
         }
 
-    }, [maskTextures, selectedThemeId, account]);
+    }, [maskTextures, selectedThemeId, account, maskThemeOverrides]);
 };
 
 export default useMask;

@@ -114,6 +114,10 @@ const setCanvasText = async (
     mainTextObject.style = mainUpdatedStyle;
     mainTextObject.x = mainUpdatedPosition.x;
     mainTextObject.y = mainUpdatedPosition.y;
+    setTimeout(() => {
+        mainTextObject.updateText();
+        mainTextObject.render(app.renderer)
+    }, 300);
 
     if (mainTextObject.style.fontFamily === 'RobotoCondensed-Regular') {
         await mainTextObject.style.loadFont('/fonts/RobotoCondensed-Regular.ttf', { family: 'RobotoCondensed-Regular' });

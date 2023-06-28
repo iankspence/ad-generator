@@ -1,8 +1,10 @@
+import { ThemeSprite } from '../../../../type/ThemeSprite';
 import * as PIXI from 'pixi.js';
 
 export const addMaskLayer = (app, maskData, size) => {
-    const { texture, color } = maskData;
-    const mask = new PIXI.Sprite(texture);
+    const { selectedThemeId, texture, color } = maskData;
+    const mask = new ThemeSprite(texture);
+
     mask.anchor.set(0.5);
 
     mask.x = app.screen.width / 2;
@@ -29,6 +31,8 @@ void main(void)
     mask.filters = [colorFilter];
 
     mask.name = `mask-${maskData.canvasName}-${maskData.name}`
+
+    mask.themeId = selectedThemeId;
 
     app.stage.addChild(mask);
 };

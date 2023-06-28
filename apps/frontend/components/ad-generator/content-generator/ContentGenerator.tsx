@@ -82,7 +82,9 @@ const ContentGenerator = ({ primaryColor, secondaryColor }) => {
                 />
 
                 <div className="fixed top-8 left-1/2 transform -translate-x-1/2 z-10 flex items-center space-x-4">
-                    <ThemeSelector selectedThemeId={selectedThemeId} onThemeChange={(event) => handleThemeChange(event, updateSelectedThemeId)} />
+                    <ThemeSelector selectedThemeId={selectedThemeId} onThemeChange={
+                        (event) => handleThemeChange(event, updateSelectedThemeId)
+                    }/>
                     <CanvasViewToggle singleCanvasView={singleCanvasView} onToggle={(event) => handleToggleView(event, singleCanvasView, setSingleCanvasView, activeCanvases, canvases, currentCanvasIndex, updateActiveCanvases) } />
                 </div>
                 <CanvasNavigation
