@@ -1,6 +1,6 @@
-import { onDragEnd } from './onDragEnd';
-import { onDragMove } from './onDragMove';
-import { onDragStart } from './onDragStart';
+import { onDragEnd } from './callbacks/onDragEnd';
+import { onDragMove } from './callbacks/onDragMove';
+import { onDragStart } from './callbacks/onDragStart';
 import * as PIXI from 'pixi.js';
 import {useEffect, useCallback, useContext} from 'react';
 import {PixiContext} from "../../contexts/PixiContext";

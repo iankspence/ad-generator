@@ -1,5 +1,5 @@
-import { ThemeAutoColor } from './ThemeAutoColor';
-import { ThemeTextStyle } from './ThemeTextStyle';
+import { ThemeAutoColor } from './theme-auto-color';
+import { ThemeTextStyle } from './theme-text-style';
 
 export interface ThemeTextProperties {
     canvasName: string;

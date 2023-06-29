@@ -7,9 +7,10 @@
  * @param {object} autoColorSettings - The settings object to determine the source color. This object should have a 'sourceType' property which is either 'primary' or 'secondary'.
  * @param {string} primaryColor - The primary color. This should be a valid color string.
  * @param {string} secondaryColor - The secondary color. This should be a valid color string.
+ * @param {string} grayscaleColor - A gray default used to generate a grayscale palette. This should be a valid color string.
  * @returns {string|undefined} The selected source color based on the 'sourceType' property from the autoColorSettings. If 'sourceType' is 'primary', the function returns primaryColor. If 'sourceType' is 'secondary', the function returns secondaryColor. If 'sourceType' is neither 'primary' nor 'secondary', the function returns undefined.
  */
-export const selectSourceColor = (autoColorSettings, primaryColor, secondaryColor) => {
+export const selectSourceColor = (autoColorSettings, primaryColor, secondaryColor, grayscaleColor) => {
     if (!autoColorSettings || typeof autoColorSettings.sourceType !== 'string') {
         return undefined;
     }
@@ -18,5 +19,7 @@ export const selectSourceColor = (autoColorSettings, primaryColor, secondaryColo
         return primaryColor;
     } else if (autoColorSettings.sourceType === 'secondary') {
         return secondaryColor;
+    } else if (autoColorSettings.sourceType === 'grayscale') {
+        return grayscaleColor;
     }
 };

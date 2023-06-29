@@ -1,9 +1,9 @@
-import { saveCanvasesToS3 } from '../../utils/api/mongo/card/saveCanvasesToS3Api';
-import { formatUserControlledAttributes } from './formatUserControlledAttributes';
-import { formatXRanges } from './formatXRanges';
-import { formatYRanges } from './formatYRanges';
-import { formatLineHeightMultipliers } from './formatLineHeightMultipliers';
-import { formatFilteredTextPositions } from './formatFilteredTextPositions';
+import { saveCanvasesToS3 } from '../../../utils/api/mongo/card/saveCanvasesToS3Api';
+import { formatUserControlledAttributes } from './format/formatUserControlledAttributes';
+import { formatXRanges } from './format/formatXRanges';
+import { formatYRanges } from './format/formatYRanges';
+import { formatLineHeightMultipliers } from './format/formatLineHeightMultipliers';
+import { formatFilteredTextPositions } from './format/formatFilteredTextPositions';
 import { getTextData } from './getTextData';
 import { getCanvasData } from './getCanvasData';
 import { SaveCanvasesToS3Dto } from '@monorepo/type';
@@ -34,7 +34,8 @@ export const saveAllApps = async (
     maskLocations,
     editAd,
     updateShowFreezeEditAttributeButton,
-    updateEditAd) => {
+    updateEditAd,
+    maskThemeOverrides) => {
 
     if (!isLoading) {
         setIsLoading(true);
@@ -50,7 +51,7 @@ export const saveAllApps = async (
             return { canvasName: name, dataUrl, sourceTextId, sourceText, sourceTextEdited };
         }));
 
-        const formattedUserControlledAttributes = formatUserControlledAttributes(canvasApps, backgroundImageLocation);
+        const formattedUserControlledAttributes = formatUserControlledAttributes(canvasApps, backgroundImageLocation, maskThemeOverrides);
 
         try {
             const saveCanvasesToS3Dto: SaveCanvasesToS3Dto = {

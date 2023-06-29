@@ -1,4 +1,4 @@
-import { DraggableContainer } from './useDraggable';
+import { DraggableContainer } from '../useDraggable';
 import * as PIXI from 'pixi.js';
 
 export const onDragStart =

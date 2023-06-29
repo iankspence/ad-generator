@@ -1,9 +1,11 @@
-import { ThemeTextProperties } from './type/ThemeTextProperties';
-import { Theme } from './type/Theme';
-import { ThemeSettings } from './type/ThemeSettings';
-import { ThemeMask } from './type/ThemeMask';
-import { ThemeAutoColor } from './type/ThemeAutoColor';
-import { ThemeTextStyle } from './type/ThemeTextStyle';
+import {
+    Theme,
+    ThemeSettings,
+    ThemeMask,
+    ThemeAutoColor,
+    ThemeTextProperties,
+    ThemeTextStyle,
+} from '@monorepo/type';
 
 const basicSwoosh2: Theme = {
     id: 'basic-swoosh-2',
@@ -57,8 +59,8 @@ const basicSwoosh2: Theme = {
                 yRange: [260, 315],
                 xRange: [15, 305],
                 autoColor: {
-                    sourceType: 'primary',
-                    paletteType: 'split-complementary-2',
+                    sourceType: 'grayscale',
+                    paletteType: 'adjacent',
                     minMaxType: 'max',
                     minMaxDistance: 0,
                 } as ThemeAutoColor,
@@ -78,8 +80,8 @@ const basicSwoosh2: Theme = {
                 yRange: [260, 315],
                 xRange: [15, 305],
                 autoColor: {
-                    sourceType: 'primary',
-                    paletteType: 'split-complementary-2',
+                    sourceType: 'grayscale',
+                    paletteType: 'adjacent',
                     minMaxType: 'max',
                     minMaxDistance: 0,
                 } as ThemeAutoColor,
@@ -101,8 +103,8 @@ const basicSwoosh2: Theme = {
                 yRange: [260, 315],
                 xRange: [15, 305],
                 autoColor: {
-                    sourceType: 'primary',
-                    paletteType: 'split-complementary-2',
+                    sourceType: 'grayscale',
+                    paletteType: 'adjacent',
                     minMaxType: 'max',
                     minMaxDistance: 0,
                 } as ThemeAutoColor,
@@ -122,8 +124,8 @@ const basicSwoosh2: Theme = {
                 yRange: [225, 315],
                 xRange: [15, 305],
                 autoColor: {
-                    sourceType: 'primary',
-                    paletteType: 'split-complementary-2',
+                    sourceType: 'grayscale',
+                    paletteType: 'adjacent',
                     minMaxType: 'max',
                     minMaxDistance: 0,
                 } as ThemeAutoColor,
@@ -142,8 +144,8 @@ const basicSwoosh2: Theme = {
                 yRange: [225, 315],
                 xRange: [15, 305],
                 autoColor: {
-                    sourceType: 'primary',
-                    paletteType: 'split-complementary-2',
+                    sourceType: 'grayscale',
+                    paletteType: 'adjacent',
                     minMaxType: 'max',
                     minMaxDistance: 0,
                 } as ThemeAutoColor,
@@ -165,8 +167,8 @@ const basicSwoosh2: Theme = {
                 yRange: [260, 315],
                 xRange: [15, 305],
                 autoColor: {
-                    sourceType: 'primary',
-                    paletteType: 'split-complementary-2',
+                    sourceType: 'grayscale',
+                    paletteType: 'adjacent',
                     minMaxType: 'max',
                     minMaxDistance: 0,
                 } as ThemeAutoColor,

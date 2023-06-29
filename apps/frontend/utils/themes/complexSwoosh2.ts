@@ -1,9 +1,11 @@
-import { ThemeTextProperties } from './type/ThemeTextProperties';
-import { Theme } from './type/Theme';
-import { ThemeSettings } from './type/ThemeSettings';
-import { ThemeMask } from './type/ThemeMask';
-import { ThemeAutoColor } from './type/ThemeAutoColor';
-import { ThemeTextStyle } from './type/ThemeTextStyle';
+import {
+    Theme,
+    ThemeSettings,
+    ThemeMask,
+    ThemeAutoColor,
+    ThemeTextProperties,
+    ThemeTextStyle,
+} from '@monorepo/type';
 
 const complexSwoosh2: Theme = {
     id: 'complex-swoosh-2',

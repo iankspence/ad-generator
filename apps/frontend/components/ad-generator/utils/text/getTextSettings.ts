@@ -1,7 +1,7 @@
 import findTextObject from "./findTextObject";
 import {generateAutoColor} from "../../../../utils/color/generateAutoColor";
 import {getSelectedTheme} from "../getSelectedTheme";
-import { ThemeSettings } from '../../../../utils/themes/type/ThemeSettings';
+import { ThemeSettings } from '../../../../../../libs/type/src/lib/interface/themes/theme-settings';
 
 export const getTextSettings = (
     canvasName,

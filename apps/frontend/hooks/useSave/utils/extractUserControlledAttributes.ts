@@ -1,7 +1,11 @@
-export const extractUserControlledAttributes = (app, backgroundImageLocation) => {
+import { extractMaskColorOverrideByMaskName } from './format/extractMaskThemeOverrides';
+
+export const extractUserControlledAttributes = (app, backgroundImageLocation, maskThemeOverrides) => {
     const childrenNames = [];
     let imageControls;
     const textControls = [];
+    const maskControls = [];
+
     app.stage.children.forEach(child => {
         childrenNames.push(child.name);
         if (child.name.split('-')[0] === 'image') {
@@ -21,9 +25,14 @@ export const extractUserControlledAttributes = (app, backgroundImageLocation) =>
                 style: child.style
             }
             textControls.push(textControl);
+        } else if (child.name.split('-')[0] === 'mask') {
+            const maskControl = {
+                name: child.name,
+                color: extractMaskColorOverrideByMaskName(maskThemeOverrides, child.name),
+            }
+            maskControls.push(maskControl);
         }
-
     });
-    return {childrenNames, imageControls, textControls};
 
+    return {childrenNames, imageControls, textControls, maskControls};
 };

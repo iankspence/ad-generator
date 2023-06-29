@@ -8,7 +8,7 @@ import { FindCardsByAccountIdDto } from '@monorepo/type';
 import { HtmlThemeText } from '../type/HtmlThemeText';
 
 const useEditStageChildren = (appRef, canvasName) => {
-    const { editAd, updateBackgroundImageLocation, updateRange, updateLineHeightMultipliers, lineHeightMultipliers, updateCanvasApp, selectedThemeId, updateSelectedThemeId, xRanges, yRanges, userControlledAttributes, freezeEditAdAttributes } = useContext(PixiContext);
+    const { editAd, updateBackgroundImageLocation, updateRange, updateLineHeightMultipliers, lineHeightMultipliers, updateCanvasApp, selectedThemeId, updateSelectedThemeId, xRanges, yRanges, userControlledAttributes, freezeEditAdAttributes, updateMaskThemeOverrides } = useContext(PixiContext);
     const {updateSelectedAudiencePosition, updateReviewPosition, updateHookPosition, updateClaimPosition, updateClosePosition, updateCopyPosition } = useContext(CampaignContext)
     const { account } = useContext(UserContext);
     const router = useRouter();
@@ -81,6 +81,20 @@ const useEditStageChildren = (appRef, canvasName) => {
         });
     };
 
+    const updateMaskThemeOverridesFromAd = (editAd) => {
+        if (!editAd) return null;
+
+        editAd.userControlledAttributes.forEach((attribute) => {
+
+            const { maskThemeOverrides } = attribute;
+            if (!maskThemeOverrides) return;
+
+            maskThemeOverrides.forEach((maskThemeOverride) => {
+                const { name, color } = maskThemeOverride;
+                updateMaskThemeOverrides({ [name]: { color } })
+            });
+        });
+    };
 
     useEffect(() => {
         if (!account?._id) return;
@@ -122,6 +136,7 @@ const useEditStageChildren = (appRef, canvasName) => {
         updateLineHeightMultipliersFromAd(editAd);
         updateTextPositionsFromAd(editAd)
         updateSelectedAudiencePosition(Number(editAd.bestFitAudience));
+        updateMaskThemeOverridesFromAd(editAd);
 
     }, [router.pathname, editAd, cards, selectedThemeId]);
 
@@ -130,6 +145,7 @@ const useEditStageChildren = (appRef, canvasName) => {
         updateTextStylesFromAd(editAd);
 
     }, [router.pathname, editAd, cards, selectedThemeId, xRanges, yRanges]);
+
 
 };
 

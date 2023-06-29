@@ -6,11 +6,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ColorPaletteButtonGroup from "../../../button-group/color-selection/palette/ColorPaletteButtonGroup";
 import {PixiContext} from "../../../../../../../contexts/PixiContext";
 
-const PaletteColorSelectionButton = ({
-                                         setFill,
-                                         textName,
-                                         colorPalettes,
-                                     }) => {
+const PaletteColorSelectionButton = ({ setFill, textName, colorPalettes }) => {
 
     const [showPaletteViewer, setShowPaletteViewer] = useState(false);
     const { activeCanvases, canvasApps } = useContext(PixiContext);

@@ -109,3 +109,10 @@ export * from './lib/interface/bull/generate-claim-copy-close-job';
 export * from './lib/interface/mongo/ad/UserControlledAttribute'
 export * from './lib/interface/mongo/background-image/uploaded-file-interface'
 
+export * from './lib/interface/themes/theme';
+export * from './lib/interface/themes/theme-auto-color';
+export * from './lib/interface/themes/theme-mask';
+export * from './lib/interface/themes/theme-settings';
+export * from './lib/interface/themes/theme-text-properties';
+export * from './lib/interface/themes/theme-text-style';
+

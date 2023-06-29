@@ -1,9 +1,11 @@
-import { Theme } from './type/Theme';
-import { ThemeSettings } from './type/ThemeSettings';
-import { ThemeMask } from './type/ThemeMask';
-import { ThemeAutoColor } from './type/ThemeAutoColor';
-import { ThemeTextProperties } from './type/ThemeTextProperties';
-import { ThemeTextStyle } from './type/ThemeTextStyle';
+import {
+    Theme,
+    ThemeSettings,
+    ThemeMask,
+    ThemeAutoColor,
+    ThemeTextProperties,
+    ThemeTextStyle,
+} from '@monorepo/type';
 
 const basicSwoosh1: Theme = {
     id: 'basic-swoosh-1',

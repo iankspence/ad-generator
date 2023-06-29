@@ -8,11 +8,10 @@ import { getSelectedTheme } from "../components/ad-generator/utils/getSelectedTh
 import UserContext from "../contexts/UserContext";
 import { generateAutoColor } from "../utils/color/generateAutoColor";
 import { mode } from '../components/ad-generator/utils/mode';
-import { ThemeMask } from '../utils/themes/type/ThemeMask';
 
 const useMask = (appRef, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
-    const { selectedThemeId, updateMaskLocations, maskThemeOverrides, updateMaskThemeOverrides } = useContext(PixiContext);
+    const { selectedThemeId, updateMaskLocations, maskThemeOverrides, updateMaskThemeOverrides, editAd, freezeEditAdAttributes } = useContext(PixiContext);
     const selectedTheme = getSelectedTheme(selectedThemeId);
     const { account } = useContext(UserContext)
 
@@ -77,51 +76,36 @@ const useMask = (appRef, canvasName, size) => {
             const selectedTheme = getSelectedTheme(selectedThemeId)
 
             if (selectedTheme) {
+
                 let maskThemeSettings;
+
                 if (canvasName === 'review') {
                     maskThemeSettings = selectedTheme.settings.tallMasks;
                 } else {
                     maskThemeSettings = selectedTheme.settings.shortMasks;
                 }
 
-                console.log('all mask textures: ', maskTextures)
-                console.log('maskThemeOverrides: ', maskThemeOverrides)
                 maskTextures.forEach((texture, index) => {
-
-                    let color;
-
                     if ( maskTextures.length !== maskThemeSettings.length) {
                         return
                     }
 
-                    console.log('maskTextures count: ', maskTextures.length)
-
-                    console.log('index: ', index)
-                    console.log('length of maskThemeSettings: ', maskThemeSettings.length)
-
+                    let color;
                     if (maskThemeSettings[index]) {
 
                         const currentMaskOverrides = maskThemeOverrides[maskThemeSettings[index].name];
 
                         if (modeOldThemeId !== selectedThemeId) { // when a new theme is selected, reset overrides and use autoColor
                             updateMaskThemeOverrides({ [maskThemeSettings[index].name]: {
-                                    shortMasks: maskThemeSettings[index].shortMasks,
-                                    tallMasks: maskThemeSettings[index].tallMasks,
                                     color: null
-                                } })
+                                }
+                            })
                             color = generateAutoColor(maskThemeSettings[index].autoColor, account?.primaryColor, account?.secondaryColor)
-                            // console.log('new theme selected, new colour: ', color)
 
                         } else { // if the theme is the same, use the current overrides or autoColor if there are none
-                            // console.log('theme is the same, use overrides or autoColor if there are none')
-                            // console.log('currentMaskOverrides: ', currentMaskOverrides)
                             if (currentMaskOverrides) {
-                                // console.log('currentMaskOverrides.color: ', currentMaskOverrides.color)
-
                                 color = currentMaskOverrides.color ? currentMaskOverrides.color : generateAutoColor(maskThemeSettings[index].autoColor, account?.primaryColor, account?.secondaryColor)
                             }
-                            // console.log('color: ', color)
-
                         }
 
                         if (maskThemeSettings[index]) {
@@ -135,13 +119,30 @@ const useMask = (appRef, canvasName, size) => {
 
                             addMaskLayer(app, maskData, size);
                         }
-
                     }
                 });
             }
         }
 
-    }, [maskTextures, selectedThemeId, account, maskThemeOverrides]);
+        if (editAd && freezeEditAdAttributes && editAd?.userControlledAttributes[0]?.maskControls ) {
+            const {maskControls} = editAd.userControlledAttributes.find(attribute => attribute.canvasName === canvasName)
+            const maskChildren = findMaskChildren(app);
+
+            maskChildren.forEach((mask) => {
+                const maskControl = maskControls.find(control => control.name.split('-').slice(2).join('-') === mask.name.split('-').slice(2).join('-'))
+                if (maskControl?.color) {
+                    updateMaskThemeOverrides({ [mask.name.split('-').slice(2).join('-')]: {
+                            color: maskControl.color
+                        }
+                    })
+                }
+            })
+        }
+
+    }, [maskTextures, selectedThemeId, account, (editAd && freezeEditAdAttributes) ? null : maskThemeOverrides ]);
+
+    // }, [maskTextures, selectedThemeId, account, (editAd && freezeEditAdAttributes) ? null : maskThemeOverrides ]);
+
 };
 
 export default useMask;

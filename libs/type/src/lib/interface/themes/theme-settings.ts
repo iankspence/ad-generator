@@ -1,5 +1,5 @@
-import { ThemeMask } from "./ThemeMask";
-import { ThemeTextProperties } from './ThemeTextProperties';
+import { ThemeMask } from "./theme-mask";
+import { ThemeTextProperties } from './theme-text-properties';
 
 export interface ThemeSettings {
     shortMasks: ThemeMask[];

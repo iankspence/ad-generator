@@ -22,7 +22,7 @@ const MaskColorSelectionButton = ({ maskName }) => {
 
         newMaskThemeOverrides[maskName] = {
             ...newMaskThemeOverrides[maskName],
-            color: null
+            color: null,
         };
 
         updateMaskThemeOverrides(newMaskThemeOverrides);
@@ -35,6 +35,8 @@ const MaskColorSelectionButton = ({ maskName }) => {
 
     let maskThemeSettings;
 
+
+
     const selectedTheme = getSelectedTheme(selectedThemeId)
 
     if (maskName.includes('tall')) {
@@ -43,13 +45,12 @@ const MaskColorSelectionButton = ({ maskName }) => {
         maskThemeSettings = selectedTheme.settings.shortMasks;
     }
 
+
     const maskThemeAutoColor = maskThemeSettings.map((maskThemeSetting) => {
         if (maskThemeSetting.name == maskName) {
             return maskThemeSetting.autoColor
         }
     }).filter((maskThemeAutoColor) => maskThemeAutoColor)[0]
-
-    console.log('maskThemeAutoColor', maskThemeAutoColor)
 
     // Calculate autoColor for display
     const autoColor = maskThemeOverrides[maskName].color

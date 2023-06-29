@@ -1,4 +1,4 @@
-import { ThemeAutoColor } from "./ThemeAutoColor";
+import { ThemeAutoColor } from "./theme-auto-color";
 
 export interface ThemeMask {
     name: string;
