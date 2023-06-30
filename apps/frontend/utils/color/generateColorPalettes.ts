@@ -22,10 +22,15 @@ export const generateColorPalettes = (inputColor: string) => {
     }
 
     const inputShades = generateShadeTintPalette(inputColor, 8);
+    inputShades[3] = inputColor;
 
     const [inputSplit1, inputSplit2] = generateSplitComplementaryColors(inputColor);
+
     const inputSplit1Shades = generateShadeTintPalette(inputSplit1, 8);
+    inputSplit1Shades[3] = inputSplit1;
+
     const inputSplit2Shades = generateShadeTintPalette(inputSplit2, 8);
+    inputSplit2Shades[3] = inputSplit2;
 
     return [
         inputSplit1Shades,
