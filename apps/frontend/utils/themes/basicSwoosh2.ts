@@ -62,7 +62,7 @@ const basicSwoosh2: Theme = {
                     sourceType: 'grayscale',
                     paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",
@@ -80,7 +80,7 @@ const basicSwoosh2: Theme = {
                 yRange: [260, 315],
                 xRange: [15, 305],
                 autoColor: {
-                    sourceType: 'grayscale',
+                    sourceType: 'primary',
                     paletteType: 'adjacent',
                     minMaxType: 'max',
                     minMaxDistance: 0,
@@ -106,7 +106,7 @@ const basicSwoosh2: Theme = {
                     sourceType: 'grayscale',
                     paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",
@@ -127,7 +127,7 @@ const basicSwoosh2: Theme = {
                     sourceType: 'grayscale',
                     paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",
@@ -144,7 +144,7 @@ const basicSwoosh2: Theme = {
                 yRange: [225, 315],
                 xRange: [15, 305],
                 autoColor: {
-                    sourceType: 'grayscale',
+                    sourceType: 'primary',
                     paletteType: 'adjacent',
                     minMaxType: 'max',
                     minMaxDistance: 0,
@@ -170,7 +170,7 @@ const basicSwoosh2: Theme = {
                     sourceType: 'grayscale',
                     paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",

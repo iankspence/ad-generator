@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {PixiContext} from "../../../../../contexts/PixiContext";
 import { findMaskChildren } from '../../../utils/mask/findMaskChildren';
-import MaskColorSelectionButton from '../button/MaskColourSelectionButton';
+import MaskColorSelectionButtonGroup from '../button-group/MaskColourSelectionButtonGroup';
 
 const MaskAccordion = (app) => {
     const { canvasApps } = useContext(PixiContext);
@@ -40,7 +40,7 @@ const MaskAccordion = (app) => {
                             <Typography variant="subtitle1">{maskName}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <MaskColorSelectionButton maskName={maskName} />
+                            <MaskColorSelectionButtonGroup maskName={maskName} />
                             {/*<PaletteColorSelectionButton setFill={(color) => setMaskColor(prevState => ({...prevState, [maskName]: color}))} />*/}
                         </AccordionDetails>
                     </Accordion>

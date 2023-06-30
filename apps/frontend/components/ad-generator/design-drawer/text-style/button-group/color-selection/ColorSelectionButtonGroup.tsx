@@ -17,14 +17,26 @@ const ColorSelectionButtonGroup = ({
 
     const primaryColorPalettes = generateColorPalettes(account?.primaryColor);
     const secondaryColorPalettes = generateColorPalettes(account?.secondaryColor);
+    const grayscaleColorPalettes = generateColorPalettes('#808080');
 
     return (
         <Grid container direction="column" spacing={0}>
-            <ColorSelectionButton
-                fill={fill}
-                setFill={setFill}
-                textName={textName}
-            />
+
+            <Grid item container direction="row" >
+                <ColorSelectionButton
+                    fill={fill}
+                    setFill={setFill}
+                    textName={textName}
+                />
+                <div className="w-2"></div>
+                <PaletteColorSelectionButton
+                    setFill={setFill}
+                    textName={textName}
+                    colorPalettes={grayscaleColorPalettes}
+                />
+            </Grid>
+
+            <div className="h-1"></div>
 
             <Grid item container direction="row">
                 <PaletteColorSelectionButton
@@ -32,6 +44,7 @@ const ColorSelectionButtonGroup = ({
                     textName={textName}
                     colorPalettes={primaryColorPalettes}
                 />
+                <div className="w-2"></div>
                 <PaletteColorSelectionButton
                     setFill={setFill}
                     textName={textName}

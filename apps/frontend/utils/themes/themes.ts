@@ -1,5 +1,5 @@
-import basicSwoosh1 from './basicSwoosh1';
 import basicSwoosh2 from './basicSwoosh2';
+import basicSwoosh1 from './basicSwoosh1';
 import complexSwoosh1 from './complexSwoosh1';
 import complexSwoosh2 from './complexSwoosh2';
 import { Theme } from '@monorepo/type';

@@ -8,6 +8,7 @@ import { getSelectedTheme } from "../components/ad-generator/utils/getSelectedTh
 import UserContext from "../contexts/UserContext";
 import { generateAutoColor } from "../utils/color/generateAutoColor";
 import { mode } from '../components/ad-generator/utils/mode';
+import { shortenMaskName } from '../components/ad-generator/utils/mask/shortenMaskName';
 
 const useMask = (appRef, canvasName, size) => {
     const [maskTextures, setMaskTextures] = useState([]);
@@ -129,9 +130,9 @@ const useMask = (appRef, canvasName, size) => {
             const maskChildren = findMaskChildren(app);
 
             maskChildren.forEach((mask) => {
-                const maskControl = maskControls.find(control => control.name.split('-').slice(2).join('-') === mask.name.split('-').slice(2).join('-'))
+                const maskControl = maskControls.find(control => control.name === mask.name)
                 if (maskControl?.color) {
-                    updateMaskThemeOverrides({ [mask.name.split('-').slice(2).join('-')]: {
+                    updateMaskThemeOverrides({ [shortenMaskName(mask.name)]: {
                             color: maskControl.color
                         }
                     })
@@ -140,9 +141,6 @@ const useMask = (appRef, canvasName, size) => {
         }
 
     }, [maskTextures, selectedThemeId, account, (editAd && freezeEditAdAttributes) ? null : maskThemeOverrides ]);
-
-    // }, [maskTextures, selectedThemeId, account, (editAd && freezeEditAdAttributes) ? null : maskThemeOverrides ]);
-
 };
 
 export default useMask;

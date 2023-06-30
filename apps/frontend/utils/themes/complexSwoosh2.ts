@@ -87,7 +87,6 @@ const complexSwoosh2: Theme = {
                 } as ThemeAutoColor
             } as ThemeMask,
         ],
-
         hookTextDefaults: {
             hookMainText: {
                 canvasName: 'hook',
@@ -95,10 +94,10 @@ const complexSwoosh2: Theme = {
                 yRange: [10, 75],
                 xRange: [15, 305],
                 autoColor: {
-                    sourceType: 'primary',
-                    paletteType: 'split-complementary-2',
+                    sourceType: 'grayscale',
+                    paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",
@@ -107,7 +106,7 @@ const complexSwoosh2: Theme = {
                     align: "left",
                     fontStyle: "italic",
                     padding: 2,
-                } as ThemeTextStyle,
+                } as ThemeTextStyle
             } as ThemeTextProperties,
 
             hookAuthorText: {
@@ -117,7 +116,7 @@ const complexSwoosh2: Theme = {
                 xRange: [15, 305],
                 autoColor: {
                     sourceType: 'primary',
-                    paletteType: 'split-complementary-2',
+                    paletteType: 'adjacent',
                     minMaxType: 'max',
                     minMaxDistance: 0,
                 } as ThemeAutoColor,
@@ -128,7 +127,7 @@ const complexSwoosh2: Theme = {
                     align: "left",
                     fontVariant: "small-caps",
                     fontWeight: "bold",
-                } as ThemeTextStyle,
+                } as ThemeTextStyle
             } as ThemeTextProperties,
         },
 
@@ -139,17 +138,17 @@ const complexSwoosh2: Theme = {
                 yRange: [10, 75],
                 xRange: [15, 305],
                 autoColor: {
-                    sourceType: 'primary',
-                    paletteType: 'split-complementary-2',
+                    sourceType: 'grayscale',
+                    paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",
                     fill: "white",
                     wordWrap: true,
                     align: "left",
-                } as ThemeTextStyle,
+                } as ThemeTextStyle
             } as ThemeTextProperties,
         },
 
@@ -160,10 +159,10 @@ const complexSwoosh2: Theme = {
                 yRange: [15, 115],
                 xRange: [15, 305],
                 autoColor: {
-                    sourceType: 'primary',
-                    paletteType: 'split-complementary-2',
+                    sourceType: 'grayscale',
+                    paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",
@@ -171,7 +170,7 @@ const complexSwoosh2: Theme = {
                     wordWrap: true,
                     align: "left",
                     fontStyle: "italic",
-                } as ThemeTextStyle,
+                } as ThemeTextStyle
             } as ThemeTextProperties,
 
             reviewAuthorText: {
@@ -181,7 +180,7 @@ const complexSwoosh2: Theme = {
                 xRange: [15, 305],
                 autoColor: {
                     sourceType: 'primary',
-                    paletteType: 'split-complementary-2',
+                    paletteType: 'adjacent',
                     minMaxType: 'max',
                     minMaxDistance: 0,
                 } as ThemeAutoColor,
@@ -192,7 +191,7 @@ const complexSwoosh2: Theme = {
                     align: "left",
                     fontVariant: "small-caps",
                     fontWeight: "bold",
-                } as ThemeTextStyle,
+                } as ThemeTextStyle
             } as ThemeTextProperties,
         },
 
@@ -203,17 +202,17 @@ const complexSwoosh2: Theme = {
                 yRange: [10, 75],
                 xRange: [15, 305],
                 autoColor: {
-                    sourceType: 'primary',
-                    paletteType: 'split-complementary-2',
+                    sourceType: 'grayscale',
+                    paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",
                     fill: "white",
                     wordWrap: true,
                     align: "left",
-                } as ThemeTextStyle,
+                } as ThemeTextStyle
             } as ThemeTextProperties,
         }
     } as ThemeSettings

@@ -16,15 +16,15 @@ const PaletteColorSelectionButton = ({ setFill, textName, colorPalettes }) => {
     };
 
     return (
-        <Grid item xs={6}>
+        <Grid item>
             <ToggleButtonGroup
                 value={showPaletteViewer}
                 exclusive
                 onChange={onClick}
                 aria-label="palette icon"
             >
-                <ToggleButton value={true} aria-label="show palette" style={{width: '31px', height: '31px', }}>
-                    <PaletteIcon style={{ fontSize: "1.5rem", width: '25px', height: '25px'}} />
+                <ToggleButton value={true} aria-label="show palette" style={{width: '25px', height: '25px', }}>
+                    <PaletteIcon style={{ fontSize: "1.5rem", width: '20px', height: '20px'}} />
                 </ToggleButton>
             </ToggleButtonGroup>
             {showPaletteViewer && (
