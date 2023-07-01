@@ -101,12 +101,15 @@
 //
 // export default ApplyPage;
 
-import { useRouter } from "next/router";
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function ApplyPage() {
     const router = useRouter();
-    if (typeof window !== "undefined") {
+
+    useEffect(() => {
         router.push("/");
-    }
+    }, []);
+
     return null;
 }
