@@ -8,6 +8,8 @@ import Head from 'next/head';
 import TopNav from '../components/nav-bars/TopNav';
 import BottomNav from '../components/nav-bars/BottomNav';
 import { theme } from '../utils/tailwind/theme';
+import Router from 'next/router';
+import withGA from "next-ga";
 
 function CustomApp({ Component, pageProps }: AppProps) {
     return (
@@ -33,4 +35,9 @@ function CustomApp({ Component, pageProps }: AppProps) {
     );
 }
 
-export default CustomApp;
+// use GA in production only
+const WrappedApp = process.env.NEXT_PUBLIC_FRONTEND_URI === "https://reviewdrum.com"
+    ? withGA(process.env.NEXT_PUBLIC_GA_TRACKING_ID, Router)(CustomApp)
+    : CustomApp;
+
+export default WrappedApp;
