@@ -91,16 +91,16 @@ const HomePage: React.FC = () => {
     return (
         <div className="bg-white min-h-screen">
 
-            <div className="bg-reviewDrumOrange p-4" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <Typography variant={isMobile ? "body1" : "h6"} style={{ color: 'white', fontWeight: 600, marginBottom: '10px' }}>
-                    {'Next Clinic Cohort: July 1st - Aug 31st'}
-                </Typography>
-                <Link href="/apply" passHref>
-                    <Button variant="contained" style={{ backgroundColor: 'white', color: 'black' }}>
-                        Apply Now
-                    </Button>
-                </Link>
-            </div>
+            {/*<div className="bg-reviewDrumOrange p-4" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>*/}
+            {/*    <Typography variant={isMobile ? "body1" : "h6"} style={{ color: 'white', fontWeight: 600, marginBottom: '10px' }}>*/}
+            {/*        {'Next Clinic Cohort: Sept. 1st - Oct. 31st'}*/}
+            {/*    </Typography>*/}
+            {/*    <Link href="/apply" passHref>*/}
+            {/*        <Button variant="contained" style={{ backgroundColor: 'white', color: 'black' }}>*/}
+            {/*            Apply Now*/}
+            {/*        </Button>*/}
+            {/*    </Link>*/}
+            {/*</div>*/}
 
             <div className={`${isMobile? "py-2" : "py-4"}`} ></div>
 
