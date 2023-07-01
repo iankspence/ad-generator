@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactPixel from 'react-facebook-pixel';
 import '../../../styles/globals.css';
 import CampaignProvider from '../contexts/CampaignContext';
 import {PixiProvider} from '../contexts/PixiContext';
@@ -12,6 +14,13 @@ import Router from 'next/router';
 import withGA from "next-ga";
 
 function CustomApp({ Component, pageProps }: AppProps) {
+    React.useEffect(() => {
+        if (process.env.NEXT_PUBLIC_FRONTEND_URI === "https://reviewdrum.com") {
+            ReactPixel.init(process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID);
+            ReactPixel.pageView();
+        }
+    }, []);
+
     return (
         <UserProvider>
             <CampaignProvider>
@@ -35,7 +44,6 @@ function CustomApp({ Component, pageProps }: AppProps) {
     );
 }
 
-// use GA in production only
 const WrappedApp = process.env.NEXT_PUBLIC_FRONTEND_URI === "https://reviewdrum.com"
     ? withGA(process.env.NEXT_PUBLIC_GA_TRACKING_ID, Router)(CustomApp)
     : CustomApp;
