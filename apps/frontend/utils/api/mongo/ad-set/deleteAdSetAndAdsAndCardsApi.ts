@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { API_URL } from '../../apiUrl';
+import { DeleteAdSetAndAdsAndCardsDto } from '@monorepo/type';
 
-export const deleteAdSetAndAdsAndCards = async (deleteAdSetAndAdsAndCardsDto) => {
+export const deleteAdSetAndAdsAndCards = async (deleteAdSetAndAdsAndCardsDto: DeleteAdSetAndAdsAndCardsDto) => {
     try{
         const response = await axios({
             method: 'post',

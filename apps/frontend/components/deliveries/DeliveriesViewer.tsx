@@ -8,7 +8,8 @@ import { saveAs } from 'file-saver';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import { createUserAction } from '../../utils/api/mongo/user-action/createUserActionApi';
 import UserContext from '../../contexts/UserContext';
-
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import { deleteAdSetAndAdsAndCards } from '../../utils/api/mongo/ad-set/deleteAdSetAndAdsAndCardsApi';
 
 export default function DeliveriesViewer({ ads }) { // getHookText is a new prop
     const theme = useTheme();
@@ -110,16 +111,37 @@ export default function DeliveriesViewer({ ads }) { // getHookText is a new prop
                             >
                                 <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
                                     <Typography>{date}</Typography>
-                                    <IconButton
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            if (window.confirm('Are you sure you want to download the ads?')) {
-                                                handleDownload(ads, date);
-                                            }
-                                        }}
-                                    >
-                                        <FileDownloadOutlinedIcon />
-                                    </IconButton>
+                                    <Box>
+                                        { (user.roles.includes('admin') ||  user.roles.includes('content-manager')) && (
+                                            <IconButton
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (window.confirm('Are you sure you want to delete the ad set? This can\'t be undone!')) {
+                                                        if (ads.length > 0) {
+                                                            deleteAdSetAndAdsAndCards({ adSetId: ads[0].ad.adSetId });
+                                                            setTimeout(() => {
+                                                                window.location.reload();
+                                                            }, 7000);
+                                                    } else {
+                                                            console.error('No ads found in ad set!');
+                                                        }
+                                                    }
+                                                }}
+                                            >
+                                                <HighlightOffOutlinedIcon />
+                                            </IconButton>
+                                        )}
+                                        <IconButton
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (window.confirm('Are you sure you want to download the ads?')) {
+                                                    handleDownload(ads, date);
+                                                }
+                                            }}
+                                        >
+                                            <FileDownloadOutlinedIcon />
+                                        </IconButton>
+                                    </Box>
                                 </Box>
                             </AccordionSummary>
                             <AccordionDetails>
