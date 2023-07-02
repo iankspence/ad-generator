@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactPixel from 'react-facebook-pixel';
+import React, { useEffect, useState } from 'react';
 import '../../../styles/globals.css';
 import CampaignProvider from '../contexts/CampaignContext';
 import {PixiProvider} from '../contexts/PixiContext';
@@ -14,12 +13,21 @@ import Router from 'next/router';
 import withGA from "next-ga";
 
 function CustomApp({ Component, pageProps }: AppProps) {
-    React.useEffect(() => {
-        if (process.env.NEXT_PUBLIC_FRONTEND_URI === "https://reviewdrum.com") {
-            ReactPixel.init(process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID);
-            ReactPixel.pageView();
-        }
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        // Once the client side rendering is done, change the isClient state to true
+        setIsClient(true);
     }, []);
+
+    useEffect(() => {
+        if (isClient && process.env.NEXT_PUBLIC_FRONTEND_URI === "https://reviewdrum.com") {
+            import('../components/facebook/initFacebookPixel')
+                .then(({ default: initFacebookPixel }) => {
+                    initFacebookPixel();
+                });
+        }
+    }, [isClient]);
 
     return (
         <UserProvider>
