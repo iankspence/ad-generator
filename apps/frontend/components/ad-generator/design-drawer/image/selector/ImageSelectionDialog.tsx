@@ -43,7 +43,9 @@ const ImageSelectionDialog = ({ open, onClose, onSelect }) => {
                                         aria-label="delete"
                                         onClick={(event) => {
                                             event.stopPropagation();
-                                            handleDelete(image._id.toString());
+                                            if (window.confirm('Are you sure you want to delete this image?')) {
+                                                handleDelete(image._id.toString());
+                                            }
                                         }}
                                         style={{ padding: '0', position: 'absolute', top: '2%', right: '2%', opacity: '30%' }}
                                     >
