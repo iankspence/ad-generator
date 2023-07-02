@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { BackgroundImageService } from './background-image.service';
-import { BackgroundImageDocument, UploadBackgroundImageDto, UploadedFileInterface } from '@monorepo/type';
+import { BackgroundImageDocument, DeleteBackgroundImageDto, UploadBackgroundImageDto, UploadedFileInterface } from '@monorepo/type';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { RolesGuard } from '../../auth/roles.guard';
 import { Roles } from '../../auth/roles.decorator';
@@ -28,6 +28,13 @@ export class BackgroundImageController {
     @UseInterceptors(FileInterceptor('backgroundImage'))
     async uploadImage(@UploadedFile() backgroundImage: UploadedFileInterface, @Body() uploadBackgroundImageDto: UploadBackgroundImageDto): Promise<void> {
         await this.backgroundImageService.uploadImage(backgroundImage, uploadBackgroundImageDto);
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'content-manager')
+    @Post('delete')
+    async deleteBackgroundImage(@Body() deleteBackgroundImageDto: DeleteBackgroundImageDto): Promise<void> {
+        await this.backgroundImageService.deleteBackgroundImage(deleteBackgroundImageDto.backgroundImageId);
     }
 }
 

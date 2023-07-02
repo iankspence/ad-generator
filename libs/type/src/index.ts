@@ -24,6 +24,7 @@ export * from './lib/dto/mongo/ad-set/update-ad-status-by-ad-set-id.dto';
 
 export * from './lib/dto/mongo/application/create-application.dto';
 
+export * from './lib/dto/mongo/background-image/delete-background-image.dto';
 export * from './lib/dto/mongo/background-image/upload-background-image.dto';
 
 export * from './lib/dto/mongo/card/copy-cards-and-ad.dto';

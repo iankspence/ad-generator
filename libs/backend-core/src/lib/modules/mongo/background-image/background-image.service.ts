@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import * as fs from 'fs';
 import * as path from 'path';
 import sharp from 'sharp';
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import {
     BackgroundImage,
     BackgroundImageDocument,
@@ -30,7 +30,6 @@ export class BackgroundImageService {
     }
 
     async uploadImage(file: UploadedFileInterface, uploadBackgroundImageDto: UploadBackgroundImageDto): Promise<void> {
-        console.log("File object: ", file);
 
         const { accountId } = uploadBackgroundImageDto;
         const fileExtension = path.extname(file.originalname).toLowerCase();
@@ -99,5 +98,27 @@ export class BackgroundImageService {
         }
 
         return key;
+    }
+
+    async deleteBackgroundImage(backgroundImageId: string): Promise<void> {
+        const backgroundImage = await this.backgroundImageModel.findById(backgroundImageId).exec();
+        if (backgroundImage) {
+            await this.deleteFileFromS3(backgroundImage.backgroundImageLocation);
+            await this.deleteFileFromS3(backgroundImage.backgroundImagePreviewLocation);
+            await this.backgroundImageModel.deleteOne({ _id: backgroundImageId }).exec();
+        }
+    }
+
+    private async deleteFileFromS3(key: string): Promise<void> {
+        const deleteObject = new DeleteObjectCommand({
+            Bucket: process.env.S3_BUCKET_NAME,
+            Key: key,
+        });
+        try {
+            await s3.send(deleteObject);
+        } catch (error) {
+            console.error('Error deleting from S3:', error);
+            throw error;
+        }
     }
 }
