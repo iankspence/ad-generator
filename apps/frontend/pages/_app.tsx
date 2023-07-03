@@ -9,11 +9,25 @@ import Head from 'next/head';
 import TopNav from '../components/nav-bars/TopNav';
 import BottomNav from '../components/nav-bars/BottomNav';
 import { theme } from '../utils/tailwind/theme';
-import Router from 'next/router';
-import withGA from "next-ga";
+import { useRouter } from 'next/router';
 
 function CustomApp({ Component, pageProps }: AppProps) {
+    const router = useRouter();
     const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        const handleRouteChange = (url: URL) => {
+            window.gtag('config', process.env.NEXT_PUBLIC_GA_TRACKING_ID as string, {
+                page_path: url,
+            });
+        }
+
+        router.events.on('routeChangeComplete', handleRouteChange);
+        return () => {
+            router.events.off('routeChangeComplete', handleRouteChange);
+        }
+
+    }, [router.events]);
 
     useEffect(() => {
         // Once the client side rendering is done, change the isClient state to true
@@ -52,8 +66,4 @@ function CustomApp({ Component, pageProps }: AppProps) {
     );
 }
 
-const WrappedApp = process.env.NEXT_PUBLIC_FRONTEND_URI === "https://reviewdrum.com"
-    ? withGA(process.env.NEXT_PUBLIC_GA_TRACKING_ID, Router)(CustomApp)
-    : CustomApp;
-
-export default WrappedApp;
+export default CustomApp;
