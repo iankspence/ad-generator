@@ -22,12 +22,14 @@ function CustomApp({ Component, pageProps }: AppProps) {
             });
         }
 
-        router.events.on('routeChangeComplete', handleRouteChange);
-        return () => {
-            router.events.off('routeChangeComplete', handleRouteChange);
+        if (process.env.NEXT_PUBLIC_FRONTEND_URI === "https://reviewdrum.com") {
+            router.events.on('routeChangeComplete', handleRouteChange);
+            return () => {
+                router.events.off('routeChangeComplete', handleRouteChange);
+            }
         }
-
     }, [router.events]);
+
 
     useEffect(() => {
         // Once the client side rendering is done, change the isClient state to true
