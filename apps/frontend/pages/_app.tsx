@@ -30,7 +30,6 @@ function CustomApp({ Component, pageProps }: AppProps) {
         }
     }, [router.events]);
 
-
     useEffect(() => {
         // Once the client side rendering is done, change the isClient state to true
         setIsClient(true);

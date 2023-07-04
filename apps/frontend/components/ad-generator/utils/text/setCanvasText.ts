@@ -127,6 +127,14 @@ const setCanvasText = async (
         await mainTextObject.style.loadFont('/fonts/Montserrat-Regular.ttf', { family: 'Montserrat-Regular' });
     }
 
+    if (mainTextObject.style.fontFamily === 'SFPro-Regular') {
+        await mainTextObject.style.loadFont('/fonts/SFPro-Regular.ttf', { family: 'SFPro-Regular' });
+    }
+
+    if (mainTextObject.style.fontFamily === 'SegoeUI') {
+        await mainTextObject.style.loadFont('/fonts/SegoeUI.ttf', { family: 'SegoeUI' });
+    }
+
     if (authorTextObject) {
         authorTextObject.style = authorUpdatedStyle;
         authorTextObject.x = authorUpdatedPosition.x;
@@ -139,8 +147,15 @@ const setCanvasText = async (
         if (authorTextObject.style.fontFamily === 'Montserrat-Regular') {
             await authorTextObject.style.loadFont('/fonts/Montserrat-Regular.ttf', { family: 'Montserrat-Regular' });
         }
-    }
 
+        if (authorTextObject.style.fontFamily === 'SFPro-Regular') {
+            await authorTextObject.style.loadFont('/fonts/SFPro-Regular.ttf', { family: 'SFPro-Regular' });
+        }
+
+        if (authorTextObject.style.fontFamily === 'SegoeUI') {
+            await authorTextObject.style.loadFont('/fonts/SegoeUI.ttf', { family: 'SegoeUI' });
+        }
+    }
 };
 
 export default setCanvasText;
