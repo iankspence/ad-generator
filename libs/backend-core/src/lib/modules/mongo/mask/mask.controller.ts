@@ -15,9 +15,9 @@ export class MaskController {
     async findAllByNames(@Body() findMasksByNamesDto: FindMasksByNamesDto): Promise<MaskDocument[]> {
         return await this.maskService.findAllByNames(findMasksByNamesDto.maskNames);
     }
-}
 
-// @Post('upload-from-directory')
-// async uploadMasksFromDirectory(@Body('directoryPath') directoryPath: string): Promise<void> {
-//     await this.maskService.uploadMasksFromDirectory(directoryPath);
-// }
+    // @Post('upload-from-directory')
+    // async uploadMasksFromDirectory(@Body('directoryPath') directoryPath: string): Promise<void> {
+    //     await this.maskService.uploadMasksFromDirectory(directoryPath);
+    // }
+}
