@@ -139,8 +139,8 @@ const roundedSquare2: Theme = {
             reviewMainText: {
                 canvasName: 'review',
                 textName: 'main',
-                yRange: [185, 305],
-                xRange: [15, 180],
+                yRange: [187, 305],
+                xRange: [15, 177],
                 autoColor: {
                     sourceType: 'grayscale',
                     paletteType: 'adjacent',
@@ -159,8 +159,8 @@ const roundedSquare2: Theme = {
             reviewAuthorText: {
                 canvasName: 'review',
                 textName: 'author',
-                yRange: [185, 305],
-                xRange: [15, 180],
+                yRange: [187, 305],
+                xRange: [15, 177],
                 autoColor: {
                     sourceType: 'primary',
                     paletteType: 'adjacent',

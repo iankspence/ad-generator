@@ -7,12 +7,12 @@ import {
     ThemeTextStyle,
 } from '@monorepo/type';
 
-const roundedSquare1: Theme = {
-    id: 'rounded-square-1',
+const roundedSquareRevExt2: Theme = {
+    id: 'rounded-square-rev-ext-2',
     settings: {
         shortMasks: [
             {
-                name: 'rounded-square-short-base-1',
+                name: 'rounded-square-rev-ext-short-base-1',
                 autoColor: {
                     sourceType: 'primary',
                     paletteType: 'adjacent',
@@ -21,7 +21,7 @@ const roundedSquare1: Theme = {
                 } as ThemeAutoColor
             } as ThemeMask,
             {
-                name: 'rounded-square-short-base-2',
+                name: 'rounded-square-rev-ext-short-base-2',
                 autoColor: {
                     sourceType: 'primary',
                     paletteType: 'adjacent',
@@ -30,19 +30,19 @@ const roundedSquare1: Theme = {
                 } as ThemeAutoColor
             } as ThemeMask,
             {
-                name: 'rounded-square-short-base-3',
+                name: 'rounded-square-rev-ext-short-base-3',
                 autoColor: {
                     sourceType: 'grayscale',
                     paletteType: 'adjacent',
                     minMaxType: 'min',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor
             } as ThemeMask,
         ],
 
         tallMasks: [
             {
-                name: 'rounded-square-tall-base-1',
+                name: 'rounded-square-rev-ext-tall-base-1',
                 autoColor: {
                     sourceType: 'primary',
                     paletteType: 'adjacent',
@@ -51,7 +51,7 @@ const roundedSquare1: Theme = {
                 } as ThemeAutoColor
             } as ThemeMask,
             {
-                name: 'rounded-square-tall-base-2',
+                name: 'rounded-square-rev-ext-tall-base-2',
                 autoColor: {
                     sourceType: 'primary',
                     paletteType: 'adjacent',
@@ -60,12 +60,12 @@ const roundedSquare1: Theme = {
                 } as ThemeAutoColor
             } as ThemeMask,
             {
-                name: 'rounded-square-tall-base-3',
+                name: 'rounded-square-rev-ext-tall-base-3',
                 autoColor: {
                     sourceType: 'grayscale',
                     paletteType: 'adjacent',
                     minMaxType: 'min',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor
             } as ThemeMask,
         ],
@@ -80,7 +80,7 @@ const roundedSquare1: Theme = {
                     sourceType: 'grayscale',
                     paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",
@@ -101,7 +101,7 @@ const roundedSquare1: Theme = {
                     sourceType: 'primary',
                     paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",
@@ -124,7 +124,7 @@ const roundedSquare1: Theme = {
                     sourceType: 'grayscale',
                     paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",
@@ -139,13 +139,13 @@ const roundedSquare1: Theme = {
             reviewMainText: {
                 canvasName: 'review',
                 textName: 'main',
-                yRange: [187, 305],
-                xRange: [15, 177],
+                yRange: [107, 305],
+                xRange: [15, 212],
                 autoColor: {
                     sourceType: 'grayscale',
                     paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",
@@ -159,13 +159,13 @@ const roundedSquare1: Theme = {
             reviewAuthorText: {
                 canvasName: 'review',
                 textName: 'author',
-                yRange: [187, 305],
-                xRange: [15, 177],
+                yRange: [107, 305],
+                xRange: [15, 212],
                 autoColor: {
                     sourceType: 'primary',
                     paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",
@@ -188,7 +188,7 @@ const roundedSquare1: Theme = {
                     sourceType: 'grayscale',
                     paletteType: 'adjacent',
                     minMaxType: 'max',
-                    minMaxDistance: 0,
+                    minMaxDistance: 1,
                 } as ThemeAutoColor,
                 style: {
                     fontFamily: "Arial",
@@ -201,4 +201,4 @@ const roundedSquare1: Theme = {
     } as ThemeSettings
 }
 
-export default roundedSquare1;
+export default roundedSquareRevExt2;
