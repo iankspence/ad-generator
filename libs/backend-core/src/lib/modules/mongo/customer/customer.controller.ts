@@ -94,6 +94,9 @@ export class CustomerController {
     async handleWebhook(@Req() request: Request, @Res() response: Response) {
         this.logger.verbose('Received stripe webhook');
 
+        const clientIP = request.headers['x-forwarded-for'] || request.headers['x-real-ip'] || request.connection.remoteAddress;
+        this.logger.verbose(`Received stripe webhook from IP: ${clientIP}`);
+
         const sig = request.headers['stripe-signature'];
 
         let event;
