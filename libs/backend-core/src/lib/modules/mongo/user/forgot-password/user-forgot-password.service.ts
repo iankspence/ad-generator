@@ -22,8 +22,10 @@ export class UserForgotPasswordService {
         this.logger.log(`User: ${user._id} has requested a password reset`);
 
         if (!user) {
+            this.logger.error(`User: ${user._id} not found`);
             throw new Error('Email not found');
         }
+
 
         const resetToken = uuidv4();
         await this.updateResetToken(user, resetToken);

@@ -96,7 +96,7 @@ const TopNav = () => {
                         <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8 md:pr-2">
                             <LinkItem href="/how-it-works">How It Works</LinkItem>
                             <LinkItem href="/faq">FAQ</LinkItem>
-                            <LinkItem href="/pricing">Pricing</LinkItem>
+                            <LinkItem href="/services">Services</LinkItem>
                             <LinkItem href="/sign-in">Sign In</LinkItem>
                         </div>
                     )}

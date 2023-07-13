@@ -28,7 +28,7 @@ const FAQPage: React.FC = () => {
                     </Accordion>
                 ))}
 
-                <Link href="/pricing" passHref>
+                <Link href="/services" passHref>
                     <Button
                         sx={{
                             width: isMobile ? '200px' : '500px',
@@ -46,7 +46,7 @@ const FAQPage: React.FC = () => {
                             },
                         }}
                     >
-                        Pricing
+                        Services
                     </Button>
                 </Link>
             </Box>
