@@ -35,11 +35,8 @@ export class UserSignInService {
     async signIn(user: any): Promise<{ user: any; token: string }> {
 
         if (!user._doc.isActive) {
-            const { active } = await this.customerService.findCustomerSubscriptionStatusByUserId(user._doc._id);
-            if (!active) {
-                this.logger.warn(`User ${user._doc._id} has been deactivated and doesn't not have an active subscription - sign-in failed.`);
-                return null;
-            }
+            this.logger.warn(`User ${user._doc._id} has been deactivated - sign-in failed.`);
+            return null;
         }
 
         const result = {

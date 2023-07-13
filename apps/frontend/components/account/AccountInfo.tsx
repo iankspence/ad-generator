@@ -5,39 +5,11 @@ import { CheckoutSelection } from './CheckoutSelection';
 import { useRouter } from 'next/router';
 import { deactivateUser } from '../../utils/api/mongo/user/register/deactivateUserApi';
 import { signOut } from '../../utils/api/mongo/user/sign-in/signOutApi';
-import ChangeSubscription from './ChangeSubscription';
-import { reactivateUser } from '../../utils/api/mongo/user/register/reactivateUserApi';
-import { reactivateSubscription } from '../../utils/api/mongo/customer/reactivateSubscriptionApi';
-import { deactivateSubscription } from '../../utils/api/mongo/customer/deactivateSubscriptionApi';
-import { findNextBillingDateByAccountId } from '../../utils/api/mongo/customer/findNextBillingDateByAccountIdApi';
 
 export default function AccountInfo({ accountId, refreshAccount, setRefreshAccount }) {
-    const { account, user, subscriptionStatus, setUser, subscriptionTier } = useContext(UserContext);
+    const { account, user, setUser } = useContext(UserContext);
     const [openCheckoutModal, setOpenCheckoutModal] = useState(false);
-    const [openChangeSubscriptionModal, setOpenChangeSubscriptionModal ] = useState(false);
-    const [ nextBillingDate, setNextBillingDate ] = useState(null);
-
     const router = useRouter();
-
-    useEffect(() => {
-        const findNextBillingDate = async () => {
-            try {
-                const nextBillingDate = await findNextBillingDateByAccountId({
-                    accountId: account._id.toString(),
-                    timezone: account.timezone
-                });
-
-                setNextBillingDate(nextBillingDate);
-            } catch (error) {
-                console.error("Failed to find next billing date. Please try again later.", error);
-            }
-        };
-
-        if (!account || !subscriptionStatus) return;
-
-        findNextBillingDate();
-    }, [account, subscriptionStatus]);
-
 
     const handleDeactivateAccount = async () => {
         const message = account.setupPaymentComplete ?
@@ -46,20 +18,14 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
 
         if (window.confirm(message)) {
             try {
-
                 await deactivateUser({
                     userId: user._id.toString(),
                     accountId: account._id.toString(),
                 });
 
-                if (!subscriptionStatus) {
-                    await signOut();
-                    setUser(null);
-                    router.push('sign-in');
-                } else {
-                    setRefreshAccount(!refreshAccount);
-                }
-
+                await signOut();
+                setUser(null);
+                router.push('sign-in');
             } catch (error) {
                 console.error("Failed to deactivate user. Please try again later.", error);
             }
