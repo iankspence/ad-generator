@@ -92,7 +92,6 @@ export class CustomerController {
                     const paymentIntent = event.data.object;
                     await this.customerEventService.createPaymentIntentSucceededEvent(paymentIntent, event.id);
                     this.logger.log(`Payment intent succeeded event: ${paymentIntent.id}`);
-                    this.logger.verbose(`Payment intent: ${paymentIntent}`);
                     message = 'Payment intent succeeded';
                 } catch (error) {
                     this.logger.error('Error handling payment intent succeeded event:', error.stack);
