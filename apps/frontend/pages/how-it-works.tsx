@@ -15,11 +15,6 @@ const steps = {
         { title: 'Connect Payment', description: 'Connect payment on account page.', imagePath: '/images/download-2.png' },
         { title: 'Receive Ads', description: 'Access ads within 3 days after payment.', imagePath: '/images/download-3.png' },
     ],
-    manage: [
-        { title: 'Manage your Account', description: 'View account details and manage your subscription.', imagePath: '/images/manage-1.png' },
-        { title: 'Change your Subscription', description: 'Change from one plan to another. Stripe\'s prorated billing system will precisely apply a credit or charge, depending on the new plan\'s pricing.', imagePath: '/images/manage-2.png' },
-        { title: 'Cancel your Subscription', description: 'Cancel your subscription and delete your account and the end of the current billing cycle.', imagePath: '/images/manage-3.png' },
-    ]
 }
 
 const minHeightValues = {
@@ -52,7 +47,7 @@ const HowItWorksPage: React.FC = () => {
         <div className="bg-reviewDrumLightGray min-h-screen">
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '20px', marginX: isMobile ? '5px' : '20px', padding: isMobile? '15px': '50px' }}>
                 <Typography variant="h3" align="center" sx={{ fontWeight: 'bold', color: reviewDrumDarkGray, marginBottom: theme.spacing(3) }}>How it Works</Typography>
-                {['register', 'download', 'manage'].map((type) => (
+                {['register', 'download'].map((type) => (
                     <Accordion
                         key={type}
                         sx={{ width: '100%', marginBottom: theme.spacing(3), padding: isMobile ? '5px' : '25px' }}

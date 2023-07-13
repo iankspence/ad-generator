@@ -7,15 +7,13 @@ import createCheckoutSession from '../../utils/api/mongo/customer/createCheckout
 import { theme } from '../../utils/tailwind/theme';
 
 export function CheckoutSelection({ accountId, openModal, setOpenModal }) {
-    const [annualPayment, setAnnualPayment] = useState(false);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const handleConnectPayment = async (annualPayment, price) => {
+    const handleConnectPayment = async (price) => {
         try {
-            const priceId = annualPayment ? price.annualPriceId : price.monthlyPriceId;
             await createCheckoutSession({
                 accountId: accountId.toString(),
-                priceId,
+                priceId: price.priceId,
             });
             console.log('Successfully connected payment.');
         } catch (error) {
@@ -23,9 +21,10 @@ export function CheckoutSelection({ accountId, openModal, setOpenModal }) {
         }
     };
 
-    const handleToggle = () => {
-        setAnnualPayment(!annualPayment);
+    const handleDemoClick = () => {
+        window.open('https://calendly.com/ian-xtq/discovery-call', '_blank');
     };
+
 
     const handleCloseModal = () => {
         setOpenModal(false);
@@ -39,26 +38,27 @@ export function CheckoutSelection({ accountId, openModal, setOpenModal }) {
                 style: { width: isMobile ? '100%' : '80%', margin: isMobile ? '10px' : '4px',  padding: isMobile ? '1px' : '4px', height: '60%', maxHeight: 'none', maxWidth: 'none' },
             }}
         >
-            <DialogTitle className="text-center text-2xl font-bold my-4">Select a Plan</DialogTitle>
+            <DialogTitle className="text-center text-2xl font-bold my-4">Select a Service</DialogTitle>
             <DialogContent>
-                <div className="flex justify-center my-2">
-                    <FormControlLabel
-                        control={<Switch checked={annualPayment} onChange={handleToggle} />}
-                        label="Annual Payment"
-                        className="font-semibold"
-                    />
-                </div>
                 <Grid container justifyContent="center" spacing={2}>
                     {pricingData.map((price, index) => (
                         <Grid key={index} item xs={12} sm={6} md={4}>
-                            <PricingCard
-                                price={price}
-                                annualPayment={annualPayment}
-                                buttonText="Select"
-                                onClick={() => handleConnectPayment(annualPayment, price)}
-                            />
+                            { price.tier === 'Content Package' ?
+                                <PricingCard
+                                    price={price}
+                                    buttonText="Select"
+                                    onClick={() => handleConnectPayment(price)}
+                                />
+                                :
+                                <PricingCard
+                                    price={price}
+                                    buttonText="Book Demo"
+                                    onClick={() => handleDemoClick()}
+                                />
+                            }
                         </Grid>
                     ))}
+
                 </Grid>
             </DialogContent>
         </Dialog>

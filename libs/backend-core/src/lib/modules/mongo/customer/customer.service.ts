@@ -139,8 +139,8 @@ export class CustomerService {
             price: createCheckoutSessionDto.priceId,
             quantity: 1
         }];
-        const mode = 'subscription';
-        const success_url = process.env.FRONTEND_URI + '/updated-subscription';
+        const mode = 'payment';
+        const success_url = process.env.FRONTEND_URI + '/purchase-complete';
         const cancel_url = process.env.FRONTEND_URI + '/account';
 
         try {

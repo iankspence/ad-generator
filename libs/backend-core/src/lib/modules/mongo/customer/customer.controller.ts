@@ -170,45 +170,60 @@ export class CustomerController {
                 }
                 break;
 
-            case 'customer.subscription.created':
+            case 'payment_intent.succeeded':
                 try {
-                    const subscription = event.data.object;
-                    await this.customerEventService.createSubscriptionCreatedEvent(subscription, event.id);
-                    this.logger.log(`Customer subscription created event: ${subscription.id}`);
-                    message = 'Customer subscription created';
+                    const paymentIntent = event.data.object;
+                    await this.customerEventService.createPaymentIntentSucceededEvent(paymentIntent, event.id);
+                    this.logger.log(`Payment intent succeeded event: ${paymentIntent.id}`);
+                    this.logger.verbose(`Payment intent: ${paymentIntent}`);
+                    message = 'Payment intent succeeded';
                 } catch (error) {
-                    this.logger.error('Error handling subscription created event:', error.stack);
+                    this.logger.error('Error handling payment intent succeeded event:', error.stack);
                     status = 500;
-                    message = 'Error handling subscription created event';
+                    message = 'Error handling payment intent succeeded event';
                 }
                 break;
 
-            case 'customer.subscription.updated':
-                try {
-                    const subscription = event.data.object;
-                    await this.customerEventService.createSubscriptionUpdatedEvent(subscription, event.id);
-                    await this.customerService.updateSubscription(subscription.customer, subscription.id);
-                    this.logger.log(`Customer subscription updated event: ${subscription.id}`);
-                    message = 'Customer subscription updated';
-                } catch (error) {
-                    this.logger.error('Error handling subscription updated event:', error.stack);
-                    status = 500;
-                    message = 'Error handling subscription updated event';
-                }
-                break;
 
-            case 'customer.subscription.deleted':
-                try {
-                    const subscription = event.data.object;
-                    await this.customerEventService.createSubscriptionDeletedEvent(subscription, event.id);
-                    this.logger.log(`Customer subscription deleted event: ${subscription.id}`);
-                    message = 'Customer subscription deleted';
-                } catch (error) {
-                    this.logger.error('Error handling subscription deleted event:', error.stack);
-                    status = 500;
-                    message = 'Error handling subscription deleted event';
-                }
-                break;
+            // case 'customer.subscription.created':
+            //     try {
+            //         const subscription = event.data.object;
+            //         await this.customerEventService.createSubscriptionCreatedEvent(subscription, event.id);
+            //         this.logger.log(`Customer subscription created event: ${subscription.id}`);
+            //         message = 'Customer subscription created';
+            //     } catch (error) {
+            //         this.logger.error('Error handling subscription created event:', error.stack);
+            //         status = 500;
+            //         message = 'Error handling subscription created event';
+            //     }
+            //     break;
+            //
+            // case 'customer.subscription.updated':
+            //     try {
+            //         const subscription = event.data.object;
+            //         await this.customerEventService.createSubscriptionUpdatedEvent(subscription, event.id);
+            //         await this.customerService.updateSubscription(subscription.customer, subscription.id);
+            //         this.logger.log(`Customer subscription updated event: ${subscription.id}`);
+            //         message = 'Customer subscription updated';
+            //     } catch (error) {
+            //         this.logger.error('Error handling subscription updated event:', error.stack);
+            //         status = 500;
+            //         message = 'Error handling subscription updated event';
+            //     }
+            //     break;
+            //
+            // case 'customer.subscription.deleted':
+            //     try {
+            //         const subscription = event.data.object;
+            //         await this.customerEventService.createSubscriptionDeletedEvent(subscription, event.id);
+            //         this.logger.log(`Customer subscription deleted event: ${subscription.id}`);
+            //         message = 'Customer subscription deleted';
+            //     } catch (error) {
+            //         this.logger.error('Error handling subscription deleted event:', error.stack);
+            //         status = 500;
+            //         message = 'Error handling subscription deleted event';
+            //     }
+            //     break;
 
             default:
                 this.logger.warn(`Unhandled event type ${event.type}`);

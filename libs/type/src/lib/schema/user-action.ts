@@ -27,6 +27,7 @@ export class UserAction {
         'sign-in' |
         'get-current-user' |
         'sign-out' |
+        'payment-intent-succeeded' |
         'invoice-payment-succeeded' |
         'customer-subscription-created' |
         'customer-subscription-updated' |

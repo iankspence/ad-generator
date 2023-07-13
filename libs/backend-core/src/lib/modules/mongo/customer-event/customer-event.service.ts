@@ -118,85 +118,117 @@ export class CustomerEventService {
         }
     }
 
-    async createSubscriptionCreatedEvent(subscription: any, eventId: string) {
+    // createPaymentIntentSucceededEvent
+
+    async createPaymentIntentSucceededEvent(paymentIntent: any, eventId: string) {
         try {
+            const {userId, accountId} = await this.getUserIdAndAccountIdByCustomerId(paymentIntent.customer);
+
+            await this.accountService.updateSetupPaymentComplete(accountId)
+
             const customerEvent = new this.customerEventModel({
-                customerId: subscription.customer,
+                customerId: paymentIntent.customer,
                 stripeEventId: eventId,
-                eventType: 'customer.subscription.created',
-                eventData: subscription,
+                eventType: 'payment_intent.succeeded',
+                eventData: paymentIntent,
             });
 
             await customerEvent.save();
-            this.logger.log(`Created customer.subscription.created event for customer: ${subscription.customer}`);
-
-            const {userId, accountId} = await this.getUserIdAndAccountIdByCustomerId(subscription.customer);
-            await this.userActionService.createUserAction({
-                userId,
-                accountId,
-                context: 'CustomerEventService',
-                dateTime: new Date(),
-                action: `customer-subscription-created`,
-            })
-
-        } catch (error) {
-            this.logger.error(`Failed to create customer.subscription.created event for customer: ${subscription.customer}`, error.stack);
-            throw error;
-        }
-    }
-
-    async createSubscriptionUpdatedEvent(subscription: any, eventId: string) {
-        try {
-            const customerEvent = new this.customerEventModel({
-                customerId: subscription.customer,
-                stripeEventId: eventId,
-                eventType: 'customer.subscription.updated',
-                eventData: subscription,
-            });
-
-            await customerEvent.save();
-            this.logger.log(`Created customer.subscription.updated event for customer: ${subscription.customer}`);
-
-            const {userId, accountId} = await this.getUserIdAndAccountIdByCustomerId(subscription.customer);
+            this.logger.log(`Created payment_intent.succeeded event for customer: ${paymentIntent.customer}`);
 
             await this.userActionService.createUserAction({
                 userId,
                 accountId,
                 context: 'CustomerEventService',
                 dateTime: new Date(),
-                action: `customer-subscription-updated`,
+                action: `payment-intent-succeeded`,
             })
+
         } catch (error) {
-            this.logger.error(`Failed to create customer.subscription.updated event for customer: ${subscription.customer}`, error.stack);
+            this.logger.error(`Failed to create payment_intent.succeeded event for customer: ${paymentIntent.customer}`, error.stack);
             throw error;
         }
     }
 
-    async createSubscriptionDeletedEvent(subscription: any, eventId: string) {
-        try {
-            const customerEvent = new this.customerEventModel({
-                customerId: subscription.customer,
-                stripeEventId: eventId,
-                eventType: 'customer.subscription.deleted',
-                eventData: subscription,
-            });
-
-            await customerEvent.save();
-            this.logger.log(`Created customer.subscription.deleted event for customer: ${subscription.customer}`);
-
-            const {userId, accountId} = await this.getUserIdAndAccountIdByCustomerId(subscription.customer);
-
-            await this.userActionService.createUserAction({
-                userId,
-                accountId,
-                context: 'CustomerEventService',
-                dateTime: new Date(),
-                action: `customer-subscription-deleted`,
-            })
-        } catch (error) {
-            this.logger.error(`Failed to create customer.subscription.deleted event for customer: ${subscription.customer}`, error.stack);
-            throw error;
-        }
-    }
+    // async createSubscriptionCreatedEvent(subscription: any, eventId: string) {
+    //     try {
+    //         const customerEvent = new this.customerEventModel({
+    //             customerId: subscription.customer,
+    //             stripeEventId: eventId,
+    //             eventType: 'customer.subscription.created',
+    //             eventData: subscription,
+    //         });
+    //
+    //         await customerEvent.save();
+    //         this.logger.log(`Created customer.subscription.created event for customer: ${subscription.customer}`);
+    //
+    //         const {userId, accountId} = await this.getUserIdAndAccountIdByCustomerId(subscription.customer);
+    //         await this.userActionService.createUserAction({
+    //             userId,
+    //             accountId,
+    //             context: 'CustomerEventService',
+    //             dateTime: new Date(),
+    //             action: `customer-subscription-created`,
+    //         })
+    //
+    //     } catch (error) {
+    //         this.logger.error(`Failed to create customer.subscription.created event for customer: ${subscription.customer}`, error.stack);
+    //         throw error;
+    //     }
+    // }
+    //
+    // async createSubscriptionUpdatedEvent(subscription: any, eventId: string) {
+    //     try {
+    //         const customerEvent = new this.customerEventModel({
+    //             customerId: subscription.customer,
+    //             stripeEventId: eventId,
+    //             eventType: 'customer.subscription.updated',
+    //             eventData: subscription,
+    //         });
+    //
+    //         await customerEvent.save();
+    //         this.logger.log(`Created customer.subscription.updated event for customer: ${subscription.customer}`);
+    //
+    //         const {userId, accountId} = await this.getUserIdAndAccountIdByCustomerId(subscription.customer);
+    //
+    //         await this.userActionService.createUserAction({
+    //             userId,
+    //             accountId,
+    //             context: 'CustomerEventService',
+    //             dateTime: new Date(),
+    //             action: `customer-subscription-updated`,
+    //         })
+    //     } catch (error) {
+    //         this.logger.error(`Failed to create customer.subscription.updated event for customer: ${subscription.customer}`, error.stack);
+    //         throw error;
+    //     }
+    // }
+    //
+    // async createSubscriptionDeletedEvent(subscription: any, eventId: string) {
+    //     try {
+    //         const customerEvent = new this.customerEventModel({
+    //             customerId: subscription.customer,
+    //             stripeEventId: eventId,
+    //             eventType: 'customer.subscription.deleted',
+    //             eventData: subscription,
+    //         });
+    //
+    //         await customerEvent.save();
+    //         this.logger.log(`Created customer.subscription.deleted event for customer: ${subscription.customer}`);
+    //
+    //         const {userId, accountId} = await this.getUserIdAndAccountIdByCustomerId(subscription.customer);
+    //
+    //         await this.userActionService.createUserAction({
+    //             userId,
+    //             accountId,
+    //             context: 'CustomerEventService',
+    //             dateTime: new Date(),
+    //             action: `customer-subscription-deleted`,
+    //         })
+    //     } catch (error) {
+    //         this.logger.error(`Failed to create customer.subscription.deleted event for customer: ${subscription.customer}`, error.stack);
+    //         throw error;
+    //     }
+    // }
 
 }

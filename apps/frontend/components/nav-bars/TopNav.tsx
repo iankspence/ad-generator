@@ -9,9 +9,9 @@ import LinkItem from './LinkItem';
 
 const TopNav = () => {
     const router = useRouter();
-    const { user, setUser, subscriptionStatus } = useContext(UserContext);
+    const { user, setUser, account } = useContext(UserContext);
     const isMobile = useMediaQuery('(max-width:768px)');
-    const pathsHideByDefault = ['/', '/register', '/ad-generator', '/library', '/reset-password', '/forgot-password', '/updated-subscription', '/sign-in', 'pricing', '/how-it-works', '/faq', '/apply', '/privacy', '/terms', '/cookies'];
+    const pathsHideByDefault = ['/', '/register', '/ad-generator', '/library', '/reset-password', '/forgot-password', '/purchase-complete', '/sign-in', 'pricing', '/how-it-works', '/faq', '/apply', '/privacy', '/terms', '/cookies'];
     const [showLinks, setShowLinks] = useState(!pathsHideByDefault.includes(router.pathname));
     const [isHovered, setIsHovered] = useState(false);
 
@@ -69,14 +69,9 @@ const TopNav = () => {
                 <div className={`flex ${isMobile ? 'flex-col space-y-2' : 'md:flex-row md:space-y-0 md:space-x-8 md:pr-2'} md:justify-end md:items-center w-full`}>
                     {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client')) ? (
                         <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8 md:pr-2">
-                            {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client') && subscriptionStatus) ?
+                            {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client') && account?.setupPaymentComplete) ?
                                 <>
                                     <LinkItem href="/reviews">Reviews</LinkItem>
-                                </>
-                                : null
-                            }
-                            {user && (user?.roles?.includes('admin') || user?.roles?.includes('content-manager') || user?.roles?.includes('client') ) ?
-                                <>
                                     <LinkItem href="/deliveries">Deliveries</LinkItem>
                                 </>
                                 : null

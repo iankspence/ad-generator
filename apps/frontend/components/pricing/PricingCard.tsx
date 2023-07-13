@@ -1,6 +1,6 @@
 import { Card, CardContent, Typography, CardActions, Button, List, ListItem, ListItemText } from '@mui/material';
 
-export function PricingCard({ price, annualPayment, buttonText, onClick }) {
+export function PricingCard({ price, buttonText, onClick }) {
     const reviewDrumOrange = '#FFA726';
 
     return (
@@ -11,7 +11,7 @@ export function PricingCard({ price, annualPayment, buttonText, onClick }) {
                         {price.tier}
                     </Typography>
                     <Typography variant="body1" component="p" className="font-bold mb-2">
-                        {annualPayment ? `${price.annual} /yr` : `${price.monthly} /mo`}
+                        {price.oneTimePrice}
                     </Typography>
                 </div>
                 <Typography variant="body2" component="p" gutterBottom className="mb-2">

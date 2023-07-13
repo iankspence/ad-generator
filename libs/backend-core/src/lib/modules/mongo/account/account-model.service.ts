@@ -226,4 +226,10 @@ export class AccountModelService {
             adsPaidWithoutDelivery,
         }, { new: true }).exec();
     }
+
+    async updateSetupPaymentComplete(accountId: string): Promise<Account | null> {
+        return this.accountModel.findOneAndUpdate({ _id: accountId }, {
+            setupPaymentComplete: true,
+        }, { new: true }).exec();
+    }
 }

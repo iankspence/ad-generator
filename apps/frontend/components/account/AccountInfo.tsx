@@ -40,16 +40,12 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
 
 
     const handleDeactivateAccount = async () => {
-        const message = subscriptionStatus ?
-            "You currently have an ongoing subscription. If you cancel your subscription you will lose access to your account at the end of the current billing cycle.  Are you sure you want to do this?" :
+        const message = account.setupPaymentComplete ?
+            "You have already completed payment. If you delete your account all of your data will be deleted and cannot be retrieved. Are you sure you want to do this?" :
             "You are about to permanently delete your account and will be signed out.  Are you sure you want to do this?";
 
         if (window.confirm(message)) {
             try {
-
-                await deactivateSubscription({
-                    accountId: account._id.toString(),
-                });
 
                 await deactivateUser({
                     userId: user._id.toString(),
@@ -68,32 +64,6 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
                 console.error("Failed to deactivate user. Please try again later.", error);
             }
         }
-    };
-
-    const handleReactivateSubscription = async () => {
-        if (window.confirm("Are you sure you want to reactivate your subscription?  You will continue to be charged according to your previous billing cycle.")) {
-            try {
-
-                await reactivateSubscription({
-                    accountId: account._id.toString(),
-                });
-
-                if (!account.isActive) {
-                    await reactivateUser({
-                        userId: user._id.toString(),
-                        accountId: account._id.toString(),
-                    });
-                    setRefreshAccount(!refreshAccount);
-                }
-
-            } catch (error) {
-                console.error("Failed to reactivate subscription. Please try again later.", error);
-            }
-        }
-    }
-
-    const handleChangeSubscription = () => {
-        setOpenChangeSubscriptionModal(true);
     };
 
     const handleOpenCheckoutModal = () => {
@@ -145,94 +115,36 @@ export default function AccountInfo({ accountId, refreshAccount, setRefreshAccou
                     )}
                 </div>
 
-                <div className="flex">
-                    <p className="font-semibold py-2 w-1/2">Service Renewal:</p>
-
-                    {subscriptionStatus && account && account.isActive ? (
-                        <p className="py-2 w-1/2">{nextBillingDate}</p>
-                    ) : (
-                        <p className="py-2 w-1/2">N/A</p>
-                    )}
-                </div>
-
-
                 { user.roles.includes('client') && (
                     <div className="flex">
-                        {subscriptionStatus ?
-                            <p className="font-semibold py-2 w-1/2">Subscription Tier:</p> :
-                            <p className="font-semibold py-2 w-1/2">Payment:</p>
-                        }
-                        {subscriptionStatus ?
-                            <p className="py-2 w-1/2">{subscriptionTier}</p> :
+                        <p className="font-semibold py-2 w-1/2">Payment:</p>
+
+                        {account.setupPaymentComplete ?
+                            <p className="py-2 w-1/2">Payment Complete</p> :
                             <div className="pb-2 pt-4 -translate-y-1.5">
                                 <Button type="button" variant="contained" color="inherit" className="w-full" onClick={handleOpenCheckoutModal}>Connect Payment</Button>
                             </div>
                         }
+
                     </div>
                 )}
-
             </div>
 
             {user.roles.includes('client') && (
                 <>
-                    {subscriptionStatus && account && account.isActive && (
-                        <>
-                            <div className="text-right pt-12">
-                                <button
-                                    onClick={handleChangeSubscription}
-                                    className={`text-sm underline text-reviewDrumDarkGray`}
-                                >
-                                    Change Subscription
-                                </button>
-                            </div>
-
-                            <div className="text-right pt-4">
-                                <button
-                                    onClick={handleDeactivateAccount}
-                                    className={`text-sm underline text-reviewDrumMedGray`}
-                                >
-                                    Cancel Subscription
-                                </button>
-                            </div>
-                        </>
-                    )}
-
-                    {!subscriptionStatus && account && account.isActive && (
-                        <div className="text-right pt-4">
-                            <button
-                                onClick={handleDeactivateAccount}
-                                className={`text-sm underline text-reviewDrumMedGray`}
-                            >
-                                Delete Account
-                            </button>
-                        </div>
-                    )}
-
-
-                    {subscriptionStatus && account && !account.isActive && (
-                        <>
-                            <div className="text-right pt-4">
-                                <button
-                                    onClick={handleReactivateSubscription}
-                                    className={`text-sm underline text-reviewDrumMedGray`}
-                                >
-                                    Reactivate Subscription
-                                </button>
-
-                            </div>
-                            <div className="text-right">
-                                <span className="text-sm text-reviewDrumDarkGray">
-                                    Warning: Your account will be deleted at the end of the current billing cycle.
-                                </span>
-                            </div>
-                        </>
-                    )}
-
+                    <div className="text-right pt-4">
+                        <button
+                            onClick={handleDeactivateAccount}
+                            className={`text-sm underline text-reviewDrumMedGray`}
+                        >
+                            Delete Account
+                        </button>
+                    </div>
                 </>
+
             )}
 
             <CheckoutSelection accountId={accountId} openModal={openCheckoutModal} setOpenModal={setOpenCheckoutModal} />
-            <ChangeSubscription accountId={accountId} userId={user?._id.toString()} openModal={openChangeSubscriptionModal} setOpenModal={setOpenChangeSubscriptionModal} refreshAccount={refreshAccount} setRefreshAccount={setRefreshAccount} />
         </>
     );
 }
