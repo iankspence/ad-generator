@@ -6,11 +6,11 @@ import Link from 'next/link';
 const textBlocks = [
     {
         title: 'Stop discounting your health services',
-        content: ['and start generating leads through education and social proof.',
-            'Our mission is to help individuals find the best health service providers by generating leads for the top practitioners in each city.' ],
+        content: ['and start attracting leads through education and social proof.',
+            'Our mission is to help individuals find the best health service providers by generating leads for the top-rated practices in each city.' ],
     },
     {
-        title: 'We serve local health practices',
+        title: 'We serve local health practitioners',
         content: [
             'who understand that excellence in their work needs to be coupled with a strong online presence.',
             `We only serve top-tier practices who are rated 4.2+ stars with 40+ reviews.`,
@@ -19,7 +19,7 @@ const textBlocks = [
     {
         title: 'We provide digital ad + education services',
         content: [
-            `for lead generation with branded eBooks, and by sharing true story ads with your community.`,
+            `to generate leads with branded eBooks, and by sharing true story ads with your community.`,
             `Don't discount your services, share your stories and attract patients who value your care.`,
         ],
     },
@@ -31,7 +31,7 @@ const boldWords = (sentence, words) => {
     );
 }
 
-const wordsToBold = ['Stop', 'discounting', 'education', 'social', 'proof.', 'local', 'practices', 'only', 'digital', 'ad'];
+const wordsToBold = ['Stop', 'discounting', 'education', 'social', 'proof.', 'local', 'practitioners', 'only', 'digital', 'ad', '+'];
 
 const HomePage: React.FC = () => {
     const theme = useTheme();
@@ -109,14 +109,14 @@ const HomePage: React.FC = () => {
                 {textBlocks.map((text, index) => (
                     <Box ref={cardRefs[index]} key={index} sx={{ height: `${isMobile ? '500px' : '700px'}`, padding: '25px', backgroundImage: `linear-gradient(to right top, ${reviewDrumLightGray}, ${reviewDrumOrange})`, boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', position: 'relative' }}>
                         <Box sx={{ maxWidth: `${(index !== 1) ? '580px' : '540px' }`, overflow: 'hidden' }}>
-                            <Typography variant={isMobile ? 'h3' : 'h1'} sx={{ fontWeight: 'normal', color: reviewDrumDarkGray, marginBottom: `${(index!==2) ? '3vh' : (isMobile ?  '1vh' : '4vh') }`}}>
+                            <Typography variant={isMobile ? 'h3' : 'h1'} sx={{ fontWeight: 'normal', color: reviewDrumDarkGray, marginBottom: `${(index!==2) ? '3vh' : (isMobile ?  '3vh' : '4vh') }`}}>
                                 {boldWords(text.title, (index === 0) ? wordsToBold : wordsToBold + 'health' )}
                             </Typography>
 
                             {text.content.map((paragraph, i) => (
                                 <React.Fragment key={i}>
                                     <Typography variant={isMobile ? 'h6' : 'h4'}
-                                                sx={{ fontSize: isMobile ? (isMediumScreen ? (isLargeScreen ? '1.8rem' : '1.2rem') : '1.08rem') : '1.5rem', color: `${reviewDrumDarkGray}` }}>
+                                                sx={{ fontSize: isMobile ? (isMediumScreen ? (isLargeScreen ? '1.8rem' : '1.2rem') : '1.07rem') : '1.5rem', color: `${reviewDrumDarkGray}` }}>
                                         {paragraph}
                                     </Typography>
                                     <br />
@@ -126,7 +126,6 @@ const HomePage: React.FC = () => {
                                             <br />
                                         </>
                                     }
-                                    {/*{index === 2 && <br />}*/}
                                 </React.Fragment>
                             ))}
                         </Box>
@@ -163,7 +162,7 @@ const HomePage: React.FC = () => {
                     </Box>
                 ))}
             </Box>
-            <div className={`${isMobile? "py-2" : "py-4"}`}></div>
+            <div className={`${isMobile? "py-6" : "py-8"}`}></div>
         </div>
     );
 };
