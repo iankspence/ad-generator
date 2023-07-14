@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Typography,
-    FormControlLabel,
-    Switch,
     Grid,
     Box,
     Button
@@ -14,7 +12,6 @@ import { useRouter } from 'next/router';
 export function PricingPage() {
     const router = useRouter();
 
-
     const navigateToRegister = () => {
         router.push('/register');
     };
@@ -23,10 +20,12 @@ export function PricingPage() {
         window.open('https://calendly.com/ian-xtq/discovery-call', '_blank');
     };
 
+    const reviewDrumOrange = '#FFA726';
+
     return (
         <div>
             <div className="min-h-screen bg-reviewDrumLightGray flex flex-col items-center justify-start overflow-auto p-8">
-                <h1 className="text-3xl mb-4 mt-4 text-center font-semibold text-reviewDrumDarkGray">Our Pricing</h1>
+                <h1 className="text-3xl mb-4 mt-4 text-center font-semibold text-reviewDrumDarkGray">Our Services</h1>
                 <p className="text-center mb-6">Choose the plan that suits your needs.</p>
 
 
@@ -52,7 +51,19 @@ export function PricingPage() {
                     <Typography variant="h5" component="h2" gutterBottom>
                         Want to Learn More?
                     </Typography>
-                    <Button variant="contained" color="inherit" onClick={handleDemoClick}>
+                    <Button
+                        variant="contained"
+                        color="inherit"
+                        onClick={handleDemoClick}
+                        sx={{
+                            backgroundColor: reviewDrumOrange,
+                            color: 'white',
+                            '&:hover': {
+                                backgroundColor: reviewDrumOrange,
+                                color: 'white',
+                            },
+                        }}
+                    >
                         Book a Discovery Call
                     </Button>
                 </Box>

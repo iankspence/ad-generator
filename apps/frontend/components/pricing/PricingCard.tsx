@@ -1,7 +1,8 @@
 import { Card, CardContent, Typography, CardActions, Button, List, ListItem, ListItemText } from '@mui/material';
 
 export function PricingCard({ price, buttonText, onClick }) {
-    const reviewDrumOrange = '#FFA726';
+    const reviewDrumMedGray = '#9E9E9E';
+    const reviewDrumDarkGray = '#1E1E1E';
 
     return (
         <Card elevation={3} className="flex flex-col h-full">
@@ -32,11 +33,10 @@ export function PricingCard({ price, buttonText, onClick }) {
                     variant="contained"
                     onClick={onClick}
                     sx={{
-                        backgroundColor: reviewDrumOrange,
+                        backgroundColor: reviewDrumMedGray,
                         color: 'white',
-                        transition: 'all 0.5s ease-in-out',
                         '&:hover': {
-                            backgroundColor: reviewDrumOrange,
+                            backgroundColor: reviewDrumDarkGray,
                             color: 'white',
                         },
                     }}

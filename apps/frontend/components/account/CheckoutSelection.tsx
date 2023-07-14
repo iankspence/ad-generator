@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Dialog, DialogTitle, Switch, Grid, DialogContent, FormControlLabel } from '@mui/material';
+import React from 'react';
+import { Dialog, DialogTitle, Grid, DialogContent } from '@mui/material';
 import { useMediaQuery } from '@mui/material';
 import { pricingData } from '../../utils/constants/pricingData';
 import { PricingCard } from '../pricing/PricingCard';
@@ -24,7 +24,6 @@ export function CheckoutSelection({ accountId, openModal, setOpenModal }) {
     const handleDemoClick = () => {
         window.open('https://calendly.com/ian-xtq/discovery-call', '_blank');
     };
-
 
     const handleCloseModal = () => {
         setOpenModal(false);
@@ -52,7 +51,7 @@ export function CheckoutSelection({ accountId, openModal, setOpenModal }) {
                                 :
                                 <PricingCard
                                     price={price}
-                                    buttonText="Book Demo"
+                                    buttonText="Book a Discovery Call"
                                     onClick={() => handleDemoClick()}
                                 />
                             }

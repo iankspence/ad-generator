@@ -5,21 +5,22 @@ import Link from 'next/link';
 
 const textBlocks = [
     {
-        title: 'We believe true stories make the best ads.',
-        content: ['This belief inspires us to transform authentic reviews into ads, helping chiropractors grow their brand in the digital age.'],
+        title: 'Stop discounting your health services',
+        content: ['and start generating leads through education and social proof.',
+            'Our mission is to help individuals find the best health service providers by generating leads for the top practitioners in each city.' ],
     },
     {
-        title: 'We serve practitioners',
+        title: 'We serve local health practices',
         content: [
-            'who understand that excellence at work needs to be coupled with a strong online presence.',
-            `We only serve top-tier practices who are rated 4.2 stars or higher with over 50 reviews (Google/RateMDs).`,
+            'who understand that excellence in their work needs to be coupled with a strong online presence.',
+            `We only serve top-tier practices who are rated 4.2+ stars with 40+ reviews.`,
         ],
     },
     {
-        title: 'We provide digital ad services',
+        title: 'We provide digital ad + education services',
         content: [
-            `for sharing true stories with targeted audiences in your local community.`,
-            `From coming up with your ad creative, to managing your ad account, we have you covered.`,
+            `for lead generation with branded eBooks, and by sharing true story ads with your community.`,
+            `Don't discount your services, share your stories and attract patients who value your care.`,
         ],
     },
 ];
@@ -30,7 +31,7 @@ const boldWords = (sentence, words) => {
     );
 }
 
-const wordsToBold = ['true', '50', 'local', 'chiropractors', 'covered.', 'stories', 'patients', 'account,', 'brand', 'top-tier', 'excellence', 'coupled', 'best', 'creative,', 'ads.', '4.2', 'stars', 'retain', 'success', 'targeted', 'audiences', 'attract', '50+', 'reviews', 'authentic', 'presence', 'practitioners', 'community.', 'reviews', 'online', 'digital', 'care', 'possible.', 'ad', 'services', 'age.', 'strong', 'presence.', 'community'];
+const wordsToBold = ['Stop', 'discounting', 'education', 'social', 'proof.', 'local', 'practices', 'only', 'digital', 'ad'];
 
 const HomePage: React.FC = () => {
     const theme = useTheme();
@@ -108,14 +109,15 @@ const HomePage: React.FC = () => {
                 {textBlocks.map((text, index) => (
                     <Box ref={cardRefs[index]} key={index} sx={{ height: `${isMobile ? '500px' : '700px'}`, padding: '25px', backgroundImage: `linear-gradient(to right top, ${reviewDrumLightGray}, ${reviewDrumOrange})`, boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', position: 'relative' }}>
                         <Box sx={{ maxWidth: `${(index !== 1) ? '580px' : '540px' }`, overflow: 'hidden' }}>
-                            <Typography variant={isMobile ? 'h3' : 'h1'} sx={{ fontWeight: 'normal', color: reviewDrumDarkGray, marginBottom: `${(index===0) ? '5vh' : '1vh' }`}}>
-                                {boldWords(text.title, wordsToBold)}
+                            <Typography variant={isMobile ? 'h3' : 'h1'} sx={{ fontWeight: 'normal', color: reviewDrumDarkGray, marginBottom: `${(index===2) ? '1vh' : '3vh' }`}}>
+                                {boldWords(text.title, (index === 0) ? wordsToBold : wordsToBold + 'health' )}
                             </Typography>
+
                             {text.content.map((paragraph, i) => (
                                 <React.Fragment key={i}>
                                     <Typography variant={isMobile ? 'h6' : 'h4'}
-                                                sx={{ fontSize: isMobile ? (isMediumScreen ? (isLargeScreen ? '1.8rem' : '1.36rem') : '1.18rem') : '2rem', color: `${reviewDrumDarkGray}` }}>
-                                        {boldWords(paragraph, wordsToBold)}
+                                                sx={{ fontSize: isMobile ? (isMediumScreen ? (isLargeScreen ? '1.8rem' : '1.2rem') : '1.08rem') : '1.5rem', color: `${reviewDrumDarkGray}` }}>
+                                        {paragraph}
                                     </Typography>
                                     <br />
 
@@ -124,13 +126,13 @@ const HomePage: React.FC = () => {
                                             <br />
                                         </>
                                     }
-                                    {index === 2 && <br />}
+                                    {/*{index === 2 && <br />}*/}
                                 </React.Fragment>
                             ))}
                         </Box>
 
                         {index === 1 &&
-                            <Link href="/how-it-works" passHref>
+                            <Link href="/faq" passHref>
                                 <Button
                                     sx={{
                                         width: `${isMobile ? '88%' : '500px'}`,
