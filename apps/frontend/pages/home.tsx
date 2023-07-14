@@ -109,7 +109,7 @@ const HomePage: React.FC = () => {
                 {textBlocks.map((text, index) => (
                     <Box ref={cardRefs[index]} key={index} sx={{ height: `${isMobile ? '500px' : '700px'}`, padding: '25px', backgroundImage: `linear-gradient(to right top, ${reviewDrumLightGray}, ${reviewDrumOrange})`, boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', position: 'relative' }}>
                         <Box sx={{ maxWidth: `${(index !== 1) ? '580px' : '540px' }`, overflow: 'hidden' }}>
-                            <Typography variant={isMobile ? 'h3' : 'h1'} sx={{ fontWeight: 'normal', color: reviewDrumDarkGray, marginBottom: `${(index===2) ? '1vh' : '3vh' }`}}>
+                            <Typography variant={isMobile ? 'h3' : 'h1'} sx={{ fontWeight: 'normal', color: reviewDrumDarkGray, marginBottom: `${(index!==2) ? '3vh' : (isMobile ?  '1vh' : '4vh') }`}}>
                                 {boldWords(text.title, (index === 0) ? wordsToBold : wordsToBold + 'health' )}
                             </Typography>
 
