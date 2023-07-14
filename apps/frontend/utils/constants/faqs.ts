@@ -9,7 +9,7 @@ export const faqs = [
     },
     {
         question: "What format will the content be in?",
-        answer: "All ads are delivered in PNG format. The ad copy is delivered in a text file.  All eBooks are delivered in PDF format."
+        answer: "All ads are delivered in PNG format with ad copy delivered in TXT format.  All eBooks are delivered in PDF format."
     },
     {
         question: "What does the lead generation partnership include?",
