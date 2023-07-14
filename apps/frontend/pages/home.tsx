@@ -116,7 +116,7 @@ const HomePage: React.FC = () => {
                             {text.content.map((paragraph, i) => (
                                 <React.Fragment key={i}>
                                     <Typography variant={isMobile ? 'h6' : 'h4'}
-                                                sx={{ fontSize: isMobile ? (isMediumScreen ? (isLargeScreen ? '1.8rem' : '1.2rem') : '1.07rem') : '1.5rem', color: `${reviewDrumDarkGray}` }}>
+                                                sx={{ fontSize: isMobile ? (isMediumScreen ? (isLargeScreen ? '1.8rem' : '1.2rem') : '1.05rem') : '1.5rem', color: `${reviewDrumDarkGray}` }}>
                                         {paragraph}
                                     </Typography>
                                     <br />
