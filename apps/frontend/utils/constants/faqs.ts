@@ -1,14 +1,14 @@
 export const faqs = [
     {
-        question: "What do I need to provide from my end?",
+        question: "What do I need to provide?",
         answer: "You're not required to provide any additional information for your ads or educational eBooks. We leverage your reviews to build 'social proof' ad creatives and write eBooks containing general knowledge about your services."
     },
     {
-        question: "Can I request edits to my content after its been delivered?",
+        question: "Can I request edits to content after delivery?",
         answer: "Absolutely. Send requests to ian@reviewdrum.com"
     },
     {
-        question: "What format will the content be in?",
+        question: "What format is the content delivered in?",
         answer: "All ads are delivered in PNG format with ad copy delivered in TXT format.  All eBooks are delivered in PDF format."
     },
     {
