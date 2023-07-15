@@ -7,7 +7,7 @@ const textBlocks = [
     {
         title: 'Stop discounting your health services',
         content: ['and start attracting leads through education and social proof.',
-            'Our mission is to help individuals find the best health service providers by generating leads for the top-rated practices in each city.' ],
+            'We help people find the best health service providers by generating leads for the top-rated practices in each city.' ],
     },
     {
         title: 'We serve local health practitioners',

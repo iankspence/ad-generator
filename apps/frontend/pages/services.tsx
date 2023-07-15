@@ -3,7 +3,7 @@ import {
     Typography,
     Grid,
     Box,
-    Button
+    Button, useMediaQuery, useTheme,
 } from '@mui/material';
 import { PricingCard } from '../components/pricing/PricingCard';
 import { pricingData } from '../utils/constants/pricingData';
@@ -11,6 +11,8 @@ import { useRouter } from 'next/router';
 
 export function PricingPage() {
     const router = useRouter();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const navigateToRegister = () => {
         router.push('/register');
@@ -57,6 +59,7 @@ export function PricingPage() {
                         onClick={handleDemoClick}
                         sx={{
                             backgroundColor: reviewDrumOrange,
+                            height: isMobile ? '50px' : '80px',
                             color: 'white',
                             '&:hover': {
                                 backgroundColor: reviewDrumOrange,

@@ -28,8 +28,10 @@ const FAQPage: React.FC = () => {
                     </Accordion>
                 ))}
 
-                <Link href="/services" passHref>
+                <Link href="/about" passHref>
                     <Button
+                        variant="contained"
+                        color="inherit"
                         sx={{
                             width: isMobile ? '200px' : '500px',
                             height: isMobile ? '50px' : '80px',
@@ -39,14 +41,13 @@ const FAQPage: React.FC = () => {
                             borderRadius: '5px',
                             marginTop: '15px',
                             marginBottom: '15px',
-                            transition: 'all 0.5s ease-in-out',
                             '&:hover': {
                                 backgroundColor: reviewDrumOrange,
                                 color: 'white',
                             },
                         }}
                     >
-                        Services
+                        About
                     </Button>
                 </Link>
                 <br/>

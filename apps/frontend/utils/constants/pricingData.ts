@@ -16,9 +16,9 @@ export const pricingData: PricingData[] = [
     },
 
     {
-        tier: 'Lead Gen Partnership',
+        tier: 'Lead Generation',
         description: 'We’ll manage your ads to generate and nurture leads so you can focus on your practice. After the one-time setup payment, you only pay for leads who show up (we pay for the ads).',
-        bullets: ['One-time payment (includes everything in Content Package)', 'Performance-based partnership (x$/lead)', 'Bi-weekly reporting'],
+        bullets: ['One-time payment (includes everything in Content Package)', 'Performance-based compensation (x$/lead)', 'Bi-weekly reporting'],
         oneTimePrice: '',
         priceId: (process.env.NEXT_PUBLIC_FRONTEND_URI === "https://reviewdrum.com") ? 'price_1NTM7DI9vNNZO1dY7exvHyXj' : 'price_1NTL1II9vNNZO1dY4GBGzMLu',
     }

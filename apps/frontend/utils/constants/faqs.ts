@@ -12,7 +12,7 @@ export const faqs = [
         answer: "All ads are delivered in PNG format with ad copy delivered in TXT format.  All eBooks are delivered in PDF format."
     },
     {
-        question: "What does the lead generation partnership include?",
+        question: "What does the lead generation service include?",
         answer: "We'll manage your ads to generate and nurture leads so you can focus on your practice. After the one-time setup payment, you only pay for leads who show up (we pay for the ads)."
     },
 ];
