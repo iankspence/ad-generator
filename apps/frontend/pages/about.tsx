@@ -10,14 +10,14 @@ const aboutContent = [
             "I’m operating this company by myself.",
             "After working in machine learning and startups for a few years, I made the jump to launch my own venture.",
             "The downside is what you might expect from a one-man company. Response times may be slower than with other agencies, if I get hit by a bus - there may be consequences in terms of lead conversion.",
-            "As for the upside, you can feel confident that your work won’t be passed off to an external contractor. Also I’m deeply familiar with our design codebase and enjoy keeping up with the latest trends and technologies in AI - so we’re able to quickly integrate evolving customer needs with new tech, as it comes out."
+            "As for the upside, you can feel confident that your work won’t be passed off to an external contractor. I’m deeply familiar with the codebase for our ad generation/design tool and enjoy keeping up with the latest trends and technologies in AI - so we’re able to quickly integrate evolving customer needs with new tech, as it comes out."
         ],
     },
     {
         question: 'Where is this company going?',
         answer: [
-            "Since early 2023, we’ve been developing a low-touch design platform to generate social ‘proof ads’ using online reviews. Our system scrapes reviews and sorts them into 1 of 10 audiences. These sorted reviews are expanded upon to create hooks (quotes from the review), claims, closes, and ad copy text. Our ‘social proof’ ads and eBooks match the branding of your practice through auto colouring based on logo images.",
-            "As we talk with users and validate our system, we’re working to build a repeatable pattern of consistent lead generation results for our clients - without using discounts. We believe that by leveraging education and social proof, we can create a win-win for clinics and patients. Your clinic gets new patients without discounting services, while the patient is connected with one of the top-rated health service providers around.",
+            "Since early 2023, we’ve been developing a low-touch design platform to generate ‘social proof’ ads using online reviews. Our system scrapes reviews and sorts them into 1 of 10 audiences. These sorted reviews are used to create hooks (quotes from the review), claims, closes, and ad copy text. Our ‘social proof’ ads and eBooks match the branding of your practice through auto colouring based on logo images.",
+            "As we talk with users and validate our system, we’re working to build a repeatable pattern of consistent lead generation results for our clients - without using discounts. We believe that by leveraging education and social proof, we can create a win-win for clinics and patients. Your clinic gets new patients without discounting services, while patients are connected with one of the top-rated health service providers around.",
             "We plan to scale our team as soon as possible so we can continue to push the limits of what’s possible for local health service lead generation."
         ],
     },

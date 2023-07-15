@@ -43,11 +43,11 @@ export function PricingPage() {
                     ))}
                 </Grid>
 
-                <div className="text-center mt-4">
-                    <Typography variant="caption" display="block" gutterBottom>
-                        *Please note: Due to the nature of our services, we do not provide refunds on any products.
-                    </Typography>
-                </div>
+                {/*<div className="text-center mt-4">*/}
+                {/*    <Typography variant="caption" display="block" gutterBottom>*/}
+                {/*        *Please note: Due to the nature of our services, we do not provide refunds on any products.*/}
+                {/*    </Typography>*/}
+                {/*</div>*/}
 
                 <Box mt={6} mx={1} mb={6} textAlign="center">
                     <Typography variant="h5" component="h2" gutterBottom>
