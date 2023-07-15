@@ -58,16 +58,21 @@ export function PricingPage() {
                         color="inherit"
                         onClick={handleDemoClick}
                         sx={{
-                            backgroundColor: reviewDrumOrange,
+                            width: isMobile ? '200px' : '500px',
                             height: isMobile ? '50px' : '80px',
+                            fontSize: isMobile ? '1rem' : '2rem',
+                            backgroundColor: reviewDrumOrange,
                             color: 'white',
+                            borderRadius: '5px',
+                            marginTop: '15px',
+                            marginBottom: '15px',
                             '&:hover': {
                                 backgroundColor: reviewDrumOrange,
                                 color: 'white',
                             },
                         }}
                     >
-                        Book a Discovery Call
+                        Book a Call
                     </Button>
                 </Box>
 
