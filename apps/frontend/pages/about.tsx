@@ -8,8 +8,8 @@ const aboutContent = [
         question: 'I have something to admit..',
         answer: [
             "I’m operating this company by myself.",
-            "After working in machine learning and startups for a few years, I made the jump to bootstrap my own venture.",
-            "The downside is what you would expect from a one-man company. Response times may be slower than with other agencies, if I get hit by a bus - there may be consequences in terms of lead conversion.",
+            "After working in machine learning and startups for a few years, I made the jump to launch my own venture.",
+            "The downside is what you might expect from a one-man company. Response times may be slower than with other agencies, if I get hit by a bus - there may be consequences in terms of lead conversion.",
             "As for upside, you can feel confident that your work won’t be passed off to an external contractor. Also I’m deeply familiar with our design codebase and enjoy keeping up with the latest trends and technologies in AI - so we’re able to quickly integrate evolving customer needs with new tech, as it comes out."
         ],
     },
@@ -32,7 +32,7 @@ const aboutContent = [
     {
         question: 'How can I contact you?',
         answer: [
-            "To learn more about ReviewDrum, you can book a 30 minute call with me here..",
+            "To learn more about ReviewDrum, you can book a 30 minute call with me here..", // use two periods to avoid link showing up elsewhere (one period is dropped)
             "For simple questions, you can reach out to ian@reviewdrum.com and I’ll get back to you as soon as possible.",
             "We can also connect on LinkedIn."
         ],
