@@ -1,7 +1,7 @@
 export const faqs = [
     {
         question: "What do I need to provide?",
-        answer: "You're not required to provide any additional information for your ads or educational eBooks. We leverage your reviews to build 'social proof' ad creatives and write eBooks containing general knowledge about your services."
+        answer: "Nothing. We use reviews to build 'social proof' ad creatives and write eBooks containing general knowledge about your services."
     },
     {
         question: "Can I request edits to content after delivery?",
@@ -13,6 +13,6 @@ export const faqs = [
     },
     {
         question: "What does the lead generation service include?",
-        answer: "We'll manage your ads to generate and nurture leads so you can focus on your practice. After the one-time setup payment, you only pay for leads who show up (we pay for the ads)."
+        answer: "We'll manage your ads to generate/nurture leads so you can focus on your practice. After the one-time setup payment, you only pay for leads who show up (we pay for the ads)."
     },
 ];
